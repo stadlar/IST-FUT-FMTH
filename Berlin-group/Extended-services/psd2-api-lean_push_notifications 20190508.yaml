@@ -1,0 +1,557 @@
+openapi: 3.0.1
+info:
+  title: NextGenPSD2 XS2A Framework
+  version: "1.0.0 Apr 16th 2019"
+  description: |
+    # Summary
+    For definition on character Sets and Notations, request and response notations and details on the transport Layer, please refer to XS2A Implementation Guidelines.
+    
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://creativecommons.org/licenses/by/4.0/
+  #termsOfService: URL for Terms of Service of the API
+  contact:
+    name: The Berlin Group - A European Standards Initiative
+    url: https://www.berlin-group.org/
+    email: info@berlin-group.org
+    
+externalDocs:
+  description: |
+    Full Documentation of NextGenPSD2 Access to Account Interoperability Framework
+    (General Introduction Paper, Operational Rules, Implementation Guidelines)
+  url: https://www.berlin-group.org/nextgenpsd2-downloads
+
+servers:
+  - url: https://api.tpp.com/psd2
+    description: TPP server
+
+paths:
+  /TPP-notification-URI:
+    post:
+      summary: POST Resource Status
+      description: | 
+        POST Resource Status.
+    
+        **Remark:** In case, where the ASPSP is only pushing a status hyperlink to the TPP, the TPP needs to check the resource status before informing e.g. the PSU
+        
+        **Side Effects**
+        Creates a Resource Notification on the TPP server
+        
+      operationId: resourceStatusNotification
+      tags:
+        - Resource Notification Push Service
+      
+      security:
+      ##################################################### 
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      #In this file only the basic security element to transport
+      # the bearer token of an an OAuth2 process, which has to 
+      # be included inthe HTTP header ist described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation, 
+      # it is recommandes to adjust the security schemes according to 
+      # your system enviroments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+      
+      parameters:
+        #path # NO PATH PARAMETER
+        #query # NO QUERY PARAMETER
+        #header
+          #common header parameter
+        - $ref: "#/components/parameters/X-Request-ID"                 
+   
+      requestBody:
+        $ref: "#/components/requestBodies/pushNotification"          
+      
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_LPS"        
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400_LPS"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401_LPS"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403_LPS"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404_LPS"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_LPS"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408_LPS"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_LPS"   
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_LPS"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_LPS"
+
+
+
+components:
+#####################################################
+# Predefined Components
+#####################################################
+
+  schemas:
+  #####################################################
+  # Predefined Schemas
+  #####################################################
+
+    consentId:
+      description: |
+        This shall be contained if the push notification is about establishing a consent
+      type: string
+      
+    paymentId:
+      description: |
+        This shall be contained, if the push notification is about a payment initiation.
+      type: string
+    
+    basketId:
+      description: |
+        This shall be contained, if the push notification is about a payment initiation.
+      type: string
+    
+    authorisationId:
+      description: |
+        This attribute should be contained if the push notification is about a specific SCA status
+      type: string
+      
+    cancellationId:
+      description: |
+        This attribute should be contained if the push notification is about a specific SCA status of a cancellation authorisation sub-resource
+      type: string
+
+    hrefType:
+      description: Link to a resource
+      type: object
+      properties:
+        href:
+          $ref: "#/components/schemas/hrefEntry"
+
+    hrefEntry:
+      description: Link to a resource
+      type: string
+      example: "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
+ 
+    consentStatus:
+      description: |
+        This is the overall lifecycle status of the consent.
+        
+        Valid values are:
+          - 'received': The consent data have been received and are technically correct. 
+            The data is not authorised yet.
+          - 'rejected': The consent data have been rejected e.g. since no successful authorisation has taken place.
+          - 'valid': The consent is accepted and valid for GET account data calls and others as specified in the consent object.
+          - 'revokedByPsu': The consent has been revoked by the PSU towards the ASPSP.
+          - 'expired': The consent expired.
+          - 'terminatedByTpp': The corresponding TPP has terminated the consent by applying the DELETE method to the consent resource.
+        
+        The ASPSP might add further codes. These codes then shall be contained in the ASPSP's documentation of the XS2A interface 
+        and has to be added to this API definition as well.
+      type: string
+      enum:
+        - "received"
+        - "rejected"
+        - "valid"
+        - "revokedByPsu"
+        - "expired"
+        - "terminatedByTpp"
+    scaStatus:
+      description: |
+        This data element is containing information about the status of the SCA method applied. 
+        
+        The following codes are defined for this data type.
+        
+          * 'received':
+            An authorisation or cancellation-authorisation resource has been created successfully.
+          * 'psuIdentified':
+            The PSU related to the authorisation or cancellation-authorisation resource has been identified.
+          * 'psuAuthenticated':
+            The PSU related to the authorisation or cancellation-authorisation resource has been identified and authenticated e.g. by a password or by an access token.
+          * 'scaMethodSelected':
+            The PSU/TPP has selected the related SCA routine. 
+            If the SCA method is chosen implicitly since only one SCA method is available, 
+            then this is the first status to be reported instead of 'received'.
+          * 'started':
+            The addressed SCA routine has been started.
+          * 'finalised':
+            The SCA routine has been finalised successfully.
+          * 'failed':
+            The SCA routine failed
+          * 'exempted':
+            SCA was exempted for the related transaction, the related authorisation is successful.
+      type: string
+      enum:
+        - "received"
+        - "psuIdentified"
+        - "psuAuthenticated"
+        - "scaMethodSelected"
+        - "started"
+        - "finalised"
+        - "failed"
+        - "exempted"
+        
+      example: "psuAuthenticated"
+    
+    transactionStatus:
+      description: | 
+        The transaction status is filled with codes of the ISO 20022 data table:
+        - 'ACCC': 'AcceptedSettlementCompleted' -
+          Settlement on the creditor's account has been completed.
+        - 'ACCP': 'AcceptedCustomerProfile' - 
+          Preceding check of technical validation was successful. 
+          Customer profile check was also successful.
+        - 'ACSC': 'AcceptedSettlementCompleted' - 
+          Settlement on the debtor�s account has been completed.
+          
+          **Usage:** this can be used by the first agent to report to the debtor that the transaction has been completed. 
+          
+          **Warning:** this status is provided for transaction status reasons, not for financial information. 
+          It can only be used after bilateral agreement.
+        - 'ACSP': 'AcceptedSettlementInProcess' - 
+          All preceding checks such as technical validation and customer profile were successful and therefore the payment initiation has been accepted for execution.
+        - 'ACTC': 'AcceptedTechnicalValidation' - 
+          Authentication and syntactical and semantical validation are successful.
+        - 'ACWC': 'AcceptedWithChange' - 
+          Instruction is accepted but a change will be made, such as date or remittance not sent.
+        - 'ACWP': 'AcceptedWithoutPosting' - 
+          Payment instruction included in the credit transfer is accepted without being posted to the creditor customer�s account.
+        - 'RCVD': 'Received' - 
+          Payment initiation has been received by the receiving agent.
+        - 'PDNG': 'Pending' - 
+          Payment initiation or individual transaction included in the payment initiation is pending. 
+          Further checks and status update will be performed.
+        - 'RJCT': 'Rejected' - 
+          Payment initiation or individual transaction included in the payment initiation has been rejected.
+        - 'CANC': 'Cancelled'
+          Payment initiation has been cancelled before execution
+          Remark: This codeis accepted as new code by ISO20022.
+        - 'ACFC': 'AcceptedFundsChecked' -
+          Preceding check of technical validation and customer profile was successful and an automatic funds check was positive .
+          Remark: This code is accepted as new code by ISO20022.
+        - 'PATC': 'PartiallyAcceptedTechnical'
+          Correct The payment initiation needs multiple authentications, where some but not yet all have been performed. Syntactical and semantical validations are successful.
+          Remark: This code is accepted as new code by ISO20022.
+        - 'PART': 'PartiallyAccepted' -
+          A number of transactions have been accepted, whereas another number of transactions have not yet achieved 'accepted' status.
+          Remark: This code may be used only in case of bulk payments. It is only used in a situation where all mandated authorisations have been applied, but some payments have been rejected.
+          
+      type: string
+      enum:
+        - "ACCC"
+        - "ACCP"
+        - "ACSC"
+        - "ACSP"
+        - "ACTC"
+        - "ACWC"
+        - "ACWP"
+        - "RCVD"
+        - "PDNG"
+        - "RJCT"
+        - "CANC"
+        - "ACFC"
+        - "PATC"
+        - "PART"
+      example: "ACCP"
+    
+    _linksPushNotification:
+      description: |
+        The following link types are supported:
+        
+        status: This shall be contained if the related consent or transactio status is not reported at the same time. The TPP then needs to get the resource status by a GET command using this hyperlink 
+        
+        scaStatus: This shall be contained if the related SCA status is not reported at the same time by the scaStatus attribute. The TPP then needs to get the scaStatus by a GET command using this hyperlink
+        
+      type: object
+      properties:
+        scaStatus:
+          $ref: "#/components/schemas/hrefType"
+        status: 
+          $ref: "#/components/schemas/hrefType"
+    
+
+#####################################################
+# Content of Request Bodies
+#####################################################
+
+    #####################################################
+    # Content of Request Bodies - JSON
+    #####################################################
+
+    pushNotification:
+      description: |
+        Content of the body of a payment, signing basket or consent resource.
+      type: object      
+      properties:
+        paymentId: 
+          $ref: "#/components/schemas/paymentId"
+        consentId:
+          $ref: "#/components/schemas/consentId"
+        basketId: 
+          $ref: "#/components/schemas/basketId"
+        authorisationId:
+          $ref: "#/components/schemas/authorisationId"
+        cancellationId: 
+          $ref: "#/components/schemas/cancellationId"
+        transactionStatus:
+          $ref: "#/components/schemas/transactionStatus"
+        scaStatus: 
+          $ref: "#/components/schemas/scaStatus"
+        consentStatus:
+          $ref: "#/components/schemas/consentStatus"
+        _links:
+          $ref: "#/components/schemas/_linksPushNotification"
+    
+
+    #####################################################
+    # Content of Request Bodies - XML
+    #####################################################
+
+      #####################################################
+      # Content of Request Bodies - Single Part
+      #####################################################
+
+
+
+
+   
+#####################################################
+# _links
+#####################################################
+
+
+#####################################################
+# Tpp-Messages to Communicate Error Information
+#####################################################
+
+
+  #####################################################
+  # Generic Elements
+  #####################################################
+
+  parameters:
+  #####################################################
+  # Predefined Parameters
+  #####################################################
+
+    X-Request-ID:
+      name: X-Request-ID
+      in: header
+      description: ID of the request, unique to the call, as determined by the initiating party.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+
+
+    TPP-Notification-URI:
+      name: TPP-Notification-URI
+      in: header
+      description: |
+        URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. 
+    
+        This header field may by ignored by the ASPSP.
+        
+        For security reasons, it shall be ensured that the TPP-Notification-URI as introduced above is secured by the TPP eIDAS QWAC used for identification of the TPP. The following applies:
+          
+          URIs which are provided by TPPs in TPP-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the TPP in the field CN or SubjectAltName of the certificate. Please note that in case of example-TPP.com as certificate entry TPP- Notification-URI like www.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications or notifications.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications would be compliant.
+          
+          Wildcard definitions shall be taken into account for compliance checks by the ASPSP.
+          ASPSPs may respond with ASPSP-Notification-Support set to false, if the provided URIs do not comply.
+      schema:
+        type: string       
+      required: false
+
+
+    TPP-Notification-Content-Preferred:
+      name: TPP-Notification-Content-Preferred
+      in: header
+      description: |
+        The string has the form status=X1, …, Xn , where  Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated.
+    
+        The usage of the constants supports the following semantics:
+    
+        SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.
+    
+        PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.
+    
+        LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP
+    
+        This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP
+      schema:
+        type: string       
+      required: false
+
+
+  requestBodies:
+  #####################################################
+  # Reusable Request Bodies
+  #####################################################
+  
+    pushNotification:
+      description: |
+        Request body for pushing a status of payment, signing basket or consent resource
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/pushNotification"
+          examples:
+            Example:
+              $ref: "#/components/examples/pushNotification"
+ 
+  headers:
+  #####################################################
+  # Reusable Response Header Elements
+  #####################################################
+  
+    X-Request-ID:
+      description: ID of the request, unique to the call, as determined by the initiating party.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+
+    Location:
+      description: |
+        Location of the created resource.
+      schema:
+        type: string
+        format: url
+      required: false
+   
+    TPP-Notification-URI:    
+      description: |
+        URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. 
+        This header field may by ignored by the ASPSP
+      schema:
+        type: string      
+        format: url    
+      required: false
+
+    TPP-Notification-Content-Preferred:
+      description: |
+        The string has the form
+        status=X1, …, Xn  
+        where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated.
+        The usage of the constants supports the following semantics
+        SCA: notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.
+        PROCESS: notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.
+        LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP
+        This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP
+      schema:
+        type: string       
+      required: false
+   
+    ASPSP-Notification-Support:
+      description: |
+        true if the ASPSP supports resource status notification services.
+    
+        false if the ASPSP supports resource status notification in general, but not for the current request.
+    
+        Not used, if resource status notification services are generally not supported by the ASPSP.
+    
+        Shall be supported if the ASPSP supports resource status notification services.
+      schema:
+        type: boolean       
+      required: false
+    
+    ASPSP-Notification-Content:
+      description: |
+        The string has the form
+        status=X1, …, Xn
+        where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated.
+        The usage of the constants supports the following semantics
+        SCA - Notification on every change of the scaStatus attribute for all related authorisation processes is provided by the ASPSP for the related resource.
+        PROCESS - Notification on all changes of consentStatus or transactionStatus attributes is provided by the ASPSP for the related resource
+        LAST - Notification on the last consentStatus or transactionStatus as available in the XS2A interface is provided by the ASPSP for the related resource.
+        This field must be provided if the ASPSP-Notification-Support=true. The ASPSP might consider the notification content as preferred by the TPP, but can also respond independently of the preferred request    
+      schema:
+        type: string        
+      required: false
+   
+  responses:
+  #####################################################
+  # Reusabale Responses
+  #####################################################
+    #####################################################
+    # Positive Responses
+    #####################################################
+
+    CREATED_201_ConfirmationImplicitSubscription:
+      description: Created
+      headers:        
+        ASPSP-Notification-Support:
+          $ref: "#/components/headers/ASPSP-Notification-Support"
+        ASPSP-Notification-Content:
+          $ref: "#/components/headers/ASPSP-Notification-Content"
+      #No Response body because there are no specific requirements
+           
+    OK_200_LPS:
+      description: Push notification
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"        
+      #No Response body because there are no specific requirements
+    
+    #####################################################
+    # Negative Responses
+    #####################################################
+
+    BAD_REQUEST_400_LPS:
+      description: Validation error occurred. This code will cover malformed syntax in request or incorrect data in payload.
+
+    UNAUTHORIZED_401_LPS:
+      description: The TPP or the PSU is not correctly authorized to perform the request. Retry the request with correct authentication information.
+
+    FORBIDDEN_403_LPS:
+      description: Returned if the resource that was referenced in the path exists but cannot be accessed by the ASPSP. This code should only be used for non-sensitive id references as it will reveal that the resource exists even though it cannot be accessed.
+
+    NOT_FOUND_404_LPS:
+      description: Returned if the endpoint that was referenced in the path does not exist or cannot be referenced by the ASPSP.
+        When in doubt if a specific id in the path is sensitive or not, use the HTTP response code 404 instead of the HTTP response code 403.
+
+    METHOD_NOT_ALLOWED_405_LPS:
+      description: This code is only sent when the HTTP method (PUT, POST, DELETE, GET etc.) is not supported on a specific endpoint.
+
+    REQUEST_TIMEOUT_408_LPS: 
+      description: The server is still working correctly, but an individual request has timed out.
+
+
+    UNSUPPORTED_MEDIA_TYPE_415_LPS:
+      description: The ASPSP has supplied a media type which the TPP does not support.
+
+    INTERNAL_SERVER_ERROR_500_LPS:
+      description: Internal server error occurred.
+
+    SERVICE_UNAVAILABLE_503_LPS:
+      description: The TPP server is currently unavailable. Generally, this is a temporary state.
+
+  examples:
+  #####################################################
+  # Predefined Examples
+  #####################################################
+
+    pushNotification:
+      description: Consent request on dedicated accounts
+      value:
+        {
+        "payment-ID": "12345-23454-123123",
+        "transactionStatus": "ACFC"
+       }
+      
+
+
+security:
+#####################################################
+# Global security options
+#####################################################
+  - {}
+
+
+

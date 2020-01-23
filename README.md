@@ -1,15 +1,14 @@
 
-# PSD2 Forskriftir Fasi 1
+# ÍST WA 310
 
-## Skilgreining
+## Definition
 
-* Notaður er NextGenPSD2 tæknistaðall frá Berlin-group 
+* For Icelandic requirements NextGenPSD2 technical description from Berlin-group has been extended.
 
 ## Skil
 
-* Vinnusvæði verkefnisins er síðan https://github.com/stadlar/IST-FUT-FMTH/wiki
-* Útgáfur er gefnar út sem PDF skjal á forminu <nafn>-<ár>-<mánuður>.pdf
-* * Dæmi: IST-FUT-FMTH-2019-12.pdf
+* Working version of the project https://github.com/stadlar/IST-FUT-FMTH/wiki
+* IST-FUT-TN-FMTH-2019-12-1.yaml extends psd2-api 1.3.5 20191216v1.yaml
 
 
 

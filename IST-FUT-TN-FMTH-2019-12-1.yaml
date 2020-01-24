@@ -4551,6 +4551,7 @@ components:
               - characteristics of the relevant card
           type: string
           maxLength: 500
+        # Icelandic requirement  
         creditLimit:
           $ref: "#/components/schemas/amount"          
         balances:
@@ -5102,11 +5103,12 @@ components:
         $ref: "#/components/schemas/remittanceInformationUnstructured"
       example: ["Ref Number Merchant", "Some Other Text"]
 
-      partialPayment:
-        description: |
-          Payment used to pay claim (Icelandic)
-        type: boolean
-        example: false
+    # Icelandic requirement
+    partialPayment:
+      description: |
+        Payment used to pay claim (Icelandic)
+      type: boolean
+      example: false
 
     #####################################################
     # Predefined Text Formats

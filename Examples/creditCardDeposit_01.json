@@ -1,0 +1,27 @@
+{
+	"debtorId": "0208714669",
+	"debtorAccount": {
+        "iban": "IS110100260000010208714669"
+    },
+    "creditorId": "0208714669",
+	"creditorAccount": {
+        "pan": "12345678"
+    },
+	"instructedAmount": {
+        "currency": "ISK", 
+        "amount": 78698
+    },
+    "purposeCodeIceland": "87",
+    "remittanceInformationStructuredArray": [
+        {
+            "reference": "Innborgun á kort", 
+            "referenceType": "me", 
+            "referenceIssuer": "" 
+        },
+        {	
+            "reference": "Greiðslu fyrir maí 2020", 
+            "referenceType": "PE", 
+            "referenceIssuer": "" 
+        }
+    ]
+}

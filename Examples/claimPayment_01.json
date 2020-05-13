@@ -1,0 +1,28 @@
+{
+	"debtorId": "0208714669",
+	"debtorAccount": {
+        "iban": "IS110100260000010208714669"
+    },
+    "creditorId": "5205161230",
+	"creditorAccount": {
+        "bban": "02100100109307118603+20201001"
+    },
+	"instructedAmount": {
+        "currency": "ISK", 
+        "amount": 99123
+    },
+    "purposeCodeIceland": "03",
+    "partialPayment": true,
+    "remittanceInformationStructuredArray": [
+        {
+            "reference": "Greiðsla vegna skuldar", 
+            "referenceType": "me", 
+            "referenceIssuer": "" 
+        },
+        {	
+            "reference": "1234567854", 
+            "referenceType": "SN", 
+            "referenceIssuer": "5205161230" 
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+	"debtorId": "0208714669",
+	"debtorAccount": {
+        "iban": "IS110100260000010208714669"
+    },
+    "creditorId": "0208714669",
+	"creditorAccount": {
+        "iban": "IS710100261234560208714669"
+    },
+	"instructedAmount": {
+        "currency": "ISK", 
+        "amount": 99123
+    },
+    "purposeCodeIceland": "03",
+    "purposeCode": "OTHR", 
+    "remittanceInformationStructuredArray": [
+        {
+            "reference": "Greiðsla vegna skuldar", 
+            "referenceType": "me", 
+            "referenceIssuer": "" 
+        },
+        {	
+            "reference": "Minn hluti af greiðslu", 
+            "referenceType": "sh", 
+            "referenceIssuer": "" 
+        }
+    ]
+}

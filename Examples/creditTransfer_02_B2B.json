@@ -1,0 +1,21 @@
+{
+    "endToEndIdentification": "Short description",
+	"debtorId": "0208714669",
+	"debtorAccount": {
+        "iban": "IS110100260000010208714669"
+    },
+    "creditorId": "0208714669",
+	"creditorAccount": {
+        "iban": "IS710100261234560208714669"
+    },
+	"instructedAmount": {
+        "amount": 99123
+    },
+    "purposeCodeIcelandic": "03",
+    "remittanceInformationUnstructured": "My description",
+	"remittanceInformationUnstructuredArray": [
+        "Greiðsla vegna skuldar",
+        "Minn hluti af greiðslu"
+    ],
+    "straightThroughProcessing": false
+}

@@ -13,11 +13,15 @@
 | Old               | New                               | Field rule            | Description   |
 | ----------------- | --------------------------------- | --------------------- | ------------- |
 | Seðilnúmer        | endToEndIdentification            | 7 first characters    | billNumber    |
-| Tilvísun          | ultimateDebtor or debtorId        |                       | reference     |
+| Tilvísun          | 1. remittanceInformationStructured<br>2. ultimateCreditor<br>3. creditId  | reference     |
 | AccountOwnerID    | debtorId                          |                       |               |
 | Textalykill       | purposeCodeIcelandic              |                       | CategoryCode  |
 | Lýsing            | remittanceInformationUnstructured |                       |               |
 
+
+
+
+-> Tilvísunnúmer
 
 
 ## Skil

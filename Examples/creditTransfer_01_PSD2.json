@@ -20,10 +20,6 @@
     ]
 }
 
--- Bókarar
-
-Seðilnúmer  -> endToEndIdentification (7 fyrstu)
-Tilvísun    -> ultimateDebtor | debtorId
 
 
 

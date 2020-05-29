@@ -12,10 +12,10 @@
         "amount": 99123
     },
     "purposeCodeIcelandic": "03",
+
     "remittanceInformationUnstructured": "My description",
-	"remittanceInformationUnstructuredArray": [
-        "Greiðsla vegna skuldar",
-        "Minn hluti af greiðslu"
-    ],
-    "straightThroughProcessing": false
+
+	"remittanceInformationStructured": {
+      "reference": "ABC (16 stafir)"
+    }
 }

@@ -148,7 +148,7 @@ paths:
         In these cases, first an authorisation sub-resource has to be generated following the 'startAuthorisation' link.
       operationId: initiatePayment
       tags:
-        - Payment Initiation Service (PIS)
+        - Payment Initiation Service (PIS)transactionStatus
       
       security:
       ##################################################### 

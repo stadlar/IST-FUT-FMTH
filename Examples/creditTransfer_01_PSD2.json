@@ -1,5 +1,6 @@
 {
-    "endToEndIdentification": "Short description",
+    "endToEndIdentification": "Short description", -- Seðilnúmer,
+    "": "",
 	"debtorId": "0208714669",
 	"debtorAccount": {
         "iban": "IS110100260000010208714669"
@@ -18,3 +19,11 @@
         "Minn hluti af greiðslu"
     ]
 }
+
+-- Bókarar
+
+Seðilnúmer  -> endToEndIdentification (7 fyrstu)
+Tilvísun    -> ultimateDebtor | debtorId
+
+
+

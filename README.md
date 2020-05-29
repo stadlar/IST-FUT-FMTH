@@ -5,6 +5,21 @@
 
 * For Icelandic requirements NextGenPSD2 technical description from Berlin-group has been extended.
 
+
+## Data dictionary
+
+
+
+| Old               | New                               | Field rule            | Description   |
+| ----------------- | --------------------------------- | --------------------- | ------------- |
+| Seðilnúmer        | endToEndIdentification            | 7 first characters    | billNumber    |
+| Tilvísun          | ultimateDebtor or debtorId        |                       | reference     |
+| AccountOwnerID    | debtorId                          |                       |               |
+| Textalykill       | purposeCodeIcelandic              |                       | CategoryCode  |
+| Lýsing            | remittanceInformationUnstructured |                       |               |
+
+
+
 ## Skil
 
 * Working version of the project https://github.com/stadlar/IST-FUT-FMTH/wiki

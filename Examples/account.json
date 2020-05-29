@@ -5,7 +5,7 @@
       "iban": "IS110100260000010208714669",
       "currency": "EUR",
       "product": "Girokonto",
-      "cashAccountType": "CACC", ?
+      "cashAccountType": "CACC", ?Tillaga um að þetta verði túlkað sem AccountType?
       "name": "Main Account",
       "_links":
         {

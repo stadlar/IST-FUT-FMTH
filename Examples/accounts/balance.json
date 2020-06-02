@@ -1,0 +1,23 @@
+{
+  "account": {
+    "iban": "IS110100260000010208714669"
+  },
+  "balances": [
+    {
+      "balanceType": "closingBooked",
+      "balanceAmount": {
+        "currency": "EUR",
+        "amount": "500.00"
+      },
+      "referenceDate": "2017-10-25"
+    },
+    {
+      "balanceType": "expected",
+      "balanceAmount": {
+        "currency": "EUR",
+        "amount": "900.00"
+      },
+      "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
+    }
+  ]
+}

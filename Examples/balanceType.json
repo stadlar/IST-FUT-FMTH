@@ -1,0 +1,18 @@
+{
+  "balanceTypes": [
+    { "code": "closingBooked",
+      "definition": "End of day (EOD)" },
+    { "code": "expected",
+      "definition": "Arriving" },
+    { "code": "openingBooked",
+      "definition": "Available" },
+    { "code": "interimAvailable",
+      "definition": "At your disposal when \"creditLimitIncluded\" is True" },
+    { "code": "interimBooked",
+      "definition": "Without credit limit and without pending records" },
+    { "code": "forwardAvailable",
+      "definition": "Status at reference date without pending records" },
+    { "code": "nonInvoiced",
+      "definition": "All records with pending records" }
+  ]
+}

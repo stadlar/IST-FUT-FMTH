@@ -1,6 +1,5 @@
 {
-    "endToEndIdentification": "Short description", -- Seðilnúmer,
-    "": "",
+    "endToEndIdentification": "Short description",
 	"debtorId": "0208714669",
 	"debtorAccount": {
         "iban": "IS110100260000010208714669"
@@ -13,11 +12,12 @@
         "amount": 99123
     },
     "purposeCodeIcelandic": "03",
+
     "remittanceInformationUnstructured": "My description",
-	"remittanceInformationUnstructuredArray": [
-        "Greiðsla vegna skuldar",
-        "Minn hluti af greiðslu"
-    ]
+
+	"remittanceInformationStructured": {
+      "reference": "ABC (16 stafir)"
+    }
 }
 
 

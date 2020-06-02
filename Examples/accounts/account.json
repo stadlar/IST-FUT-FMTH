@@ -3,10 +3,14 @@
     {
       "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
       "iban": "IS110100260000010208714669",
-      "currency": "EUR",
-      "product": "Girokonto",
-      "cashAccountType": "CACC", ?Tillaga um að þetta verði túlkað sem AccountType?
-      "name": "Main Account",
+      "currency": "ISK",
+      "product": "Reikningur",
+      "cashAccountType": "CACC",
+      "name": "Launareikningur",
+      "creditLimit": {
+        "currency": "ISK",
+        "amount": 500
+      },
       "_links":
         {
           "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},

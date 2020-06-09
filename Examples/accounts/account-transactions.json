@@ -8,30 +8,31 @@
       [
         {
           "transactionId": "1234567",
+          "entryReference": "adbb9665-a57e-4a2e-aa78-467d8792a113",
+          "bankTransactionCode": "",
+          "proprietaryBankTransactionCode": "",
+          "mandateId": "",
           "endToEndId":  "Short description",
           "creditorId": "0208714669",
           "bookingDate": "2020-05-29",
           "valueDate": "2020-05-29",
           "transactionAmount": {
-            "currency": "ISK", "amount": 99123
+            "currency": "ISK", "amount": -99123
           },
           "creditorName": "Guðmundur Jón Halldórsson",
           "creditorAccount": {
             "iban": "IS710100261234560208714669"
           },
-
-          "merchantCategoryCode": "1234",
-
+          "merchantCategoryCode": "??",
           "ultimateCreditor": "",
-          "debtorName": "",
-          "debtorAccount": {},
+          "debtorName": "Guðmundur Jón Halldórsson",
+          "debtorAccount": {
+            "iban": "IS110100260000010208714669"
+          },
           "ultimateDebtor": "",
-
           "remittanceInformationUnstructured": "My description",
           "remittanceInformationStructured": "ABC (16 stafir)",
-
           "additionalInformation": "",
-
           "purposeCodeIcelandic": "03"
         }
       ],
@@ -39,17 +40,31 @@
       [
         {
           "transactionId": "1234567",
+          "entryReference": "adbb9665-a57e-4a2e-aa78-467d8792a113",
+          "bankTransactionCode": "",
+          "proprietaryBankTransactionCode": "",
+          "mandateId": "",
+          "endToEndId":  "Short description",
+          "creditorId": "0208714669",
+          "bookingDate": "2020-05-29",
+          "valueDate": "2020-05-29",
+          "transactionAmount": {
+            "currency": "ISK", "amount": -99123
+          },
           "creditorName": "Guðmundur Jón Halldórsson",
           "creditorAccount": {
             "iban": "IS710100261234560208714669"
           },
-          "transactionAmount": {
-            "currency": "EUR", "amount": "256.67"
+          "merchantCategoryCode": "??",
+          "ultimateCreditor": "",
+          "debtorName": "Guðmundur Jón Halldórsson",
+          "debtorAccount": {
+            "iban": "IS110100260000010208714669"
           },
-          "bookingDate": "2020-05-29",
-          "valueDate": "2020-05-29",
+          "ultimateDebtor": "",
           "remittanceInformationUnstructured": "My description",
-
+          "remittanceInformationStructured": "ABC (16 stafir)",
+          "additionalInformation": "",
           "purposeCodeIcelandic": "03"
         }
       ],

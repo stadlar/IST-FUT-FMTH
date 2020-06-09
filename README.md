@@ -19,6 +19,21 @@
 | Lýsing            | remittanceInformationUnstructured |                       |               |
 
 
+### Accounts fields
+| Field Name            | Description                                               |
+| --------------------- |---------------------------------------------------------- |
+| cashAccountType       | Not used                                                  |
+| msisdn                | USed 
+
+
+### Transaction fields
+| Field Name            | Description                                               | SWIFT                         |
+| --------------------- |---------------------------------------------------------- | ----------------------------- |
+| entryReference        | Payment Correlation ID                                    | :86: /PREF/ Payment Reference |
+| mandateId             | Identification of Mandates, <br> e.g. a SEPA Mandate ID   | :86: /MREF/ Mandate Id        |
+| 
+
+
 
 
 -> Tilvísunnúmer

@@ -1,20 +1,20 @@
 {
   "account":
     {
-      "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+      "resourceId": "010026000001",
       "iban": "IS110100260000010208714669",
+      "status": "enabled",
       "currency": "ISK",
       "product": "Reikningur",
-      "cashAccountType": "CACC",
       "name": "Launareikningur",
-      "creditLimit": {
+      "overdraftLimit": {
         "currency": "ISK",
         "amount": 500
       },
       "_links":
         {
-          "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-          "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+          "balances": {"href": "/v1/accounts/010026000001/balances"},
+          "transactions": {"href": "/v1/accounts/010026000001/transactions"}
          }
     }
 }

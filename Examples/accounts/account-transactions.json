@@ -33,7 +33,15 @@
           "remittanceInformationUnstructured": "My description",
           "remittanceInformationStructured": "ABC (16 stafir)",
           "additionalInformation": "",
-          "purposeCodeIcelandic": "03"
+          "purposeCodeIcelandic": "03",
+          "balanceAfterTransaction": {
+            "balanceAmount": { "amount": 100000, "currency": "ISK" },
+            "balanceType": "interimBooked",
+            "creditLimitIncluded": false,
+            "lastChangeDateTime": "2020-06-09 16:12:34:999",
+            "referenceDate": "2020-06-09",
+            "lastCommittedTransaction": "bcbb9665-a57e-4a2e-aa78-467d8792a114"
+          }
         }
       ],
     "pending":

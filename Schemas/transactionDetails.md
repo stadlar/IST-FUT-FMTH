@@ -7,7 +7,7 @@
 | endToEndId                        | M     | Short description                                         |
 | mandateId                         | O     | Identification of Mandates                                |
 | checkId                           | NA    | Not used                                                  |
-| creditorId                        | M     | Creditor id                                               |        |
+| creditorId                        | M     | Creditor id                                               |
 | bookingDate                       | O     | The Date when an entry is booked                          |
 | valueDate                         | M     | The Date at which assets become available                 |
 | transactionAmount                 | M     | Amount and currency of this record                        |
@@ -16,15 +16,17 @@
 | creditorAccount                   | M     | Creditor account                                          |
 | creditorAgent                     | O     | BICFI                                                     |
 | ultimateCreditor                  | O     | Ultimate creditor                                         |
+| ultimateCreditorId                | O,IS  | Ultimate creditor id                                      |
 | debtorName                        | M     | Debtor name                                               |
 | debtorAccount                     | M     | Debtor account                                            |
 | debtorAgent                       | O     | BICFI                                                     |
 | ultimateDebtor                    | O     | Ultimate debtor                                           |
+| ultimateDebtorId                  | O,IS  | Ultimate debtor Id                                        |
 | remittanceInformationUnstructured | O     | My description                                            |
 | remittanceInformationStructured   | O     | Reference field 16 characters                             |
 | additionalInformation             | O     | Additional transaction related information                |
 | purposeCode                       | NA    | Not used                                                  |
-| icelandicPurposeCode              | O,IS  | Legacy code used as simple transaction categorization     |
+| icelandicPurpose                  | O,IS  | Legacy code used as simple transaction categorization     |
 | merchantCategoryCode              | O,IS  | ???                                                       |
 | bankTransactionCode               | NA    | Not used                                                  |
 | proprietaryBankTransactionCode    | NA    | Not used                                                  |
@@ -44,6 +46,7 @@ Field rules
 exchange rates.
     * Exchange rate from source currency to destination currency
     * Exchange rate from foreign currency to Icelandic krona
+2. balanceAfterTransaction is not used for pending transactions
     
 Example 1000 ISK to EUR
 ```json

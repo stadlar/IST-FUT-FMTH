@@ -7,7 +7,7 @@
 | balanceType               | M     | See 'Special cases'                                       |
 | creditLimitIncluded       | O     | Is credit limit of the corresponding account is included  |
 | lastChangeDateTime        | O     | ??                                                        |
-| referenceDat              | M     | Reference date of the balance                             |
+| referenceDate             | M     | Reference date of the balance                             |
 | lastCommittedTransaction  | O     | Name of the account                                       |
 
 Field rules
@@ -22,9 +22,11 @@ Field rules
 BalanceType:
 * closingBooked:    EOD, end of day
 * expected:         Arriving
-* openingBooked:    N/A (Not used)
+* openingBooked:    Same as last day closingBooked
 * interimAvailable: At your disposal when "creditLimitIncluded" is True
 * interimBooked:    Without credit limit
 * forwardAvailable: Status at reference date
 * nonInvoiced:      N/A (Not used)
+
+
 * authorised:       Available (Icelandic)

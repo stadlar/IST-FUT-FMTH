@@ -5,6 +5,7 @@
 | cardTransactionId                 | M     | Unique identifier for this record                         |
 | terminalId                        | M     | Terminal id where the card has been used                  |
 | transactionDate                   | M     | Date of the actual card transaction                       |
+| transactionTimestamp              | M     | Execution datetime of the record                          |
 | bookingDate                       | O     | The Date when an entry is booked                          |
 | transactionAmount                 | M     | Amount and currency of this record                        |
 | currencyExchange                  | M     | Foreign exchange                                          |

@@ -12946,7 +12946,7 @@ components:
 
 
     balancesExample1_RegularAccount:
-      description: Response for a read balance request in case of a regular account.
+      description: Response for a read balance request in case of transactionDatea regular account.
       value: 
         {
           "account": {"iban": "FR7612345987650123456789014"},

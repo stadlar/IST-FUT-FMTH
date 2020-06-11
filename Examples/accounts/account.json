@@ -7,10 +7,11 @@
       "currency": "ISK",
       "product": "Reikningur",
       "name": "Launareikningur",
-      "overdraftLimit": {
-        "currency": "ISK",
-        "amount": 500
-      },
+      "balances": [
+        {"balanceAmount":  1500, "balanceType": "interimAvailable"},
+        {"balanceAmount":  1000, "balanceType": "interimBooked"}
+      ],
+      "creditLimit": 500,
       "_links":
         {
           "balances": {"href": "/v1/accounts/010026000001/balances"},

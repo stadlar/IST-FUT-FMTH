@@ -40,7 +40,7 @@ BalanceType:
       booked credit and debit items during the calculation time/period specified.
 * interimBooked
     * Without credit limit
-    * Balance calculated in the course of the account servicer's business day, at the time specified, and subject 
+    * Balance calculated in the course of the account service business day, at the time specified, and subject 
       to further changes during the business day. The interim balance is calculated on the basis of booked credit 
       and debit items during the calculation time/period specified.
 * forwardAvailable

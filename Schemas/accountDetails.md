@@ -16,7 +16,7 @@
 | linkedAccounts    | NA    | Not used                                                  |  
 | usage             | NA    | Not used                                                  |
 | details           | O     | Specifications that might be provided by the ASPSP        |
-| creditLimit       | M     | Over draft limit rule on the account, in positive numbers |
+| creditLimit       | O     | Over draft limit rule on the account, in positive numbers |
 | balances          | O     | A list of balances regarding this account                 |
 | _links            | M     | Links to resources                                        |
 

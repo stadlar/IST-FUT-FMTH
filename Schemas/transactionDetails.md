@@ -3,22 +3,24 @@
 | Field                             | Rule  | Description                                               |
 | --------------------------------- | ----- | --------------------------------------------------------- |
 | transactionId	                    | M     | Unique identifier for this record                         |
+| transactionTimestamp              | M     | Execution datetime of the record                          |
 | entryReference                    | M     | Payment Correlation ID                                    |
-| endToEndId                        | M     | Short description                                         |
+| endToEndId                        | O     | Short description                                         |
 | mandateId                         | O     | Identification of Mandates                                |
 | checkId                           | NA    | Not used                                                  |
-| creditorId                        | M     | Creditor id                                               |
+| creditorId                        | O     | Creditor id                                               |
 | bookingDate                       | O     | The Date when an entry is booked                          |
 | valueDate                         | M     | The Date at which assets become available                 |
 | transactionAmount                 | M     | Amount and currency of this record                        |
 | currencyExchange                  | C     | List. If transaction caused by any foreign exchange       |
-| creditorName                      | M     | Creditor name                                             |
-| creditorAccount                   | M     | Creditor account                                          |
-| creditorAgent                     | O     | BICFI                                                     |
+| creditorName                      | O     | Creditor name                                             |
+| creditorAccount                   | O     | Creditor account                                          |
+| creditorAgent                     | M     | BICFI                                                     |
 | ultimateCreditor                  | O     | Ultimate creditor                                         |
 | ultimateCreditorId                | O,IS  | Ultimate creditor id                                      |
-| debtorName                        | M     | Debtor name                                               |
-| debtorAccount                     | M     | Debtor account                                            |
+| debtorId                          | O,IS  | Debtor name                                               |
+| debtorName                        | O     | Debtor name                                               |
+| debtorAccount                     | O     | Debtor account                                            |
 | debtorAgent                       | O     | BICFI                                                     |
 | ultimateDebtor                    | O     | Ultimate debtor                                           |
 | ultimateDebtorId                  | O,IS  | Ultimate debtor Id                                        |
@@ -27,7 +29,6 @@
 | additionalInformation             | O     | Additional transaction related information                |
 | purposeCode                       | NA    | Not used                                                  |
 | icelandicPurpose                  | O,IS  | Text code used as simple transaction categorization       |
-| merchantCategoryCode              | O,IS  | ???                                                       |
 | bankTransactionCode               | NA    | Not used                                                  |
 | proprietaryBankTransactionCode    | NA    | Not used                                                  |
 | balanceAfterTransaction           | O     | Balance after the transaction has been performed          |
@@ -48,15 +49,15 @@ exchange rates.
     * Exchange rate from foreign currency to Icelandic krona
 2. balanceAfterTransaction is not used for pending transactions
     
-Example 1000 ISK to EUR
+Example 1000 ISK to 6.5 EUR
 ```json
 [{
   "sourceCurrency": "ISK",
-  "exchangeRate": "150.15",
+  "exchangeRate": "152.0731",
   "unitCurrency": "ISK",
   "targetCurrency": "EUR",
   "quotationDate": "2020-06-09",
-  "contractIdentification": ""
+  "contractIdentification": "Financial Gain Tax Rate"
 }]
 ```
 
@@ -68,14 +69,7 @@ Example 7.5 USD to 6 EUR
   "unitCurrency": "ISK",
   "targetCurrency": "USD",
   "quotationDate": "2020-06-09",
-  "contractIdentification": ""
-},{
-  "sourceCurrency": "ISK",
-  "exchangeRate": "150.15",
-  "unitCurrency": "ISK",
-  "targetCurrency": "EUR",
-  "quotationDate": "2020-06-09",
-  "contractIdentification": ""
+  "contractIdentification": "Financial Gain Tax Rate"
 },{
   "sourceCurrency": "USD",
   "exchangeRate": "1.1274",

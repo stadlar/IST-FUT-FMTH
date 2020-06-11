@@ -26,7 +26,7 @@
 | remittanceInformationStructured   | O     | Reference field 16 characters                             |
 | additionalInformation             | O     | Additional transaction related information                |
 | purposeCode                       | NA    | Not used                                                  |
-| icelandicPurpose                  | O,IS  | Legacy code used as simple transaction categorization     |
+| icelandicPurpose                  | O,IS  | Text code used as simple transaction categorization       |
 | merchantCategoryCode              | O,IS  | ???                                                       |
 | bankTransactionCode               | NA    | Not used                                                  |
 | proprietaryBankTransactionCode    | NA    | Not used                                                  |
@@ -60,13 +60,20 @@ Example 1000 ISK to EUR
 }]
 ```
 
-Example 7.5 USD to EUR
+Example 7.5 USD to 6 EUR
 ```json
 [{
   "sourceCurrency": "ISK",
   "exchangeRate": "132.28",
   "unitCurrency": "ISK",
   "targetCurrency": "USD",
+  "quotationDate": "2020-06-09",
+  "contractIdentification": ""
+},{
+  "sourceCurrency": "ISK",
+  "exchangeRate": "150.15",
+  "unitCurrency": "ISK",
+  "targetCurrency": "EUR",
   "quotationDate": "2020-06-09",
   "contractIdentification": ""
 },{

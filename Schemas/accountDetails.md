@@ -16,7 +16,7 @@
 | linkedAccounts    | NA    | Not used                                                  |  
 | usage             | NA    | Not used                                                  |
 | details           | O     | Specifications that might be provided by the ASPSP        |
-| overdraftLimit    | M     | Over draft limit rule on the account, in positive numbers |
+| creditLimit       | M     | Over draft limit rule on the account, in positive numbers |
 | balances          | O     | A list of balances regarding this account                 |
 | _links            | M     | Links to resources                                        |
 
@@ -30,3 +30,9 @@ Field rules
 ### Special cases
 
 1. 
+
+### Glossary
+* Overdraft vs. CreditLimit
+    * Credit limit is the amount of credit extended to the customer. Overdue balance 
+      is the amount of money owned by the customer that has gone over it's due date. The due date is calculated 
+      at posting by using the due date calculation field from the associated payment terms.

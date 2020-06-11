@@ -29,6 +29,7 @@
 | additionalInformation             | O     | Additional transaction related information                |
 | purposeCode                       | NA    | Not used                                                  |
 | icelandicPurpose                  | O,IS  | Text code used as simple transaction categorization       |
+| icelandicBranch                   | O,IS  | Branch where the transaction is originated from           |
 | bankTransactionCode               | NA    | Not used                                                  |
 | proprietaryBankTransactionCode    | NA    | Not used                                                  |
 | balanceAfterTransaction           | O     | Balance after the transaction has been performed          |

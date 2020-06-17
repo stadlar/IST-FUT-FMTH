@@ -3,7 +3,7 @@
 | Field                             | Rule  | Description                                               |
 | --------------------------------- | ----- | --------------------------------------------------------- |
 | transactionId	                    | M     | Unique identifier for this record                         |
-| transactionTimestamp              | M     | Execution datetime of the record                          |
+| transactionTimestamp              | M,IS  | Execution datetime of the record                          |
 | entryReference                    | M     | Payment Correlation ID                                    |
 | endToEndId                        | O     | Short description                                         |
 | mandateId                         | O     | Identification of Mandates                                |
@@ -15,7 +15,7 @@
 | currencyExchange                  | C     | List. If transaction caused by any foreign exchange       |
 | creditorName                      | O     | Creditor name                                             |
 | creditorAccount                   | O     | Creditor account                                          |
-| creditorAgent                     | M     | BICFI                                                     |
+| creditorAgent                     | O     | BICFI                                                     |
 | ultimateCreditor                  | O     | Ultimate creditor                                         |
 | ultimateCreditorId                | O,IS  | Ultimate creditor id                                      |
 | debtorId                          | O,IS  | Debtor name                                               |
@@ -29,11 +29,10 @@
 | additionalInformation             | O     | Additional transaction related information                |
 | purposeCode                       | NA    | Not used                                                  |
 | icelandicPurpose                  | O,IS  | Text code used as simple transaction categorization       |
-| icelandicBranch                   | O,IS  | Branch where the transaction is originated from           |
 | bankTransactionCode               | NA    | Not used                                                  |
 | proprietaryBankTransactionCode    | NA    | Not used                                                  |
 | balanceAfterTransaction           | O     | Balance after the transaction has been performed          |
-| _links                            | M     | Link to transaction details                               |
+| _links                            | O     | Link to transaction details                               |
 
 Field rules
 * M = Mandatory

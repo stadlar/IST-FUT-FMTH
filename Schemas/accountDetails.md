@@ -27,6 +27,18 @@ Field rules
 * NA = Not applicable / Not used
 * IS = Icelandic 
 
+### Query params
+1. /v1/accounts:
+    * (+) withCreditLimit (Query): Boolean
+      If contained, this function reads the list of accessible payment accounts including the booking balance, 
+      if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored 
+      by the ASPSP.
+2. /v1/accounts/{account-id}:
+    * (+) withCreditLimit (Query): Boolean
+      If contained, this function reads the list of accessible payment accounts including the booking balance, 
+      if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored 
+      by the ASPSP.
+
 ### Special cases
 
 1. 

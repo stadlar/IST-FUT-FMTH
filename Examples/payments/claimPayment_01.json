@@ -12,17 +12,14 @@
         "currency": "ISK",
         "amount": 99123
     },
-
     "ultimateDebtorId": "0808714569",
-    "ultimateDebtor": "Jón Jónsson (Raun greiðandi)",
+    "ultimateDebtor": "Jón Jónsson (Real payer)",
     "ultimateCreditorId": "0109722329",
-    "ultimateCreditor": "Páll Pálsson (Raun viðtakandi)",
-
-	"purposeCodeIceland": "03",
+    "ultimateCreditor": "Páll Pálsson (Real receiver)",
     "partialPayment": true,
+	"icelandicPurpose": {"code": "03"},
     "remittanceInformationUnstructured": "My description",
-	"remittanceInformationUnStructuredArray": [
-        "Greiðsla vegna skuldar",
-        "1234567854"
-    ]
+	"remittanceInformationStructured": {
+      "reference": "ABC (16 char)"
+    }
 }

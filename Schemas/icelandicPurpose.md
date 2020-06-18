@@ -1,10 +1,10 @@
-### balance
+### icelandicPurpose
 
 
 | Field                     | Rule  | Description                                               |
 | ------------------------- | ----- | --------------------------------------------------------- |
 | code                      | M     | Text key                                                  |
-| description               | M     | Description                                               |
+| description               | O     | Description                                               |
 
 
 Field rules

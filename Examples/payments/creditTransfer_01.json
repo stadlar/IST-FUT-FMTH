@@ -11,12 +11,10 @@
 	"instructedAmount": {
         "amount": 99123
     },
-    "purposeCodeIcelandic": "03",
-
+    "icelandicPurpose": {"code": "03"},
     "remittanceInformationUnstructured": "My description",
-
 	"remittanceInformationStructured": {
-      "reference": "ABC (16 stafir)"
+      "reference": "ABC (16 char)"
     }
 }
 

@@ -12,10 +12,10 @@
         "currency": "ISK",
         "amount": 78698
     },
-    "purposeCodeIceland": "87",
+    "partialPayment": true,
+	"icelandicPurpose": {"code": "87"},
     "remittanceInformationUnstructured": "My description",
-	"remittanceInformationUnStructuredArray": [
-        "Innborgun á kort",
-        "Greiðslu fyrir maí 2020"
-    ]
+	"remittanceInformationStructured": {
+      "reference": "ABC (16 char)"
+    }
 }

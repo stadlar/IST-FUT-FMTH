@@ -11,7 +11,7 @@
         {"balanceAmount":  1500, "balanceType": "interimAvailable"},
         {"balanceAmount":  1000, "balanceType": "interimBooked"}
       ],
-      "creditLimit": 500,
+      "creditLimit": { "amount": 500 },
       "_links":
         {
           "balances": {"href": "/v1/accounts/010026000001/balances"},

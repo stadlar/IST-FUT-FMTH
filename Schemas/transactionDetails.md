@@ -8,17 +8,17 @@
 | endToEndId                        | O     | Short description                                         |
 | mandateId                         | O     | Identification of Mandates                                |
 | checkId                           | NA    | Not used                                                  |
-| creditorId                        | O     | Creditor id                                               |
+| currencyExchange                  | C     | List. If transaction caused by any foreign exchange       |
 | bookingDate                       | O     | The Date when an entry is booked                          |
 | valueDate                         | M     | The Date at which assets become available                 |
 | transactionAmount                 | M     | Amount and currency of this record                        |
-| currencyExchange                  | C     | List. If transaction caused by any foreign exchange       |
+| creditorId                        | O     | Creditor id                                               |
 | creditorName                      | O     | Creditor name                                             |
 | creditorAccount                   | O     | Creditor account                                          |
 | creditorAgent                     | O     | BICFI                                                     |
 | ultimateCreditor                  | O     | Ultimate creditor                                         |
 | ultimateCreditorId                | O,IS  | Ultimate creditor id                                      |
-| debtorId                          | O,IS  | Debtor name                                               |
+| debtorId                          | O,IS  | Debtor Id                                                 |
 | debtorName                        | O     | Debtor name                                               |
 | debtorAccount                     | O     | Debtor account                                            |
 | debtorAgent                       | O     | BICFI                                                     |

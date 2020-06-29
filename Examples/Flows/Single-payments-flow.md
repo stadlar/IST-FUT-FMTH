@@ -4,11 +4,11 @@
 
 ### Request attributes
 
-| Operation             | Request for scope                              |
-| --------------------- | ---------------------------------------------- |
-| Register payments     | psd2:icelandic-domestic-credit-transfer:write  |
-| Get payments          | psd2:icelandic-domestic-credit-transfer:read   |
-| Authenticate payments | psd2:icelandic-domestic-credit-transfer:auth   |
+| Operation             | Request for scope                     |
+| --------------------- | ------------------------------------- |
+| Register payments     | psd2:icelandic-credit-transfer:write  |
+| Get payments          | psd2:icelandic-credit-transfer:read   |
+| Authenticate payments | psd2:icelandic-credit-transfer:auth   |
 
 
 ### Attributes
@@ -35,7 +35,7 @@ curl -X POST https://auth.openbanking.is/as/token.oauth2 \
      -key openbankingPrivateTPP.key \
      -H 'Cache-Control: no-cache' \
      -H 'Content-Type: application/x-www-form-urlencoded' \
-     -d 'grant_type=client_credentials&client_id=TPP_demo&scope=psd2:icelandic-domestic-credit-transfer:write'
+     -d 'grant_type=client_credentials&client_id=TPP_demo&scope=psd2:icelandic-credit-transfer:write'
 ```
 
 ### Sample response
@@ -53,9 +53,9 @@ Use the access_token that you created in Step 1 of this tutorial to register a p
 authorized by the account holder.
 
 ### Request example
-Icelandic domestic Credit Transfer
+Icelandic Credit Transfer
 ```
-curl -X POST https://psd2.openbanking.is/v1/payments/icelandic-domestic-credit-transfer  \
+curl -X POST https://psd2.openbanking.is/v1/payments/icelandic-credit-transfer  \
 -v \
 -H 'Accept: application/json'  \
 -H 'Authorization: Bearer UTUZnSKhYEYhX9qWl03epLVC3jyD' \
@@ -90,7 +90,7 @@ curl -X POST https://psd2.openbanking.is/v1/payments/icelandic-domestic-credit-t
 ```
 ASPSP-SCA-Approach: EMBEDDED | DECOUPLED | REDIRECT
 X-Request-ID: 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
-Location: /v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983
+Location: /v1/payments/icelandic-credit-transfer/1234-wertiq-983
 ```
 
 #### BODY 
@@ -194,9 +194,9 @@ Location: /v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983
 ## Step 3 - Authenticate a payment
 
 ### Request example
-Icelandic domestic Credit Transfer
+Icelandic Credit Transfer
 ```
-curl -X POST https://psd2.openbanking.is/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983  \
+curl -X POST https://psd2.openbanking.is/v1/payments/icelandic-credit-transfer/1234-wertiq-983  \
 -v \
 -H 'Accept: application/json'  \
 -H 'Authorization: Bearer UTUZnSKhYEYhX9qWl03epLVC3jyD' \
@@ -233,106 +233,106 @@ curl -X POST https://psd2.openbanking.is/v1/payments/icelandic-domestic-credit-t
   ],
   "_links": {
     "scaRedirect": { 
-        "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+        "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "scaOAuth": {
-        "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+        "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "startAuthorisation": { 
-        "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983" 
+        "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983" 
     },
     "startAuthorisationWithPsuIdentification": { 
-        "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+        "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "updatePsuIdentification": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "startAuthorisationWithProprietaryData": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "updateProprietaryData": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "startAuthorisationWithPsuAuthentication": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "updatePsuAuthentication": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "startAuthorisationWithEncryptedPsuAuthentication": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "updateEncryptedPsuAuthentication": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "updateAdditionalPsuAuthentication": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "updateAdditionalEncryptedPsuAuthentication": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "startAuthorisationWithAuthenticationMethodSelection": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "selectAuthenticationMethod": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "startAuthorisationWithTransactionAuthorisation": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "authoriseTransaction": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "self": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "status": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "scaStatus": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "account": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "balances": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "transactions": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "transactionDetails": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "cardAccount": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "cardTransactions": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "first": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "next": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "previous": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "last": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "download": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "additionalProp1": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "additionalProp2": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     },
     "additionalProp3": {
-      "href": "/v1/payments/icelandic-domestic-credit-transfer/1234-wertiq-983"
+      "href": "/v1/payments/icelandic-credit-transfer/1234-wertiq-983"
     }
   }
 }

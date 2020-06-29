@@ -6071,6 +6071,12 @@ components:
         requestedExecutionTime:
           type: string
           format: date-time
+
+        currency:
+          $ref: "#/components/schemas/currency"
+
+
+
         payments:
           description: |
             A list of generic JSON bodies payment initations for bulk payments via JSON.

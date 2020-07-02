@@ -6060,23 +6060,19 @@ components:
           $ref: "#/components/schemas/batchBookingPreferred"
         debtorAccount:
           $ref: "#/components/schemas/accountReference"
-#        paymentInformationId:
-#          description: |
-#            Unique identification as assigned by the sending party to unambiguously identify this bulk payment.
-#          type: string
-#          maxLength: 35
+        paymentInformationId:
+          description: |
+            Unique identification as assigned by the sending party to unambiguously identify this bulk payment.
+          type: string
+          maxLength: 35
         requestedExecutionDate:
           type: string
           format: date
         requestedExecutionTime:
           type: string
           format: date-time
-
         currency:
-          $ref: "#/components/schemas/currency"
-
-
-
+          $ref: "#/components/schemas/currencyCode"
         payments:
           description: |
             A list of generic JSON bodies payment initations for bulk payments via JSON.

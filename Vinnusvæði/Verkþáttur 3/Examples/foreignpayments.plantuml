@@ -1,0 +1,6 @@
+@startuml
+Customer -> TPP: PSU requests foreign payments access at TPP
+TPP -> Xs2a: [POST] register foreign payments access access consent requests
+note right: validate \n 1. eIDAS certificate \n 2. request syntax \n 3. TPP role \n 4. Semantics
+
+@enduml

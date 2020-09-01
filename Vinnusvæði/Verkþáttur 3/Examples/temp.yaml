@@ -1,0 +1,30 @@
+openapi: 3.0.1
+info:
+  description:
+  version: "1.0.0"
+  title: Temp API
+  contact:
+    email: gudmundurjon@openbanking.is
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
+tags:
+  - name: admins
+    description: Secured for admins
+  - name: developers
+    description: Secured for admins and developers
+
+servers:
+  - description: API Mocking
+    url: https://temp.openbankingapi.is/v1
+
+paths:
+  /exchangerate
+
+
+  /indices
+
+
+components:
+  schemas:

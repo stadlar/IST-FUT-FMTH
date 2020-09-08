@@ -1,0 +1,27 @@
+{
+"cardAccounts": [
+  {
+    "resourceId": "3d9a81b3-a47d-4130-8765-a9c0ff861b99",
+    "maskedPan": "525412******3241",
+    "currency": "EUR",
+    "name": "Main",
+    "product": "Basic Credit",
+    "status": "enabled",
+    "creditLimit": { "currency": "EUR", "amount": "15000" },
+    "balances": [
+      {
+        "balanceType": "interimBooked",
+        "balanceAmount": { "currency": "EUR", "amount": "14355.78" }
+      },{
+        "balanceType": "nonInvoiced",
+        "balanceAmount": { "currency": "EUR", "amount": "4175.86" }
+      }
+    ],
+    "_links": {
+      "transactions": {
+        "href": "/v1/card-accounts/3d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
+      }
+    }
+  }
+]
+}

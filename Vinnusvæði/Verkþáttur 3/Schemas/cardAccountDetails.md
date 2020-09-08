@@ -9,7 +9,6 @@
 | ownerName         | M     | Name of the legal account owner. If there is more than one owner, then e.g. two names might be noted here. |
 | displayName       | M     | Name of the account as defined by the PSU within online channels. |
 | ownerId           | M     | Owner "Kennitala"                                         |
-
 | name              | O     | Name of the account                                       |
 | product           | O     | Product name of the bank for this account                 |
 | status            | O     | enabled, deleted, blocked                                 |
@@ -21,11 +20,11 @@
 | _links            | O     | Links to resources                                        |
 
 
-| expDate
-| issueDate
-| cardHolderId
-| Samtölur? - Bankarnir
-| Koma með tillögu um plast endpoint - Guðmundur
+- expDate
+- issueDate
+- cardHolderId
+- Samtölur? - Bankarnir
+- Koma með tillögu um plast endpoint - Guðmundur
 
 
 -Borgun

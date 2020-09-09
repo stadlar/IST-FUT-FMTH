@@ -1,10 +1,10 @@
 openapi: 3.0.1
 info:
-  title: IST WA 310 Domestic Payments & Accounts
-  version: "2020-06-01"
+  title: IST WA 310 Domestic payments and deposits
+  version: "2020-08-17"
   description: |
     # Summary
-    The "IST WA 310 Domestic Payments & Accounts" extends the NextGenPSD2 XS2A Framework version 1.3.5_2019-12-06v1.
+    The document extends the NextGenPSD2 XS2A Framework version 1.3.5_2019-12-06v1.
     The **NextGenPSD2** *Framework Version 1.3.5* offers a modern, open, harmonised and interoperable set of
     Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.
     The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards

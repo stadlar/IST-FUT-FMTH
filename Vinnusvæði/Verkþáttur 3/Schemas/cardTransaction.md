@@ -2,7 +2,7 @@
 
 | Field                             | Rule  | Description                                               |
 | --------------------------------- | ----- | --------------------------------------------------------- |
-| cardTransactionId                 | M     | Unique identifier for this record                         |
+| transactionId                     | M     | Unique identifier for this record                         |
 | terminalId                        | O     | Identification of the Terminal, where the card has been used |
 | transactionDate                   | M     | Execution datetime of the record                          |
 | acceptorTransactionDateTime 

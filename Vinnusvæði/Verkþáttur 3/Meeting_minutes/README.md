@@ -1,4 +1,28 @@
 
+# 2020-09-22
+
+GJH býr til cards/* hluta í yaml skjalið og sýnir á næsta fundi. Búum til sér schemas fyrir cards/
+- cardDetails (nýtt)
+  - expDate: Date
+  - issueDate: Date
+  - Cardholder Name
+  - panId
+  - Bankanúmer/Útibú (Optional)
+- cardTransactions
+  - posEntryMode (Optional)
+
+Við gerum ráð fyrir að token upplýsingar komi fram í transactionDetails.
+
+Skoðum að færa okkur í nýjustu útgáfuna af yaml frá Berlin Group, leggja fyrir næsta fund breytingar 
+ásamt viðbótum vegna cards/*.
+
+panId er skilað í svæðinu resourceId.
+
+Heimild og aukaheimild er tekin sama undir balance.
+
+í _links væri mögulegt að bæta við vísun í reikninginn t.d. skuldfærlsureikning.
+
+
 # 2020-09-15
 
 Hvað með samtölu vildarkerfis skv. eldri staðli,
@@ -43,17 +67,17 @@ Credit: 8834-****-****-1234 (Aðalkort)
 Plast endpoint:
 - Aðgerðir á korti
     - Sækja
-        - Upplýsingar um kort (Gildistími)
-        - Hreyfingarlisti
-        - Heimildir kort (gætu verið aðrar en heimildir reikning á bakvið)
-        - Nafnið á kortinu
-        - Maskað kortanúmer
-        - Eigandi
-        - Kort Id
-        - Staða/Ástand t.d. Fryst, Lokað, Opið, Stolið, Glatað ... 
-        - Heimild
-        - Aukaheimild
-        - Bankanúmer/Útibú
+        - *Upplýsingar um kort (Gildistími)
+        - *Hreyfingarlisti
+        - *Heimildir kort (gætu verið aðrar en heimildir reikning á bakvið)
+        - *Nafnið á kortinu
+        - *Maskað kortanúmer
+        - *Eigandi
+        - *Kort Id
+        - *Staða/Ástand t.d. Fryst, Lokað, Opið, Stolið, Glatað ... 
+        - *Heimild
+        - *Aukaheimild
+        - *Bankanúmer/Útibú
 
 
 

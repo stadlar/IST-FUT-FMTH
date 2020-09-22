@@ -16,7 +16,6 @@
 | details           | O     | Specifications that might be provided by the ASPSP        |
 | creditLimit       | O     | Over draft limit rule on the account, in positive numbers |
 | balances          | O     | A list of balances regarding this account                 |
-| linkedAccounts    | IS    | "Skuldfærslureikningur / Raun reikningur"                 |
 | _links            | O     | Links to resources                                        |
 
 

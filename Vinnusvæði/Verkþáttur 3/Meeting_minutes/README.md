@@ -1,3 +1,96 @@
+# 2020-10-13
+- Það að skilgreina sambanka þjónustu fyrir vísitölur?
+  - Arionbanki, Landsbankinn og Íslandsbanki sjá ekki sérstaka þörf fyrir þessa þjónustu
+  - Ákveðið var að hætta við að hafa sérstaka vísitölu þjónustu.
+
+- Currencies
+  - Source: Skilgreina að lágmarki eftirtalda source-a
+    - General = Banka gengi
+    - Notes = Seðlagengi
+  - Hafa aðgerð sem listar upp source-a
+    - attributes:
+        Source
+        - Key
+        - Description -> Hver banki ákveður hvaða tungumál er notað
+  - Aðgerðir:
+    - currencies -> Listar upp gjaldmiðla
+      - query-param: {source}
+      - attribute:
+        List af Currency
+        - Code -> ISK, USD, EU
+        - Currency ISO 4217 -> Icelandic Krona
+    - currencies/{quote-currency}
+      - query-param: {source}
+      - attributes:
+        Currency
+        - Code -> ISK, USD, EU
+        - Currency ISO 4217 -> Icelandic Krona
+    - currencies/{quote-currency}/rates
+      - query-param: {source}
+      - query-param: {date (Date)}
+      - attributes
+        Listi af CurrencyRate
+        - BaseCurrency
+        - QuoteCurrency
+        - Buy
+        - Sell
+        - Mid 
+        - Date -> (DateTime)
+    - currencies/{quote-currency}/rates/{base-currency}
+      - query-param: {source}
+      - query-param: {date (Date)}
+      - attributes
+        CurrencyRate
+        - BaseCurrency
+        - QuoteCurrency
+        - Buy
+        - Sell
+        - Mid 
+        - Date -> (DateTime)
+    - currencies/{quote-currency}/rates/{base-currency}/history
+      - query-param: {source}
+      - query-param: {from-date (Date)}
+      - query-param: {to-date (Date)}
+      - attributes
+        Listi af CurrencyRate
+        - BaseCurrency
+        - QuoteCurrency
+        - Buy
+        - Sell
+        - Mid 
+        - Date -> (DateTime)
+                
+
+# 2020-10-06
+
+Currencies and Indices
+
+- Hvaðan kemur krafan um vísitölurnar?
+- má dreifa vísitölum annarra?
+- ef við viljum hafa þetta þá hvaða vísitölum? 
+- Ekki er ljóst hvaða gengi aðilar vilja gefa upp og það þarf að ákveða til að geta unnið í málinu.
+- Setja upp kröfur um hvernig þjónustan er uppbyggð og þeir ákveða sjálfir hvaða gengi þeir gefa upp.
+- Rætt um að setja inn krossa. landsb og ísl banki eru með það í dag
+- Hversu marga sourca vill banki bjóða upp á 
+- Hversu langt vill bangi ganga í viðbótarupplýsingum fyrir hvern source
+- Bankar skoði hvort vísitölur verði með, hversu margar og hvort það megi dreifa þeim
+- Hversu marga sourca vill banki bjóða upp á fyrir gengisskráningu
+- Hversu langt vill bangi ganga í viðbótarupplýsingum fyrir hvern source fyrir gengisskráningu
+
+# 2020-09-29
+
+- Allar breytingar eiga að fara í gegnum pool request.
+- Nota issue í git fyrir vinnuliði.
+- Commit ættu að eiga issue.
+
+- Finna snið á gildistíma kreditkorta (expire Date) Ln. 5585.
+- Viljum við hafa svæðið "Bank" í cardDetails?
+- Viltu gera "panId" aðgengilegt í gegnum sér attribute?
+- Viltu nota resourceId fyrir panId?
+- Er hægt að upplýsingar frá Valitor eða Borgun um posEntryMode?
+
+- Geta cardTransactions sér fyrir cards/ þjónustan. GJH
+
 
 # 2020-09-22
 

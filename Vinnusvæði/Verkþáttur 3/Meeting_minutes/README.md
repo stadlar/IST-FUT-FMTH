@@ -1,3 +1,37 @@
+
+# 2020-10-22
+- Bæta við withBalanceQuery query param á /cards aðgerðina.
+- Bæta við withBalanceQuery query param á /card-accounts aðgerðina.
+- Bæta við withBalanceQuery query param á /cards/{card-id} aðgerðina.
+- Bæta við withBalanceQuery query param á /card-accounts/{card-id} aðgerðina. 
+- Uppfæra skjalið, bæta við lýsingum á /card-accounts aðgerðunum og schema
+- Laga skilgreiningu á cardDetails schema
+- Uppfæra examples nota ISK
+- Laga í skjalinu "cardTransactions - CardAccountReport" þarf að vera sér týpa
+- Í töfluna 6.1 Links vantar "balance"
+- Passa að committa inn yaml til samræmis við 
+
+
+
+
+
+# 2020-10-20
+- Erlendar greiðslur
+  - Seðlabankaflokkun
+  - Samræma pain.001
+  - SEPA og SWIFT verður skilgreint með greiðslu vöru
+  
+  - Einföld leið til að senda erlenda greiðslu
+  - XML viðhengi (Pain.001..xml)
+  
+  Tillaga frá Landsbankinn
+   - /v1/payments/{payment-product}
+     - attributes.
+        hvaða svæði eiga að vera hérna...
+   ...
+  
+
+
 # 2020-10-13
 - Það að skilgreina sambanka þjónustu fyrir vísitölur?
   - Arionbanki, Landsbankinn og Íslandsbanki sjá ekki sérstaka þörf fyrir þessa þjónustu

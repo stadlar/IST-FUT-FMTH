@@ -1,3 +1,152 @@
+# 2020-10-27
+- Trusted Beneficiary - verður tekið fyrir eftir að kafla um erlendar greiðslur líkur.
+- Skoða úttektarreikning fyrir bulk greiðslur möguleikar:
+  - Einn fyrir allar innlagnir
+  - Einn per innlögn
+  - Í bland
+- Skoða hvort "transactionStatus" uppfylli allar kröfur
+- Skoða gjaldeyrisviðskipti og hvernig þeim er endurspeglað í get aðgerðinni
+
+
+-   *Payments, *Bulk, -Periodic
+-   *sepa-credit-transfers
+    instant-sepa-credit-transfers
+    target-2-payments
+    **cross-border-credit-transfers
+    *(ekki stuðningur við pain.xml)
+
+- Millifærslur
+  - Seðlabankaflokkun -> centralBankPurposeCode
+  
+  
+Erlend greiðsla
+- credit: ""  
+  
+JSON
+
+
+## POST
+
+### SEPA credit transfer (payments) 
+´´´
+{
+  "endToEndIdentification": "123456",
+  "debtorAccount": {
+    "iban": "DE40100100103307118608"
+  },
+  "instructedAmount": {
+    "currency": "EUR",
+    "amount": "123.50"
+  },
+  "creditorAccount": {
+    "iban": "DE02100100109307118603"
+  },
+  "creditorName": "Jón Jónsson",
+  "creditorAddress": {
+    "streetName": "Lambhagi",
+    "buildingNumber": "10",
+    "townName": "Reykjvík",
+    "postCode": "101",
+    "country": "IS"
+  },
+  "centralBankPurposeCode": "099", 
+  "remittanceInformationUnstructured": "Ref Number Merchant",   #Optional
+}
+´´´ 
+ 
+ATH:
+  Eftirtalin svæði voru tekin út
+  - "batchBookingPreferred"
+  - "requestedExecutionDate"
+ 
+### SEPA credit transfer (bulk-payments) 
+´´´
+{
+  "debtorAccount": {
+    "iban": "DE40100100103307118608"
+  },
+  "paymentInformationId": "my-bulk-identification-1234",
+  "payments": [
+        {
+          "endToEndIdentification": "123456",
+          "debtorAccount": {
+            "iban": "DE40100100103307118608"
+          },
+          "instructedAmount": {
+            "currency": "EUR",
+            "amount": "123.50"
+          },
+          "creditorAccount": {
+            "iban": "DE02100100109307118603"
+          },
+          "creditorName": "Jón Jónsson",
+          "creditorAddress": {
+            "streetName": "Lambhagi",
+            "buildingNumber": "10",
+            "townName": "Reykjvík",
+            "postCode": "101",
+            "country": "IS"
+          },
+          "centralBankPurposeCode": "099", 
+          "remittanceInformationUnstructured": "Ref Number Merchant",   #Optional
+        }
+  ]
+}
+´´´
+  
+  
+  
+  
+
+## GET -> SEPA credit transfer (payments)
+- ISK -> EUR
+
+  - Kaup á EUR -> Kaupnóta
+  - Millifærðar -> Creditor
+
+- paymentInitiationWithStatusResponse
+´´´
+{
+  "endToEndIdentification": "123456",
+  "debtorAccount": {
+    "iban": "IS40100100103307118608",
+    "currency": "ISK"
+  },
+  "instructedAmount": {
+    "currency": "EUR",
+    "amount": "123.50"
+  },
+  "exchangeRateInformation": {
+    "unitCurrency": "EUR",
+    "exchangeRate": "165.79",       #
+    "contractIdentification": "",
+  },
+  "creditorAccount": {
+    "iban": "DE02100100109307118603"
+  },
+  "creditorAgent": "ING",
+  "creditorName": "Jón Jónsson",
+  "creditorAddress": {
+    "streetName": "Lambhagi",
+    "buildingNumber": "10",
+    "townName": "Reykjvík",
+    "postCode": "101",
+    "country": "IS"
+  },
+  "centralBankPurposeCode": "099", 
+  "remittanceInformationUnstructured": "Ref Number Merchant",   #Optional
+  "transactionStatus": "ACCC"
+}
+´´´ 
+
+
+### GET -> SEPA credit transfer (bulk-payments) 
+- bulkPaymentInitiationWithStatusResponse
+```
+
+```
+
+
 
 # 2020-10-22
 - Bæta við withBalanceQuery query param á /cards aðgerðina.

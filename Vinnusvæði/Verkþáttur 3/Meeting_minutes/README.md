@@ -15,9 +15,11 @@
     **cross-border-credit-transfers
     *(ekki stuðningur við pain.xml)
 
+## Notes
+
 - Millifærslur
   - Seðlabankaflokkun -> centralBankPurposeCode
-  
+  - https://www.sedlabanki.is/library/Skraarsafn/Gjaldeyrismal/GV-flokkunarlyklakerfi_Sedlabankans.pdf
   
 Erlend greiðsla
 - credit: ""  

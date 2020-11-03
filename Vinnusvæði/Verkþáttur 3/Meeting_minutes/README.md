@@ -1,3 +1,60 @@
+# 2020-11-03
+- Skoða úttektarreikning fyrir bulk greiðslur möguleikar:
+  - Einn fyrir allar innlagnir
+  - Einn per innlögn
+  - Í bland
+- Kostnaðarreikningur fyrir greiðslufyrirmæli
+- Möguleiki að hafa kvittun ekki í GET aðgerðinn fyrir greiðslufyrirmæli
+  - Ef kvittun er ekki í GET þá þarf að skoða aðra leið til að sækja kvittun
+- Skoða transactionStatus
+        The transaction status is filled with codes of the ISO 20022 data table:
+        - 'ACCC': 'AcceptedSettlementCompleted' -
+          Settlement on the creditor's account has been completed.
+        - 'ACCP': 'AcceptedCustomerProfile' - 
+          Preceding check of technical validation was successful. 
+          Customer profile check was also successful.
+        - 'ACSC': 'AcceptedSettlementCompleted' - 
+          Settlement on the debtor�s account has been completed.
+          
+          **Usage:** this can be used by the first agent to report to the debtor that the transaction has been completed. 
+          
+          **Warning:** this status is provided for transaction status reasons, not for financial information. 
+          It can only be used after bilateral agreement.
+        - 'ACSP': 'AcceptedSettlementInProcess' - 
+          All preceding checks such as technical validation and customer profile were successful and therefore the payment initiation has been accepted for execution.
+        - 'ACTC': 'AcceptedTechnicalValidation' - 
+          Authentication and syntactical and semantical validation are successful.
+        - 'ACWC': 'AcceptedWithChange' - 
+          Instruction is accepted but a change will be made, such as date or remittance not sent.
+        - 'ACWP': 'AcceptedWithoutPosting' - 
+          Payment instruction included in the credit transfer is accepted without being posted to the creditor customer�s account.
+        - 'RCVD': 'Received' - 
+          Payment initiation has been received by the receiving agent.
+        - 'PDNG': 'Pending' - 
+          Payment initiation or individual transaction included in the payment initiation is pending. 
+          Further checks and status update will be performed.
+        - 'RJCT': 'Rejected' - 
+          Payment initiation or individual transaction included in the payment initiation has been rejected.
+        - 'CANC': 'Cancelled'
+          Payment initiation has been cancelled before execution
+          Remark: This codeis accepted as new code by ISO20022.
+        - 'ACFC': 'AcceptedFundsChecked' -
+          Preceding check of technical validation and customer profile was successful and an automatic funds check was positive .
+          Remark: This code is accepted as new code by ISO20022.
+        - 'PATC': 'PartiallyAcceptedTechnical'
+          Correct The payment initiation needs multiple authentications, where some but not yet all have been performed. Syntactical and semantical validations are successful.
+          Remark: This code is accepted as new code by ISO20022.
+        - 'PART': 'PartiallyAccepted' -
+          A number of transactions have been accepted, whereas another number of transactions have not yet achieved 'accepted' status.
+          Remark: This code may be used only in case of bulk payments. It is only used in a situation where all mandated authorisations have been applied, but some payments have been rejected.
+-   *Payments, *Bulk, -Periodic
+-   *sepa-credit-transfers
+    instant-sepa-credit-transfers
+    target-2-payments
+    **cross-border-credit-transfers
+    *(ekki stuðningur við pain.xml)
+
+
 # 2020-10-27
 - Trusted Beneficiary - verður tekið fyrir eftir að kafla um erlendar greiðslur líkur.
 - Skoða úttektarreikning fyrir bulk greiðslur möguleikar:
@@ -26,7 +83,6 @@ Erlend greiðsla
   
 JSON
 
-
 ## POST
 
 ### SEPA credit transfer (payments) 
@@ -34,8 +90,14 @@ JSON
 {
   "endToEndIdentification": "123456",
   "debtorAccount": {
-    "iban": "DE40100100103307118608"
+    "iban": "IS40100100103307118608"
   },
+
+  # Optional
+  "costDebtorAccount": {
+    "iban": "IS40100100103307118609"
+  },
+  
   "instructedAmount": {
     "currency": "EUR",
     "amount": "123.50"
@@ -114,14 +176,32 @@ ATH:
     "iban": "IS40100100103307118608",
     "currency": "ISK"
   },
+
+  # Optional
+  "costDebtorAccount": {
+    "iban": "IS40100100103307118609"
+  },  
+  
   "instructedAmount": {
     "currency": "EUR",
     "amount": "123.50"
   },
-  "exchangeRateInformation": {
+  "icelandicExchangeRateInformation": {
     "unitCurrency": "EUR",
-    "exchangeRate": "165.79",       #
+    "exchangeRate": "163.02",       #
     "contractIdentification": "",
+    "rateType": "SPOT",
+    # Ljótt orð vantar betra,
+    "withdrawalRecipe": {  
+        "withdrawalAmount"{ 
+            "amount": "20252",
+            "currency": "ISK"
+        },
+        "cost": {
+            "amount": "5",
+            "currency": "ISK"
+        }
+    }
   },
   "creditorAccount": {
     "iban": "DE02100100109307118603"

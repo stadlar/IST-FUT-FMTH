@@ -124,17 +124,58 @@ ATH:
   - "requestedExecutionDate"
  
 ### SEPA credit transfer (bulk-payments) 
+
+
+- Regla: 1-1
+bunki1 = 
+    {
+        "debtorAccount": {"iban": "DE40100100103307118608"},
+        "costDebtorAccount": {"iban": "IS40100100103307118609"}, 
+        "payments": [
+            "instructedAmount": {
+                "currency": "EUR",
+                "amount": "123.50"
+            },
+            "creditorAccount": {
+                "iban": "DE02100100109307118603"
+            }
+        ]        
+    }
+   
+- Regla: 1-1
+bunki2 = 
+    {
+          "payments": [{
+            "debtorAccount": {"iban": "DE40100100103307118609"},
+            "costDebtorAccount": {"iban": "IS40100100103307118609"},
+            "instructedAmount": {
+              "currency": "EUR",
+              "amount": "123.50"
+            },
+            "creditorAccount": {
+                "iban": "DE02100100109307118603"
+            }
+          }    
+    ]}
+
+
 ´´´
 {
-  "debtorAccount": {
+  "debtorAccount": {                                #Optional svæði 
     "iban": "DE40100100103307118608"
   },
+  "costDebtorAccount": {
+    "iban": "IS40100100103307118609"
+  },  
   "paymentInformationId": "my-bulk-identification-1234",
   "payments": [
         {
           "endToEndIdentification": "123456",
-          "debtorAccount": {
+          "debtorAccount": {                        #Optional svæði (Ráðandi reikningur ef settur inn)
             "iban": "DE40100100103307118608"
+          },
+          "costDebtorAccount": {
+            "iban": "IS40100100103307118609"
           },
           "instructedAmount": {
             "currency": "EUR",
@@ -186,6 +227,9 @@ ATH:
     "currency": "EUR",
     "amount": "123.50"
   },
+  "_links": [
+    "https://www.banki.is/fx/..."
+  ],
   "icelandicExchangeRateInformation": {
     "unitCurrency": "EUR",
     "exchangeRate": "163.02",       #

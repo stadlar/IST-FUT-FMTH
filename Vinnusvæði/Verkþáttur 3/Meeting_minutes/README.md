@@ -1,3 +1,19 @@
+# 2020-11-17
+- Fyrir bunka verður einn úttektarreikningur og valkvætt einn kostnaðarreikningur
+- Skilgreina valkvæma þjónustu sem skilar upplýsingar um gjaldeyriskaupa. _links væri settur fyrir þessar upplýsingar
+- transactionStatus uppfyllir kröfur
+- Skilgreina [Payments, Bulk] fyrir [sepa-credit-transfer, cross-border-credit-transfers]
+- Heimavinna fyrir bankanna
+  - Er "creditorName" mandatory?
+  - Er "creditorAddress" mandatory?
+  - Skoða hvernig "purposeCode" væri notaður fyrir erlendar greiðslur? Skv. Values from ISO 20022 External Code List ExternalCodeSets_1Q2018 June 2018
+  - Skoða svæðin remittanceInformation* fyrir SEPA og Cross-border
+  - Lesa yfir skjalið "ÍST-TS-311 Yfirlit debit og kreditkort-Drög8-til yfirlestrar í VH1.docx" og skila inn tillögum
+    fyrir næsta fund ef einhverjar eru.
+- Skilgreina "CentralBankPurpose" sem strengur 3 stafir
+- Vantar svæði fyrir Kostnaðarsplit
+- Vantar svæði fyrir móttökubanka fyrir cross-border
+
 # 2020-11-03
 - Skoða úttektarreikning fyrir bulk greiðslur möguleikar:
   - Einn fyrir allar innlagnir
@@ -15,10 +31,8 @@
           Customer profile check was also successful.
         - 'ACSC': 'AcceptedSettlementCompleted' - 
           Settlement on the debtor�s account has been completed.
-          
-          **Usage:** this can be used by the first agent to report to the debtor that the transaction has been completed. 
-          
-          **Warning:** this status is provided for transaction status reasons, not for financial information. 
+        - **Usage:** this can be used by the first agent to report to the debtor that the transaction has been completed. 
+        - **Warning:** this status is provided for transaction status reasons, not for financial information. 
           It can only be used after bilateral agreement.
         - 'ACSP': 'AcceptedSettlementInProcess' - 
           All preceding checks such as technical validation and customer profile were successful and therefore the payment initiation has been accepted for execution.
@@ -161,22 +175,16 @@ bunki2 =
 
 ´´´
 {
-  "debtorAccount": {                                #Optional svæði 
+  "debtorAccount": {                                
     "iban": "DE40100100103307118608"
   },
-  "costDebtorAccount": {
+  "costDebtorAccount": {                        #Optional svæði
     "iban": "IS40100100103307118609"
   },  
   "paymentInformationId": "my-bulk-identification-1234",
   "payments": [
         {
           "endToEndIdentification": "123456",
-          "debtorAccount": {                        #Optional svæði (Ráðandi reikningur ef settur inn)
-            "iban": "DE40100100103307118608"
-          },
-          "costDebtorAccount": {
-            "iban": "IS40100100103307118609"
-          },
           "instructedAmount": {
             "currency": "EUR",
             "amount": "123.50"
@@ -230,23 +238,6 @@ bunki2 =
   "_links": [
     "https://www.banki.is/fx/..."
   ],
-  "icelandicExchangeRateInformation": {
-    "unitCurrency": "EUR",
-    "exchangeRate": "163.02",       #
-    "contractIdentification": "",
-    "rateType": "SPOT",
-    # Ljótt orð vantar betra,
-    "withdrawalRecipe": {  
-        "withdrawalAmount"{ 
-            "amount": "20252",
-            "currency": "ISK"
-        },
-        "cost": {
-            "amount": "5",
-            "currency": "ISK"
-        }
-    }
-  },
   "creditorAccount": {
     "iban": "DE02100100109307118603"
   },

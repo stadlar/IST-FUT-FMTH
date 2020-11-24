@@ -1,3 +1,14 @@
+# 2020-11-24
+- "creditorName" -> mandatory
+- "creditorAddress" -> mandatory
+- "purposeCode" -> n/a. Ekki þörf fyrir svæðið, en mögulega getur það breyst í framtíðinni.
+- "remittanceInformationUnstructured" -> optional svæði. Hámark 140 stafir.
+- Heimavinna fyrir bankanna
+  - Trusted beneficiaries þjónusta
+  - beneficiaries þjónusta
+  - Dæmi um greiðslu til USA t.d. Wells Fargo ....
+
+
 # 2020-11-17
 - Fyrir bunka verður einn úttektarreikningur og valkvætt einn kostnaðarreikningur
 - Skilgreina valkvæma þjónustu sem skilar upplýsingar um gjaldeyriskaupa. _links væri settur fyrir þessar upplýsingar
@@ -130,6 +141,41 @@ JSON
   "centralBankPurposeCode": "099", 
   "remittanceInformationUnstructured": "Ref Number Merchant",   #Optional
 }
+
+### Cross border credit transfer (payments) 
+´´´
+{
+  "endToEndIdentification": "123456",
+  "debtorAccount": {
+    "iban": "IS40100100103307118608"
+  },
+
+  # Optional
+  "costDebtorAccount": {
+    "iban": "IS40100100103307118609"
+  },
+  
+  "creditorAgent": "RABONL2U",
+    
+  "instructedAmount": {
+    "currency": "EUR",
+    "amount": "123.50"
+  },
+  "creditorAccount": {
+    "iban": "NL09RABO0153893206"
+  },
+  "creditorName": "Jón Jónsson",
+  "creditorAddress": {
+    "streetName": "Lambhagi",
+    "buildingNumber": "10",
+    "townName": "Reykjvík",
+    "postCode": "101",
+    "country": "IS"
+  },
+  "centralBankPurposeCode": "099", 
+  "remittanceInformationUnstructured": "Ref Number Merchant",   #Optional
+}
+
 ´´´ 
  
 ATH:

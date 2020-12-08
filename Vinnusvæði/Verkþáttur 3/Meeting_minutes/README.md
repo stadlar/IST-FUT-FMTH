@@ -1,3 +1,10 @@
+# 2020-12-08
+- Beneficiaries þjónustur verða ekki teknar lengra
+- Vantar dæmi fyrir notkun á "exchangeRateInformation"
+- Heimavinna fyrir bankanna
+    - paymentInitationRequestResponse-201 (Kostnaðarliðir) lína: 7509
+
+
 # 2020-12-01
 - Heimavinna fyrir bankanna
   - Skoða hvort fx upplýsingar séu nægjar í svargildi við payment initiation.

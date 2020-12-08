@@ -6856,6 +6856,8 @@ components:
 #          $ref: "#/components/schemas/debtorName"
         debtorAccount: 
           $ref: "#/components/schemas/accountReference"
+        chargesAccount:
+          $ref: "#/components/schemas/accountReference"
         debtorId: # N.A. for all, but can be used by ASPSP if needed
           $ref: "#/components/schemas/debtorId"
         ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
@@ -6876,12 +6878,12 @@ components:
           $ref: "#/components/schemas/creditorAgentName"
         creditorName:
           $ref: "#/components/schemas/creditorName"
-#        creditorAddress:
-#          $ref: "#/components/schemas/address"
-#        creditorId: # N.A. for all, but can be used by ASPSP if needed
-#          description: Identification of Creditors, e.g. a SEPA Creditor ID.
-#          type: string
-#          maxLength: 35
+        creditorAddress:
+          $ref: "#/components/schemas/address"
+        creditorId: # N.A. for all, but can be used by ASPSP if needed
+          description: Kennitala of Creditors, not used for SEPA or cross border.
+          type: string
+          maxLength: 35
 #        creditorNameAndAddress: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/creditorNameAndAddress"
         ultimateCreditor: # N.A. for all, but can be used by ASPSP if needed
@@ -6892,8 +6894,8 @@ components:
           $ref: "#/components/schemas/icelandicPurpose"
 #        purposeCode: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/purposeCode"
-#        chargeBearer: #In some payment product N.A. in some Optional in some conditional
-#          $ref: "#/components/schemas/chargeBearer"
+        chargeBearer: #In some payment product N.A. in some Optional in some conditional
+          $ref: "#/components/schemas/chargeBearer"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
@@ -7583,20 +7585,22 @@ components:
 #        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
 #          type: string
 #          maxLength: 35
-#        debtorName: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/debtorName"
+        debtorName: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/debtorName"
+        chargesAccount:
+          $ref: "#/components/schemas/accountReference"
         debtorAccount: 
           $ref: "#/components/schemas/accountReference"
-#        debtorId: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/debtorId"
-#        ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/ultimateDebtor"
+        debtorId: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/debtorId"
+        ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/ultimateDebtor"
         instructedAmount:
           $ref: "#/components/schemas/amount"
 #        transactionCurrency: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/currencyCode"
-#        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/paymentExchangeRate"
+        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/paymentExchangeRate"
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
@@ -7605,29 +7609,31 @@ components:
           $ref: "#/components/schemas/creditorName"
         creditorAddress:
           $ref: "#/components/schemas/address"
-#        creditorId: # N.A. for all, but can be used by ASPSP if needed
-#          description: Identification of Creditors, e.g. a SEPA Creditor ID.
-#          type: string
-#          maxLength: 35
+        creditorId: # N.A. for all, but can be used by ASPSP if needed
+          description: Identification of Creditors, e.g. a SEPA Creditor ID.
+          type: string
+          maxLength: 35
 #        creditorNameAndAddress: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/creditorNameAndAddress"
-#        ultimateCreditor: # N.A.
-#          $ref: "#/components/schemas/ultimateCreditor"
+        ultimateCreditor: # N.A.
+          $ref: "#/components/schemas/ultimateCreditor"
+        icelandicPurpose:
+          $ref: "#/components/schemas/icelandicPurpose"
 #        purposeCode: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/purposeCode"
-#        chargeBearer: #In some payment product N.A. in some Optional in some conditional
-#          $ref: "#/components/schemas/chargeBearer"
+        chargeBearer: #In some payment product N.A. in some Optional in some conditional
+          $ref: "#/components/schemas/chargeBearer"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
 #          $ref: "#/components/schemas/remittanceInformationUnstructuredArray"
-#        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
+        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-#        requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
-#          type: string
-#          format: date
+        requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
+          type: string
+          format: date
 #        requestedExecutionTime: # N.A. for all, but can be used by ASPSP if needed
 #          type: string
 #          format: date-time

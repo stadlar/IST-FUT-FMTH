@@ -1,3 +1,10 @@
+# 2020-12-01
+- Heimavinna fyrir bankanna
+  - Skoða hvort fx upplýsingar séu nægjar í svargildi við payment initiation.
+  - Kostnaðarliðir?
+  - Trusted beneficiaries þjónusta?
+  - Beneficiaries þjónusta?
+    
 # 2020-11-24
 - "creditorName" -> mandatory
 - "creditorAddress" -> mandatory
@@ -149,16 +156,28 @@ JSON
   "debtorAccount": {
     "iban": "IS40100100103307118608"
   },
+  "ultimateDebtor": "",
+  "ultimateDebtorId" "",
 
   # Optional
   "costDebtorAccount": {
     "iban": "IS40100100103307118609"
   },
   
-  "creditorAgent": "RABONL2U",
+  "creditorAgent": "PNBPUS3NNYC",
+  "creditorAgentName": "",
+  
+  "creditorAgentAddress": {
+    "townName": "NYC",
+    "country": "USA"    
+  },
+  
+  "chargeBearer": "",
     
+  "expressPayment": true,  
+   
   "instructedAmount": {
-    "currency": "EUR",
+    "currency": "USD",
     "amount": "123.50"
   },
   "creditorAccount": {

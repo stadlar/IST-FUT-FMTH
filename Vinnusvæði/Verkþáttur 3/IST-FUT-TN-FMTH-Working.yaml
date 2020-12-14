@@ -2543,8 +2543,6 @@ paths:
         - $ref: "#/components/parameters/sourceQuery"
         #header
         #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
 
@@ -2588,7 +2586,6 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
 
@@ -2627,13 +2624,12 @@ paths:
         - {}
       parameters:
         #path
-        - $ref: "#/components/parameters/currencyCode_PATH"
+          - $ref: "#/components/parameters/currencyCode_PATH"
         #query
         - $ref: "#/components/parameters/sourceQuery"
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
 
@@ -2722,6 +2718,8 @@ paths:
         - $ref: "#/components/parameters/baseCurrencyCode_PATH"
         #query
         - $ref: "#/components/parameters/sourceQuery"
+        - $ref: "#/components/parameters/dateFrom"
+        - $ref: "#/components/parameters/dateTo"
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -4467,18 +4465,18 @@ components:
       required:
         - currencies
       properties:
-        cards:
+        currencyRates:
           type: array
           items:
             $ref: "#/components/schemas/currencyRate"
 
     readCurrencySourcesResponse-200_json:
-      description: Descriptions of the accessible currencies.
+      description: Descriptions of the currency source.
       type: object
       required:
-        - currencies
+        - currencySources
       properties:
-        cards:
+        currencySources:
           type: array
           items:
             $ref: "#/components/schemas/currencySource"
@@ -4489,7 +4487,7 @@ components:
       required:
         - currencies
       properties:
-        cards:
+        currencies:
           type: array
           items:
             $ref: "#/components/schemas/currencyRate"
@@ -4500,7 +4498,7 @@ components:
       required:
         - currencies
       properties:
-        cards:
+        currencies:
           type: array
           items:
             $ref: "#/components/schemas/currencyRate"
@@ -5287,6 +5285,11 @@ components:
       properties:
         currencyCode:
           $ref: "#/components/schemas/currencyCode"
+        description:
+          description: |
+            Name of the currency source.
+          type: string
+          maxLength: 70
 
     currencyRate:
       description: |
@@ -5309,6 +5312,13 @@ components:
           $ref: "#/components/schemas/amountValue"
         sell:
           $ref: "#/components/schemas/amountValue"
+        date:
+          description: |
+            Execution datetime of the record
+          type: string
+          format: date
+          example: "2020-08-02"
+
 
     currencySource:
       description: |
@@ -12247,6 +12257,7 @@ components:
       schema:
         type: string        
       required: false
+
   responses:
   #####################################################
   # Reusabale Responses

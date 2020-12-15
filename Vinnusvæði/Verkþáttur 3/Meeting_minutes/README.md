@@ -1,6 +1,22 @@
+# 2020-12-15
+- Kostnaðarliðir (sundurliðaður þegar við á)
+    - SWIFT
+        - Þóknun
+        - Hraðsending [Já/Nei]
+        - Kostnaður viðtakenda (Shared vs. Ours)
+    - SEPA
+
+    GJH -> SWIFT -> Paul Citybank ( ISK -> USD )
+        - 1000 kr. (Þóknun)
+        - 2000 kr. (Hraðsending)
+        - 3000 kr. (Kostnaður viðtakenda)
+        ----------
+          6000 kr.
+
+
+
 # 2020-12-08
 - Beneficiaries þjónustur verða ekki teknar lengra
-- Vantar dæmi fyrir notkun á "exchangeRateInformation"
 - Heimavinna fyrir bankanna
     - paymentInitationRequestResponse-201 (Kostnaðarliðir) lína: 7509
 

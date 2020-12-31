@@ -85,10 +85,10 @@ externalDocs:
   url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Vinnusv%C3%A6%C3%B0i/Stu%C3%B0ningsefni/Berlin-group/v.1.3.6
 
 servers:
-  - url: https://api-psd2.openbanking.is
+  - url: https://psd2.openbanking.is
     description: PSD2 server
-  - url: https://test-api-psd2.openbanking.is
-    description: Optional PSD2 test server
+  - url: https://sandbox-psd2.openbanking.is
+    description: Optional PSD2 sandbox server
 
 paths:
 
@@ -5793,9 +5793,70 @@ components:
       items:
         $ref: "#/components/schemas/balance"
 
+    transactionFeesDetail:
+      description: |
+        A single transaction fee details.
+        - fees: Standard fee
+        - priorityFees: The priority payment fee
+        - foreignBankServiceFees:
+      type: object
+      required:
+        - feeType
+        - value
+      properties:
+        feeType:
+          enum:
+            - "fees"
+            - "priorityFees"
+            - "foreignBankServiceFees"
+            - "otherFees"
+          value:
+            $ref: "#/components/schemas/amount"
+      example:
+        {
+          "feeType": "otherFees",
+          "value": {
+            "currency": "ISK",
+            "amount": 0
+          }
+        }
 
-    :
-      dbicfiescription: |
+    transactionFeesList:
+      description: |
+        A list of transaction fees for example: foreignBankServiceFees, priorityFees
+        fees or otherFees
+      type: array
+      items:
+        $ref: "#/components/schemas/transactionFeesDetail"
+      example:
+          [
+            {
+              "feeType": "otherFees",
+              "value": {
+                "currency": "ISK",
+                "amount": 0
+              }
+            },
+            {
+              "feeType": "fees",
+              "value": {
+                "currency": "ISK",
+                "amount": 1000
+              }
+            },
+            {"feeType": "priorityFees", "value": {"currency": "ISK", "amount": 2000}},
+            {
+              "feeType": "foreignBankServiceFees",
+              "value":
+                {
+                  "currency": "ISK",
+                  "amount": 3000
+                }
+            }
+          ]
+
+    bicfi:
+      description: |
         BICFI
       type: string
       pattern: '[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}'
@@ -5855,9 +5916,7 @@ components:
 
     posEntryMode:
       description: Card transaction orginated from.
-
         MS = Magic strip
-
       enum:
         - "UNKNOWN"
         - "MAGIC_STRIP"  Segulrandarlesin,
@@ -7536,30 +7595,21 @@ components:
           #   Might be used by the ASPSP to transport the transaction fees relevant for the underlying payments.
           #   This field includes the entry of the currencyConversionFees if applicable.
           $ref: "#/components/schemas/amount"
-
-
-        passa að setja líka í get á payment initiation
-
-        transactionFeesDetail:
-          [
-            {"feeType": "otherFees", "value": {"currency": "ISK", "amount": 0}},
-            {"feeType": "fees", "value": {"currency": "ISK", "amount": 1000}},
-            {"feeType": "priorityFees", "value": {"currency": "ISK", "amount": 2000}},
-            {"feeType": "foreignBankServiceFees", "value": {"currency": "ISK", "amount": 3000}}
-          ]
-
+        transactionFeesDetails:
+          description: |
+            List of fees
+          $ref: "#/components/schemas/transactionFeesList"
         exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
           $ref: "#/components/schemas/paymentExchangeRate"
-
         currencyConversionFee:
           # description: Might be used by the ASPSP to transport specific currency conversion fees related to the initiated credit transfer.
           $ref: "#/components/schemas/amount"
-        estimatedTotalAmount:
+        #estimatedTotalAmount:
           # description: The amount which is estimated to be debted from the debtor account. Note: This amount includes fees.
-          $ref: "#/components/schemas/amount"
-        estimatedInterbankSettlementAmount:
+        #  $ref: "#/components/schemas/amount"
+        #estimatedInterbankSettlementAmount:
           # description: The estimated amount to be transferred to the payee.
-          $ref: "#/components/schemas/amount"
+        #  $ref: "#/components/schemas/amount"
         transactionFeeIndicator:
           $ref: "#/components/schemas/transactionFeeIndicator"
         scaMethods:
@@ -7666,6 +7716,10 @@ components:
 #          format: date-time
         transactionStatus:
           $ref: "#/components/schemas/transactionStatus"
+        transactionFeesDetails:
+          description: |
+            List of fees
+          $ref: "#/components/schemas/transactionFeesList"
 
 
     periodicPaymentInitiationWithStatusResponse:
@@ -14991,7 +15045,6 @@ components:
         {
           "authorisationIds": ["123auth456"]
         }
-
 
 
 security:

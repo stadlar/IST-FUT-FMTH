@@ -1,3 +1,13 @@
+# 2021-01-12
+
+
+# 2021-01-12
+- Breytinga sem voru framkvæmdar núna.
+  - currencies/{quote-currency}/rates í 
+    currencies/{base-currency}/rates
+  - Laga nafnavenjur á *_PATH 
+
+
 # 2020-12-15
 - Kostnaðarliðir (sundurliðaður þegar við á)
     - SWIFT

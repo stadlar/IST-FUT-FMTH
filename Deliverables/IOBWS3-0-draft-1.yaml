@@ -2613,7 +2613,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/currencies/{quote-currency}/rates:
+  /v1/currencies/{base-currency}/rates:
     get:
       summary: Read rates for single currency entity
       description: |
@@ -2626,7 +2626,7 @@ paths:
         - {}
       parameters:
         #path
-          - $ref: "#/components/parameters/currencyCode_PATH"
+          - $ref: "#/components/parameters/currencyCode"
         #query
         - $ref: "#/components/parameters/sourceQuery"
         #header
@@ -2670,8 +2670,8 @@ paths:
         - {}
       parameters:
         #path
-        - $ref: "#/components/parameters/currencyCode_PATH"
-        - $ref: "#/components/parameters/baseCurrencyCode_PATH"
+        - $ref: "#/components/parameters/currencyCode"
+        - $ref: "#/components/parameters/baseCurrencyCode"
         #query
         - $ref: "#/components/parameters/sourceQuery"
         #header
@@ -2716,8 +2716,8 @@ paths:
         - {}
       parameters:
         #path
-        - $ref: "#/components/parameters/currencyCode_PATH"
-        - $ref: "#/components/parameters/baseCurrencyCode_PATH"
+        - $ref: "#/components/parameters/currencyCode"
+        - $ref: "#/components/parameters/baseCurrencyCode"
         #query
         - $ref: "#/components/parameters/sourceQuery"
         - $ref: "#/components/parameters/dateFrom"
@@ -6087,7 +6087,7 @@ components:
       pattern: '[A-Z]{3}'
       example: "EUR"
 
-    currencyCode_PATH:
+    currencyCode:
       name: quote-currency
       in: path
       description: |
@@ -6096,7 +6096,7 @@ components:
       schema:
         $ref: "#/components/schemas/currencyCode"
 
-    baseCurrencyCode_PATH:
+    baseCurrencyCode:
       name: base-currency
       in: path
       description: |

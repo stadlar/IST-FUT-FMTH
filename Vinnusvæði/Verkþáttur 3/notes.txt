@@ -1,0 +1,65 @@
+191 + - $ref: "#/components/parameters/TPP-Brand-Logging-Information"
+974 + - $ref: "#/components/schemas/transactionAuthorisation"
+
+985 + "Authorisation confirmation (Redirect Approach)":
+                $ref: "#/components/examples/authorisationConfirmationExample_Redirect"
+
+1108 +
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf: #Different Authorisation Bodies
+                - {}
+                - $ref: "#/components/schemas/updatePsuAuthentication"
+                - $ref: "#/components/schemas/selectPsuAuthenticationMethod"
+                - $ref: "#/components/schemas/transactionAuthorisation"
+
+1200 + $ref: "#/components/responses/OK_200_Authorisations"
+     - $ref: "#/components/responses/OK_200_CancellationList"
+
+1413 + - $ref: "#/components/schemas/authorisationConfirmation"
+2333 + - $ref: "#/components/parameters/TPP-Brand-Logging-Information"
+3013 + - $ref: "#/components/schemas/authorisationConfirmation"
+3023 + "Authorisation confirmation (Redirect Approach)":
+                $ref: "#/components/examples/authorisationConfirmationExample_Redirect"
+3772 + - $ref: "#/components/schemas/authorisationConfirmation"
+3783 + "Authorisation confirmation (Redirect Approach)":
+                $ref: "#/components/examples/authorisationConfirmationExample_Redirect"
+4137 + - "unconfirmed"
+4145 + scaStatusAuthorisationConfirmation
+4177 + - 'partiallyAuthorised': The consent is due to a multi-level authorisation, some but not all mandated authorisations have been performed yet.
+4223 + trustedBeneficiaryFlag
+4587 + additionalInformation:
+          $ref: "#/components/schemas/additionalInformationAccess"
+4597 + - "allAccountsWithOwnerName"
+
+4639 + accountDetails
+4712 + cardAccountDetails
+4938 + cardTransaction
+6018 + paymentInitiation_json
+
+
+
+
+
+[x] OK_200_CardAccountList -> OK_200_CardList
+[x] OK_200_CardAccountBalances -> OK_200_CardBalances
+[x] OK_200_CardAccountsTransactions -> OK_200_CardTransactions
+
+[x] cardAccountList -> cardList
+[x] cardAccountListExample1 -> cardListExample1
+[x] readCardAccountBalanceResponse-200 -> readCardBalanceResponse-200
+[x] balancesExample_CardAccount -> balancesExample_Card
+[x] cardAccountsTransactionsResponse200 -> cardsTransactionsResponse200
+[x] cardAccountDetails -> cardDetails
+
+
++ schemas
+[x] expDate
+[x] issueDate
+[x] cardholderName
+[x] panId
+[x] bank
+[x] posEntryMode
+

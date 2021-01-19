@@ -1,5 +1,8 @@
 # 2021-01-12
-
+- Klippa skjalið niður og lista aðeins upp breytingar á berlin-group
+  til að uppfylla Íslenskar kröfur
+- Taka út úr yaml, [consents, funds-confirmations, signing-basket]
+- Laga inndráttar og reference villu í yaml.
 
 # 2021-01-12
 - Breytinga sem voru framkvæmdar núna.

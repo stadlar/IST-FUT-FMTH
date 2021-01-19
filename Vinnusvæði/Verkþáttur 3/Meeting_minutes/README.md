@@ -1,3 +1,16 @@
+# 2021-01-19
+- Endurnefna greiðsluvörur og taka út "Icelandic"
+  - Icelandic SEPA credit transfers -> SEPA credit transfers
+    - url: sepa-credit-transfers
+  - Icelandic Cross border credit transfers -> Cross border credit transfers
+    - url: cross-border-credit-transfers
+- Svæðin (UltimateDebtor, UltimateDebtorId og UltimateCreditor) verða tekin út úr SEPA og CB
+- Laga demo slóðir
+- Nota Íslenskt demo IBAN númer
+- Förum yfir stofnun á bunkagreiðslum
+
+
+
 # 2021-01-12
 - Klippa skjalið niður og lista aðeins upp breytingar á berlin-group
   til að uppfylla Íslenskar kröfur

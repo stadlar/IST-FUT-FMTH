@@ -1,3 +1,50 @@
+# 2021-01-28
+- Reynum að fá svör fyrir næstu fjóra liði eigi síðar en 16:00, 1. feb 2021  
+- "endToEndIdentification", skoða betur
+- "serviceLevel", skoða betur
+- "paymentInitiation", gerum ekki breytingu. Vísum í Rakhnífur Ockhams.
+- Ekki verður boðið upp á blandaða bunkagreiðslu (SWIFT), en það 
+  verður endurskoðað á næsta fundi
+- Tillaga samþykkt að hafa eftirtaldin svæði í haus á fyrirspurnum:
+    - Content-Type   (Mandatory)
+    - X-Request-ID   (Mandatory)
+    - Authorization  (Mandatory)
+    - PSU-IP-Address (Mandatory)
+
+
+# 2021-01-26
+- Erlendar greiðslur
+  - Setja inn texta sem segir að BBAN sé ekki stutt í erlendar greiðslur
+  - Getum svæðið debtorId n/a þar sem það á ekki við um erendar greiðslur  
+- Bankar verkefni:
+    - Skoða "endToEndIdentification" svæðið og notkun fyrir SEPA og SWIFT
+    - Skoða samræmingu á svæðinu "serviceLevel" og hvort svæðið eigi við um
+      SEPA og SWIFT
+    - Viljum við bæta við í "paymentInitiation" til að halda sérstaklega utan um foreign payment vörur (sjá dæmi)
+      /*
+      content:
+        application/json:
+          schema:
+            oneOf: #Different Payment products in JSON
+              - $ref: "#/components/schemas/paymentInitiation_json"
+              - $ref: "#/components/schemas/periodicPaymentInitiation_json"
+              - $ref: "#/components/schemas/bulkPaymentInitiation_json"
+      */
+    - Viljum við bjóða upp á blandaða bunkagreiðslu (SWIFT) þar sem móttöku reikningar væru í mismunandi mint
+    - Taka umræðu um B2B vs. PSD2
+
+
+    
+          
+
+
+Servicelevel: 
+            ExternalServiceLevel1Code A set of codes defined outside the schema. The allowed values are 
+            { BKTR, NUGP, NURG, PRPT, SDVA, SEPA, URGP, URNS }.
+            For full list of codes, see §0 ISO ExternalServiceLevel1Code. 
+
+
+
 # 2021-01-19
 - Endurnefna greiðsluvörur og taka út "Icelandic"
   - Icelandic SEPA credit transfers -> SEPA credit transfers

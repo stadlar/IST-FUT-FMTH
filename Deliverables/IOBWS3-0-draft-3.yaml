@@ -170,31 +170,31 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/PSU-ID"
-        - $ref: "#/components/parameters/PSU-ID-Type"
-        - $ref: "#/components/parameters/PSU-Corporate-ID"
-        - $ref: "#/components/parameters/PSU-Corporate-ID-Type"
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        #- $ref: "#/components/parameters/PSU-ID"
+        #- $ref: "#/components/parameters/PSU-ID-Type"
+        #- $ref: "#/components/parameters/PSU-Corporate-ID"
+        #- $ref: "#/components/parameters/PSU-Corporate-ID-Type"
+        #- $ref: "#/components/parameters/consentId_HEADER_optional"
         - $ref: "#/components/parameters/PSU-IP-Address_mandatory"
-        - $ref: "#/components/parameters/TPP-Redirect-Preferred"
-        - $ref: "#/components/parameters/TPP-Redirect-URI"
-        - $ref: "#/components/parameters/TPP-Nok-Redirect-URI"
-        - $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
-        - $ref: "#/components/parameters/TPP-Rejection-NoFunds-Preferred"
-        - $ref: "#/components/parameters/TPP-Brand-Logging-Information"
+        #- $ref: "#/components/parameters/TPP-Redirect-Preferred"
+        #- $ref: "#/components/parameters/TPP-Redirect-URI"
+        #- $ref: "#/components/parameters/TPP-Nok-Redirect-URI"
+        #- $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
+        #- $ref: "#/components/parameters/TPP-Rejection-NoFunds-Preferred"
+        #- $ref: "#/components/parameters/TPP-Brand-Logging-Information"
           #conditional for extended service lean Push
-        - $ref: "#/components/parameters/TPP-Notification-URI"
-        - $ref: "#/components/parameters/TPP-Notification-Content-Preferred"
+        #- $ref: "#/components/parameters/TPP-Notification-URI"
+        #- $ref: "#/components/parameters/TPP-Notification-Content-Preferred"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
 
       requestBody:
         $ref: "#/components/requestBodies/paymentInitiation"
@@ -202,7 +202,6 @@ paths:
       responses:
         '201':
           $ref: "#/components/responses/CREATED_201_PaymentInitiation"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_PIS"
         '401':
@@ -265,21 +264,20 @@ paths:
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #optional additional PSU Information in header
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_PaymentInitiationInformation"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_PIS"
         '401':
@@ -351,22 +349,22 @@ paths:
           #header to support the signature function
         - $ref: "#/components/parameters/Digest"
         - $ref: "#/components/parameters/Signature"
-        - $ref: "#/components/parameters/TPP-Signature-Certificate"
-        - $ref: "#/components/parameters/TPP-Redirect-Preferred"
-        - $ref: "#/components/parameters/TPP-Nok-Redirect-URI"
-        - $ref: "#/components/parameters/TPP-Redirect-URI"
-        - $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
+        #- $ref: "#/components/parameters/TPP-Signature-Certificate"
+        #- $ref: "#/components/parameters/TPP-Redirect-Preferred"
+        #- $ref: "#/components/parameters/TPP-Nok-Redirect-URI"
+        #- $ref: "#/components/parameters/TPP-Redirect-URI"
+        #- $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
           #optional additional PSU Information in header
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
@@ -376,7 +374,6 @@ paths:
         '202':
           $ref: "#/components/responses/RECEIVED_202_PaymentInitiationCancel"
           #If the DELETE is not sufficient for cancelling the payment since an authorisation of the cancellation by the PSU is needed.
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_PIS"
         '401':
@@ -403,6 +400,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_PIS"
 
   /v1/{payment-service}/{payment-product}/info/{Query-X-Request-ID}:
+
     get:
       summary: Payment id info request
       description:
@@ -447,21 +445,20 @@ paths:
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #optional additional PSU Information in header
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_PaymentId"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_PIS"
         '401':
@@ -488,6 +485,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_PIS"
 
   /v1/{payment-service}/{payment-product}/{paymentId}/status:
+
     get:
       summary: Payment initiation status request
       description: Check the transaction status of a payment initiation.
@@ -524,22 +522,21 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Address_optional"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_PaymentInitiationStatus"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_PIS"
         '401':
@@ -566,6 +563,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_PIS"
 
   /v1/{payment-service}/{payment-product}/{paymentId}/authorisations:
+
     post:
       summary: Start the authorisation process for a payment initiation
       description: |
@@ -620,6 +618,7 @@ paths:
       #####################################################
         - {}
         - BearerAuthOAuth: []
+
       parameters:
       #path
         - $ref: "#/components/parameters/paymentService"
@@ -669,7 +668,6 @@ paths:
       responses:
         '201':
           $ref: "#/components/responses/CREATED_201_StartScaProcess"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_PIS"
         '401':
@@ -777,6 +775,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_PIS"
 
   /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}:
+
     get:
       summary: Read the SCA status of the payment authorisation
       description: |
@@ -1001,6 +1000,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_PIS"
 
   /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations:
+
     post:
       summary: Start the authorisation process for the cancellation of the addressed payment
       description: |
@@ -1442,6 +1442,7 @@ paths:
       #####################################################
 
   /v1/accounts:
+
     get:
       summary: Read account list
       description: |
@@ -1493,25 +1494,24 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
-        - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
+        #- $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_AccountList"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -1538,6 +1538,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/accounts/{account-id}:
+
     get:
       summary: Read account details
       description: |
@@ -1586,25 +1587,24 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
-        - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
+        #- $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_AccountDetails"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -1631,6 +1631,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/accounts/{account-id}/balances:
+
     get:
       summary: Read balance
       description: |
@@ -1672,25 +1673,24 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
-        - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
+        #- $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_Balances"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -1717,6 +1717,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/accounts/{account-id}/transactions:
+
     get:
       summary: Read transaction list of an account
       description: |
@@ -1762,26 +1763,25 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #- $ref: "#/components/parameters/Accept" #Can not defined in Open API. See general comments in the description attached to the top level of the file.
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_AccountsTransactions"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -1808,6 +1808,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/accounts/{account-id}/transactions/{transactionId}:
+
     get:
       summary: Read transaction details
       description: |
@@ -1848,25 +1849,24 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_TransactionDetails"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -1902,6 +1902,7 @@ paths:
   #####################################################
 
   /v1/card-accounts:
+
     get:
       summary: Read a list of card accounts
       description: |
@@ -1940,25 +1941,24 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODDY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_CardAccountList"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -1985,6 +1985,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/card-accounts/{account-id}:
+
     get:
       summary: Read details about a card account
       description: |
@@ -2025,25 +2026,24 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
         #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
         #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODDY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_CardAccountDetails"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -2070,6 +2070,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/card-accounts/{account-id}/balances:
+
     get:
       summary: Read card account balances
       description: |
@@ -2113,25 +2114,24 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODDY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_CardAccountBalances"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -2158,6 +2158,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/card-accounts/{account-id}/transactions:
+
     get:
       summary: Read transaction list of an account
       description: |
@@ -2199,26 +2200,25 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #- $ref: "#/components/parameters/Accept" #Can not defined in Open API. See general comments in the description attached to the top level of the file.
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
-        - $ref: "#/components/parameters/PSU-IP-Port"
-        - $ref: "#/components/parameters/PSU-Accept"
-        - $ref: "#/components/parameters/PSU-Accept-Charset"
-        - $ref: "#/components/parameters/PSU-Accept-Encoding"
-        - $ref: "#/components/parameters/PSU-Accept-Language"
-        - $ref: "#/components/parameters/PSU-User-Agent"
-        - $ref: "#/components/parameters/PSU-Http-Method"
-        - $ref: "#/components/parameters/PSU-Device-ID"
-        - $ref: "#/components/parameters/PSU-Geo-Location"
+        #- $ref: "#/components/parameters/PSU-IP-Port"
+        #- $ref: "#/components/parameters/PSU-Accept"
+        #- $ref: "#/components/parameters/PSU-Accept-Charset"
+        #- $ref: "#/components/parameters/PSU-Accept-Encoding"
+        #- $ref: "#/components/parameters/PSU-Accept-Language"
+        #- $ref: "#/components/parameters/PSU-User-Agent"
+        #- $ref: "#/components/parameters/PSU-Http-Method"
+        #- $ref: "#/components/parameters/PSU-Device-ID"
+        #- $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_CardAccountsTransactions"
-
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -2253,6 +2253,7 @@ paths:
   #####################################################
 
   /v1/cards:
+
     get:
       summary: Read list of cards.
       description: |
@@ -2286,7 +2287,7 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -2317,6 +2318,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/cards/{card-id}:
+
     get:
       summary: Read card details.
       description: |
@@ -2351,7 +2353,7 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -2382,6 +2384,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/cards/{card-id}/balances:
+
     get:
       summary: Read card balances.
       description: |
@@ -2419,7 +2422,7 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -2450,6 +2453,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/cards/{card-id}/transactions:
+
     get:
       summary: Read account data.
       description: |
@@ -2487,7 +2491,7 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -2522,6 +2526,7 @@ paths:
   #####################################################
 
   /v1/currencies:
+
     get:
       summary: Read list of currencies
       description: |
@@ -2563,6 +2568,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/currencies/sources:
+
     get:
       summary: Read list of currencies sources
       description: |
@@ -2606,6 +2612,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/currencies/{base-currency}/rates:
+
     get:
       summary: Read rates for single currency entity
       description: |
@@ -2650,6 +2657,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/currencies/{quote-currency}/rates/{base-currency}:
+
     get:
       summary: Read rates for single currency entity with base currency defined
       description: |
@@ -2669,7 +2677,7 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
 
@@ -2696,6 +2704,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
 
   /v1/currencies/{quote-currency}/rates/{base-currency}/history:
+
     get:
       summary: Read rates history for single currency entity with base currency defined
       description: |
@@ -2717,7 +2726,7 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
 
@@ -5389,14 +5398,16 @@ components:
         #  $ref: "#/components/schemas/batchBookingPreferred"
         debtorAccount:
           $ref: "#/components/schemas/accountReference"
+        chargesAccount:
+          $ref: "#/components/schemas/accountReference"
         paymentInformationId:
           description: |
             Unique identification as assigned by the sending party to unambiguously identify this bulk payment.
           type: string
           maxLength: 35
-        requestedExecutionDate:
-          type: string
-          format: date
+        #requestedExecutionDate:
+        #  type: string
+        #  format: date
         #requestedExecutionTime:
         #  type: string
         #  format: date-time
@@ -5829,6 +5840,8 @@ components:
         paymentInformationId:
           type: string
           maxLength: 35
+        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/paymentExchangeRate"
         payments:
           description: |
             A list of generic JSON bodies payment initations for bulk payments via JSON.
@@ -10052,20 +10065,6 @@ components:
             "Example 3: 'bulk-payments' - 'sepa-credit-transfers'":
               $ref: "#/components/examples/paymentInitiationSctBody_bulk-payments_json"
 
-        application/xml:
-          schema:
-            oneOf: #The same schemas are used for single and bulk payment in case of a pain.001
-              - $ref: "#/components/schemas/paymentInitiationSct_pain.001"
-              - $ref: "#/components/schemas/paymentInitiationSctInst_pain.001"
-              - $ref: "#/components/schemas/paymentInitiationTarget2_pain.001"
-              - $ref: "#/components/schemas/paymentInitiationCrossBorder_pain.001"
-          examples:
-            "Example 1: 'payments' - 'pain.001-sepa-credit-transfers'":
-              $ref: "#/components/examples/pain.001.001_SCT_singleTransaction"
-
-        multipart/form-data: #For periodic-payments with pain.001
-          schema:
-            $ref: "#/components/schemas/periodicPaymentInitiationMultipartBody"
 
   headers:
   #####################################################

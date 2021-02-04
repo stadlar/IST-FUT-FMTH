@@ -1,9 +1,14 @@
+# 2021-02-02
+- "serviceLevel": [SDVA, URGP]
+- "endToEndIdentification": Tekið út.
+- Ekki verður boðið upp á blandaða bunkagreiðslu?
+
 # 2021-01-28
 - Reynum að fá svör fyrir næstu fjóra liði eigi síðar en 16:00, 1. feb 2021  
 - "endToEndIdentification", skoða betur
 - "serviceLevel", skoða betur
 - "paymentInitiation", gerum ekki breytingu. Vísum í Rakhnífur Ockhams.
-- Ekki verður boðið upp á blandaða bunkagreiðslu (SWIFT), en það 
+- Ekki verður boðið upp á blandaða bunkagreiðslu, en það 
   verður endurskoðað á næsta fundi
 - Tillaga samþykkt að hafa eftirtaldin svæði í haus á fyrirspurnum:
     - Content-Type   (Mandatory)

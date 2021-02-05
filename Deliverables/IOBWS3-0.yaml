@@ -2890,7 +2890,7 @@ components:
         cards:
           type: array
           items:
-            $ref: "#/components/schemas/cardAccountDetails"
+            $ref: "#/components/schemas/cardDetails"
 
     readCardDetailsResponse-200_json:
       description: Details of the card.
@@ -2899,7 +2899,7 @@ components:
         - card
       properties:
         card:
-          $ref: "#/components/schemas/cardAccountDetails"
+          $ref: "#/components/schemas/cardDetails"
 
     readCardBalancesResponse-200_json:
       description: Balances of the cards.
@@ -4165,6 +4165,7 @@ components:
 
     expDate:
       type: string
+      format: date
       description: Experation date for a card in the form mm/yy.
       pattern: "missing"
       example: "missing"

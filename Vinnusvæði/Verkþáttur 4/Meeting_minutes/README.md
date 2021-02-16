@@ -1,3 +1,110 @@
+# 2021-02-16
+
+- Setja /v1/consents aftur inn sem optional möguleika.
+
+- Er mögulegt að afturkalla innsend skjöl, til dæmis innan ákveðins tíma (dæmi 1-2 tímar)?
+- Hægt að fá betra svar þegar leitað er að skjali/skjölum
+  - Niðurstöðu niður á reference númer per item innan sendingarbunka
+  - 
+- Hugsum rafræn skjöl eins og greiðslur og bunkagreiðslur.
+  - Bunkagreiðslur væru með hugsanlega mörkum:
+    - Hámarksstærð?
+    - Fjöldi?
+  
+- Grunnskráarsnið væru .pdf, .xml, hugsanlega nota mimetype fyrir skilgreiningu á skjali
+- Fá álit lögfræðings, bankarnir tilnefna lögfræðing fyrir næsta fund
+  - Hvað þýðir varanlegur miðill
+  - Hvernig má vinna með varanlegan miðil
+  - Grisunarreglur
+
+- Fá greiðsluveituna með í þessa vinnu.
+
+- Metagögn á skjölum
+  - Kennitala eiganda
+  - ?
+  
+
+## Búa til skjalabunka
+{
+  "bunki": "Launaseðlar",
+  "kennitala": "kennitala sendanda",
+  "skjalategund": "Launaseðlar",
+  "skjöl": [
+    {
+      "Nafn": "Laun fyrir Guðmund",
+      "Kennitala": "Kennitala Guðmundar",
+      "fileType": "pdf | xml | ref", # Fastur listi af möguleikum
+      "file": "Base64", (vs),
+      "fileRef": "https://www.mbl.is/skjal/001.pdf",
+      "reference": "Kröfunúmer eða eitthvað álíka"
+    },
+  ]
+} -> Einkvæmt sendingarnúmer
+  
+## Sækja skjalabunka eftir einkvæmu sendingarnúmeri
+
+{
+  "Id" : "Einkvæmt sendingarnúmer"
+  "Staða": "Tóks, Tókst ekki, Tókst að hluta",
+  "bunki": "Launaseðlar",
+  "kennitala": "kennitala sendanda",
+  "skjalategund": "Launaseðlar",
+  "skjöl": [
+    {
+      "Id": "Einkvæmt skjalanúmer",
+      "Staða": "Útvinnslustaða",
+      "Nafn": "Laun fyrir Guðmund",
+      "Kennitala": "Kennitala Guðmundar",
+      "fileType": "pdf | xml | ref"
+      "fileRef": "https://www.mbl.is/skjal/001.pdf",
+      "reference": "Kröfunúmer eða eitthvað álíka"
+    },
+  ]
+} 
+
+## Búa til skjala
+{
+  "bunki": "Launaseðlar",
+  "kennitala": "kennitala sendanda",
+  "skjalategund": "Launaseðlar",
+  "skjöl": 
+    {
+      "Nafn": "Laun fyrir Guðmund",
+      "Kennitala": "Kennitala Guðmundar",
+      "fileType": "pdf | xml | ref", # Fastur listi af möguleikum
+      "file": "Base64", (vs),
+      "fileRef": "https://www.mbl.is/skjal/001.pdf",
+      "reference": "Kröfunúmer eða eitthvað álíka"
+    }
+} -> Einkvæmt sendingarnúmer
+  
+## Sækja skjalabunka eftir einkvæmu sendingarnúmeri
+
+{
+  "Id" : "Einkvæmt sendingarnúmer"
+  "Staða": "Tóks, Tókst ekki, Tókst að hluta",
+  "bunki": "Launaseðlar",
+  "kennitala": "kennitala sendanda",
+  "skjalategund": "Launaseðlar",
+  "skjöl": {
+      "Id": "Einkvæmt skjalanúmer",
+      "Staða": "Útvinnslustaða",
+      "Nafn": "Laun fyrir Guðmund",
+      "Kennitala": "Kennitala Guðmundar",
+      "fileType": "pdf | xml | ref"
+      "fileRef": "https://www.mbl.is/skjal/001.pdf",
+      "reference": "Kröfunúmer eða eitthvað álíka"
+    }
+} 
+
+
+
+
+- Tegundaflokkanir
+  - 
+
+
+
 # 2021-02-09
 
 Rafræn skjöl:
@@ -13,7 +120,7 @@ Rafræn skjöl:
     - Kennitala sendanda ?
     - Kennitala viðtakanda ?
     - "Counter" er númer sem kemur frá notenda (Ef sami "Counter" er notað er fyrra skjal yfirskrifað) ?
-    - Reference "stak eða listi" ?  
+    - Reference "stak eða listi" ?
     - Nafn skjals
     - Skjala tegund (Flokkun 4.2 Tegund skjals)
     - Dreifileið (Í hvaða kerfi á þetta að fara) / skjalatunna ?

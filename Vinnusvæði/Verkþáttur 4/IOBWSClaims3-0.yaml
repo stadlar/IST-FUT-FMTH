@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: IOBWS 3.0 Domestic Claims
+  version: "3.0"
+  description:
+
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://creativecommons.org/licenses/by/4.0/
+  contact:
+    name: Stadlarad Islands
+    url: https://www.stadlar.is
+    email: openbanking@stadlar.is
+
+externalDocs:
+  description: |
+    ...
+  url: ...
+
+paths:
+
+  #####################################################
+  # Claims Service
+  #####################################################
+
+  /v1/..
+
+components:
+#####################################################
+# Predefined Components
+#####################################################
+
+  schemas:
+  #####################################################
+  # Predefined Schemas
+  #####################################################
+
+  requestBodies:
+  #####################################################
+  # Reusable Request Bodies
+  #####################################################
+
+  headers:
+  #####################################################
+  # Reusable Response Header Elements
+  #####################################################

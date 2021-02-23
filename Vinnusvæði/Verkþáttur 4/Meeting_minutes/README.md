@@ -1,3 +1,20 @@
+# 2021-02-23
+- Líftími: Send inn skjal, leiðrétta skjal (í ákveðinn tíma), eytt skjali?
+- Tegundir skjals gæti mögulega stýrt hversu lengi á að geyma skjalið 
+- Við ætlum ekki að ræða nánar dagsetningar, sem dæmi:
+  - Dagsetningar:
+    - Úrelding
+    - Gildistími (frá og til)
+- Leiðrétting
+  - Í ákveðinn tíma
+    - .
+  - Tegund skjals (Ekki fyrir PW, Lykilorð)
+- Greiðsluveitan ætlar að skoða
+  - Það þarf að vera hægt að fletta upp tegundum skjala, hvaða tegundir skjala viljum við hafa.
+  - Æskilegur gildistími
+  - Reference fyrir skjöl
+- Við ætlum að setja /v1/consents aftur inn sem optional möguleika
+
 # 2021-02-16
 
 - Setja /v1/consents aftur inn sem optional möguleika.
@@ -26,20 +43,24 @@
 
 ## Búa til skjalabunka
 {
+  "Id" : "Einkvæmt sendingarnúmer",
   "bunki": "Launaseðlar",
   "kennitala": "kennitala sendanda",
   "skjalategund": "Launaseðlar",
   "skjöl": [
     {
+      "Id" : "Einkvæmt skjalanúmer",
       "Nafn": "Laun fyrir Guðmund",
+      "desirablePeriodOfValidity": "", # Æskilegur gildistimi
       "Kennitala": "Kennitala Guðmundar",
       "fileType": "pdf | xml | ref", # Fastur listi af möguleikum
       "file": "Base64", (vs),
       "fileRef": "https://www.mbl.is/skjal/001.pdf",
-      "reference": "Kröfunúmer eða eitthvað álíka"
+      "reference": "Kröfunúmer eða eitthvað álíka",
+      "previousVersion": "" #Ef previous svæðið er notað er fyrra skjal úrelt
     },
   ]
-} -> Einkvæmt sendingarnúmer
+}
   
 ## Sækja skjalabunka eftir einkvæmu sendingarnúmeri
 

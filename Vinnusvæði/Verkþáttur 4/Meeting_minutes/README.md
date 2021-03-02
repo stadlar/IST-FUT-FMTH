@@ -1,63 +1,76 @@
-# 2021-02-23
-- Líftími: Send inn skjal, leiðrétta skjal (í ákveðinn tíma), eytt skjali?
-- Tegundir skjals gæti mögulega stýrt hversu lengi á að geyma skjalið 
-- Við ætlum ekki að ræða nánar dagsetningar, sem dæmi:
-  - Dagsetningar:
-    - Úrelding
-    - Gildistími (frá og til)
-- Leiðrétting
-  - Í ákveðinn tíma
-    - .
-  - Tegund skjals (Ekki fyrir PW, Lykilorð)
-- Greiðsluveitan ætlar að skoða
-  - Það þarf að vera hægt að fletta upp tegundum skjala, hvaða tegundir skjala viljum við hafa.
-  - Æskilegur gildistími
-  - Reference fyrir skjöl
-- Við ætlum að setja /v1/consents aftur inn sem optional möguleika
+# 2021-03-02 (Part 2)
+- Balance
+  - (vísað er í balanceType úr psd2-api 1.3 *.yaml)
+    1. Eru balance notaðir útfrá credit limit eða authorization limit (limit sem notandi slær inn)
+    2. Sameiginlegur skilningur á öllum balance.
 
-# 2021-02-16
+    Hvaða balance tegundir notum við fyrir eftirfarandi:
+    1. Til ráðstöfunar (Horft útfrá auth limit)
+       - "expected"
+    2. Ógreiddir reikningar
+       - T.d. fyrir kreditkort, skuld frá síðasta tímabil
+       - Ekkert hérna  
+    3. Síðasti greiðsluseðill (upphæð sem var fyrir síðasta tímabil)
+       - Ekkert hérna
+    4. Credit exposure (Upphæðin sem kúnni á eftir ógreitt, greiðsludreifing, ógreiddir reikningar, notkun á tímabilinu)
+       - Ekkert hérna
+    5. Notkun á tímabili án ófjárhagslegar færslur (Pending færslur)
+       - "interimBooked"
+    6. Notkun á tímabili með ófjárhagslegar færslur (Með pending færslur) Velta tímabilsins
+       - "expectedBooked"
+    7. Greiðsludreifing (Heildar balance á greisðludr. + kost og exp.vextir)
+       - Ekkert hérna
+    8. Vanskil
+       - Ekkert hérna
 
-- Setja /v1/consents aftur inn sem optional möguleika.
+Niðurstaðan er sú að bankarnir útnefni fólki í vinnuhóp 7. Hópurinn mun taka afstöðu til:
+  - Hvernig staðið væri að viðhaldi og þróun
+    - Viðhaldsferlar
+  - Taka fyrir breytingarbeiðni um viðbót í balanceType
+    - "expectedBooked":
+      Balance composed of booked entries and pending items known at the time of calculation, 
+      which projects the end of day balance if everything is booked on the account and no other entry is posted.
+      
+      For card accounts, this is composed of:
+        - not yet invoiced but already booked entries and
+        - pending items (not yet booked)
+      
+      For card-accounts:
+      
+      "money to spend with the value of a pre-approved credit limit on the card account"
 
-- Er mögulegt að afturkalla innsend skjöl, til dæmis innan ákveðins tíma (dæmi 1-2 tímar)?
-- Hægt að fá betra svar þegar leitað er að skjali/skjölum
-  - Niðurstöðu niður á reference númer per item innan sendingarbunka
-  - 
-- Hugsum rafræn skjöl eins og greiðslur og bunkagreiðslur.
-  - Bunkagreiðslur væru með hugsanlega mörkum:
-    - Hámarksstærð?
-    - Fjöldi?
-  
-- Grunnskráarsnið væru .pdf, .xml, hugsanlega nota mimetype fyrir skilgreiningu á skjali
-- Fá álit lögfræðings, bankarnir tilnefna lögfræðing fyrir næsta fund
-  - Hvað þýðir varanlegur miðill
-  - Hvernig má vinna með varanlegan miðil
-  - Grisunarreglur
-
-- Fá greiðsluveituna með í þessa vinnu.
-
-- Metagögn á skjölum
-  - Kennitala eiganda
-  - ?
-  
+# 2021-03-02 (Part 1)
+- Concent (Íslandbanki) -> Samþykkt að hafa Concent inni sem option fyrir reikninga, Landsbankinn ætlar ekki að útfæra.
+- Tegundur skjala -> Hafa þennan lista inn ásamt texta sem segir að banka gæti bætt við eins og þurfa þykir. 
+  - Launaskrá (LS), Launamiði (LM), Lykilorð (PW), Greiðsluseðill, Bankareikningur, Viðskiptayfirlit ( Skv. SBS 2013 )
+    - Fá hugmyndir af fleiri tegundum skjala
+- Ekki hægt uppfæra skjal
+- Er hægt að merkja skjal sem úrelt?
+- Hver er raunverulegur eigandi innsendra skjala? 
+- Hlutverk
+  - Banki er mögulega vinnsluaðili skjalsins.
+- Næsti fundur
+  - 10:00 - 11:00 Rafræn skjöl
+  - 11:00 - 12:00 Kröfur
+  - 12:00 - 12:15 Stofnun hópsins "Viðhald og þróun"
 
 ## Búa til skjalabunka
 {
   "Id" : "Einkvæmt sendingarnúmer",
-  "bunki": "Launaseðlar",
-  "kennitala": "kennitala sendanda",
-  "skjalategund": "Launaseðlar",
-  "skjöl": [
+  "Name": "Launaseðlar",
+  "IDNumber": "kennitala sendanda",
+  "DocumentType": "<documentType.Code>",
+  "Files": [
     {
       "Id" : "Einkvæmt skjalanúmer",
-      "Nafn": "Laun fyrir Guðmund",
-      "desirablePeriodOfValidity": "", # Æskilegur gildistimi
-      "Kennitala": "Kennitala Guðmundar",
-      "fileType": "pdf | xml | ref", # Fastur listi af möguleikum
-      "file": "Base64", (vs),
-      "fileRef": "https://www.mbl.is/skjal/001.pdf",
-      "reference": "Kröfunúmer eða eitthvað álíka",
-      "previousVersion": "" #Ef previous svæðið er notað er fyrra skjal úrelt
+      "Name": "Laun fyrir Guðmund",
+      *"DesirablePeriodOfValidity": "", # Æskilegur gildistimi
+      "IDNumber": "Kennitala viðtakanda",
+      "FileType": "pdf | xml | ref", # Fastur listi af möguleikum
+      "File": "Base64", (vs),
+      "FileRef": "https://www.mbl.is/skjal/001.pdf",
+      "Reference": "Kröfunúmer eða eitthvað álíka",
+      *"PreviousVersion": "" #Ef previous svæðið er notað er fyrra skjal úrelt
     },
   ]
 }
@@ -121,10 +134,48 @@
 
 
 
-- Tegundaflokkanir
+# 2021-02-23
+- Líftími: Send inn skjal, leiðrétta skjal (í ákveðinn tíma), eytt skjali?
+- Tegundir skjals gæti mögulega stýrt hversu lengi á að geyma skjalið 
+- Við ætlum ekki að ræða nánar dagsetningar, sem dæmi:
+  - Dagsetningar:
+    - Úrelding
+    - Gildistími (frá og til)
+- Leiðrétting
+  - Í ákveðinn tíma
+    - .
+  - Tegund skjals (Ekki fyrir PW, Lykilorð)
+- Greiðsluveitan ætlar að skoða
+  - Það þarf að vera hægt að fletta upp tegundum skjala, hvaða tegundir skjala viljum við hafa.
+  - Æskilegur gildistími
+  - Reference fyrir skjöl
+- Við ætlum að setja /v1/consents aftur inn sem optional möguleika
+
+# 2021-02-16
+
+- Setja /v1/consents aftur inn sem optional möguleika.
+
+- Er mögulegt að afturkalla innsend skjöl, til dæmis innan ákveðins tíma (dæmi 1-2 tímar)?
+- Hægt að fá betra svar þegar leitað er að skjali/skjölum
+  - Niðurstöðu niður á reference númer per item innan sendingarbunka
   - 
+- Hugsum rafræn skjöl eins og greiðslur og bunkagreiðslur.
+  - Bunkagreiðslur væru með hugsanlega mörkum:
+    - Hámarksstærð?
+    - Fjöldi?
+  
+- Grunnskráarsnið væru .pdf, .xml, hugsanlega nota mimetype fyrir skilgreiningu á skjali
+- Fá álit lögfræðings, bankarnir tilnefna lögfræðing fyrir næsta fund
+  - Hvað þýðir varanlegur miðill
+  - Hvernig má vinna með varanlegan miðil
+  - Grisunarreglur
 
+- Fá greiðsluveituna með í þessa vinnu.
 
+- Metagögn á skjölum
+  - Kennitala eiganda
+  - ?
+  
 
 # 2021-02-09
 

@@ -1,27 +1,28 @@
 # 2021-03-02 (Part 2)
-- Balance
-  - (vísað er í balanceType úr psd2-api 1.3 *.yaml)
-    1. Eru balance notaðir útfrá credit limit eða authorization limit (limit sem notandi slær inn)
-    2. Sameiginlegur skilningur á öllum balance.
+- Beiðni kom frá Íslandsbanka um að ræða eftirfarandi
+  - Balance
+    - (vísað er í balanceType úr psd2-api 1.3 *.yaml)
+      1. Eru balance notaðir útfrá credit limit eða authorization limit (limit sem notandi slær inn)
+      2. Sameiginlegur skilningur á öllum balance.
 
-    Hvaða balance tegundir notum við fyrir eftirfarandi:
-    1. Til ráðstöfunar (Horft útfrá auth limit)
-       - "expected"
-    2. Ógreiddir reikningar
-       - T.d. fyrir kreditkort, skuld frá síðasta tímabil
-       - Ekkert hérna  
-    3. Síðasti greiðsluseðill (upphæð sem var fyrir síðasta tímabil)
-       - Ekkert hérna
-    4. Credit exposure (Upphæðin sem kúnni á eftir ógreitt, greiðsludreifing, ógreiddir reikningar, notkun á tímabilinu)
-       - Ekkert hérna
-    5. Notkun á tímabili án ófjárhagslegar færslur (Pending færslur)
-       - "interimBooked"
-    6. Notkun á tímabili með ófjárhagslegar færslur (Með pending færslur) Velta tímabilsins
-       - "expectedBooked"
-    7. Greiðsludreifing (Heildar balance á greisðludr. + kost og exp.vextir)
-       - Ekkert hérna
-    8. Vanskil
-       - Ekkert hérna
+    - Hvaða balance tegundir notum við fyrir eftirfarandi:
+      1. Til ráðstöfunar (Horft útfrá auth limit)
+         - "expected"
+      2. Ógreiddir reikningar
+         - T.d. fyrir kreditkort, skuld frá síðasta tímabil
+        - Ekkert hérna  
+      3. Síðasti greiðsluseðill (upphæð sem var fyrir síðasta tímabil)
+         - Ekkert hérna
+      4. Credit exposure (Upphæðin sem kúnni á eftir ógreitt, greiðsludreifing, ógreiddir reikningar, notkun á tímabilinu)
+         - Ekkert hérna
+      5. Notkun á tímabili án ófjárhagslegar færslur (Pending færslur)
+         - "interimBooked"
+      6. Notkun á tímabili með ófjárhagslegar færslur (Með pending færslur) Velta tímabilsins
+         - "expectedBooked"
+      7. Greiðsludreifing (Heildar balance á greisðludr. + kost og exp.vextir)
+         - Ekkert hérna
+      8. Vanskil
+         - Ekkert hérna
 
 Niðurstaðan er sú að bankarnir útnefni fólki í vinnuhóp 7. Hópurinn mun taka afstöðu til:
   - Hvernig staðið væri að viðhaldi og þróun

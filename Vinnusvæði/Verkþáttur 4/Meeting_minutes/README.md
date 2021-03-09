@@ -1,3 +1,46 @@
+# 2021-03-09 (Rekstur og viðhald)
+
+
+# 2021-03-09 (Kröfur)
+- Ógreiddir reikningar - Unpaid bills
+- Óþæginlegt að kröfur hverfa um leið og kröfur hafa verið greiddar.
+- Define Claim Scope - Skilgreina
+- Kröfuauðkenni -> vantar fá mögulegt til að fá lista af kröfuauðkennum ásamt ráðstöfureikning
+- "Innheimtuþjónustur" -> "Innheimtusniðmát (en. Claim template)"
+- Ekki verður stuðningur við að senda kröfuskrá sb. 3.25 CreateClaimsStream TS 162:2013
+- Endurgreiða kröfu +/- með kostnaði.
+- Aðgerðir
+  - Create
+  - ReCreate (Endurvekja)    
+  - Alter     
+  - Cancel    
+  - Query
+    - Claim -> hægt að sækja þrátt fyrir nýtt kröfuauðkenni 
+    - Allar breytingar á einhverju tímabili fyrir kröfueiganda sem skilar -> Claim transactions  
+    - Payments
+      - Greiðsla/greiðslur
+      - Ráðstöfun (Kröfuauðkenni, ráðstöfunarreikningur, reikningseigandi, tegund hlutar, kostnaðarliðir, upphæð)
+    - Claim transactions
+    - MarkClaimForSecondaryCollection
+  - SecondaryCollection* verða ræddar á næsta fundi  
+.
+
+# 2021-03-09 (Rafræn skjöl)
+- Greiðsluveitan
+  - Þjónusta til að skila skjalategundum? Í dag er þessi listi fastur listi
+    - Launaskrá (LS) (Launaseðill)
+    - Launamiði (LM)
+    - Lykilorð (PW)
+    - Greiðsluseðill
+    - Bankareikningur
+    - Viðskiptayfirlit ( Skv. SBS 2013 )
+  LS, LS, GS, RE, TS, TK, PW, LM, LM, YF, IP, RT, RM, RP, RR, GR, DV, SY,
+  FY, SF, BY, SE, SN, SL, KV, RV, LN, VY, VR, GK, TV, YV, VL, GT, KR, UN, LA
+  - "DesirablePeriodOfValidity" eða Æskilegur gildistimi -> Verður ekki tekið með.
+  - "PreviousVersion": "" #Ef previous svæðið er notað er fyrra skjal úrelt -> Verður ekki tekið með.
+
+
+
 # 2021-03-02 (Part 2)
 - Beiðni kom frá Íslandsbanka um að ræða eftirfarandi
   - Balance
@@ -61,20 +104,59 @@ Niðurstaðan er sú að bankarnir útnefni fólki í vinnuhóp 7. Hópurinn mun
   "Name": "Launaseðlar",
   "IDNumber": "kennitala sendanda",
   "DocumentType": "<documentType.Code>",
+  "EffectiveDate" : "",
   "Files": [
-    {
+    { 
       "Id" : "Einkvæmt skjalanúmer",
       "Name": "Laun fyrir Guðmund",
-      *"DesirablePeriodOfValidity": "", # Æskilegur gildistimi
       "IDNumber": "Kennitala viðtakanda",
       "FileType": "pdf | xml | ref", # Fastur listi af möguleikum
       "File": "Base64", (vs),
       "FileRef": "https://www.mbl.is/skjal/001.pdf",
-      "Reference": "Kröfunúmer eða eitthvað álíka",
-      *"PreviousVersion": "" #Ef previous svæðið er notað er fyrra skjal úrelt
+      "Reference": "1000-66-000001"
     },
   ]
 }
+
+<UploadDocument>
+  <Document>
+    <DocumentInfo>
+      <PersonID>4511972829</PersonID>
+      <DocumentType>PW</DocumentType>
+      <DocumentName>Test1.txt</DocumentName>
+    </DocumentInfo>
+    <File>SGVsbG8gd29ybGQ=</File>
+  </Document> 
+</UploadDocument>
+
+## Landsbanka útfærslan
+{
+  "entries": [
+    {
+      "Statement": {
+      "Acct": "4703013920BLAR4710080280",
+      "Date": "2018/08/23",
+      "User1": "4703013920",
+      "User3": "PDF",
+      "User4": "4703013920BLAR20180823000001",
+      "XKey": "000001"
+      },
+      "file": "skjal1.pdf"
+    },
+    {
+      "Statement": {
+        "Acct": "4703013920BLAR4710080280",
+        "Date": "2018/08/23",
+        "User1": "4703013920",
+        "User3": "PDF",
+        "User4": "4703013920BLAR20180823000002",
+        "XKey": "000002"
+      },
+      "file": "einhver_mappa/skjal2.pdf"
+    }
+  ]
+}
+
   
 ## Sækja skjalabunka eftir einkvæmu sendingarnúmeri
 

@@ -1,4 +1,53 @@
-# 2021-03-09 (Rekstur og viðhald)
+
+# 2021-03-16
+- Rafræn skjöl verða tekin fyrir á næsta fundi
+- Aðgerðir
+  - Create (1..n) (Ekki fyrir milliinnheimtu)
+    - Engin fjölda takmörk 
+  - ReCreate (Endurvekja)
+    - Það er hægt að endurvekja allar niðurfelldar kröfur. Í rauninni ný krafa í upphaflegri mynd
+      þ.e.a.s. allar upplýsingar.
+    - Við viljum hafa skýr skil með því að hafa ReCreate í staðinn fyrir að sameina í Alter.
+    - Cancellation date er max 4 ár frá gjalddaga. (Fyrningafrestur í kröfulögum er 4 ár?)
+    - Ef krafa er ekki til áður á að koma villa
+  - Alter
+    - Það er hægt að breyta öllum kröfum sem ekki hefur verið greitt inn á.
+  - Cancel
+    - Það er hægt að fella niður allar kröfur
+  - Query
+    - (Milliinnheimta)
+      - QuerySecondaryCollectionClaims
+      - QuerySecondaryCollectionPayments
+    - Þegar krafa sem er komin til milliinnheimtuaðila og er greidd/felld niður hverfur hún og er ekki aðgengileg lengri,
+      krafan þarf að vera sýnileg með einhverjum hætti.
+    - Hægt að frá kröfustöðu (t.d. er krafan greidd / ekki greidd) 
+    - Greiðslur
+      - Greiðsla/greiðslur       
+      (method: QueryClaimPayments)
+      - Ráðstöfun per kröfu (Kröfuauðkenni, ráðstöfunarreikningar, reikningseigendur, tegund hlutar, kostnaðarliðir, upphæð),
+        mögulega -> Ný aðgerð. - Bankarnir skoða.
+    - Claim transactions
+    - Allar breytingar á einhverju tímabili fyrir kröfueiganda sem skilar -> Claim transactions
+      fyrir kröfueiganda 0208714669 2021-01-01 - 2021-01-02  (jafnvel kröfu auðkenni) -> Claim history 
+      - Hægt að sækja x daga, mögulega ekki skilgreint í þessum staðli
+      - Ónáttúrulegar breytingar (Handvirkar breytingar)
+  - MarkClaimForSecondaryCollection (Ekki fyrir milliinnheimtu)
+  - SecondaryCollectionReturnClaim (Bara fyrir milliinnheimtu)  
+  - Kröfuauðkenni -> vantar fá mögulegt til að fá lista af kröfuauðkennum ásamt ráðstöfureikning. 
+    (Method: QueryClaimTemplates -> List, QueryClaimTemplate -> Detail)
+  - Ógreiddir reikningar/kröfur - Unpaid bills (Ekki fyrir milliinnheimtu)
+    - Listi af kröfum sem hafa verið skráðar á þig frá öðrum
+    - Hægt að sækja fyrir hönd annars aðila (greiðanda)
+    - Hægt að sjá hvort þetta sér skráð í sjálfvirka skuldfærslu  
+  - Out of scope (Mögulega)  
+    - Endurgreiða kröfu +/- með kostnaði. (Method: ClaimRepayment??)
+      - Er mögulegt að endurgreiða?
+      - Ef hægt er að endurgreiða (hvaða skilyrði þarf að uppfylla)
+      - Væri kannski hægt að nota reikningsupplýsingar hjá RSK til að nota sem default reikning
+      - Bankinn þarf að vita hvert greiðslan á að fara
+      - Hafa reference á upphaflega færslu
+      - Hægt að endurgreiða inn á kennitölu ef mögulegt er
+    
 
 
 # 2021-03-09 (Kröfur)
@@ -10,7 +59,8 @@
 - Ekki verður stuðningur við að senda kröfuskrá sb. 3.25 CreateClaimsStream TS 162:2013
 - Endurgreiða kröfu +/- með kostnaði.
 - Aðgerðir
-  - Create
+  - Create (1..n)
+    - Engin fjölda takmörk
   - ReCreate (Endurvekja)    
   - Alter     
   - Cancel    
@@ -23,7 +73,7 @@
     - Claim transactions
     - MarkClaimForSecondaryCollection
   - SecondaryCollection* verða ræddar á næsta fundi  
-.
+
 
 # 2021-03-09 (Rafræn skjöl)
 - Greiðsluveitan

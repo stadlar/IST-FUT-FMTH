@@ -33,7 +33,8 @@
   - Þegar krafa er greidd:
     - Claimkey -> Tilvísun á greiðslunni og hægt að sjá með því að fletta upp færslum reikningsins (RB skoðar)
     - Claimkey getur verið túlkað sem BBAN þar sem str(Claimant) + str(Account) + '+' + DueDate.(YYYYMMDD)
-    - 
+  - Ráðstöfun per kröfu (Kröfuauðkenni, ráðstöfunarreikningar, reikningseigendur, tegund hlutar, kostnaðarliðir, upphæð),
+    mögulega -> Ný aðgerð. - Bankarnir og RB skoða. 
   
 - Rafræn skjöl
   - Skjalategundir í ARK í dag

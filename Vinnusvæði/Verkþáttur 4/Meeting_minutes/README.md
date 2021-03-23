@@ -62,7 +62,10 @@
       "name": "<Nafn á liðnum>", 
       "changeable": "True | False"
     }]
-  - Varanlegur miðill. Það verður hægt að breyta ákveðnum skjali innan ákveðins tíma frá innsendingu
+  - Varanlegur miðill þýðir að ekki má vera hægt að breyta skjali. Það þýðir að skjöl sem eru tengd við  skjalategund 
+    sem er merkt sem "changeable": False eru geymd skv. skilgreiningu á varanlegum miðli.
+  - Það verður hægt að breyta ákveðnum skjali innan ákveðins tíma frá innsendingu ef skjalategund er merkt
+    sérstaklega sem "changeable": True.
 
 
 # 2021-03-16

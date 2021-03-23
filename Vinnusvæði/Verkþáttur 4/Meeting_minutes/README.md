@@ -1,4 +1,70 @@
 
+# 2021-03-23
+
+- Kröfur
+  - Atriði
+    - Ráðstöfun per kröfu verður tekið fyrir 6 eða 13 Apríl.
+  - Ný krafa (1..n) (Frum)
+    -  Claim
+      - Key (Claimant, Account, DueDate) -> GET: query /Claimant/Account/DueDate
+      - PayorID -> IDNumber
+      - CancellationDate -> MIN >= FinalDuedate; MAX DueDate + 4year
+      - Identifier -> 
+      - Amount -> DECIMAL(17, 2) => Min: 0,01; Max: MAX(DECIMAL(17, 2)) 
+      - Reference -> 16 stafir  
+      - BillNumber -> 7 stafir
+      - CustomerNumber -> IDNumber
+      - NoticeAndPaymentFee -> RENAME -> PaymentFee  
+        - Printing () -> Greiðslugjald
+        - Paperless () -> Beingreiðslugjald
+      - CurrencyInformation {Currency, DateRate, ReferenceRate}
+      - DefaultCharge -> Engin breyting
+      - DefaultInterest:
+        - SpecialCode -> Dráttarvaxtaregla
+      - Discount -> Vantar betri lýsingu 
+      - OtherCosts 
+      - OtherDefaultCosts
+    
+      - Næsti fundur:
+        - PermitOutOfSequencePayment
+        - IsPartialPaymentAllowed
+        - BillPresentmentSystem
+        - Printing
+  - Þegar krafa er greidd:
+    - Claimkey -> Tilvísun á greiðslunni og hægt að sjá með því að fletta upp færslum reikningsins (RB skoðar)
+    - Claimkey getur verið túlkað sem BBAN þar sem str(Claimant) + str(Account) + '+' + DueDate.(YYYYMMDD)
+    - 
+  
+- Rafræn skjöl
+  - Skjalategundir í ARK í dag
+    - Launaseðlar
+    - Launamiðar
+    - Reikningar
+    - Greiðsluseðlar
+    - Reikningsyfirlit
+    - Viðskiptayfirlit
+    - Kreditkort
+    - Greiðslutilkynning
+    - Greiðslukvittun
+    - Tilkynningar
+    - Lykilorð
+    - Vinnu- eða tímaskýrslur
+    - Vaxtanótur
+    - Skilagreinar
+    - IK-kröfur
+    - <jafnvel lengjast>
+  - Einkvæmt númer skjala er sent inn frá sendanda. ARK skilar svari fyrir þeim skjölum sem tókst ef ekkert svar kemur
+    fyrir skjal mun banki reikna með að skjalið hafi mistekist og svara þannig til innsendanda.
+  - Hægt er að senda inn Reference fyrir skjal
+  - Skjalategundir koma frá aðgerð, listinnn getur lengst
+    [{
+      "code": "<Stytting á liðnum>",
+      "name": "<Nafn á liðnum>", 
+      "changeable": "True | False"
+    }]
+  - Varanlegur miðill. Það verður hægt að breyta ákveðnum skjali innan ákveðins tíma frá innsendingu
+
+
 # 2021-03-16
 - Rafræn skjöl verða tekin fyrir á næsta fundi
 - Aðgerðir
@@ -155,10 +221,13 @@ Niðurstaðan er sú að bankarnir útnefni fólki í vinnuhóp 7. Hópurinn mun
   "IDNumber": "kennitala sendanda",
   "DocumentType": "<documentType.Code>",
   "EffectiveDate" : "",
+  *"DueDate"? Síðar
+  *"FinalDueDate"? Síðar
   "Files": [
     { 
       "Id" : "Einkvæmt skjalanúmer",
       "Name": "Laun fyrir Guðmund",
+      "Description": "<Nafn fyrirtækis, sendandi> - <Skjalategund>",
       "IDNumber": "Kennitala viðtakanda",
       "FileType": "pdf | xml | ref", # Fastur listi af möguleikum
       "File": "Base64", (vs),
@@ -221,6 +290,7 @@ Niðurstaðan er sú að bankarnir útnefni fólki í vinnuhóp 7. Hópurinn mun
       "Id": "Einkvæmt skjalanúmer",
       "Staða": "Útvinnslustaða",
       "Nafn": "Laun fyrir Guðmund",
+      "Description": "",
       "Kennitala": "Kennitala Guðmundar",
       "fileType": "pdf | xml | ref"
       "fileRef": "https://www.mbl.is/skjal/001.pdf",

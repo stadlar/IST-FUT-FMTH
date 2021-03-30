@@ -1,3 +1,53 @@
+# 2021-03-30
+- Næsti fundur verður haldinn 13. Apríl. Ekki er talin ástæða til að halda fund 6. Apríl.
+- Rýna Rafræn skjöl 13. Apríl.
+- Allir koma með tillögu að flokkum á "Claim" hvaða eigindi eiga 
+  saman. Koma með tillögu að hvernig krafa er uppfærð. Eigum við að setja lýsingar á reglum í staðalinn?
+- Má henda út "BillPresentmentSystem"?
+- Svæðið "Printing" ætti að heita jafnvel "*Details"?
+
+- Búa til röð til að "PermitOutOfSequencePayment" virki.
+  - Kröfurhafi,  Kröfunr.      Gjalddagi   Auðk.  Greiðandi
+  - 02081714669, xxxx66000009, 2021-01-01, 001 -> 5205161230
+  - 02081714669, xxxx66000009, 2021-02-01, 001 -> 5205161230
+
+
+- Class Claim 
+  + ClaimKey Key                                  óbreytanlegt
+  + string PayorID                                Óbreytanlegt?
+  + string Identifier                             Óbreytanlegt?
+  - Base:
+    + string Reference                            Óbreytanlegt?
+    + string CustomerNumber                       Óbreytanlegt?
+    + string BillNumber                           Óbreytanlegt? 
+    - CurrencyInformation CurrencyInformation     Óbreytanlegt?
+  - Presentment:
+    - BillPresentmentSystem BillPresentmentSystem Óbreytanlegt?
+    - Printing Printing                           Óbreytanlegt?
+  - DefaultRules:
+    - DefaultInterest DefaultInterest             Algengt
+    - DateRestrictedCharge DefaultCharge          Sjaldan
+  - PaymentRules:
+    - bool PermitOutOfSequencePayment             Sjaldan
+    - bool IsPartialPaymentAllowed                Algengt
+    - DiscountCharge Discount                     Sjaldan 
+  - Dates:
+    + System.DateTime FinalDueDate                Algengt 
+    + System.DateTime CancellationDate            Sjaldan
+  - Amounts:
+    - NoticeAndPaymentFee NoticeAndPaymentFee     Sjaldan
+    - decimal Amount                              Algengt
+    - decimal OtherCosts                          Algengt
+    - decimal OtherDefaultCosts                   Algengt
+
+
+  - 1.  9:00-9:30 Rafræn skjöl - TS 314 
+  - 2.  9:30-11:00 Innheimtukröfur - TS 315
+  - 3.  Önnur mál
+  - 4.  Næstu skref
+
+
+
 
 # 2021-03-23
 
@@ -15,8 +65,8 @@
       - BillNumber -> 7 stafir
       - CustomerNumber -> IDNumber
       - NoticeAndPaymentFee -> RENAME -> PaymentFee  
-        - Printing () -> Greiðslugjald
-        - Paperless () -> Beingreiðslugjald
+        - Printing (Payment Fee) -> Greiðslugjald
+        - Paperless (Direct Debit Fee) -> Beingreiðslugjald
       - CurrencyInformation {Currency, DateRate, ReferenceRate}
       - DefaultCharge -> Engin breyting
       - DefaultInterest:
@@ -24,12 +74,11 @@
       - Discount -> Vantar betri lýsingu 
       - OtherCosts 
       - OtherDefaultCosts
+      - PermitOutOfSequencePayment
+      - IsPartialPaymentAllowed
+      - BillPresentmentSystem
+      - Printing
     
-      - Næsti fundur:
-        - PermitOutOfSequencePayment
-        - IsPartialPaymentAllowed
-        - BillPresentmentSystem
-        - Printing
   - Þegar krafa er greidd:
     - Claimkey -> Tilvísun á greiðslunni og hægt að sjá með því að fletta upp færslum reikningsins (RB skoðar)
     - Claimkey getur verið túlkað sem BBAN þar sem str(Claimant) + str(Account) + '+' + DueDate.(YYYYMMDD)

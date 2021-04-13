@@ -1,3 +1,108 @@
+# 2021-04-13
+- Sundurliðun á kröfugreiðslum sem svar í kröfuþjónustu
+  - Verkefnið verður sent á viðhaldshópinn eftir að 1st útgáfa af kröfuþjónustunni verður gefinn út.
+- Hægt að fá lista af kröfu auðkennum og ráðstöfunarreikninga + textalykill + skuldfærslureikningsnúmer + uppbygging viðskiptanúmers (Fá öll detail)
+  (skoða skema validation https://rb.rb.is/display/B2BD/ClaimManagement.AlterClaim)
+  - [Bankar] viljum við líka skila sögu?
+- [Bankar] Þegar krafa er tekin af milliinnheimtuaðila hefur milliinnheimtuaðill enþá möguleika á að lesa stöðu kröfunnar. 
+  - Vandamálið er að krafa týnist
+- [Bankar] Þegar krafa er felld niður hefur milliinnheimtuaðill enþá möguleika á að lesa stöðu kröfunnar.
+  - Vandamálið er að krafa týnist
+- [Bankar] Á krafa að eiga umráðenda? Má kröfueigandi breyta kröfu þrátt fyrir að krafa sé komin í milliinnheimtu.
+- Skjala breytulýsingar
+  - Limit
+  - Mandatory, optional, conditional
+- Dráttarvaxtareglur ->
+- Aðgerðir
+  - Create (1..n) (Ekki fyrir milliinnheimtu)
+    - Engin fjölda takmörk 
+  - ReCreate (Endurvekja) 
+    - Það er hægt að endurvekja allar niðurfelldar kröfur. Í rauninni ný krafa í upphaflegri mynd
+      þ.e.a.s. allar upplýsingar.
+    - Við viljum hafa skýr skil með því að hafa ReCreate í staðinn fyrir að sameina í Alter.
+    - Cancellation date er max 4 ár frá gjalddaga. (Fyrningafrestur í kröfulögum er 4 ár?)
+    - Ef krafa er ekki til áður á að koma villa
+  - Alter
+    - Það er hægt að breyta öllum kröfum sem ekki hefur verið greitt inn á.
+  - Cancel
+    - Það er hægt að fella niður allar kröfur
+  - Query [Bankar]
+    - (Milliinnheimta)
+      - QuerySecondaryCollectionClaims
+      - QuerySecondaryCollectionPayments
+    - Þegar krafa sem er komin til milliinnheimtuaðila og er greidd/felld niður hverfur hún og er ekki aðgengileg lengri,
+      krafan þarf að vera sýnileg með einhverjum hætti.
+    - Hægt að frá kröfustöðu (t.d. er krafan greidd / ekki greidd) 
+    - Greiðslur
+      - Greiðsla/greiðslur       
+      (method: QueryClaimPayments)
+      - Ráðstöfun per kröfu (Kröfuauðkenni, ráðstöfunarreikningar, reikningseigendur, tegund hlutar, kostnaðarliðir, upphæð),
+        mögulega -> Ný aðgerð. - Bankarnir skoða.
+    - Claim transactions
+    - Allar breytingar á einhverju tímabili fyrir kröfueiganda sem skilar -> Claim transactions
+      fyrir kröfueiganda 0208714669 2021-01-01 - 2021-01-02  (jafnvel kröfu auðkenni) -> Claim history 
+      - Hægt að sækja x daga, mögulega ekki skilgreint í þessum staðli
+      - Ónáttúrulegar breytingar (Handvirkar breytingar)
+  - MarkClaimForSecondaryCollection (Ekki fyrir milliinnheimtu)
+  - SecondaryCollectionReturnClaim ([Banki] má þessi aðgerð vera fyrir alla?)  
+
+Kröfulykill
+  Eigandi   : 5205161230
+  Númer     : 0001-66-123456
+  Gjalddagi : 2021-04-15
+  
+
+- Kröfur
+  - Grunnupplýsingar (ekki hægt að breyta)
+    - Kt kröfuhafa
+    - Kt greiðanda
+    - Útibú - Hb - Kröfunúmer
+    - Gjalddagi
+  - Ítarupplýsingar
+    - niðurfellingardagur
+    - auðkenni
+    - uppphæð
+    - tilvísunarnúmer 
+    - eindagi
+    - Seðilnúmer
+    - Viðskiptanúmer
+    - Greiðslugjald
+    - Beingreiðslugjald
+    - Annar kostnaður 
+    - Annar vanskilakostnaður
+  - Reglur
+    - Greiðsluregla 
+    - Innborgunarregla 
+    - Vanskilaregla
+      - Tegund vanskilagjalds
+      - Vanskilagjald 1
+    - DagafjöldiVanskilagjald 2
+    - DagafjöldiDráttarvextaregla
+    - prósentavaxtastofnregla
+    - Afsláttarregla
+      - afsláttartegund
+      - afsláttur 1
+      - dagafjöldiafsláttur 2
+      - dagafjöldi 
+  - Minna notað
+    - tegund
+    - slóð
+    - detail hluti
+    - Gengistegund
+    - Mynt
+    - Gengisbanki
+    - Gengisregla  
+
+
+
+- Rafræn skjöl
+  - Guðmundur ætlar að laga
+    - "durableMedia" -> "durableMedium"
+    - Laga * merkingar
+    - Vantar filter fyrir skjalaleit
+  - [Bankar] taki afstöðu til viðhalds á xslt í gegnum document þjónustuna  
+
+
 # 2021-03-30
 - Næsti fundur verður haldinn 13. Apríl. Ekki er talin ástæða til að halda fund 6. Apríl.
 - Rýna Rafræn skjöl 13. Apríl.
@@ -123,7 +228,7 @@
 - Aðgerðir
   - Create (1..n) (Ekki fyrir milliinnheimtu)
     - Engin fjölda takmörk 
-  - ReCreate (Endurvekja)
+  - ReCreate (Endurvekja) (Ekki fyrir milliinnheimtu)
     - Það er hægt að endurvekja allar niðurfelldar kröfur. Í rauninni ný krafa í upphaflegri mynd
       þ.e.a.s. allar upplýsingar.
     - Við viljum hafa skýr skil með því að hafa ReCreate í staðinn fyrir að sameina í Alter.
@@ -283,7 +388,7 @@ Niðurstaðan er sú að bankarnir útnefni fólki í vinnuhóp 7. Hópurinn mun
       "Description": "<Nafn fyrirtækis, sendandi> - <Skjalategund>",
       "IDNumber": "Kennitala viðtakanda",
       "FileType": "pdf | xml | ref", # Fastur listi af möguleikum
-      "File": "Base64", (vs),
+      "File": "Base64",
       "FileRef": "https://www.mbl.is/skjal/001.pdf",
       "Reference": "1000-66-000001"
     },

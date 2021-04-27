@@ -1,3 +1,38 @@
+# 2021-04-27
+- "Á krafa að eiga umráðenda? Má kröfueigandi breyta kröfu þrátt fyrir að krafa sé komin í milliinnheimtu." ->
+  - Umráðandi kröfu er færður frá kröfuhafa yfir á milliinnheimtuaðila þegar milliinnheima er í gangi.
+- Þegar krafa hefur verið tekin af milliinnheimtuaðila, og milliinnheimtuaðili spyr um kröfuna þá væri svarið ->
+  "Krafa er ekki í þinni umsjá"
+- Krafa væri með "LastModified" og hægt væri að kalla eftir kröfum eftir "LastModified".
+  - Væri hægt að að fá allar breytingar og niðurfellingar sem hafa átt sér stað á mínum kröfum.
+- Hægt að fá lista af Kröfuauðkenni, ráðstöfunarreikningar, uppbygging tilvísunar (Uppbygging seðilnúmers)
+- [Bankar] Create (Listar, Stök) -> afgreiðslunúmer 
+- Þegar CreateClaims (Margar kröfur) eru stofnaðar væri hægt að senda inn external reference id
+- Þegar bunkaaðgerðir eru framkvædar þá væri tekið inn með "id" sem væri notað í samþykktarskrefi. Til að stofna kröfu(r)
+- Halldór (Landsbankanum) ætlar að teikna upp ferla við innsendingu á kröfu bunka
+- Business reglur fyrir fyrra, seinna vanskilagjald og afsláttur. Það þarf að skjala vel. 
+- Alter aðgerðinni væri kaflaskipt til að auðvelda að uppfæra hluta af kröfunni.
+
+- Frá Landsbankanum:
+  - Á krafa að eiga umráðanda?
+    - það er þegar þannig hjá Landsbankanum og hefur alltaf verið; þ.e. að umráðin færast frá kröfuhafa til MI, 
+      þannig afsalar kröfuhafi umráðum tímabundið til MI á meðan krafan er þar. Rökin byggja á trausti milli 
+      kröfuhafans og MI fyrirtækisins; að hafa skýrar leikreglur, og að minnka líkur á mistökum og misskilningi 
+      í daglegum rekstri.
+  - Á kröfuhafi að geta skilað kröfu til baka úr milliinnheimtu yfir í fruminnheimtu? Sumir bankar leyfa þetta í netbankanum.
+    - nei, með sömu rökum og að ofan
+  - Viljum við skila breytingasögu innheimtuþjónusta?
+    - nei, annars vegar eru stillingar á sniðmátum sem Lb hagnýtir ekki, og öfugt; sérhæfðar stillingar hjá 
+      Lb -> þess vegna er talið fýsilegra að bjóða þetta í native þjónustuöðru máli gegnir kannski um 
+      breytingasögu ráðstöfunarreikning oþh
+  - Viljum við að hægt sé að sækja lista af innheimtuþjónustum, þmt ráðstöfunarreikning, textalykil, skuldfærslureikning, 
+    uppbyggingu viðskiptanúmers (fá öll detail)
+    - nei, með sömu rökum og að ofan
+  - Sá sem hefur umráðaréttinn hverju sinni, á að geta séð stöðu kröfunnar hverju sinni.
+    - skiljanlegri fullyrðing: kröfuhafi getur fylgst nákvæmlega með kröfunni á meðan hún er hjá MI ... en 
+      MI fyrirtækið getur ekki fylgst með kröfunni án umráðaréttar þá stundina
+
+
 # 2021-04-13
 - Sundurliðun á kröfugreiðslum sem svar í kröfuþjónustu
   - Verkefnið verður sent á viðhaldshópinn eftir að 1st útgáfa af kröfuþjónustunni verður gefinn út.

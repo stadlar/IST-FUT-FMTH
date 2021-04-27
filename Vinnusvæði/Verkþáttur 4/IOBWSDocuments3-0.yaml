@@ -220,7 +220,6 @@ paths:
       operationId: uploadDocument
       tags:
         - Document Services
-        - Common Services
       security:
         - {}
         - BearerAuthOAuth: []
@@ -463,9 +462,11 @@ components:
     batchIdNumber:
       name: batchIdNumber
       in: query
-      description: Kennitala
+      description: |
+        Kennitala
       required: true
       type: string
+      minLength: 10
       maxLenght: 10
 
     fileIdNumber:
@@ -474,9 +475,8 @@ components:
       description: |
         Kennitala
       required: false
-      schema:
-        type: string
-        maxLenght: 10
+      type: string
+      maxLenght: 10
 
     documentTypeCode:
       name: documentTypeCode
@@ -484,9 +484,8 @@ components:
       description: |
         Document Type Code
       required: false
-      schema:
-        type: string
-        maxLenght: 10
+      type: string
+      maxLenght: 10
 
     status:
       name: status

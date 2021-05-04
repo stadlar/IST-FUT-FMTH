@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: IOBWS 3.0 Domestic Documents
+  title: IOBWS 3.0 Documents
   version: "3.0"
   description: |
     #Summary
@@ -16,12 +16,6 @@ info:
   contact:
     name: Stadlarad Islands
     url: https://www.stadlar.is
-    email: openbanking@stadlar.is
-
-
-servers:
-  - url: https://docs.openbanking.is
-    description: Document server
 
 paths:
 
@@ -1640,7 +1634,6 @@ components:
           "code": "ACCESS_EXCEEDED",
           "text": "additional text information of the ASPSP up to 500 characters"
         }]
-
 
   requestBodies:
     #####################################################

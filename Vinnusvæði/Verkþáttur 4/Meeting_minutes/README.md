@@ -1,3 +1,52 @@
+
+# 2021-05-04
+
+- QuerySecondaryCollectionClaims
+  - Er hægt að fá fyrri identifier (t.d Krafa frum "037" -> Krafa milli "MI1") [Bankar-2]
+
+- Dráttarvaxtareglur -> Mætti skoða hvort dráttarvaxtarreglur væru framsettar með öðrum hætti en í dag. [Bankar-2]
+
+- GET: [Bankar-1]
+  - 500.000 kröfur hafa verið stofnaðar:
+    - a) Foreach
+    - b) Where X ...
+    - Hugsanlega bara stofnbreytingar og niðurfellingar.
+    
+  - Krafa væri með "LastModified" og hægt væri að kalla eftir kröfum eftir "LastModified".
+    - Væri hægt að að fá allar breytingar og niðurfellingar sem hafa átt sér stað á mínum kröfum. 
+
+- Listar og/eða stök: [Bankar-1]
+  - Stak -> Aðgerð framkvæmd
+  - Listi -> Afgreiðslunúmer -> Sækja stöðu (GetClaimOperationResult)
+    - Afgr.númer (X-Request-ID)
+      - Afgreiðslur
+  - Listar:  
+    - Method::Create/Alter/Cancel/ReturnClaim -> Afgreiðslunúmer (Og eða villum) -> Method::Confirm -> Method::GetStatus
+      - Method::Confirm: Villa ef bunki er ekki til
+  - Stakar:  
+    - Method::Create/Alter/Cancel/ReturnClaim -> Status
+
+- Fyrir mánudaginn 10. maí klukkan 16:00
+  - [Bankar-0] Allir bankar tilnefna einn eða fleiri aðila til að lesa yfir word skjal
+    - Landsbankinn : Halldór
+    - Arion banki: Atli
+    - Íslandsbanki: Snorri
+    - Greiðsluveitan: Ólafur
+  - [Bankar-0] Allir bankar tilnefna einn eða fleiri aðila til að lesa yfir yaml skjal
+    - Landsbankinn : Halldór
+    - Arion banki: Atli
+    - Íslandsbanki: Snorri
+    - Greiðsluveitan: Ólafur
+  - Hvað á document service yaml skjalið að heita? [Allir]
+  - Við yfirferð skjala má senda spurningar við
+  
+Dagskrá
+  1.  9:00-10:00 Rafræn skjöl - TS 314 og yamls  (á GitHub<Vinnusvæði/Verkþáttur%204/IOBWSDocuments3-0.yaml>)
+  2.  10:00-11:00 Innheimtukröfur - TS 315
+  3.  Önnur mál
+  4.  Næstu skref
+
+
 # 2021-04-27
 - "Á krafa að eiga umráðenda? Má kröfueigandi breyta kröfu þrátt fyrir að krafa sé komin í milliinnheimtu." ->
   - Umráðandi kröfu er færður frá kröfuhafa yfir á milliinnheimtuaðila þegar milliinnheima er í gangi.

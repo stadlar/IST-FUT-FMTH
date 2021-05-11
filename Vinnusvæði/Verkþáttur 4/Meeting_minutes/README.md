@@ -1,3 +1,26 @@
+# 2021-05-11
+- Athugasemdir í rafrænunskjölum
+  - idNumber -> Kennitala
+  - GET /v1/documents/{document-id} -> GET /v1/documents/{documents-id}
+  - OK lýsing er ekki nægjanleg
+  - Taka út PSD2 vísanir, TPP
+- Almenn athugasemd  
+  - Búa til dæmasvæði (Examples) á GITHUB fyrir hverja tækniforskrift
+  - Notum "receiver" í staðinn fyrir "owner". Hver á að taka á móti skjali.
+  
+- Nafnareglur
+  - IOBWS3.0-Claims.yaml
+  - IOBWS3.1-Claims.yaml
+  - IOBWS3.2-Claims.yaml
+  - IOBWS3.0-Documents.yaml
+  - IOBWS3.1-Documents.yaml
+  
+- hvað þýðir cancellation date?
+  - Hvenær krafan var felld niður.
+  
+- ExpireDate væri þæginlegt að hafa inni
+- Kröfur; Listar og/eða stök: Stuðningur verður við bæði.
+
 
 # 2021-05-04
 
@@ -134,7 +157,6 @@ Kröfulykill
   Eigandi   : 5205161230
   Númer     : 0001-66-123456
   Gjalddagi : 2021-04-15
-  
 
 - Kröfur
   - Grunnupplýsingar (ekki hægt að breyta)

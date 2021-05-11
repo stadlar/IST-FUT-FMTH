@@ -23,7 +23,7 @@ paths:
   # Document Service
   #####################################################
 
-  /v1/documents/{document-id}:
+  /v1/documents/{documents-id}:
 
     get:
       summary: Get single document batch
@@ -163,8 +163,8 @@ paths:
       parameters:
         #path # NO PATH PARAMETERS
         #query
-        - $ref: "#/components/parameters/batchIdNumber"
-        - $ref: "#/components/parameters/fileIdNumber"
+        - $ref: "#/components/parameters/senderKennitala"
+        - $ref: "#/components/parameters/receiverKennitala"
         - $ref: "#/components/parameters/documentTypeCode"
         - $ref: "#/components/parameters/status"
         - $ref: "#/components/parameters/dateFrom"
@@ -226,7 +226,7 @@ paths:
         #header to support the signature function
         - $ref: "#/components/parameters/Digest"
         - $ref: "#/components/parameters/Signature"
-        - $ref: "#/components/parameters/TPP-Signature-Certificate"
+        - $ref: "#/components/parameters/Signature-Certificate"
         #mandatory header parameter
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
@@ -379,15 +379,11 @@ components:
       schema:
         type: string
       required: false # conditional
-      example: >
-        keyId="SN=9FA1,CA=CN=D-TRUST%20CA%202-1%202015,O=D-Trust%20GmbH,C=DE",algorithm="rsa-sha256",
-        headers="Digest X-Request-ID PSU-ID TPP-Redirect-URI Date",
-        signature="Base64(RSA-SHA256(signing string))"
 
 
 
-    TPP-Signature-Certificate:
-      name: TPP-Signature-Certificate
+    Signature-Certificate:
+      name: Signature-Certificate
       in: header
       description: |
         The certificate used for signing the request, in base64 encoding.
@@ -408,8 +404,8 @@ components:
       required: false
       example: 192.168.8.78
 
-    documentId:
-      name: document-id
+    documentsId:
+      name: documents-id
       in: path
       description: |
         Document id in path
@@ -453,8 +449,8 @@ components:
         type: string
         format: date
 
-    batchIdNumber:
-      name: batchIdNumber
+    senderKennitala:
+      name: senderKennitala
       in: query
       description: |
         Kennitala
@@ -463,8 +459,8 @@ components:
       minLength: 10
       maxLenght: 10
 
-    fileIdNumber:
-      name: fileIdNumber
+    receiverKennitala:
+      name: receiverKennitala
       in: query
       description: |
         Kennitala
@@ -634,7 +630,7 @@ components:
       required:
         - id
         - name
-        - idNumber
+        - kennitala
         - fileType
       properties:
         id:
@@ -651,7 +647,7 @@ components:
             The file description usually in this format: "<Company name as sender> - <Document type>"
           type: string
           maxLength: 140
-        idNumber:
+        kennitala:
           description: |
             The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
           type: string
@@ -683,7 +679,7 @@ components:
       required:
         - id
         - name
-        - idNumber
+        - kennitala
         - documentTypeCode
         - files
       properties:
@@ -701,7 +697,7 @@ components:
             The file description usually in this format: "<Company name as sender> - <Document type>"
           type: string
           maxLength: 140
-        idNumber:
+        kennitala:
           description: |
             The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
           type: string
@@ -750,7 +746,7 @@ components:
       required:
         - id
         - name
-        - idNumber
+        - kennitala
         - status
       properties:
         id:
@@ -767,7 +763,7 @@ components:
             The file description usually in this format: "<Company name as sender> - <Document type>"
           type: string
           maxLength: 140
-        idNumber:
+        kennitala:
           description: |
             The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
           type: string
@@ -793,7 +789,7 @@ components:
       required:
         - id
         - name
-        - idNumber
+        - kennitala
         - documentTypeCode
         - files
       properties:
@@ -810,7 +806,7 @@ components:
             The file description usually in this format: "<Company name as sender> - <Document type>"
           type: string
           maxLength: 140
-        idNumber:
+        kennitala:
           description: |
             The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
           type: string
@@ -845,11 +841,11 @@ components:
       maxLength: 36
 
     #####################################################
-    # Standard TPP-messages
+    # Standard messages
     #####################################################
 
-    tppMessageCategory:
-      description: Category of the TPP message category.
+    messageCategory:
+      description: Category of the message category.
       type: string
       enum:
         - "ERROR"
@@ -939,155 +935,155 @@ components:
         - "ACCESS_EXCEEDED"           #AIS
 
     #####################################################
-    # Proprietary TPP-messages
+    # Proprietary messages
     #####################################################
 
-    tppMessageText:
-      description: Additional explaining text to the TPP.
+    messageText:
+      description: Additional explaining text.
       type: string
       maxLength: 500
 
-    tppMessage2XX:
+    message2XX:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode2XX"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    tppMessage400:
+    message400:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode400"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    tppMessage401:
+    message401:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode401"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    tppMessage403:
+    message403:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode403"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    tppMessage404:
+    message404:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode404"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    tppMessage405:
+    message405:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode405"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    tppMessage406:
+    message406:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode406"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    tppMessage409:
+    message409:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode409"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    tppMessage429:
+    message429:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode429"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/messageText"
 
 
     #####################################################
     # RFC7807 Messages
     #####################################################
 
-    tppErrorTitle:
+    errorTitle:
       description: |
         Short human readable description of error type.
         Could be in local language.
@@ -1095,7 +1091,7 @@ components:
       type: string
       maxLength: 70
 
-    tppErrorDetail:
+    errorDetail:
       description: |
         Detailed human readable text specific to this instance of the error.
         XPath might be used to point to the issue generating the error in addition.
@@ -1151,9 +1147,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode400"
         _links:
@@ -1203,9 +1199,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode401"
         _links:
@@ -1255,9 +1251,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode403"
         _links:
@@ -1308,9 +1304,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode404"
         _links:
@@ -1361,9 +1357,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode405"
         _links:
@@ -1413,9 +1409,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode406"
         _links:
@@ -1465,9 +1461,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode409"
         _links:
@@ -1519,9 +1515,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode429"
         _links:
@@ -1532,10 +1528,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 400.
       type: object
       properties:
-        tppMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage400"
+            $ref: "#/components/schemas/message400"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1544,10 +1540,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        tppMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage401"
+            $ref: "#/components/schemas/message401"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1556,10 +1552,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 403.
       type: object
       properties:
-        tppMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage403"
+            $ref: "#/components/schemas/message403"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1568,10 +1564,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 404.
       type: object
       properties:
-        tppMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage404"
+            $ref: "#/components/schemas/message404"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1580,10 +1576,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        tppMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage405"
+            $ref: "#/components/schemas/message405"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1592,10 +1588,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 406.
       type: object
       properties:
-        tppMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage406"
+            $ref: "#/components/schemas/message406"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1604,10 +1600,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 409.
       type: object
       properties:
-        tppMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage409"
+            $ref: "#/components/schemas/message409"
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
@@ -1622,10 +1618,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 429.
       type: object
       properties:
-        tppMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage429"
+            $ref: "#/components/schemas/message429"
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:

@@ -39,6 +39,13 @@ LegalCollectionIdentifier = LH[0-9A-Z]{1} -> Kröfu er læst?
 - QuerySecondaryCollectionClaims
   - Er hægt að fá fyrri identifier (t.d Krafa frum "037" -> Krafa milli "MI1") [Bankar-2]    
 
+- Nafnareglur
+  - IOBWS-Claims3.0.yaml
+  - IOBWS-Claims3.1.yaml
+  - IOBWS-Claims3.2.yaml
+  - IOBWS-Documents3.0.yaml
+  - IOBWS-Documents3.1.yaml
+
 
 # 2021-05-11
 - Athugasemdir í rafrænunskjölum
@@ -51,11 +58,11 @@ LegalCollectionIdentifier = LH[0-9A-Z]{1} -> Kröfu er læst?
   - Notum "receiver" í staðinn fyrir "owner". Hver á að taka á móti skjali.
   
 - Nafnareglur
-  - IOBWS-Claims3.0.yaml
-  - IOBWS-Claims3.1.yaml
-  - IOBWS-Claims3.2.yaml
-  - IOBWS-Documents3.0.yaml
-  - IOBWS-Documents3.1.yaml
+  - IOBWS3.0-Claims.yaml
+  - IOBWS3.1-Claims.yaml
+  - IOBWS3.2-Claims.yaml
+  - IOBWS3.0-Documents.yaml
+  - IOBWS3.1-Documents.yaml
   
 - hvað þýðir cancellation date?
   - Hvenær krafan var felld niður.

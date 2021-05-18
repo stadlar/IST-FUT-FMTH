@@ -1,3 +1,45 @@
+# 2021-05-18
+- Hvað þýðir cancellation date?
+  - Er dagurinn sem krafan á að falla niður ef ekki er greitt, venjulega 4 ár.
+  - Ef krafa er niðurfelld munu bankarnir uppfæra CancellationDate til samræmis.
+    [GJH] Setja þessa Lýsingu í yaml skjalið fyrir svæðið.
+- Claim history
+  - 1. Krafa er búin til, auðkenni = 001
+  - 2. Krafa er færð á milli fruminnheimtu auðkenni, Identifier = 002
+  - 3. Krafa fer í milliinnheimtu, Identifier = 002, SecondaryCollectionIdentifier = MI1
+  - 4. Krafa er færð á milli í milliinnheimtu, Identifier = 002, SecondaryCollectionIdentifier = MI2
+- [Allir] Hægt að læsa kröfur, vegna greiðslusamkomulags (hugsanlega vegna greiðslustöðvun)
+  - Krafan er sýnileg, en ekki hægt að greiðsla að fullu eða að hluta.
+  - Væri mögulegt að setja inn texta til að útskýra þegar krafa er læst fyrir greiðslu?  
+  - Krafa er með svæðið "ClaimStatus", væri mögulegt að bæta við stöðunni "UnpaidLocked",
+    claim:
+      IsPaymentAllowed: Boolean
+    
+- [Bankar] Hversu mikið er "Printing" notað?    
+  <Printing>                                0..1 
+    <ClaimantAddress>...</ClaimantAddress>  0..1
+    <PayorAddress>...</PayorAddress>        0..1
+    <ItemRows>...</ItemRows>                0..20
+    <Comments>...</Comments>                0..5
+  </Printing>
+  
+- [Bankar] Hversu mikið er "BillPresentmentSystem" notað?
+  <BillPresentmentSystem>                   0..1
+    <Type>A</Type> þar sem A er Document og T er Texti 
+    <Parameters>Kennitala=0909793029</Parameters> (200 stafir)
+  </BillPresentmentSystem>
+
+LegalCollectionIdentifier = LH[0-9A-Z]{1} -> Kröfu er læst?
+- Arion notar ekki "LegalCollectionIdentifier" 
+
+- [Allir] Hvað á að byrta mikið af gögnum/svæðum fyrir ClaimTemplate bæði listi og stök?
+  - Listi: Claimant, Útibú, ...
+  - Stak: 
+
+- QuerySecondaryCollectionClaims
+  - Er hægt að fá fyrri identifier (t.d Krafa frum "037" -> Krafa milli "MI1") [Bankar-2]    
+
+
 # 2021-05-11
 - Athugasemdir í rafrænunskjölum
   - idNumber -> Kennitala
@@ -9,11 +51,11 @@
   - Notum "receiver" í staðinn fyrir "owner". Hver á að taka á móti skjali.
   
 - Nafnareglur
-  - IOBWS3.0-Claims.yaml
-  - IOBWS3.1-Claims.yaml
-  - IOBWS3.2-Claims.yaml
-  - IOBWS3.0-Documents.yaml
-  - IOBWS3.1-Documents.yaml
+  - IOBWS-Claims3.0.yaml
+  - IOBWS-Claims3.1.yaml
+  - IOBWS-Claims3.2.yaml
+  - IOBWS-Documents3.0.yaml
+  - IOBWS-Documents3.1.yaml
   
 - hvað þýðir cancellation date?
   - Hvenær krafan var felld niður.
@@ -166,9 +208,9 @@ Kröfulykill
     - Gjalddagi
   - Ítarupplýsingar
     - niðurfellingardagur
-    - auðkenni
-    - uppphæð
-    - tilvísunarnúmer 
+    - auðkenni *
+    - uppphæð *
+    - tilvísunarnúmer *
     - eindagi
     - Seðilnúmer
     - Viðskiptanúmer

@@ -1,3 +1,155 @@
+# 2021-05-25
+- Það kom fyrirspurn varðandi geymslu á skjölum að mögulegt væri vista í aðrar geymslur. Upphafsaðili sendir issue á 
+  github svæði verkefnisins þar sem viðhaldshópurinn tekur málið fyrir.
+- [Bankar] yfirlestur
+    claimTemplateDetails:
+      description: |
+        Card template details.
+      type: object
+      required:
+        - identifier
+        - disposableAccountNo
+        - lastChangeDateTime
+      properties:
+        key:
+          $ref: "#/components/schemas/claimTemplateKey"
+        collectionType:
+          type: string
+          enum:
+            - "PrimaryCollection"
+            - "SecondaryCollection"
+            - "LegalCollection"
+        category:
+          $ref: "#/components/schemas/claimTemplateCategory"
+        ClaimantStatementExtendedReferenceType
+          -- Segir til um hvaða gildi birtist í skýringarsvæði tilvísunar á reikningsyfirliti kröfuhafa. --
+          [ReferenceNumber] - 12 fyrstu stafir tilvísunarnúmers.
+          [CustomerNumber] - 12 fyrstu stafir viðskiptanúmers.
+          [ClaimId] - Banki, höfuðbók og númer kröfunnar.
+          [PayorId] - Kennitala greiðanda á kröfunni.
+          [DueDate] - Gjalddagi kröfunnar.
+        ClaimantStatementReferenceType
+          -- Segir til um hvaða gildi birtist í tilvísunarsvæði á reikningsyfirliti kröfuhafa. --
+          [DueDate] - Gjalddagi kröfunnar.
+          [BillNumber] - Seðilnúmer kröfunnar.
+          [ClaimNumber] - Númer kröfunnar.
+        PayorStatementExtendedReferenceType
+          -- Segir til um hvaða gildi birtist í skýringarsvæði tilvísunar á reikningsyfirliti greiðanda. --
+          [ClaimantId] - Kennitala kröfuhafa.
+          [ReferenceNumber] - 12 fyrstu stafir tilvísunarnúmers.
+          [CustomerNumber] - 12 fyrstu stafir viðskiptanúmers.
+          [ClaimId] - Banki, höfuðbók og númer kröfunnar.
+          [PayorId] - Kennitala greiðanda á kröfunni.
+          [DueDate] - Gjalddagi kröfunnar.
+        CustomerNumberTemplate (Optional type at:CustomerNumber [xs:string, maxLength: 16, pattern: .{0,16}])
+          -- Segir til um það hvernig sniðmát viðskiptanúmers er uppbyggt fyrir kröfusniðmátið. --
+        #FreeText (Optional type at:FreeText60 [xs:string, maxLength: 60, pattern: .{0,60}])
+        #  -- Frjálst textasvæði fyrir kröfuhafa. --
+        NumberOfDepositingAccounts (Required type xs:int)
+          -- Segir til um fjölda aukaráðstöfunarreikninga sniðmáts. --
+        #IsCapitalIncomeTax (Required type xs:boolean)
+        #  -- Segir til um hvort reikna skuli fjármagnstekjuskatt af kröfuhafa. --
+        DepositingAccount (Required type at:DepositingAccountInfo)
+          -- Upplýsingar um aðalráðstöfunarreikning. --
+          Id (Required type ct:AccountID [xs:string, pattern: [0-9]{12}]) - Auðkenni reiknings samanstendur af útibúsnúmeri, höfuðbókarnúmeri og reikningsnúmeri.
+          OwnerId (Required type ct:PersonID [xs:string, pattern: [0-9]{10}]) - Kennitala eiganda reiknings.
+        #  OwnerName (Optional type xs:string) - Nafn eiganda reiknings.
+          ErrorText (Optional type [xs:string, maxLength: 100, pattern: .{0,100}]) - Villuskilaboð fyrir ráðstöfunarreikning sem kom fram við seinustu vikulegu villuleit kröfusniða.
+        #  LatestClaimDate (Optional type xs:dateTime) - Tímastimpill nýjustu kröfu viðkomandi kröfusniðmáts.
+          SecondaryCollectorName (Optional type xs:string) - Nafn milliinnheimtuaðila.
+        secondaryCollectionClaimTemplateCode:
+          description: |
+            Auðkenni milliinnheimtukröfusniðmáts sem kröfur í vanskilum færast yfir á.
+          type: string
+          pattern: "[0-9A-Za-z]{3}"
+          example: "MI1"
+        minimumCollectionAmount:
+          description: |
+            Segir til hver lágmarksupphæð á kröfu þarf að vera til að sent verði innheimtubréf og krafa send í milliinheimtu.
+          $ref: "#/components/schemas/amountValue"
+        WithdrawalAccountId (Optional type ct:AccountID [xs:string, pattern: [0-9]{12}])
+          --  Skuldfærslureikningur sem notaður er til að greiða kostnað kröfuhafa til bankans fyrir þetta sniðmát. --
+        #ExternalDataStorage (Optional type at:ExternalDataStorage)
+        # --Segir til um hvort skjöl séu vistuð í rafrænu kerfi hjá ytri aðila. --
+        IsBill (Required type xs:boolean)
+          --Segir til um hvort greiðsluseðill sé vistaður í rafrænu kerfi hjá ytri aðila. --
+        IsLetter (Required type xs:boolean)
+          -- Segir til um hvort innheimtubréf er vistað í rafrænu kerfi hjá ytri aðila. --
+        PrintingLocation (Optional type at:PrintingLocation)
+          -- Einkvæmt númer prentstaðar fyrir greiðsluseðla. Ekki skilað ef RB útbýr ekki greiðsluseðla. --
+          Id (Required type xs:int) - Einkvæmt númer prentstaðar.
+          Name (Required type xs:string) - Nafn prentstaðar.
+        #  Description (Optional type xs:string) - Lýsing prentstaðar.
+        #UnpaidClaimCount (Required type xs:int)
+        #  -- Fjöldi ógreiddra krafna sem kröfusniðmát á. --
+        AdditionalDepositingAccounts (Optional type at:AdditionalDepositCollection)
+          -- Aukaráðstöfunarreikningar. Notaðir til að ráðstafa gjöldum, kostnaði eða hluta af greiðslu kröfunnar. Geta mest verið 98 reikningar fyrir hvert auðkenni. --
+          AdditionalDepositingAccount (Required Max: 98 type at:AdditionalDepositInfo)
+            -- Upplýsingar um tiltekinn aukaráðstöfunarreikning. --
+            Id (Required type ct:AccountID [xs:string, pattern: [0-9]{12}])
+              -- Auðkenni reiknings samanstendur af útibúsnúmeri, höfuðbókarnúmeri og reikningsnúmeri.
+            OwnerId (Required type ct:PersonID [xs:string, pattern: [0-9]{10}])
+              -- Kennitala eiganda reiknings. --
+        #    OwnerName (Optional type xs:string)
+        #      -- Nafn eiganda reiknings. --
+            ErrorText (Optional type [xs:string, maxLength: 100, pattern: .{0,100}])
+              -- Villuskilaboð frá runuvinnslu um reikning kröfuhafa. --
+            Type (Required type at:AdditionalDepositingAccountType [xs:string])
+              -- Heiti á tegund ráðstöfunar. --
+              [DefaultInterest] - Dráttarvextir.
+              [DefaultCharge] - Vanskilagjald.
+              [OtherDefaultCost] - Annar vanskilakostnaður.
+              [AllDefaultCharge] - Vanskilagjald og annar vanskilakostnaður.
+              [OtherCost] - Annar kostnaður.
+              [NoticeAndPaymentFee] - Tilkynningargjald.
+              [AllCost] - Allur kostnaður og gjöld sem leggjast á kröfuna.
+              [FixedAmount] - Föst upphæð er tekin af upphæð greiðslunnar og lögð inn á ráðstöfunarreikning.
+              [Percentage] - Prósenta af upphæð greiðslunnar lögð inn á ráðstöfunarreikning.
+              [PrincipalDetail] - Upphæðarliður af höfuðstól greiðslunnar lagður inn á ráðstöfunarreikning.
+            Code (Required type at:DepositingAccountCode [xs:string, minLength: 4, maxLength: 4])
+              -- Auðkenni ráðstöfunar. --
+            Priority (Required type xs:int)
+              -- Forgangur segir til um hvaða hlutar af greiðslu til kröfuhafa eiga að ráðstafast fyrst. --
+        #    Description (Optional type at:Text100 [xs:string, maxLength: 100, pattern: .{0,100}])
+        #      -- Frjálst textasvæði, hámark 100 stafir. --
+            Choice Velja þarf milli eftirfarandi 2 eininga:
+              Amount
+              Percentage
+        IsActive: boolean?
+
+- QuerySecondaryCollectionClaims
+  - Er hægt að fá fyrri identifier (t.d Krafa frum "037" -> Krafa milli "MI1") - Já
+
+- Hversu mikið er "BillPresentmentSystem" viljum nota. Þarf að skjala vel.
+  <BillPresentmentSystem>                   0..1
+    <Type>A</Type> þar sem A er Document og T er Texti 
+    <Parameters>Kennitala=0909793029</Parameters> (200 stafir)
+  </BillPresentmentSystem>
+  Type = T/Text, Parameters = Textalína sem verður sýnilegt í ógreiddir reikningar 
+  
+- Hversu mikið er "Printing" notað: Mikið notað. Þarf að skjala vel.
+  <Printing>                                0..1 
+    <ClaimantAddress>...</ClaimantAddress>  0..1
+    <PayorAddress>...</PayorAddress>        0..1
+    <ItemRows>...</ItemRows>                0..20
+    <Comments>...</Comments>                0..5
+  </Printing>
+  
+- Ef í innsenda skeytinu er sett cancellation date=18.5.2021 og status=unpaid; 
+  þá birtist listi sem sýnir kröfur með forskilgreindan niðurfellingardag þann 18.05.2021
+- Ef í innsenda skeytinu er sett cancellation date=18.5.2021 og status=cancelled; 
+  þá birtist listi sem sýnir sem voru handvirkt niðurfelldar þann 18.05.2021
+
+  (Óskastaðan væri samt sú, að við hefðum annars vegar cancellation date og 
+  hins vegar expiry date. Það er verkefni sem RB fær til sín.)
+
+- Notum "ClosingDate" sem segir hvenær krafa er ekki lengur virk, á kröfur (GET)
+  
+- Ekki má stofna kröfur sem er ósýnileg greiðanda
+
+- Bæta við svæðinu "IsPaymentAllowed" á kröfu
+
+
 # 2021-05-18
 - Hvað þýðir cancellation date?
   - Er dagurinn sem krafan á að falla niður ef ekki er greitt, venjulega 4 ár.

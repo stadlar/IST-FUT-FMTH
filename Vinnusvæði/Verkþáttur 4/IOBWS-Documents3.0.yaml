@@ -23,7 +23,7 @@ paths:
   # Document Service
   #####################################################
 
-  /v1/documents/{documents-id}:
+  /v1/documents/{documentStoreLocation}/{documents-id}:
 
     get:
       summary: Get single document batch
@@ -147,7 +147,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents:
+  /v1/documents/{documentStoreLocation}:
 
     get:
       summary: Query already uploaded document batch
@@ -182,7 +182,7 @@ paths:
 
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_DocumentBatchWithStatusDetails"
+          $ref: "#/components/responses/OK_200_DocumentBatchListWithStatusDetails"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -679,7 +679,7 @@ components:
       required:
         - id
         - name
-        - kennitala
+        - senderKennitala
         - documentTypeCode
         - files
       properties:
@@ -697,9 +697,9 @@ components:
             The file description usually in this format: "<Company name as sender> - <Document type>"
           type: string
           maxLength: 140
-        kennitala:
+        senderKennitala:
           description: |
-            The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
+            The ID Number of the sender of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
           type: string
           maxLength: 10
         documentTypeCode:
@@ -763,7 +763,7 @@ components:
             The file description usually in this format: "<Company name as sender> - <Document type>"
           type: string
           maxLength: 140
-        kennitala:
+        receiverKennitala:
           description: |
             The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
           type: string
@@ -806,9 +806,9 @@ components:
             The file description usually in this format: "<Company name as sender> - <Document type>"
           type: string
           maxLength: 140
-        kennitala:
+        senderKennitala:
           description: |
-            The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
+            The ID Number of the sender of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
           type: string
           maxLength: 10
         documentTypeCode:
@@ -1674,6 +1674,16 @@ components:
     #####################################################
     # Positive Responses
     #####################################################
+
+    OK_200_DocumentBatchListWithStatusDetails:
+      description: Get document batch details
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/documentBatchWithStatusList"
 
     OK_200_DocumentBatchWithStatusDetails:
       description: Get document batch details

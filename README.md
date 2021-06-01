@@ -3,7 +3,7 @@
 [![Issues](https://img.shields.io/github/issues/stadlar/IST-FUT-FMTH?v_DATE)](https://github.com/stadlar/IST-FUT-FMTH/issues?q=is%3Aissue+is%3Aopen)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/Stadlar/IST-FUT-FMTH?v_DATE)](https://github.com/stadlar/IST-FUT-FMTH/pulls?q=is%3Apr+is%3Aopen)
 [![Contributors](https://img.shields.io/github/contributors/stadlar/IST-FUT-FMTH?v_DATE)](https://github.com/stadlar/IST-FUT-FMTH/graphs/contributors)
-[![Creative Commons Attribution 4.0 International Public License](https://img.shields.io/badge/license-CCBY4.0-brightgreen)](https://github.com/stadlar/IST-FUT-FMTH/blob/master/LICENSE.md)
+[![Creative Commons Attribution 4.0 International Public License](https://img.shields.io/badge/license-CCBY4.0-brightgreen)](https://github.com/stadlar/IST-FUT-FMTH/blob/master/LICENSE.txt)
 <!-- ![Lates release by date](https://img.shields.io/github/v/release/Stadlar/IST-FUT-FMTH) -->
 
 The repository encompasses the work and resulting technical standards of the *Tækninefnd um fjármálaþjónustu* (TN FMÞ) at the Icelandic Standards Council, ususally abbrivated as IOBWS.

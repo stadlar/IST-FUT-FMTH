@@ -1,10 +1,10 @@
 
 # Icelandic Online Banking Web Service
-![Issues](https://img.shields.io/github/issues/stadlar/IST-FUT-FMTH)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/Stadlar/IST-FUT-FMTH)
-![Contributors](https://img.shields.io/github/contributors/stadlar/IST-FUT-FMTH)
-<!-- ![Lates release by date](https://img.shields.io/github/v/release/Stadlar/IST-FUT-FMTH)
-![License](https://img.shields.io/github/license/Stadlar/IST-FUT-FMTH) -->
+[![Issues](https://img.shields.io/github/issues/stadlar/IST-FUT-FMTH?v_DATE)](https://github.com/stadlar/IST-FUT-FMTH/issues?q=is%3Aissue+is%3Aopen)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/Stadlar/IST-FUT-FMTH?v_DATE)](https://github.com/stadlar/IST-FUT-FMTH/pulls?q=is%3Apr+is%3Aopen)
+[![Contributors](https://img.shields.io/github/contributors/stadlar/IST-FUT-FMTH?v_DATE)](https://github.com/stadlar/IST-FUT-FMTH/graphs/contributors)
+[![Creative Commons Attribution 4.0 International Public License](https://img.shields.io/badge/license-CCBY4.0-brightgreen)](https://github.com/stadlar/IST-FUT-FMTH/blob/master/LICENSE.md)
+<!-- ![Lates release by date](https://img.shields.io/github/v/release/Stadlar/IST-FUT-FMTH) -->
 
 The repository encompasses the work and resulting technical standards of the *Tækninefnd um fjármálaþjónustu* (TN FMÞ) at the Icelandic Standards Council, ususally abbrivated as IOBWS.
 
@@ -13,12 +13,9 @@ The repository encompasses the work and resulting technical standards of the *T�
 
 * [About the Project](#about-the-project)
 * [Getting Started](#getting-started)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -61,7 +58,7 @@ Contributions are **appreciated** with some notes on good practices around Pull 
 <!-- LICENSE -->
 ## License
 
-The work and resulting artifacts are distributed under the Creative Commons Attribution 4.0 International Public License (CC BY 4.0). See [LICENSE](LICENSE.txt) for more information.
+The work and resulting artifacts are distributed under the Creative Commons Attribution 4.0 International Public License (CC BY 4.0). See [LICENSE](LICENSE.txt) for more information. WA 310 and other parts of the technical standards as appropriate are based on and derived from the Berlin Group NextGenPSD2 standard.
 
 <!-- CONTACT -->
 ## Contact
@@ -69,7 +66,3 @@ The work and resulting artifacts are distributed under the Creative Commons Attr
 For information contact - stadlar@stadlar.is
 
 Project Link: [https://github.com/stadlar/IST-FUT-FMTH](https://github.com/stadlar/IST-FUT-FMTH)
-
-<!-- ACKNOWLEDGEMENTS -->
-<!-- ## Acknowledgements -->
-

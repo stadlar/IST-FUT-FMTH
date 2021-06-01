@@ -1,3 +1,23 @@
+# 2021-06-01
+- Rafræn skjöl
+  - Þegar rafrænt skjal er sent inn væri geymslumiðil í slóðinni
+    - Dæmi: /v1/documents/{documentStoreLocation}/{documents-id} ->
+            /v1/documents/greidsluveitan/{documents-id}:
+            /v1/documents/BankiX/{documents-id}:
+- Kröfur
+  - Tekið fyrir á næsta fundi [8.5.2021] þar sem sérstaklega verður tekið fyrir:
+    - Beiðni frá RB um að ræða mun á að sækja lista af kröfur vs. sækja staka kröfu þar sem
+      listi af kröfur væri með minni kröfuklasa
+    - RB sendi inn upplýsingar um hugmynd af tengingu krafna við rafræn skjöl.
+    - RB umræðan verður tekin á næsta fundi, óskað verður eftir að fá Ólaf frá Greiðsluveitunni
+      með á fundinn.
+  - Bæta við svæðinu "IsPaymentAllowed" á kröfu. Það má setja IsPaymentAllowed = false á 
+    hvaða kröfu sem er.
+
+
+
+
+
 # 2021-05-25
 - Það kom fyrirspurn varðandi geymslu á skjölum að mögulegt væri vista í aðrar geymslur. Upphafsaðili sendir issue á 
   github svæði verkefnisins þar sem viðhaldshópurinn tekur málið fyrir.
@@ -365,19 +385,19 @@ Kröfulykill
     - Kt greiðanda
     - Útibú - Hb - Kröfunúmer
     - Gjalddagi
-  - Ítarupplýsingar
-    - niðurfellingardagur
+  - Ítarupplýsingar (claimDetailInformation)
+    - niðurfellingardagur *
     - auðkenni *
     - uppphæð *
     - tilvísunarnúmer *
-    - eindagi
-    - Seðilnúmer
-    - Viðskiptanúmer
-    - Greiðslugjald
-    - Beingreiðslugjald
-    - Annar kostnaður 
-    - Annar vanskilakostnaður
-  - Reglur
+    - eindagi *
+    - Seðilnúmer *
+    - Viðskiptanúmer *
+    - Greiðslugjald * 
+    - Beingreiðslugjald *
+    - Annar kostnaður *
+    - Annar vanskilakostnaður *
+  - Reglur (claimDetailRule)
     - Greiðsluregla 
     - Innborgunarregla 
     - Vanskilaregla
@@ -391,7 +411,7 @@ Kröfulykill
       - afsláttur 1
       - dagafjöldiafsláttur 2
       - dagafjöldi 
-  - Minna notað
+  - Minna notað (claimDetailOther)
     - tegund
     - slóð
     - detail hluti

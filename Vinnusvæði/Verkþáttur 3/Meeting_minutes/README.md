@@ -402,7 +402,7 @@ bunki2 =
     "amount": "123.50"
   },
   "_links": [
-    "https://www.testbank.is/fx/..."
+    "https://www.example.com/fx/..."
   ],
   "creditorAccount": {
     "iban": "DE02100100109307118603"

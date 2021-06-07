@@ -665,7 +665,7 @@ components:
           format: byte
         fileRef:
           description: |
-            If the file is reference to an external reference, like https://www.testbank.is/files/file.pdf. If the field
+            If the file is reference to an external reference, like https://www.example.com/files/file.pdf. If the field
             'file' contains data then this field is disgarded.
           type: string
           format: uri

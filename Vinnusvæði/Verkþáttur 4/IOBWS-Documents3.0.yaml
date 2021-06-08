@@ -48,7 +48,8 @@ paths:
         - BearerAuthOAuth: []
       parameters:
       #path
-        - $ref: "#/components/parameters/documentId"
+        - $ref: "#/components/parameters/documentStoreLocation"
+        - $ref: "#/components/parameters/documentsId"
       #query # NO QUERY PARAMETER
       #header
         #mandatory header parameter
@@ -105,7 +106,7 @@ paths:
 
       parameters:
       #path
-        - $ref: "#/components/parameters/documentId"
+        - $ref: "#/components/parameters/documentsId"
       #query # NO QUERY PARAMETER
       #header
         #mandatory header parameter
@@ -161,7 +162,8 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-        #path # NO PATH PARAMETERS
+        #path
+        - $ref: "#/components/parameters/documentStoreLocation"
         #query
         - $ref: "#/components/parameters/senderKennitala"
         - $ref: "#/components/parameters/receiverKennitala"
@@ -218,7 +220,8 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-      #path # NO PATH PARAMETERS
+      #path
+        - $ref: "#/components/parameters/documentStoreLocation"
       #query
       #header
         #common header parameter
@@ -259,7 +262,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/types:
+  /v1/documents/{documentStoreLocation}/types:
 
     get:
       summary: Get list of all document types
@@ -272,7 +275,8 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-        #path # NO PATH PARAMETERS
+        #path
+        - $ref: "#/components/parameters/documentStoreLocation"
         #query # NO PATH PARAMETERS
         #header
           #mandatory header parameter
@@ -380,8 +384,6 @@ components:
         type: string
       required: false # conditional
 
-
-
     Signature-Certificate:
       name: Signature-Certificate
       in: header
@@ -412,6 +414,13 @@ components:
       required: true
       schema:
         $ref: "#/components/schemas/uuid"
+
+    documentStoreLocation:
+      name: documentStoreLocation
+      in: path
+      required: true
+      schema:
+        type: string
 
     page:
       name: page

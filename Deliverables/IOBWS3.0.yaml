@@ -84,9 +84,9 @@ externalDocs:
   url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Vinnusv%C3%A6%C3%B0i/Stu%C3%B0ningsefni/Berlin-group/v.1.3.6
 
 servers:
-  - url: https://psd2.openbanking.is
+  - url: https://psd2.example.com
     description: PSD2 server
-  - url: https://sandbox-psd2.openbanking.is
+  - url: https://sandbox-psd2.example.com
     description: Optional PSD2 sandbox server
 
 paths:

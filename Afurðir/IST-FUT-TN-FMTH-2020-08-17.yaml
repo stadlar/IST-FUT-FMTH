@@ -85,9 +85,9 @@ externalDocs:
   url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Berlin-group/v.1.3
 
 servers:
-  - url: https://api-psd2.openbanking.is
+  - url: https://api-psd2.example.com
     description: PSD2 server
-  - url: https://test-api-psd2.openbanking.is
+  - url: https://test-api-psd2.example.com
     description: Optional PSD2 test server
 
 

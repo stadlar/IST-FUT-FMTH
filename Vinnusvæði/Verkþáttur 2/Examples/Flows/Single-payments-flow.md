@@ -25,11 +25,11 @@ eIDAS certificate will be required, ask your ASPSP for a demo certificate for sa
 | Public certificate: openbankingPublicTPP.crt   |
 | Private certificate: openbankingPrivateTPP.key | 
 
-Sandbox URL: https://psd2.openbanking.is
+Sandbox URL: https://psd2.example.com
 
 ### Request example
 ```
-curl -X POST https://auth.openbanking.is/as/token.oauth2 \
+curl -X POST https://auth.example.com/as/token.oauth2 \
      -v \
      -cert openbankingPublicTPP.crt \
      -key openbankingPrivateTPP.key \
@@ -55,7 +55,7 @@ authorized by the account holder.
 ### Request example
 Icelandic Credit Transfer
 ```
-curl -X POST https://psd2.openbanking.is/v1/payments/icelandic-credit-transfer  \
+curl -X POST https://psd2.example.com/v1/payments/icelandic-credit-transfer  \
 -v \
 -H 'Accept: application/json'  \
 -H 'Authorization: Bearer UTUZnSKhYEYhX9qWl03epLVC3jyD' \
@@ -116,7 +116,7 @@ Location: /v1/payments/icelandic-credit-transfer/1234-wertiq-983
   "paymentId": "1234-wertiq-983",
   "_links": {
     "scaRedirect": {
-        "href": "https://psd2.openbanking.is/asdfasdfasdf"
+        "href": "https://psd2.example.com/asdfasdfasdf"
     },
     "self": {
         "href": "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
@@ -139,7 +139,7 @@ Location: /v1/payments/icelandic-credit-transfer/1234-wertiq-983
   "_links": 
   {
     "scaOAuth": {
-        "href": "https://auth.openbanking.is/oauth/.well-known/oauth-authorization-server"
+        "href": "https://auth.example.com/oauth/.well-known/oauth-authorization-server"
     },
     "self": {   
         "href": "/v1/payments/1234-wertiq-983"
@@ -196,7 +196,7 @@ Location: /v1/payments/icelandic-credit-transfer/1234-wertiq-983
 ### Request example
 Icelandic Credit Transfer
 ```
-curl -X POST https://psd2.openbanking.is/v1/payments/icelandic-credit-transfer/1234-wertiq-983  \
+curl -X POST https://psd2.example.com/v1/payments/icelandic-credit-transfer/1234-wertiq-983  \
 -v \
 -H 'Accept: application/json'  \
 -H 'Authorization: Bearer UTUZnSKhYEYhX9qWl03epLVC3jyD' \

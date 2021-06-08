@@ -1,3 +1,76 @@
+# 2021-06-08
+- ConncectDocument (POST v1/claims/{id}/documents/): Skráir tenginu milli kröfu of rafræns skjals.
+  - POST v1/{topic}/{id}/{connectionType}/
+- DisconnectDocument (DELETE v1/claims/{id}/documents/{sourceSystemId}/{documentId}/): Rýfur tenginu milli kröfu og rafræns skjals
+  - DELETE v1/{topic}/{id}/{connectionType}/{sourceSystemId}/{genericId}/
+- Kröfur -> Lista af tengingum -> (Lykill, Tegund, (Op) Description)
+
+- [Athugasemdir frá Ásgeiri]
+  - X-Request-ID -> Þarf ekki að specify ef þú sendir sama request id þá færðu sama value til baka í response í Create/Alter/Cancel
+    - Fá sama batch number (Þótt að nýtt output hafi verið sent)
+  - claimOperation -> success er hægt að setja inn requirement að það þarf að vera listi af successes (Sumir bankar sleppa þessu í dag)
+  - Í put og post á Claim þá er field sem heitir lastChangeDateTime (Ætti sennilega bara um query)
+  - Delete má ekki vera með Body (Svo það má ekki posta lista yfir kröfur sem á að fella niður)
+  - Ætti GET /v1/claims/templates ekki bara að returna { claimantId, bank, templateCode, active }
+  - GET /v1/claims/templates/{identifier} ætti þetta ekki að vera GET /v1/claims/templates/{claimantId}/{bank}/{templateCode}
+  - Ætti ekki að nota Payor í stað payer,   Bara ég að vera Anal
+  - Í schema ætti kennitala ekki að max/min length = 10 í stað 3
+  - claimIdentifier ætti að vera claimTemplate og er með pattern [0-9A-Z]{3} en er í raun [0-9A-ZÞÆÐÖÁÉÝÚÍÓ]{3}
+  - accountNo hefur alltaf verið í BBBBLLNNNNNN formatti aka [0-9]{12}
+  - claimantId getur þetta ekki verið claimantKennitala eða bara notað type kennitala
+  -	amountValue ætti það ekki að vera type number í stað string?  Og sleppa pattern (Væti hægt að nota max / min) min = 1 max = 99999999999999 Það er ekki hægt að nota < 1
+    -	Á í raun um allar upphæðir í skjalinu (Nema sumar supporta 0) held samt að eingin upphæð má vera negative
+  - depositingAccount ætti id ekki að vera ref á #/components/schemas/accountNo
+  - claimTemplateKey -> bank example er 001 en ætti vera 0001
+  - claimTemplateKey  ->templateCode ætti að vera ref á claimIdentifier
+  - paymentFee -> directPaymentFee og directDebitFee ættu að vera type number og geta ekki verið mínus tölur
+  - defaultInterest -> specialCode er enum þannig að breytingar í framtíðinni eru ekki möguleikar (Kannski spurning um að taka til þarna þar sem allt er ekki í boði)
+    - Það vantar allavega A sem við notum stundum
+    - Lét fylgja eldri útgáfu að kröfupotts upplýsingum
+    - Sem er með t.d. upplýsingar um að „“ og „5“ er með 24:00->24:00 tímabil
+  - Identifier ætti það ekki alltaf að vera claimTemplate
+    - T.d claimDetailInformation -> identifier
+  - claimDetailStatus
+    - totalAmountDue og allar hinar eru integer (Hvað ef þetta eru currency upphæðir)
+    - secondaryCollectionIdentifier -> ætti að vera secondaryCollectionClaimTemplate og ætti að vera ref á claimIdentifier
+    - legalCollectionIdentifier -> legalCollectionClaimTemplate
+  - claimOperationSuccess -> print (Segir þetta ekki til um hvort krafan er í beingreiðslu eða ekki) ætti fieldið ekki að reflecta það
+  - GET /v1/claims/collection/transactions
+  - claimPayment ->
+    - amountDeposited og allar hinar eru integer (Hvað ef þetta eru currency upphæðir)
+  - Hvað er PUT /v1/claims/collection/transfer og PUT /v1/claims/transfer?
+    - Vantar description um að þetta er að transfer claim to collection og return claim from collection
+    - Og það er datefrom dateto og claimantId í parameters
+  - Virðist vera auka GET /v1/claims/collection/transactions og GET /v1/claims/transactions
+  - GET /v1/claims/collection/info/{identifier} ætti sennilega að vera /v1/claims/collection/info/{status-id}
+  - Það vantar recreate í secondary collection
+
+
+[Allir]
+- Kröfur
+- Greiðslur
+
+[Landsbankinn]
+- Aukakrónur
+
+[Íslandsbn]
+- Eitthvað spec
+
+
+
+
+# 2021-06-08
+- Rafræn skjöl sem eru send inn, bæði sending og stakar skrár fá einkæmt númer frá bankanum.
+- Þegar leitað er að skjali þá er notað senderKennitala+file.Id
+- Laga "document-id" -> "documents-id"
+- documents-id þarf að vera einkvæmt undir documentStoreLocation
+- Uppfæra path GET /v1/documents/{documentStoreLocation}/{senderKennitala}/{documents-id}
+  - bæta við senderKennitala
+
+  
+- Tenging rafrænsskjals við reference. S.b. tengja kröfunúmer við rafrænt skjal.
+  - 
+
 # 2021-06-01
 - Rafræn skjöl
   - Þegar rafrænt skjal er sent inn væri geymslumiðil í slóðinni

@@ -2163,44 +2163,6 @@ components:
           type: string
           maxLength: 30
 
-    claimantStatementExtendedReferenceType:
-      description: |
-        Indicates which value appears in the reference area of the creditor's account statement.
-      type: object
-      properties:
-        referenceNumber:
-          description: The first 12 letters of the reference number.
-          type: string
-          maxLength: 12
-        customerNumber:
-          description: The first 12 letters of the transaction number.
-          type: string
-          maxLength: 12
-        claimId:
-          description: Bank, ledger and claim number.
-          type: string
-          pattern: "[0-9]{12}"
-        payorId:
-          $ref: "#/components/schemas/kennitala"
-        dueDate:
-          $ref: "#/components/schemas/dueDate"
-
-    claimantStatementReferenceType:
-      description: |
-        Indicates which value appears in the reference area on the creditor's account statement.
-      type: object
-      properties:
-        DueDate:
-          description: Due date of the claim.
-          type: string
-          format: date
-        billNumber:
-          description: Bill number.
-          type: string
-        claimNumber:
-          description: Claim number.
-          type: string
-
     payorStatementExtendedReferenceType:
       description: |
         Specifies the value that appears in the reference area of the payee account statement.
@@ -2334,9 +2296,35 @@ components:
         category:
           $ref: "#/components/schemas/claimTemplateCategory"
         claimantStatementExtendedReferenceType:
-          $ref: "#/components/schemas/claimantStatementExtendedReferenceType"
+          description: |
+            Indicates which value appears in the reference area of the creditor's account statement.
+
+            This can be one of the following values:
+              - ReferenceNumber - The first 12 letters of the reference number.
+              - CustomerNumber - The first 12 letters of the transaction number.
+              - ClaimId - Bank, ledger and claim number.
+              - PayorId - Id (kennitala) of the payor
+              - DueDate - Due date of the claim in the format (yyyymmdd)
+          type: string
+          enum:
+            - ReferenceNumber
+            - CustomerNumber
+            - ClaimId
+            - PayorId
+            - DueDate
         claimantStatementReferenceType:
-          $ref: "#/components/schemas/claimantStatementReferenceType"
+          description: |
+            Indicates which value appears in the reference area on the creditor's account statement.
+
+            This can be one of the following values:
+              - DueDate - Due date of the claim in the format (yyyymmdd)
+              - BillNumber - Bill number of the claim
+              - ClaimNumber - Claimnumber (last 6 digits)
+          type: string
+          enum:
+            - DueDate
+            - BillNumber
+            - ClaimNumber
         payorStatementExtendedReferenceType:
           $ref: "#/components/schemas/payorStatementExtendedReferenceType"
         customerNumberTemplate:

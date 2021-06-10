@@ -2208,17 +2208,6 @@ components:
         Additional disposition invoices. Used to dispose of fees, costs or part of the payment of the claim. There
         can be a maximum of 98 accounts for each identifier.
 
-        The type of measure (measure type) can be the following:
-            - "DefaultInterest" - Penalty interest.
-            - "DefaultCharge" - Default fee.
-            - "OtherDefaultCost" - Other default costs.
-            - "AllDefaultCharge" - Arrears and other default costs.
-            - "OtherCost" - Other costs.
-            - "NoticeAndPaymentFee" - Notification fee.
-            - "AllCost" - All costs and fees imposed on the claim.
-            - "FixedAmount" - A fixed amount is deducted from the amount of the payment and deposited in a disposable account.
-            - "Percentage" - Percentage of the amount of the payment deposited in the disposable account.
-            - "PrincipalDetail" - Amount of the principal of the payment deposited in a disposable account.
       properties:
         accountId:
           description: Account Id
@@ -2231,7 +2220,20 @@ components:
           type: string
           maxLength: 100
         type:
-          description: Describes what type of addition depositing account this is.
+          description: |
+            Describes what type of additional depositing account this is.
+
+            - "DefaultInterest" - Penalty interest.
+            - "DefaultCharge" - Default fee.
+            - "OtherDefaultCost" - Other default costs.
+            - "AllDefaultCharge" - Arrears and other default costs.
+            - "OtherCost" - Other costs.
+            - "NoticeAndPaymentFee" - Notification fee.
+            - "AllCost" - All costs and fees imposed on the claim.
+            - "FixedAmount" - A fixed amount is deducted from the amount of the payment and deposited in a disposable account.
+            - "Percentage" - Percentage of the amount of the payment deposited in the disposable account.
+            - "PrincipalDetail" - Amount of the principal of the payment deposited in a disposable account.
+
           enum:
             - "DefaultInterest"
             - "DefaultCharge"

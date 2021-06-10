@@ -2287,6 +2287,9 @@ components:
         Claim template details.
       type: object
       properties:
+        id:
+          description: Id which is unique for each claimTemplate. This is specific to each bank.
+          type: string
         key:
           $ref: "#/components/schemas/claimTemplateKey"
         collectionType:

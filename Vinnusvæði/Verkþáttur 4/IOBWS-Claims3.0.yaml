@@ -2314,10 +2314,6 @@ components:
       description: |
         Claim template details.
       type: object
-      required:
-        - identifier
-        - disposableAccountNo
-        - lastChangeDateTime
       properties:
         key:
           $ref: "#/components/schemas/claimTemplateKey"

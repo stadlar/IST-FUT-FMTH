@@ -30,12 +30,12 @@ paths:
   # Claim Templates Service
   #####################################################
 
-  /v1/claims/templates:
+  /v1/claimtemplates:
 
     get:
       summary: List of claim templates
       description: |
-        List of claim templates
+        Returns a list of claim templates according to the filters provided
       operationId: getClaimTemplateList
       tags:
         - Claim Service
@@ -86,12 +86,12 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claims/templates/{identifier}:
+  /v1/claimtemplates/{id}:
 
     get:
       summary: Claim template
       description: |
-        Get single claim template
+        Returns a single claim templates by supplied id
       operationId: getClaimTemplate
       tags:
         - Claim Service

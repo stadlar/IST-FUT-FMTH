@@ -2296,7 +2296,7 @@ components:
 
     claimTemplateKey:
       description: |
-        Claim template details.
+        Claim template key.
       type: object
       properties:
         claimantId:
@@ -2304,11 +2304,11 @@ components:
         bank:
           type: string
           pattern: "[0-9]{4}"
-          example: "001"
+          example: "1234"
         templateCode:
           type: string
           pattern: "[0-9A-Za-z]{3}"
-          example: "001"
+          example: "037"
 
     claimTemplate:
       description: |

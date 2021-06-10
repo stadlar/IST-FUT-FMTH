@@ -56,6 +56,18 @@ paths:
       parameters:
       #path # NO PATH PARAMETER
       #query # NO QUERY PARAMETER
+        - in: query
+          name: claimantId
+          schema:
+            type: string
+          required: false
+          description: Filter by claimantId (kennitala)
+        - in: query
+          name: isActive
+          schema:
+            type: boolean
+          required: false
+          description: Filter by active or inactive templates
       #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"

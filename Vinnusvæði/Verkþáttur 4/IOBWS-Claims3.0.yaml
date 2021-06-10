@@ -2258,18 +2258,18 @@ components:
             - "Percentage" - Percentage of the amount of the payment deposited in the disposable account.
             - "PrincipalDetail" - Amount of the principal of the payment deposited in a disposable account.
       properties:
-        id:
-          description: Account ID consists of branch number, ledger number and account number.
+        accountId:
+          description: Account Id
           $ref: "#/components/schemas/accountNo"
-        ownerId:
-          description: Account ID number (Kennitala).
+        accountOwnerId:
+          description: Account owner Id (kennitala)
           $ref: "#/components/schemas/kennitala"
         errorText:
           description: Error message for disposable invoice that was found during the last weekly debugging of claims formats.
           type: string
           maxLength: 100
-        measureType:
-          description: Name of type of measure
+        type:
+          description: Describes what type of addition depositing account this is.
           enum:
             - "DefaultInterest"
             - "DefaultCharge"
@@ -2281,17 +2281,25 @@ components:
             - "FixedAmount"
             - "Percentage"
             - "PrincipalDetail"
-        code:
-          description: Measure type identifier
-          type: string
-          pattern: '[0-9A-Za-z]{4}'
         priority:
-          description: Priority states which parts of the payment to creditors should be disposed of first
+          description: Priority controls in which order the additional depositing is executed
           type: integer
-        measureTypeChoice:
+        depositAmount:
+          description: The amount and type of the deposit
+          $ref: "#/components/schemas/depositAccountAmountValue"
+
+    depositAccountAmountValue:
+      description: |
+        Describes what kind of depositing this is (percentage based or fixed amount)
+      type: object
+      properties:
+        value:
+          description: Either a fixed amount in ISK or percentage depending on the valueType.
+          type: number
+        valueType:
           type: string
-          enum:
-            - "Amount"
+          enum: 
+            - "FixedAmount"
             - "Percentage"
 
     claimTemplateKey:

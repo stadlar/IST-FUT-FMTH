@@ -2310,7 +2310,7 @@ components:
           pattern: "[0-9A-Za-z]{3}"
           example: "001"
 
-    claimTemplateDetails:
+    claimTemplate:
       description: |
         Claim template details.
       type: object
@@ -4111,7 +4111,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/claimTemplateDetails"
+            $ref: "#/components/schemas/claimTemplate"
 
     OK_200_ClaimTemplate:
       description: OK
@@ -4121,7 +4121,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/claimTemplateDetails"
+            $ref: "#/components/schemas/claimTemplate"
 
     OK_200_CLAIM:
       description: OK

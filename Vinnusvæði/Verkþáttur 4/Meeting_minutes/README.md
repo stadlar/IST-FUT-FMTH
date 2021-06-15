@@ -8,42 +8,71 @@
 - [Athugasemdir frá Ásgeiri]
   - X-Request-ID -> Þarf ekki að specify ef þú sendir sama request id þá færðu sama value til baka í response í Create/Alter/Cancel
     - Fá sama batch number (Þótt að nýtt output hafi verið sent)
+    [GJH.Svar]: Sett lýsing X-Request-ID í öll OK_200_*. [?] Viljum við nota X-Request-ID sem idempotency key.
   - claimOperation -> success er hægt að setja inn requirement að það þarf að vera listi af successes (Sumir bankar sleppa þessu í dag)
+    [GJH.Svar]: Já claimOperation hefur lista af claimOperationSuccess og lista af claimOperationError
   - Í put og post á Claim þá er field sem heitir lastChangeDateTime (Ætti sennilega bara um query)
+    [GJH.Svar]: Bætti við í leitina möguleika að leita eftir lastChangeDate per kröfu. Ekki tími.
   - Delete má ekki vera með Body (Svo það má ekki posta lista yfir kröfur sem á að fella niður)
+    [GJH.Svar]: Já satt, for-each verður það að vera.
   - Ætti GET /v1/claims/templates ekki bara að returna { claimantId, bank, templateCode, active }
+    [GJH.Svar]: Einfallt fyrir lista
   - GET /v1/claims/templates/{identifier} ætti þetta ekki að vera GET /v1/claims/templates/{claimantId}/{bank}/{templateCode}
+    [GJH.Svar] Spurning, er að skila lykli á færsluna. Composite lyklar eru alltaf óþjálir.
   - Ætti ekki að nota Payor í stað payer,   Bara ég að vera Anal
+    [GJH.Svar] Rétt leiðrétt
   - Í schema ætti kennitala ekki að max/min length = 10 í stað 3
+    [GJH.Svar] Rétt leiðrétt
   - claimIdentifier ætti að vera claimTemplate og er með pattern [0-9A-Z]{3} en er í raun [0-9A-ZÞÆÐÖÁÉÝÚÍÓ]{3}
+    [GJH.Svar] Íslenskir starfir eru ekki leyfðir
   - accountNo hefur alltaf verið í BBBBLLNNNNNN formatti aka [0-9]{12}
+    [GJH.Svar] Rétt leiðrétt
   - claimantId getur þetta ekki verið claimantKennitala eða bara notað type kennitala
+    [GJH.Svar] Tók id burt
   -	amountValue ætti það ekki að vera type number í stað string?  Og sleppa pattern (Væti hægt að nota max / min) min = 1 max = 99999999999999 Það er ekki hægt að nota < 1
     -	Á í raun um allar upphæðir í skjalinu (Nema sumar supporta 0) held samt að eingin upphæð má vera negative
+    [GJH.Svar] Notum sömu skilgreiningu og í hinum stöðlunum sem eru byggðir á Berlin group     
   - depositingAccount ætti id ekki að vera ref á #/components/schemas/accountNo
+    [GJH.Svar] Rétt, leiðrétt
   - claimTemplateKey -> bank example er 001 en ætti vera 0001
+    [GJH.Svar] Rétt, leiðrétt
   - claimTemplateKey  ->templateCode ætti að vera ref á claimIdentifier
+    [GJH.Svar] Rétt, leiðrétt
   - paymentFee -> directPaymentFee og directDebitFee ættu að vera type number og geta ekki verið mínus tölur
+    [GJH.Svar] Rétt, leiðrétt
   - defaultInterest -> specialCode er enum þannig að breytingar í framtíðinni eru ekki möguleikar (Kannski spurning um að taka til þarna þar sem allt er ekki í boði)
     - Það vantar allavega A sem við notum stundum
     - Lét fylgja eldri útgáfu að kröfupotts upplýsingum
     - Sem er með t.d. upplýsingar um að „“ og „5“ er með 24:00->24:00 tímabil
+    [GJH.Svar] ...
   - Identifier ætti það ekki alltaf að vera claimTemplate
     - T.d claimDetailInformation -> identifier
+    [GJH.Svar] Rétt, leiðrétt
   - claimDetailStatus
     - totalAmountDue og allar hinar eru integer (Hvað ef þetta eru currency upphæðir)
+      [GJH.Svar] Rétt, leiðrétt
     - secondaryCollectionIdentifier -> ætti að vera secondaryCollectionClaimTemplate og ætti að vera ref á claimIdentifier
+      [GJH.Svar] Rétt, leiðrétt
     - legalCollectionIdentifier -> legalCollectionClaimTemplate
+      [GJH.Svar] Rétt, leiðrétt
   - claimOperationSuccess -> print (Segir þetta ekki til um hvort krafan er í beingreiðslu eða ekki) ætti fieldið ekki að reflecta það
+      [GJH.Svar] Kemur beint út TS 162:2013, síðan er spurning hvort það sé rétt
   - GET /v1/claims/collection/transactions
+    [GJH.Svar] ***
   - claimPayment ->
     - amountDeposited og allar hinar eru integer (Hvað ef þetta eru currency upphæðir)
+    [GJH.Svar] Rétt, leiðrétt
   - Hvað er PUT /v1/claims/collection/transfer og PUT /v1/claims/transfer?
     - Vantar description um að þetta er að transfer claim to collection og return claim from collection
+      [GJH.Svar] Transfers list of claims to secondary collection
     - Og það er datefrom dateto og claimantId í parameters
+      [GJH.Svar] Rétt, leiðrétt
   - Virðist vera auka GET /v1/claims/collection/transactions og GET /v1/claims/transactions
+    [GJH.Svar] ***
   - GET /v1/claims/collection/info/{identifier} ætti sennilega að vera /v1/claims/collection/info/{status-id}
+    [GJH.Svar] Rétt, leiðrétt
   - Það vantar recreate í secondary collection
+    [GJH.Svar] Rétt, leiðrétt
 
 
 [Allir]

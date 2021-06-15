@@ -1,3 +1,5 @@
+
+
 # 2021-06-08
 - ConncectDocument (POST v1/claims/{id}/documents/): Skráir tenginu milli kröfu of rafræns skjals.
   - POST v1/{topic}/{id}/{connectionType}/

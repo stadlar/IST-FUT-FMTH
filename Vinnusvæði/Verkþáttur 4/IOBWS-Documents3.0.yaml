@@ -23,7 +23,7 @@ paths:
   # Document Service
   #####################################################
 
-  /v1/documents/{documentStoreLocation}/{documents-id}:
+  /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:
 
     get:
       summary: Get single document batch
@@ -49,6 +49,7 @@ paths:
       parameters:
       #path
         - $ref: "#/components/parameters/documentStoreLocation"
+        - $ref: "#/components/parameters/senderKennitala"
         - $ref: "#/components/parameters/documentsId"
       #query # NO QUERY PARAMETER
       #header
@@ -106,6 +107,8 @@ paths:
 
       parameters:
       #path
+        - $ref: "#/components/parameters/documentStoreLocation"
+        - $ref: "#/components/parameters/senderKennitala"
         - $ref: "#/components/parameters/documentsId"
       #query # NO QUERY PARAMETER
       #header
@@ -165,7 +168,7 @@ paths:
         #path
         - $ref: "#/components/parameters/documentStoreLocation"
         #query
-        - $ref: "#/components/parameters/senderKennitala"
+        - $ref: "#/components/parameters/senderKennitalaQuery"
         - $ref: "#/components/parameters/receiverKennitala"
         - $ref: "#/components/parameters/documentTypeCode"
         - $ref: "#/components/parameters/status"
@@ -416,7 +419,7 @@ components:
         $ref: "#/components/schemas/uuid"
 
     documentStoreLocation:
-      name: documentStoreLocation
+      name: document-store-location
       in: path
       required: true
       schema:
@@ -458,11 +461,21 @@ components:
         type: string
         format: date
 
-    senderKennitala:
+    senderKennitalaQuery:
       name: senderKennitala
       in: query
       description: |
         Kennitala
+      required: true
+      type: string
+      minLength: 10
+      maxLenght: 10
+
+    senderKennitala:
+      name: sender-kennitala
+      in: path
+      description: |
+        Kennitala of the documents sender
       required: true
       type: string
       minLength: 10
@@ -710,6 +723,7 @@ components:
           description: |
             The ID Number of the sender of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
           type: string
+          minLength: 10
           maxLength: 10
         documentTypeCode:
           description: |

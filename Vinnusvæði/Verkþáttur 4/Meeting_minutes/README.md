@@ -1,3 +1,24 @@
+#2021-06-15
+-  Dagskrá fundar 56
+  - 9:00-9:30 Rafrænar skjöl yfirferð athugasemda við TS 314
+  - 9:30-11:00 Innheimtukröfur – Drög að yaml skjali 
+
+- Rafrænar skjöl
+  - Bæta við svæðinu "processStatusMessage" í "fileWithStatusDetails"
+- Innheimtukröfur
+  - Bætum við "idempotency-key" fyrir allar PUT, POST, DELETE aðgerðir (sjá dæmi fyrir nema)  
+    - Dæmi um idempotency 
+      - CreateClaims (X: 12345) -> SvarX
+        CreateClaims (X: 12345) -> SvarX
+    - Dæmi um idempotency sér lykill
+      - CreateClaims (idempotency-key: 12345) -> SvarX
+        CreateClaims (idempotency-key: 12345) -> SvarX
+    - Dæmi þegar við notum ekki idempotency      
+      - CreateClaims (X: 12345) -> SvarX
+        CreateClaims (X: 12345) -> Villa
+  - Taka út "unpaidClaimCount"         
+  - Setja inn möguleika að cancella fjöla krafna
+  
 
 
 # 2021-06-08
@@ -10,7 +31,7 @@
 - [Athugasemdir frá Ásgeiri]
   - X-Request-ID -> Þarf ekki að specify ef þú sendir sama request id þá færðu sama value til baka í response í Create/Alter/Cancel
     - Fá sama batch number (Þótt að nýtt output hafi verið sent)
-    [GJH.Svar]: Sett lýsing X-Request-ID í öll OK_200_*. [?] Viljum við nota X-Request-ID sem idempotency key.
+    [GJH.Svar]: Sett lýsing X-Request-ID í öll OK_200_*. Viljum við ekki nota X-Request-ID sem idempotency key.
   - claimOperation -> success er hægt að setja inn requirement að það þarf að vera listi af successes (Sumir bankar sleppa þessu í dag)
     [GJH.Svar]: Já claimOperation hefur lista af claimOperationSuccess og lista af claimOperationError
   - Í put og post á Claim þá er field sem heitir lastChangeDateTime (Ætti sennilega bara um query)

@@ -30,7 +30,7 @@ paths:
   # Claim Templates Service
   #####################################################
 
-  /v1/claims/templates:
+  /v1/claimtemplates:
 
     get:
       summary: List of claim templates
@@ -86,7 +86,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claims/templates/{template-id}:
+  /v1/claimtemplates/{template-id}:
 
     get:
       summary: Claim template
@@ -1749,7 +1749,7 @@ paths:
         Recreate a list of claims defined by the request body object
       operationId: recreateCollectionClaims
       tags:
-        - Claim Service
+        - Claim Collection Service
       security:
       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
@@ -2081,11 +2081,18 @@ components:
         Types of dates are as follows:
         - DueDate: In the period (from, to) dates, we are referencing the due date
         - FinalDueDate: In the period (from, to) dates, we are referencing the final due date
+        - CancellationDate: Conditional
+            - Before cancellation: Cancellation date from claim details
+            - Cancelled claims: Date of cancellation
+        - CreationDate:
         - LastChangedDate: In the period (from, to) dates, we are referencing the changed date of the claim
       type: string
       enum:
         - "DueDate"
         - "FinalDueDate"
+        - "CancellationDate"
+        - "CreationDate"
+        - "LastChangedDate"
 
     # COMPLEX
 
@@ -2257,7 +2264,7 @@ components:
         bank:
           type: string
           pattern: "[0-9]{4}"
-          example: "0001"
+          example: "1234"
         templateCode:
           $ref: "#/components/schemas/claimIdentifier"
 
@@ -2844,6 +2851,8 @@ components:
 
     claimOperation:
       description: |
+        Claim operation needs to return success or error information about every claim:
+        Created, cancelled or altered.
         Status of the operation is as follows.
           - InProgress:           In progress The batch is in progress.
           - Completed:            Completed Batch processing is complete without error.

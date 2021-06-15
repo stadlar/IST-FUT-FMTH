@@ -786,6 +786,10 @@ components:
             - "PDF"
         status:
           $ref: "#/components/schemas/processStatus"
+        statusMessage:
+          description: Process status message
+          type: string
+          maxLength: 250
         reference:
           description: File reference, can be claim no. or any other meaningful reference
           type: string

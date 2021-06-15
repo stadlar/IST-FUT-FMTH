@@ -734,18 +734,6 @@ components:
           items:
             $ref: "#/components/schemas/fileDetails"
 
-    documentBatchList:
-      description: |
-        List of documents with details.
-      type: object
-      required:
-        - documents
-      properties:
-        documents:
-          type: array
-          items:
-            $ref: "#/components/schemas/documentBatchDetails"
-
     processStatus:
       description: |
         Process status. The value is one of the following:

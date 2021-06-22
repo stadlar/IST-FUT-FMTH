@@ -114,7 +114,7 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
+        #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY

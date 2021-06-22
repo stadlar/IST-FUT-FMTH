@@ -1,4 +1,49 @@
 #2021-06-15
+- Breytingar / athugasemdir við IOBWS-Claims3.0.yaml
+  - Vísun í rafrænt skjal þýðir vísun í:
+    - Skráð/Sótt:
+      - Staðsetning skjals: document-store-location og 
+      - einkvæmur lykill skjals: fileWithStatusDetails.id (uuid)
+      - dæmi:
+          {
+            "documentStoreLocation": "greidsluveita", 
+            "fileId": "0f85ac1a-8658-4a4f-afe2-56b748d7ee75",
+            "typeCode": "GS"
+          }
+      [Þarf að taka sérstaklega fyrir næsta fund sem verður 24.08.2021 (GJH skrá issue) -begin]
+      - tegund skjal [Bankar] [RB]
+        - documentTypeDetails.code (Úr rafræn skjöl)
+      [-end]
+  - Kröfur eiga lista af vísunum í 0..n rafræn skjöl sem er hægt að breyta með 
+    - (Bæta við vísun)
+      /v1/claims/collection/{claimant-id}/{claim-no}/{due-date}/documents POST
+      /v1/claims/{claimant-id}/{claim-no}/{due-date}/documents POST
+    - (Eyða út vísun)    
+      /v1/claims/collection/{claimant-id}/{claim-no}/{due-date}/documents/{document-store-location}/{file-id} DELETE
+      /v1/claims/{claimant-id}/{claim-no}/{due-date}/documents/{document-store-location}/{file-id} DELETE
+  - Þegar krafa er sótt er lista af vísunum skilað með
+  - Þegar kröfur eru sóttar er boolean gildi skilað með sem segir til um hvort vísun á rafrænt
+    skjal hafi verið skrá á kröfu eða ekki
+  - Viðhald á vísunum í rafræn skjöl þurfa að vera í gegnum sér url til að hægt sé að uppfæra
+    skjala vísanir kröfu án þess að fikta í kröfunni
+  
+  - Bæta við lýsingum fyrir alla endapunkta.  
+  - Skoða mun á claims/../payments og claims/collection/../payments sb. 2013
+
+
+
+- Dagskrá fundar 57
+  - 09:00-9:30 Rafrænar kröfur yfirferð athugasemda við TS 314 - lokayfirferð
+  - 09:30-11:00 Innheimtukröfur – Drög að yaml skjali
+
+
+  Krafa stofnuð eða sótt:
+    Krafa -> (0..n) -> rafrænt skjal
+
+  
+
+
+#2021-06-15
 -  Dagskrá fundar 56
   - 9:00-9:30 Rafrænar skjöl yfirferð athugasemda við TS 314
   - 9:30-11:00 Innheimtukröfur – Drög að yaml skjali 

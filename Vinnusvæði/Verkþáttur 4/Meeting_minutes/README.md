@@ -1,3 +1,13 @@
+#2021-08-24
+- Kynna stöðuna
+- Kynna staðalinn
+- Athugasemdir/Verkefni:
+  - Landsbankinn leggur til að kröfulykill í url-i verði í rauninni samsettur strengur úr kennital kröfuhafa
+    kröfunúmeri og  gjalddaga  
+  - [RB] yfirfer skjölun (summary og description) á aðgerðum
+
+
+
 #2021-06-15
 - Breytingar / athugasemdir við IOBWS-Claims3.0.yaml
   - Vísun í rafrænt skjal þýðir vísun í:

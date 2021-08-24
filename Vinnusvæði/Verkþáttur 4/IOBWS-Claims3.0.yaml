@@ -1312,7 +1312,7 @@ paths:
   /v1/claims/collection/{claimant-id}/{claim-no}/{due-date}:
 
     get:
-      summary: Get a single claim
+      summary: Get a single claim in collection
       description: |
         Get a single claim
       operationId: getCollectionClaim

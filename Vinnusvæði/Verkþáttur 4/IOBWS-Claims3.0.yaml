@@ -2312,9 +2312,6 @@ components:
       type: string
 
     # SIMPLE
-    date:
-      type: string
-
     uuid:
       type: string
       pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
@@ -2505,7 +2502,6 @@ components:
         payorId:
           $ref: "#/components/schemas/kennitala"
         dueDate:
-          description: Due date of the claim.
           $ref: "#/components/schemas/dueDate"
 
     depositingAccount:
@@ -2515,7 +2511,6 @@ components:
         id:
           $ref: "#/components/schemas/accountNo"
         ownerId:
-          description: Account ID number (Kennitala).
           $ref: "#/components/schemas/kennitala"
         errorText:
           description: Error message for disposable invoice that was found during the last weekly debugging of claims formats.
@@ -2529,10 +2524,8 @@ components:
 
       properties:
         accountId:
-          description: Account Id
           $ref: "#/components/schemas/accountNo"
         accountOwnerId:
-          description: Account owner Id (kennitala)
           $ref: "#/components/schemas/kennitala"
         errorText:
           description: Error message for disposable invoice that was found during the last weekly debugging of claims formats.
@@ -2568,7 +2561,6 @@ components:
           description: Priority controls in which order the additional depositing is executed
           type: integer
         depositAmount:
-          description: The amount and type of the deposit
           $ref: "#/components/schemas/depositAccountAmountValue"
 
     depositAccountAmountValue:
@@ -2681,11 +2673,8 @@ components:
           pattern: "[0-9A-Za-z]{3}"
           example: "MI1"
         minimumCollectionAmount:
-          description: |
-            Indicates what the minimum amount of a claim must be in order for a collection letter to be sent and a claim to be sent for intermediate collection.
           $ref: "#/components/schemas/amountValue"
         withdrawalAccountId:
-          description: Debit account used to pay creditors' costs to the bank for this template
           $ref: "#/components/schemas/accountNo"
         isBill:
           description: Indicates whether a bill is stored in an electronic system with external parties.
@@ -4570,7 +4559,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/queryClaimListDetails"
+            $ref: "#/components/schemas/claimListDetails"
 
     OK_200_ClaimListTemplate:
       description: |

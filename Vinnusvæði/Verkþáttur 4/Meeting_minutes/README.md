@@ -1,3 +1,16 @@
+#2021-09-07
+- Athugsemdir
+  - Notum "TemplateCode" í staðinn fyrir "TemplateKey"
+  - Henda "claimTemplateSimpleDetails" alltaf skila fullu objecti
+  - Kröfulykill væri claimId samsettur úr
+    claimant-id+claim-no+due-date
+    Dæmi: 0208711239+000166000001+20210907 (Sama skilgreining og úr greiðslum)
+    skjala vel í yaml
+  - Rename "claimTemplate" -> "claimTemplateDetails"
+  - Rename "claimTemplateSimpleDetails" -> "claimTemplate"
+  - Hvaða svæðum má bæta við svæðum í "claimTemplateSimpleDetails" [Heimavinna]
+  - Á að vera hægt að nota PATCH fyrir kröfur [Heimavinna]
+
 #2021-08-24
 - Kynna stöðuna
 - Kynna staðalinn
@@ -5,8 +18,6 @@
   - Landsbankinn leggur til að kröfulykill í url-i verði í rauninni samsettur strengur úr kennital kröfuhafa
     kröfunúmeri og  gjalddaga  
   - [RB] yfirfer skjölun (summary og description) á aðgerðum
-
-
 
 #2021-06-15
 - Breytingar / athugasemdir við IOBWS-Claims3.0.yaml

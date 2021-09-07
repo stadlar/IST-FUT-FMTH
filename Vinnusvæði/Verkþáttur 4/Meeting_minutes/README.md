@@ -8,7 +8,7 @@
     skjala vel í yaml
   - Rename "claimTemplate" -> "claimTemplateDetails"
   - Rename "claimTemplateSimpleDetails" -> "claimTemplate"
-  - Hvaða svæðum má bæta við svæðum í "claimTemplateSimpleDetails" [Heimavinna]
+  - Hvaða svæðum má bæta við í "claimTemplateSimpleDetails" [Heimavinna]
   - Á að vera hægt að nota PATCH fyrir kröfur [Heimavinna]
 
 #2021-08-24

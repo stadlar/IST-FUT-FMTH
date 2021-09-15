@@ -29,7 +29,7 @@ Acceptance criteria:
 2. Similar level of support for delegated authorisation for the "TPP" involved.
 
 ## Software Vendor
-> As the provider of software that enables its users to access IOBWS 3.0, I want to be able to target common authentication behavior as part of the technical that is offered accross all the banks, so that I do not have to test against multiple subtly different implementations.
+> As a **Software Vendor** providing Custom, COTS or SaaS applications that my clients use to accesses IOBWS 3.0, I want to be able to target common authentication behavior as part of the technical standard offered by all the banks, so that I do not have to implement and test against multiple subtly different endpoints.
 Acceptance criteria:
 1. There exist code samples that show how to connect using common platforms and frameworks.
 2. The possible variations between banks do not affect the protocol exchanges between the client, authorisation server and API endpoint.

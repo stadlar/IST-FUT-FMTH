@@ -3,9 +3,15 @@
 ## Centralised Financial System
 > As an **Financial System**, I want to connect to IOBWS 3.0 services so that I can e.g. manage Claims, iniate Payments and fetch Account transactions in batches or directly on behalf of users.
 Acceptance criteria:
-1. Support for Búnaðarskilríki issued under Fullgilt Auðkenni, the current gold standard for authenticating and authorising centralised software to act on behalf of organisational units.
+1. Support for eIDAS compliant certificates such as Búnaðarskilríki issued under Fullgilt Auðkenni, the current gold standard for authenticating and authorising centralised software to act on behalf of organisational units.
 1. Support for on-line scenarios, where the organisasation authenticates though employees are instigating the actions.  
 1. Support for two step authorisation scenarios, where the system initiates transactions that are authorised by employees through channels such as as app or web interface.
+
+## Onpremise System
+> As **a users of a on-premise Financial System**, I want to be able to authorise the system to connect to IOBWS 3.0 services and manage Claims, iniate Payments and fetch Account transactions on my behalf in non-interactive sessions.
+Acceptance criteria:
+1. Support for OIDC and OAuth 2.0, code flow with PKCE as the commmon demoninator, but MTLS to identify the client/server. 
+2. Implicit flow is outside scope of the technical standard but this does not exclude .
 
 ## On-premise employee
 > As a **company employee** I want to e.g. iniate payment instructions, create claims and interact with IOBWS 3.0 so that I can manage my day-to-day activities through e.g. the companies ERP system.
@@ -34,3 +40,14 @@ Acceptance criteria:
 1. There exist code samples that show how to connect using common platforms and frameworks.
 2. The possible variations between banks do not affect the protocol exchanges between the client, authorisation server and API endpoint.
 3. Possible variations in methods that still are offered by more than one bank are made part of the standard, as long as a common fallback exists. 
+
+## User of open endpoints
+> As a **Consumer of open services** such as currency data, I want my system to be able to interact with the endpoints without authentication but identify my client as to 
+Acceptance criteria:
+1. 
+
+
+## Third Party Provider
+> As a **PSD2 TPP** provider 
+Acceptance criteria:
+1. Support

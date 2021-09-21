@@ -1,3 +1,42 @@
+#2021-09-21
+- Athugasemdir
+  - Bæta við "IsCapitalIncomeTax" í ClaimTemplates, svæðið "IsCapitalIncomeTax" segir til um hvort fjármagstekjuskattur sé reiknaður. (Skilagrein er skila af banka)
+    - [RB] ætlar að skoða fyrir næsta fund https://github.com/stadlar/IST-FUT-FMTH/issues/9
+    Eftirtaldar breytingar þarf að rýna sérstaklega
+    
+    Bæta við "IsCapitalIncomeTax" í ClaimTemplates, svæðið "IsCapitalIncomeTax" segir til um hvort fjármagstekjuskattur sé reiknaður. (Skilagrein er skila af banka)
+    RB skoðar hvor svæðið "IsCapitalIncomeTaxDeducted" sé mögulegt. "IsCapitalIncomeTaxDeducted"
+    
+    Get claims -> bæta við svæði "ClaimantExpenses"
+    
+    ClaimantExpenses (Optional type at:ClaimantExpenses)
+    Sundurliðun á greiðslum sem kröfuhafi þarf að greiða vegna kröfunnar. Ekki skilað ef engar greiðslur hafa átt sér stað á kröfunni.
+    
+    CapitalGainTaxPaid (Required type ct:Amount [xs:decimal, fractionDigits: 3]) - Fjármagnstekjuskattur sem búið er að draga af greiðslum til kröfuhafa.
+    CapitalGainTaxDue (Required type ct:Amount [xs:decimal, fractionDigits: 3]) - Fjármagnstekjuskattur sem kröfuhafi á eftir að greiða.
+    Get claim payments -> bæta við svæðinu "CapitalGainTaxPaid" (sjá að ofan)
+    
+    RB ætlar að skoða fyrir næsta fund.
+    
+    Hafa til hliðsjónar https://www.skatturinn.is/fagadilar/hugbunadarhus/stadgreidsla-fjarmagnstekjuskatts/ 
+
+  - Frá Íslandsbanka  
+    - [RB] ætlar að skoða fyrir næsta fund https://github.com/stadlar/IST-FUT-FMTH/issues/88 
+    - Ekki nota sama claim object fyrir create og alter, þar sem sum svæði eru aðeins tilgreind þegar krafa er stofnuð.
+    - Yfirfara að array sé ekki skilað þegar unnið er með stak.
+    - RB tala við bankanna að bæta við svæðinu isPaymentAllowed í GET, CREATE og ALTER claim
+    - RB skoða að skila lastChangeDateTime fyrir kröfu í GET
+    - Pass að nota templateCode í staðinn fyrir Identifier
+    - Skoða tvítekningur claimantId í /payments
+    - Ekki hægt að breyta PayorId
+    - Þegar krafa er endurvakin þarf að nota sér object
+    - Vantar betri lýsingu fyrir /v1/claims/{claimant-id}/{claim-no}/{due-date}/transfer
+    - Hægt að leita að kröfum eftir batchId
+    - Betri lýsing fyrir Id fyrir bunka aðgerðir
+    - Allir skoði punkta frá 2021-09-14 og komi með athugasemdir ef einhverjar eru.
+  - Frá Landsbanka
+    - [Allir] skoða https://github.com/stadlar/IST-FUT-FMTH/issues/63 (Verður næsta atriði) 
+
 #2021-09-14
 - Athugasemdir
   - (*) Paging fyrir allar lista aðgerðir

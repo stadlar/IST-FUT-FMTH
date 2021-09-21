@@ -1,15 +1,15 @@
 #2021-09-14
 - Athugasemdir
-  - Paging fyrir allar lista aðgerðir
-  - ClaimTemplate listi
-  - Aðeins hægt að fletta upp claimtemplate. Breytingar á claimtemplate verður settur í breytingarnefndina til umræðu
+  - (*) Paging fyrir allar lista aðgerðir
+  - (*) ClaimTemplate listi
+  - (*) Aðeins hægt að fletta upp claimtemplate. Breytingar á claimtemplate verður settur í breytingarnefndina til umræðu
   - Færa kröfu í milliinnheimtu er gerð með /v1/claims/{claim-id}/transfer, bæta lýsingu
   - Laga skjölun almennt
   - Tví tekin object, laga
-  - Endurnefna /v1/claims/{id}/documents -> /v1/claims/{id}/documentReferences
-  - /v1/claims/{claim-id}/documents/{document-store-location}/{file-id} -> /v1/claims/{id}/documentReferences/{document-reference-id}
-  - Bæta við GET /v1/claims/{claim-id}/documentReferences
-  - Bæta við GET /v1/claims/{claim-id}/documentReferences/{document-reference-id}
+  - (*) Endurnefna /v1/claims/{id}/documents -> /v1/claims/{id}/documentReferences
+  - (*) /v1/claims/{claim-id}/documents/{document-store-location}/{file-id} -> /v1/claims/{id}/documentReferences/{document-reference-id}
+  - (*) Bæta við GET /v1/claims/{claim-id}/documentReferences
+  - (*) Bæta við GET /v1/claims/{claim-id}/documentReferences/{document-reference-id}
   - Skilgreina claim object fyrir post patch og get
   - Breyta POST /v1/claims (batch) -> POST /v1/claimCreationBatches
   - Breyta POST /v1/claims/delete -> POST /v1/claimCancellationBatches
@@ -18,12 +18,12 @@
   - Bæta við GET /v1/claimAlterationBatches/{id}
   - Bæta við GET /v1/claimCancellationBatches/{id}
   - Fella út GET /v1/claims/info/{status-id}
-  - "Payor kennitala" -> laga skjölun
+  - (*) "Payor kennitala" -> laga skjölun
   - kebab-case for consistency sem name fyrir /components/parameters/*
   - DateType should have some default value so dateTo and dateFrom work if dateType is omitted.
-  - claimant should be claimantId for consistency.
-  - payor should be payorId for consistency.
-  - state should be collectionState for a more descriptive name.
+  - (*) claimant should be claimantId for consistency.
+  - (*) payor should be payorId for consistency.
+  - (*) state should be collectionState for a more descriptive name.
   - identifier does not work in this context, this needs to be templateId 
   - (similar key as we describe in issue #75) OR the identifier followed by the claimantId and branch id (the natural key for a template).
 

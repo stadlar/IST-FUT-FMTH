@@ -1,9 +1,26 @@
+#2021-09-28
+- [Bankar] Verkefni fyrir næsta fund, bankar skoða nánar að sameina /claims og /claims/collection
+  https://github.com/stadlar/IST-FUT-FMTH/issues/63
+- Rename path "/v1/claims/{claim-id}/transactions" (to) "/v1/claims/{claim-id}/history"
+- Rename "/v1/claims/{claim-id}/payments" (to) "/v1/claims/{claim-id}/transactions"
+- Claims - GET /claims/{id}/payments, parameter only claimId
+- Change Claims - POST /claims/{claim-id} to POST /claims
+- [Bankar] skoða claims - PUT vs PATCH on a single claim
+- Svar frá [RB]
+  - Bætum við á Claim payments
+    - PaymentInfo
+      - IsCapitalGainTaxWithdrawn, segir til um hvort búið sé að draga fjármagnstekjuskatt af
+  - Hvað þýðir "isPaymentAllowed"? -> Bannað að borga/greiða kröfu
+  - "isPaymentAllowed" verður sent á breytingarnefndina.
+  - Hvað þýðir "lastChangeDateTime" -> BR breyting á kröfu sem er sýnileg í gegnum IOBws. Bætum við í staðalinn og gerum leitanlegt
+  
+
 #2021-09-21
 - Athugasemdir
-  - Bæta við "IsCapitalIncomeTax" í ClaimTemplates, svæðið "IsCapitalIncomeTax" segir til um hvort fjármagstekjuskattur sé reiknaður. (Skilagrein er skila af banka)
+  - (*) Bæta við "IsCapitalIncomeTax" í ClaimTemplates, svæðið "IsCapitalIncomeTax" segir til um hvort fjármagstekjuskattur sé reiknaður. (Skilagrein er skila af banka)
     - [RB] ætlar að skoða fyrir næsta fund https://github.com/stadlar/IST-FUT-FMTH/issues/9
     Eftirtaldar breytingar þarf að rýna sérstaklega
-    
+      
     Bæta við "IsCapitalIncomeTax" í ClaimTemplates, svæðið "IsCapitalIncomeTax" segir til um hvort fjármagstekjuskattur sé reiknaður. (Skilagrein er skila af banka)
     RB skoðar hvor svæðið "IsCapitalIncomeTaxDeducted" sé mögulegt. "IsCapitalIncomeTaxDeducted"
     
@@ -22,17 +39,17 @@
 
   - Frá Íslandsbanka  
     - [RB] ætlar að skoða fyrir næsta fund https://github.com/stadlar/IST-FUT-FMTH/issues/88 
-    - Ekki nota sama claim object fyrir create og alter, þar sem sum svæði eru aðeins tilgreind þegar krafa er stofnuð.
-    - Yfirfara að array sé ekki skilað þegar unnið er með stak.
+    - (*) Ekki nota sama claim object fyrir create og alter, þar sem sum svæði eru aðeins tilgreind þegar krafa er stofnuð.
+    - (*) Yfirfara að array sé ekki skilað þegar unnið er með stak.
     - RB tala við bankanna að bæta við svæðinu isPaymentAllowed í GET, CREATE og ALTER claim
     - RB skoða að skila lastChangeDateTime fyrir kröfu í GET
-    - Pass að nota templateCode í staðinn fyrir Identifier
-    - Skoða tvítekningur claimantId í /payments
-    - Ekki hægt að breyta PayorId
+    - (*) Pass að nota templateCode í staðinn fyrir Identifier
+    - (*) Skoða tvítekningur claimantId í /payments
+    - (*) Ekki hægt að breyta PayorId
     - Þegar krafa er endurvakin þarf að nota sér object
-    - Vantar betri lýsingu fyrir /v1/claims/{claimant-id}/{claim-no}/{due-date}/transfer
-    - Hægt að leita að kröfum eftir batchId
-    - Betri lýsing fyrir Id fyrir bunka aðgerðir
+    - (*) Vantar betri lýsingu fyrir /v1/claims/{claimant-id}/{claim-no}/{due-date}/transfer
+    - (*) Hægt að leita að kröfum eftir batchId
+    - (*) Betri lýsing fyrir Id fyrir bunka aðgerðir
     - Allir skoði punkta frá 2021-09-14 og komi með athugasemdir ef einhverjar eru.
   - Frá Landsbanka
     - [Allir] skoða https://github.com/stadlar/IST-FUT-FMTH/issues/63 (Verður næsta atriði) 
@@ -42,29 +59,29 @@
   - (*) Paging fyrir allar lista aðgerðir
   - (*) ClaimTemplate listi
   - (*) Aðeins hægt að fletta upp claimtemplate. Breytingar á claimtemplate verður settur í breytingarnefndina til umræðu
-  - Færa kröfu í milliinnheimtu er gerð með /v1/claims/{claim-id}/transfer, bæta lýsingu
-  - Laga skjölun almennt
-  - Tví tekin object, laga
+  - (*) Færa kröfu í milliinnheimtu er gerð með /v1/claims/{claim-id}/transfer, bæta lýsingu
+  - (*) Laga skjölun almennt
+  - (*) Tví tekin object, laga
   - (*) Endurnefna /v1/claims/{id}/documents -> /v1/claims/{id}/documentReferences
   - (*) /v1/claims/{claim-id}/documents/{document-store-location}/{file-id} -> /v1/claims/{id}/documentReferences/{document-reference-id}
   - (*) Bæta við GET /v1/claims/{claim-id}/documentReferences
   - (*) Bæta við GET /v1/claims/{claim-id}/documentReferences/{document-reference-id}
-  - Skilgreina claim object fyrir post patch og get
-  - Breyta POST /v1/claims (batch) -> POST /v1/claimCreationBatches
-  - Breyta POST /v1/claims/delete -> POST /v1/claimCancellationBatches
-  - Breyta PUT /v1/claims -> POST /v1/claimAlterationBatches
-  - Bæta við GET /v1/claimCreationBatches/{id}
-  - Bæta við GET /v1/claimAlterationBatches/{id}
-  - Bæta við GET /v1/claimCancellationBatches/{id}
-  - Fella út GET /v1/claims/info/{status-id}
+  - (*) Skilgreina claim object fyrir post patch og get
+  - (*) Breyta POST /v1/claims (batch) -> POST /v1/claimCreationBatches
+  - (*) Breyta POST /v1/claims/delete -> POST /v1/claimCancellationBatches
+  - (*) Breyta PUT /v1/claims -> POST /v1/claimAlterationBatches
+  - (*) Bæta við GET /v1/claimCreationBatches/{id}
+  - (*) Bæta við GET /v1/claimAlterationBatches/{id}
+  - (*) Bæta við GET /v1/claimCancellationBatches/{id}
+  - (*) Fella út GET /v1/claims/info/{status-id}
   - (*) "Payor kennitala" -> laga skjölun
   - kebab-case for consistency sem name fyrir /components/parameters/*
   - DateType should have some default value so dateTo and dateFrom work if dateType is omitted.
   - (*) claimant should be claimantId for consistency.
   - (*) payor should be payorId for consistency.
   - (*) state should be collectionState for a more descriptive name.
-  - identifier does not work in this context, this needs to be templateId 
-  - (similar key as we describe in issue #75) OR the identifier followed by the claimantId and branch id (the natural key for a template).
+  - (*) identifier does not work in this context, this needs to be templateId 
+  - (*) (similar key as we describe in issue #75) OR the identifier followed by the claimantId and branch id (the natural key for a template).
 
 #2021-09-07
 - Athugsemdir

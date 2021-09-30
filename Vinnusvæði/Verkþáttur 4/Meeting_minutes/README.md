@@ -1,15 +1,15 @@
 #2021-09-28
 - [Bankar] Verkefni fyrir næsta fund, bankar skoða nánar að sameina /claims og /claims/collection
   https://github.com/stadlar/IST-FUT-FMTH/issues/63
-- Rename path "/v1/claims/{claim-id}/transactions" (to) "/v1/claims/{claim-id}/history"
-- Rename "/v1/claims/{claim-id}/payments" (to) "/v1/claims/{claim-id}/transactions"
-- Claims - GET /claims/{id}/payments, parameter only claimId
+- (*) Rename path "/v1/claims/{claim-id}/transactions" (to) "/v1/claims/{claim-id}/history"
+- (*) Rename "/v1/claims/{claim-id}/payments" (to) "/v1/claims/{claim-id}/transactions"
+- (*) Claims - GET /claims/{id}/payments, parameter only claimId
 - Change Claims - POST /claims/{claim-id} to POST /claims
 - [Bankar] skoða claims - PUT vs PATCH on a single claim
 - Svar frá [RB]
   - Bætum við á Claim payments
     - PaymentInfo
-      - IsCapitalGainTaxWithdrawn, segir til um hvort búið sé að draga fjármagnstekjuskatt af
+      - (*) IsCapitalGainTaxWithdrawn, segir til um hvort búið sé að draga fjármagnstekjuskatt af
   - Hvað þýðir "isPaymentAllowed"? -> Bannað að borga/greiða kröfu
   - "isPaymentAllowed" verður sent á breytingarnefndina.
   - Hvað þýðir "lastChangeDateTime" -> BR breyting á kröfu sem er sýnileg í gegnum IOBws. Bætum við í staðalinn og gerum leitanlegt
@@ -46,7 +46,7 @@
     - (*) Pass að nota templateCode í staðinn fyrir Identifier
     - (*) Skoða tvítekningur claimantId í /payments
     - (*) Ekki hægt að breyta PayorId
-    - Þegar krafa er endurvakin þarf að nota sér object
+    - (*) Þegar krafa er endurvakin þarf að nota sér object
     - (*) Vantar betri lýsingu fyrir /v1/claims/{claimant-id}/{claim-no}/{due-date}/transfer
     - (*) Hægt að leita að kröfum eftir batchId
     - (*) Betri lýsing fyrir Id fyrir bunka aðgerðir

@@ -1,3 +1,17 @@
+#2021-10-05
+- Samþykkt var að sameina /claims og /claims/collection
+  - Verkefni "Aðgerð sem skila tegund notenda" verður sent á viðhaldshópinn
+  - Verkefni "Aðgerð til að prófa notendur" verður sent á viðhaldshópinn
+- Skiptum út PUT fyrir PATCH fyrir uppfærslu stakri kröfu
+- Ekki verður tilgreind hámark innsendra staka í bunka aðgerðir í staðlinum.
+- Endurvekja -> AlterClaim object (þar sem ClaimId er til á kröfur sem hefur verið felld niður). Verður tekið fyrir á næsta fundi.  
+- Claims get þarf að skila claimDetailStatus
+- Batch aðgerðir GET skila stöðu á hverju staki útfrá batchId
+- [Allir] á að vera hægt að búa til bunka af /v1/claims/RecreationBatch
+- *Batch -> Endurspeglar stakar aðgerðir sem lista af.
+- Patch fyrir claims, sýna og ræða á næsta fundi. 
+- GJH skrifar athugasemd við issues í github.
+
 #2021-09-28
 - [Bankar] Verkefni fyrir næsta fund, bankar skoða nánar að sameina /claims og /claims/collection
   https://github.com/stadlar/IST-FUT-FMTH/issues/63

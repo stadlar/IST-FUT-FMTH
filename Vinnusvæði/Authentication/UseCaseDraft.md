@@ -3,36 +3,35 @@
 ## Centralised Financial System
 > As an **Financial System**, I want to connect to IOBWS 3.0 services so that I can e.g. manage Claims, iniate Payments and fetch Account transactions in batches or directly on behalf of users.
 Acceptance criteria:
-1. Support for eIDAS compliant certificates such as Búnaðarskilríki issued under Fullgilt Auðkenni, the current gold standard for authenticating and authorising centralised software to act on behalf of organisational units.
-1. Support for on-line scenarios, where the organisasation authenticates though employees are instigating the actions.  
-1. Support for two step authorisation scenarios, where the system initiates transactions that are authorised by employees through channels such as as app or web interface.
+1. Support for Búnaðarskilríki issued under Fullgilt Auðkenni, the current gold standard for authenticating and authorising centralised software to act on behalf of organisational units.
+2. Support for OIDC and OAuth 2.0, code flow with PKCE as the commmon demoninator. 
+3. Support for on-line scenarios, where the organisation authenticates the interactive employee that instigates the action.
 
 ## Onpremise System
 > As **a users of a on-premise Financial System**, I want to be able to authorise the system to connect to IOBWS 3.0 services and manage Claims, iniate Payments and fetch Account transactions on my behalf in non-interactive sessions.
 Acceptance criteria:
-1. Support for OIDC and OAuth 2.0, code flow with PKCE as the commmon demoninator, but MTLS to identify the client/server. 
-2. Implicit flow is outside scope of the technical standard but this does not exclude .
+1. Support for OIDC and OAuth 2.0, code flow with offline_access, using MTLS to identify the client/server using Búnaðarskilríki issued under Fullgilt Auðkenni. 
 
 ## On-premise employee
 > As a **company employee** I want to e.g. iniate payment instructions, create claims and interact with IOBWS 3.0 so that I can manage my day-to-day activities through e.g. the companies ERP system.
 Acceptance criteria:
-1. The authentication of the user must be able to flow through, when appropriate.
-2. Support for authentication with Qualified Certificates.
-3. Optional support for other authentication methods used by each institution.
+2. Support for OIDC and OAuth 2.0, code flow with PKCE as the commmon demoninator. 
+2. Support for user authentication with Qualified Certificates.
 
 ## Financial Services
 > As e.g. **an independant Accounting firm** offering services to multiple clients, I want to be able to access their accounts and products through IOBWS 3.0, so I can manage their financials and accounting.
 Acceptance criteria:
 1. Support for assuming multiple identities. 
-2. Support for authentication with Qualified Certificates or Búnaðarskilríki.
-3. Optional support for other authentication methods used by each institution.
-4. Optional support for "delegated" TPP like scenarios.
+2. Support for OIDC and OAuth 2.0, code flow with PKCE as the commmon demoninator. 
+2. Support for user authentication with Qualified Certificates.
+3. The scopes should be known, based on the endpoints defined in IOBWS 3.0.
 
 ## Financial Software as a Service
 > As the IOBWS 3.0 **customer of a bank**, I want to be able to authorise SaaS software hosted in public clouds to act on my behalf, so I can allow the service to manage my financials and the products I have access to such as Claims.
 Acceptance criteria:
 1. This should address the scenario where companies offering e.g. Dynamics 365 or more custom apps need to act on behalf of bank customers.
-2. Similar level of support for delegated authorisation for the "TPP" involved.
+2. Support for OIDC and OAuth 2.0, code flow with PKCE as the commmon demoninator. 
+2. Support for user authentication with Qualified Certificates.
 
 ## Software Vendor
 > As a **Software Vendor** providing Custom, COTS or SaaS applications that my clients use to accesses IOBWS 3.0, I want to be able to target common authentication behavior as part of the technical standard offered by all the banks, so that I do not have to implement and test against multiple subtly different endpoints.
@@ -46,8 +45,35 @@ Acceptance criteria:
 Acceptance criteria:
 1. 
 
+## Scopes
+ATT. list up as part of this documentation, at least one scope per endpoint, discuss if more needed.
+For IOBWS we are not chasing BG on how to issue tokens per product initiation.
+Consider if there should be read (get) and read-write (get, post, delete, put) per endpoint.
+Name of scopes should be [service abbrevation].[read|write][:EntityID]
 
-## Third Party Provider
-> As a **PSD2 TPP** provider 
-Acceptance criteria:
-1. Support
+/v1/claimtemplates
+/v1/claimtemplates/{template-id}
+/v1/claims/{claim-id}, post, get, delete, put
+/v1/claims/{claim-id}/transactions
+/v1/claims/{claim-id}/history
+
+|  Endpoint | Scope  | Description  |   |   |
+|---|---|---|---|---|
+| /v1/{payment-service} | pis:{paymentId}  | | | |
+| /v1/{payment-service} | pis  | | | |
+| /v1/accounts | ais  | | | |
+| /v1/accounts | ais  | | | |
+| /v1/accounts/{account-id} | ais:{consentId} | | | |
+| /v1/card-accounts |   | | | |
+| /v1/cards |   | | | |
+| /v1/cards |   | | | |
+| /v1/currencies |   | | | |
+| /v1/currencies |   | | | |
+| /v1/ |   | | | |
+| /v1/ |   | | | |
+| /v1/documents |   | | | |
+| /v1/documents |   | | | |
+| /v1/claimtemplates  | cts.read | Scope for read access to **C**laim **T**emplate **S**ervice  |   |   |
+| /v1/claimtemplates  | cts.write | Claim Template Service  |   |   |
+| /v1/claims  | ccs.read  |   |   |   |
+| /v1/claims  | ccs.write  |   |   |   |

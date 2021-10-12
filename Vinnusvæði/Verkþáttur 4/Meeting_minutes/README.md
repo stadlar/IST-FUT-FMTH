@@ -1,3 +1,7 @@
+#2021-10-19
+- [Open issutes]
+- idem potency strategy
+
 #2021-10-12
 - X-Request-ID er idempotency key.
 - Taka út IdempotencyKey

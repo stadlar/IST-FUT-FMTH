@@ -1,3 +1,28 @@
+#2021-10-12
+- X-Request-ID er idempotency key.
+- Taka út IdempotencyKey
+- Halda okkur við að sameina /claims og /claims/collection
+  - Fá haldgóðar lýsingar fyrir milliinnheimtuaðila
+  - Setja upp notendasögur fyrir fruminnheimtu sem endar í milliinnheimtu
+- Íslandsbanki leggur til að nota ekki PATCH aðgerðir, PATCH vs. PUT verður frestað til næsta fundar.
+- Á "Re-create" að vera sem partur af Alter eða sér aðgerð?
+  - Færa stöðuna frá "Cancelled" yfir í "Unpaid"
+  - Á að nota attribute eða endapunkt til að skipta um stöðu -> **Arion vill nota endapunkt**
+  - Eum við að gera "Re-create" á stak eða lista -> 
+- Á aðeins að styðja lista aðgerðir (create, alter, delete)?
+  - Betri stuðningur við aðgerð með staki heldur en aðgerð með lista
+  - Íslandsbanki vill styðja bæði.
+- Landsbankinn
+  - https://github.com/stadlar/IST-FUT-FMTH/issues/97
+  - 1. Það á að vera hægt að sækja allar greiðslur sem hafa átt stað á ákveðnu tímabili. 
+    -> **Halda inni**
+    2. Það á að vera hægt að sækja allar hreyfingar sem hafa átt stað á ákveðnu tímabili. 
+    -> **Taka út /v1/claims/history**
+    3. -> **Taka út /v1/claims/recreate**
+    4. -> **Taka út /v1/claims/recreate**
+    Breyting á kröfu þýðir að kröfuforsendur hafa breyst
+- 
+
 #2021-10-05
 - Samþykkt var að sameina /claims og /claims/collection
   - Verkefni "Aðgerð sem skila tegund notenda" verður sent á viðhaldshópinn
@@ -11,6 +36,38 @@
 - *Batch -> Endurspeglar stakar aðgerðir sem lista af.
 - Patch fyrir claims, sýna og ræða á næsta fundi. 
 - GJH skrifar athugasemd við issues í github.
+- Farið í gegnum kröfu bunka.
+  (Uppfæra lýsingu)
+    1. Stofna bunka af 55 kröfum (CreateClaim 1..n) -> Afgreiðslunr. + Completed staða á meðan fjöldi er > 500
+        1.1. Á meðan Afgreiðslunr -> Staða er ekki í [Completed, Error] then
+             Sækja stöðu -> Staða inniheldur stöða per stak og heildarstöðu.
+             # response: {BatchId: 1}
+       1. Sendir [] af CreateClaim + X-Request-ID -> BatchId + [] af ClaimKey + Status
+
+    2. Sæki list af kröfum 33 og bý til nýjan bunka og sendi á banka sem "Breyta" (AlterClaim 1..n) -> Afgreiðslunr.
+        2.1. Á meðan Afgreiðslunr -> Staða er ekki í [Completed, Error] then
+             Sækja stöðu -> Staða inniheldur stöða per stak og heildarstöðu.
+             # response: {BatchId: 2}
+
+    3. Sæki list af kröfum 21 og bý til nýjan bunka og sendi á banka sem "Fella niður" (CancelClaim 1..n) -> Afgreiðslunr.
+        3.1. Á meðan Afgreiðslunr -> Staða er ekki í [Completed, Error] then
+             Sækja stöðu -> Staða inniheldur stöða per stak og heildarstöðu.
+             # response: {BatchId: 3}
+
+    4. Sæki list af felldum kröfum 15 og bý til nýjan bunka og sendi á banka sem "Endurvekja" (RecreateClaim 1..n) -> Afgreiðslunr.
+        4.1. Á meðan Afgreiðslunr -> Staða er ekki í [Completed, Error] then
+             Sækja stöðu -> Staða inniheldur stöða per stak og heildarstöðu.
+             # response: {BatchId: 4}
+
+    Stofna bunka { Claims = oneOf list of [CreateClaim or ReCreateClaim or AlterClaim or CancelClaim] }
+    - Sum attribute má ekki breyta sb. PayerId=Skuldari
+
+    get: -> skilað lista af bunkum (skilyrði frá til stofnað) -> þar sem
+            stak væri batchId, createdDate, Creation batch status = [Ok, Error ....]
+    post: -> nýr bunki (stak í bunka væri með Status Object)
+    delete: -> henda bunka
+
+
 
 #2021-09-28
 - [Bankar] Verkefni fyrir næsta fund, bankar skoða nánar að sameina /claims og /claims/collection

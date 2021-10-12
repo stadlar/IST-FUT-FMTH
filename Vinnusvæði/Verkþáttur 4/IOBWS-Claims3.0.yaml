@@ -238,7 +238,6 @@ paths:
       #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/IdempotencyKey"
           #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -295,7 +294,6 @@ paths:
       #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/IdempotencyKey"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -475,7 +473,6 @@ paths:
       #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/IdempotencyKey"
           #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -537,7 +534,6 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/IdempotencyKey"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -659,7 +655,6 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/IdempotencyKey"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -1240,7 +1235,6 @@ paths:
       #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/IdempotencyKey"
           #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -1477,7 +1471,6 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/IdempotencyKey"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -3653,16 +3646,6 @@ components:
 
     X-Request-ID:
       name: X-Request-ID
-      in: header
-      description: ID of the request, unique to the call, as determined by the initiating party.
-      required: true
-      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
-      schema:
-        type: string
-        format: uuid
-
-    IdempotencyKey:
-      name: idempotency-key
       in: header
       description: ID of the request, unique to the call, as determined by the initiating party.
       required: true

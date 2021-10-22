@@ -57,25 +57,53 @@ Name of scopes should be [service abbrevation].[read|write][:EntityID]
 /v1/claims/{claim-id}/transactions
 /v1/claims/{claim-id}/history
 
-|  Endpoint | Scope  | Description  |   |   |
-|---|---|---|---|---|
-| /v1/{payment-service} | pis:{paymentId}  | | | |
-| /v1/{payment-service} | pis  | | | |
-| /v1/accounts | ais  | | | |
-| /v1/accounts | ais  | | | |
-| /v1/accounts/{account-id} | ais:{consentId} | | | |
-| /v1/card-accounts |   | | | |
-| /v1/cards |   | | | |
-| /v1/cards |   | | | |
-| /v1/currencies |   | | | |
-| /v1/currencies |   | | | |
-| /v1/ |   | | | |
-| /v1/ |   | | | |
-| /v1/documents |   | | | |
-| /v1/documents |   | | | |
-| /v1/claimtemplates  | cts.read | Scope for read access to **C**laim **T**emplate **S**ervice  |   |   |
-| /v1/claimtemplates  | cts.write | Claim Template Service  |   |   |
-| /v1/claims  | ccs.read  |   |   |   |
-| /v1/claims  | ccs.write  |   |   |   |
-
-dir *.yaml -Recurse | Foreach-Object { Select-String -Path $_.FullPath ', "(/v1/)(.*):"' -AllMatches | Foreach-Object {$_.Matches} | Foreach-Object {$_.Groups[2].Value} }
+| Origin	                     |  EndPoint	                                                                                          |  Scope	              |
+|------------------------------|------------------------------------------------------------------------------------------------------|-----------------------| 
+| IOBWS3.0.yaml:98:            |	/v1/{payment-service}/{payment-product}:                                                            |	pis	                  |  
+| IOBWS3.0.yaml:230:           |	/v1/{payment-service}/{payment-product}/{paymentId}:                                                |	pis:{paymentId}	      |              
+| IOBWS3.0.yaml:402:           |	/v1/{payment-service}/{payment-product}/info/{Query-X-Request-ID}:                                  |	pis:{paymentId}	      |              
+| IOBWS3.0.yaml:487:           |	/v1/{payment-service}/{payment-product}/{paymentId}/status:                                         |	pis:{paymentId}	      |              
+| IOBWS3.0.yaml:565:           |	/v1/{payment-service}/{payment-product}/{paymentId}/authorisations:                                 |	pis:{paymentId}	      |              
+| IOBWS3.0.yaml:777:           |	/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}:               |	pis:{paymentId}	      |              
+| IOBWS3.0.yaml:1002:          |	/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations:                    |	pis:{paymentId}	      |              
+| IOBWS3.0.yaml:1210:          |	/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}:  |	pis:{paymentId}	      |              
+| IOBWS3.0.yaml:1444:          |	/v1/accounts:                                                                                       |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:1540:          |	/v1/accounts/{account-id}:                                                                          |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:1633:          |	/v1/accounts/{account-id}/balances:                                                                 |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:1719:          |	/v1/accounts/{account-id}/transactions:                                                             |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:1810:          |	/v1/accounts/{account-id}/transactions/{transactionId}:                                             |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:1904:          |	/v1/card-accounts:                                                                                  |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:1987:          |	/v1/card-accounts/{account-id}:                                                                     |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:2072:          |	/v1/card-accounts/{account-id}/balances:                                                            |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:2160:          |	/v1/card-accounts/{account-id}/transactions:                                                        |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:2255:          |	/v1/cards:                                                                                          |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:2320:          |	/v1/cards/{card-id}:                                                                                |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:2386:          |	/v1/cards/{card-id}/balances:                                                                       |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:2455:          |	/v1/cards/{card-id}/transactions:                                                                   |	ais:{consentId}	      |              
+| IOBWS3.0.yaml:2528:          |	/v1/currencies:                                                                                     |	cur.read	            |        
+| IOBWS3.0.yaml:2570:          |	/v1/currencies/sources:                                                                             |	cur.read	            |        
+| IOBWS3.0.yaml:2614:          |	/v1/currencies/{base-currency}/rates:                                                               |	cur.read	            |        
+| IOBWS3.0.yaml:2659:          |	/v1/currencies/{quote-currency}/rates/{base-currency}:                                              |	cur.read	            |        
+| IOBWS3.0.yaml:2706:          |	/v1/currencies/{quote-currency}/rates/{base-currency}/history:                                      |	cur.read	            |        
+| IOBWS-Claims3.0.yaml:33:     |	/v1/claimtemplates:                                                                                 |	cts.read, cts.write	  |                  
+| IOBWS-Claims3.0.yaml:95:     |	/v1/claimtemplates/{templateId}:                                                                    |	cts.read, cts.write	  |                  
+| IOBWS-Claims3.0.yaml:156:    |	/v1/claims/{claimId}:                                                                               |	ccs.read, ccs.write	  |                  
+| IOBWS-Claims3.0.yaml:327:    |	/v1/claims/{claimId}/transactions:                                                                  |	ccs.read	            |        
+| IOBWS-Claims3.0.yaml:386:    |	/v1/claims/{claimId}/history:                                                                       |	ccs.read	            |        
+| IOBWS-Claims3.0.yaml:446:    |	/v1/claims/{claimId}/transfer:                                                                      |	ccs.read, ccs.write	  |                  
+| IOBWS-Claims3.0.yaml:504:    |	/v1/claims:                                                                                         |	ccs.read, ccs.write	  |                  
+| IOBWS-Claims3.0.yaml:628:    |	/v1/claimsRecreationBatch:                                                                          |		                    |
+| IOBWS-Claims3.0.yaml:687:    |	/v1/claimsRecreationBatch/{batchId}:                                                                |		                    |
+| IOBWS-Claims3.0.yaml:743:    |	/v1/claimsCreationBatch:                                                                            |		                    |
+| IOBWS-Claims3.0.yaml:803:    |	/v1/claimsCreationBatch/{batchId}:                                                                  |		                    |
+| IOBWS-Claims3.0.yaml:859:    |	/v1/claimsCancellationBatch:                                                                        |		                    |
+| IOBWS-Claims3.0.yaml:919:    |	/v1/claimsCancellationBatch/{batchId}:                                                              |		                    |
+| IOBWS-Claims3.0.yaml:975:    |	/v1/claimsAlterationBatch:                                                                          |		                    |
+| IOBWS-Claims3.0.yaml:1035:   |	/v1/claimsAlterationBatch/{batchId}:                                                                |		                    |
+| IOBWS-Claims3.0.yaml:1091:   |	/v1/claims/transactions:                                                                            |		                    |
+| IOBWS-Claims3.0.yaml:1158:   |	/v1/claimsTransferBatch:                                                                            |		                    |
+| IOBWS-Claims3.0.yaml:1218:   |	/v1/claims/{claimId}/documentReferences:                                                            |		                    |
+| IOBWS-Claims3.0.yaml:1335:   |	/v1/claims/{claimId}/documentReferences/{documentStoreLocation}/{documentReferenceId}:              |		                    |
+| IOBWS-Documents3.0.yaml:26:  |	/v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:                          |	doc.read, doc.write	  |                  
+| IOBWS-Documents3.0.yaml:154: |	/v1/documents/{documentStoreLocation}:                                                              |	doc.read, doc.write	  |                  
+| IOBWS-Documents3.0.yaml:268: |	/v1/documents/{documentStoreLocation}/types:                                                        |	doc.read, doc.write	  |                  

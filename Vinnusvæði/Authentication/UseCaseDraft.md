@@ -77,3 +77,5 @@ Name of scopes should be [service abbrevation].[read|write][:EntityID]
 | /v1/claimtemplates  | cts.write | Claim Template Service  |   |   |
 | /v1/claims  | ccs.read  |   |   |   |
 | /v1/claims  | ccs.write  |   |   |   |
+
+dir *.yaml -Recurse | Foreach-Object { Select-String -Path $_.FullPath ', "(/v1/)(.*):"' -AllMatches | Foreach-Object {$_.Matches} | Foreach-Object {$_.Groups[2].Value} }

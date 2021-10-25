@@ -799,7 +799,6 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-
   /v1/claimsCreationBatch/{batchId}:
 
     get:

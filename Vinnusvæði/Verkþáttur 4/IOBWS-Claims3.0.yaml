@@ -2447,13 +2447,13 @@ components:
       properties:
         claimKey:
           $ref: "#/components/schemas/claimKey"
-      transferToCollectionState:
-        description: Billing process status, where to move the claim
-        type: string
-        enum:
-        - "PrimaryCollection"
-        - "SecondaryCollection"
-        - "LegalCollection"
+        transferToCollectionState:
+          description: Billing process status, where to move the claim
+          type: string
+          enum:
+          - "PrimaryCollection"
+          - "SecondaryCollection"
+          - "LegalCollection"
 
     alterClaimDetails:
       description: |
@@ -3563,18 +3563,20 @@ components:
     page:
       name: page
       in: query
-      description: OK
-      required: true
+      description: Requested page
+      required: false
       schema:
         type: integer
+        default: 1
 
     itemsPerPage:
       name: itemsPerPage
       in: query
-      description: OK
-      required: true
+      description: Records per page
+      required: false
       schema:
         type: integer
+        default: 100
 
     claimId:
       name: claimId
@@ -3791,6 +3793,7 @@ components:
     batchId:
       name: batchId
       in: path
+      required: true
       description: |
         Unique identifier for a batch of claims
       schema:

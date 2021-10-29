@@ -92,7 +92,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimtemplates/{templateId}:
+  /v1/claimtemplates/{claimTemplateId}:
 
     get:
       summary: Claim template
@@ -117,7 +117,7 @@ paths:
         - BearerAuthOAuth: []
       parameters:
       #path
-        - $ref: "#/components/parameters/templateId"
+        - $ref: "#/components/parameters/claimTemplateId"
       #query # NO QUERY PARAMETER
       #header
           #mandatory header parameter
@@ -1867,7 +1867,7 @@ components:
         Claim template details.
       type: object
       properties:
-        templateId:
+        claimTemplateId:
           description: Id which is unique for each claimTemplate. This is specific to each bank.
           type: string
         claimantId:
@@ -3704,8 +3704,8 @@ components:
         type: string
         format: date
 
-    templateId:
-      name: templateId
+    claimTemplateId:
+      name: claimTemplateId
       in: path
       description: |
         Unique template id defined by the banks.

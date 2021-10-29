@@ -1920,9 +1920,6 @@ components:
           description: Describes how the business number template is structured for the claim template.
           type: string
           pattern: '[0-9A-Za-z]{0,16}'
-        numberOfDepositingAccounts:
-          description: Indicates the number of additional template allocation accounts.
-          type: integer
         depositingAccount:
           $ref: "#/components/schemas/depositingAccount"
         secondaryCollectionClaimTemplateCode:

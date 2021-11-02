@@ -236,9 +236,9 @@ paths:
         - $ref: "#/components/parameters/claimId"
       #query # NO QUERY PARAMETER
       #header
-          #mandatory header parameter
+        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
+        #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
@@ -292,9 +292,10 @@ paths:
         - $ref: "#/components/parameters/claimId"
       #query # NO QUERY PARAMETER
       #header
-          #mandatory header parameter
+        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
+        - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
@@ -475,6 +476,7 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
+        - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
@@ -595,7 +597,6 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/X-Idempotency-Key"
         #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
@@ -626,7 +627,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimsRecreationBatch:
+  /v1/claimsRecreateBatch:
 
     post:
       summary: Creates a list of claims defined by the request body object
@@ -655,8 +656,8 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/X-Idempotency-Key"
         #optional header parameters
+        - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
@@ -771,8 +772,8 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/X-Idempotency-Key"
         #optional header parameters
+        - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
@@ -888,8 +889,8 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/X-Idempotency-Key"
         #optional header parameters
+        - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
@@ -1005,8 +1006,8 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/X-Idempotency-Key"
         #optional header parameters
+        - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
@@ -1189,8 +1190,8 @@ paths:
       #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
         - $ref: "#/components/parameters/X-Idempotency-Key"
-          #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
@@ -1307,8 +1308,8 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/X-Idempotency-Key"
         #optional header parameters
+        - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
@@ -1648,6 +1649,24 @@ components:
       description: Describes is active state.
       type: boolean
 
+    amountValueNotRequired:
+      description: |
+        The amount given with fractional digits, where fractions must be compliant to the currency definition.
+        Up to 14 significant figures. Negative amounts are signed by minus.
+        The decimal separator is a dot.
+
+        **Example:**
+        Valid representations for numbers with up to two decimals are:
+
+          * 1056
+          * 5768.2
+          * -1.50
+          * 5877.78
+      required: false
+      type: string
+      pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
+      example: "5877.78"
+
     amountValue:
       description: |
         The amount given with fractional digits, where fractions must be compliant to the currency definition.
@@ -1661,7 +1680,7 @@ components:
           * 5768.2
           * -1.50
           * 5877.78
-
+      required: true
       type: string
       pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
       example: "5877.78"
@@ -1774,29 +1793,6 @@ components:
           type: string
           maxLength: 30
 
-    payorStatementExtendedReferenceType:
-      description: |
-        Specifies the value that appears in the reference area of the payee account statement.
-      properties:
-        claimantId:
-          $ref: "#/components/schemas/kennitala"
-        referenceNumber:
-          description: The first 12 letters of the reference number.
-          type: string
-          maxLength: 12
-        customerNumber:
-          description: The first 12 letters of the transaction number.
-          type: string
-          maxLength: 12
-        claimId:
-          description: Bank, ledger and claim number.
-          type: string
-          pattern: "[0-9]{12}"
-        payorId:
-          $ref: "#/components/schemas/kennitala"
-        dueDate:
-          $ref: "#/components/schemas/dueDate"
-
     depositingAccount:
       description: |
         Information on the main disposal account.
@@ -1805,10 +1801,6 @@ components:
           $ref: "#/components/schemas/accountNo"
         ownerId:
           $ref: "#/components/schemas/kennitala"
-        errorText:
-          description: Error message for disposable invoice that was found during the last weekly debugging of claims formats.
-          type: string
-          maxLength: 100
 
     depositingAccountWithDetails:
       description: |
@@ -1820,10 +1812,6 @@ components:
           $ref: "#/components/schemas/accountNo"
         accountOwnerId:
           $ref: "#/components/schemas/kennitala"
-        errorText:
-          description: Error message for disposable invoice that was found during the last weekly debugging of claims formats.
-          type: string
-          maxLength: 100
         type:
           description: |
             Describes what type of additional depositing account this is.
@@ -1921,12 +1909,6 @@ components:
             - DueDate
             - BillNumber
             - ClaimNumber
-        payorStatementExtendedReferenceType:
-          $ref: "#/components/schemas/payorStatementExtendedReferenceType"
-        customerNumberTemplate:
-          description: Describes how the business number template is structured for the claim template.
-          type: string
-          pattern: '[0-9A-Za-z]{0,16}'
         depositingAccount:
           $ref: "#/components/schemas/depositingAccount"
         secondaryCollectionClaimTemplateCode:
@@ -1936,41 +1918,20 @@ components:
           pattern: "[0-9A-Za-z]{3}"
           example: "MI1"
         minimumCollectionAmount:
-          $ref: "#/components/schemas/amountValue"
+          $ref: "#/components/schemas/amountValueNotRequired"
         withdrawalAccountId:
           $ref: "#/components/schemas/accountNo"
-        isBill:
-          description: Indicates whether a bill is stored in an electronic system with external parties.
-          type: boolean
-        isLetter:
-          description: Indicates whether a collection letter is stored in an electronic system at an external party
-          type: boolean
-        printingLocation:
-          $ref: "#/components/schemas/printingLocation"
         additionalDepositingAccounts:
           type: array
           items:
             $ref: "#/components/schemas/depositingAccountWithDetails"
-        IsCapitalIncomeTax:
-          description: |
-            Is capital income calculated?
-          type: boolean
         isActive:
           type: boolean
-        lastModifiedDateTime:
+        lastModified:
           description: |
             This data element might be used to indicate e.g. last time when changed.
           type: string
           format: date-time
-
-    printingLocation:
-      description: Printing place information
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
 
     paymentFee:
       description: |

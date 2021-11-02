@@ -2231,9 +2231,6 @@ components:
         isPartialPaymentAllowed:
           description: Partial payment is allowed
           type: boolean
-        isPaymentAllowed:
-          description: Payment is allowed
-          type: boolean
 
     claimDetailOther:
       description: |

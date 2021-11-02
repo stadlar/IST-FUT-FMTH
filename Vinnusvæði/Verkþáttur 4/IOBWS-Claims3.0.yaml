@@ -1876,7 +1876,6 @@ components:
           enum:
             - "PrimaryCollection"
             - "SecondaryCollection"
-            - "LegalCollection"
         category:
           $ref: "#/components/schemas/claimTemplateCategory"
         claimantStatementExtendedReferenceType:

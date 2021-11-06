@@ -4933,6 +4933,7 @@ components:
         icelandicPurpose:
           $ref: "#/components/schemas/icelandicPurpose"
 
+
     cardTransaction:
       description: Card transaction information.
       type: object
@@ -11313,6 +11314,7 @@ components:
           - "sepa-credit-transfers"
           - "cross-border-credit-transfers"
 
+
     paymentId:
       name: paymentId
       in: path
@@ -12317,6 +12319,7 @@ components:
               $ref: "#/components/examples/balancesDomesticExample5_CurrencyAccount"
             "Example 6:":
               $ref: "#/components/examples/balancesDomesticExample6_RegularAccount"
+
 
     OK_200_CardAccountBalances:
       description: OK
@@ -14408,6 +14411,7 @@ components:
         { 
           "authorisationIds": ["123auth456"]
         }
+    
 
 #####################################################
 # Predefined Examples Domestic

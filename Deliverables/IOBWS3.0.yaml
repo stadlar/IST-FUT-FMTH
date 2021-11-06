@@ -4465,13 +4465,13 @@ components:
           - "expectedBooked":
             Balance composed of booked entries and pending items known at the time of calculation,
             which projects the end of day balance if everything is booked on the account and no other entry is posted.
-
+            
             For card accounts, this is composed of:
               - not yet invoiced but already booked entries and
               - pending items (not yet booked)
-
+            
             For card-accounts:
-
+            
             "money to spend with the value of a pre-approved credit limit on the card account"
 
 
@@ -4569,6 +4569,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/cashAccountType"
+
 
 
     cashAccountType:
@@ -4821,6 +4822,7 @@ components:
         $ref: "#/components/schemas/transactions"
 
 
+
     cardTransactionList:
       description: Array of transaction details.
       type: array
@@ -4932,6 +4934,7 @@ components:
           $ref: "#/components/schemas/ultimateDebtorId"
         icelandicPurpose:
           $ref: "#/components/schemas/icelandicPurpose"
+
 
     cardTransaction:
       description: Card transaction information.
@@ -7181,6 +7184,7 @@ components:
           $ref: "#/components/schemas/transactionFeesList"
         exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
           $ref: "#/components/schemas/paymentExchangeRate"
+
 
 
     paymentInitiationCancelResponse-202:
@@ -11313,6 +11317,7 @@ components:
           - "sepa-credit-transfers"
           - "cross-border-credit-transfers"
 
+
     paymentId:
       name: paymentId
       in: path
@@ -12204,6 +12209,7 @@ components:
               $ref: "#/components/examples/accountListDomesticExample5"
 
 
+
     OK_200_CardAccountList:
       description: OK
       
@@ -12247,6 +12253,7 @@ components:
               $ref: "#/components/examples/accountDetailsDomesticCurrencyAccount"
             "Regular Domestic Account with Balances and Creditlimit":
               $ref: "#/components/examples/accountDetailsDomesticRegularAccountWithBalancesAndCreditlimit"
+
 
 
     OK_200_CardAccountDetails:
@@ -12293,6 +12300,7 @@ components:
               $ref: "#/components/examples/transactionDetailsDomesticExample"
 
 
+
     OK_200_Balances:
       description: OK
       
@@ -12317,6 +12325,7 @@ components:
               $ref: "#/components/examples/balancesDomesticExample5_CurrencyAccount"
             "Example 6:":
               $ref: "#/components/examples/balancesDomesticExample6_RegularAccount"
+
 
     OK_200_CardAccountBalances:
       description: OK
@@ -14408,6 +14417,7 @@ components:
         { 
           "authorisationIds": ["123auth456"]
         }
+    
 
 #####################################################
 # Predefined Examples Domestic

@@ -12434,7 +12434,6 @@ components:
             Example:
               $ref: "#/components/examples/consentStatusResponseExample1"
 
-
     OK_200_UpdatePsuData:
       description: OK 
       

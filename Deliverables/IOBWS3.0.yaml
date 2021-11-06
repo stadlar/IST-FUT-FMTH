@@ -1917,10 +1917,6 @@ paths:
       # Card Accounts
       #####################################################
 
-  #####################################################
-  # Card Accounts Information Service
-  #####################################################
-
   /v1/card-accounts:
 
     get:
@@ -2272,510 +2268,6 @@ paths:
       # Consents
       #####################################################
 
-  #####################################################
-  # Card Information Service
-  #####################################################
-
-  /v1/cards:
-
-    get:
-      summary: Read list of cards.
-      description: |
-        Reads a list of cards potentially with additional information, e.g. balance information.
-        It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system.
-        The addressed list of cards depends then on the stored consent addressed by consentId, respectively the OAuth2 access token.
-
-      operationId: readListOfCards
-      tags:
-        - cards
-        - list
-
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      #In this file only the basic security element to transport
-      # the bearer token of an an OAuth2 process, which has to
-      # be included inthe HTTP header ist described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommandes to adjust the security schemes according to
-      # your system enviroments and security policies.
-      #####################################################
-        - {}
-        # - BearerAuthOAuth: []
-
-      parameters:
-        #path # NO PATH PARAMETER
-        #query # NO QUERY PARAMETER
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-
-      # no request body
-      # requestBody:
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CARDS"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403_AIS"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404_AIS"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
-
-  /v1/cards/{card-id}:
-
-    get:
-      summary: Read card details.
-      description: |
-        Reads details about a card. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system.
-        The addressed details of this account depends then on the stored consent addressed by consentId, respectively the OAuth2 access
-        token.
-
-      operationId: readCardDetails
-      tags:
-        - cards
-        - details
-
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to 
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        # - BearerAuthOAuth: []
-
-      parameters:
-        #path
-        - $ref: "#/components/parameters/card-id"
-        #query # NO QUERY PARAMETER
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-
-      # no request body
-      # requestBody:
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CARDDETAILS"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403_AIS"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404_AIS"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
-
-  /v1/cards/{card-id}/balances:
-
-    get:
-      summary: Read card balances.
-      description: |
-         Read detailed balance information about the addressed card by "card-id".
-         For a given card, an optional parameter "dateFrom" defines the begin of a period from which to obtain available balance related information.
-         Please note, that the current credit line of a given card might be
-         tighter than what a response to this request will suggest due to general credit limits on the card account and transactions by
-         other cards to the same card account.
-
-      operationId: readCardBalances
-      tags:
-        - cards
-        - balances
-
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      #In this file only the basic security element to transport
-      # the bearer token of an an OAuth2 process, which has to
-      # be included inthe HTTP header ist described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommandes to adjust the security schemes according to
-      # your system enviroments and security policies.
-      #####################################################
-        - {}
-        # - BearerAuthOAuth: []
-
-      parameters:
-        #path
-        - $ref: "#/components/parameters/card-id"
-        #query
-        - $ref: "#/components/parameters/dateFrom"
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-
-      # no request body
-      # requestBody:
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CARDBALANCES"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403_AIS"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404_AIS"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
-
-  /v1/cards/{card-id}/transactions:
-
-    get:
-      summary: Read account data.
-      description: |
-        Reads account data from a given card addressed by "card-id".
-
-      operationId: readAccountData
-      tags:
-        - cards
-        - account data
-        - transactions
-
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      #In this file only the basic security element to transport
-      # the bearer token of an an OAuth2 process, which has to
-      # be included inthe HTTP header ist described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommandes to adjust the security schemes according to
-      # your system enviroments and security policies.
-      #####################################################
-        - {}
-        # - BearerAuthOAuth: []
-
-      parameters:
-        #path
-        - $ref: "#/components/parameters/card-id"
-        #query
-        - $ref: "#/components/parameters/dateFrom"
-        - $ref: "#/components/parameters/dateTo"
-        - $ref: "#/components/parameters/bookingStatus"
-        - $ref: "#/components/parameters/deltaList"
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-
-      # no request body
-      # requestBody:
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CARDTRANSACTIONS"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403_AIS"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404_AIS"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
-
-  #####################################################
-  # Currencies Information Service
-  #####################################################
-
-  /v1/currencies:
-
-    get:
-      summary: Read list of currencies
-      description: |
-        Read all supported currencies
-      operationId: readCurrencies
-      tags:
-        - currencies
-      security:
-        - {}
-      parameters:
-        #path
-        #query
-        - $ref: "#/components/parameters/sourceQuery"
-        #header
-        #mandatory header parameter
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CURRENCIES"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403_AIS"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404_AIS"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
-
-  /v1/currencies/sources:
-
-    get:
-      summary: Read list of currencies sources
-      description: |
-        Read all supported currencies sources
-      operationId: readCurrenciesSources
-      tags:
-        - currencies
-        - sources
-      security:
-        - {}
-      parameters:
-        #path
-        #query
-        - $ref: "#/components/parameters/sourceQuery"
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CURRENCIES_SOURCES"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403_AIS"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404_AIS"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
-
-  /v1/currencies/{base-currency}/rates:
-
-    get:
-      summary: Read rates for single currency entity
-      description: |
-        Read rates for single currency entity
-      operationId: readCurrencyRates
-      tags:
-        - currencies
-        - rates
-      security:
-        - {}
-      parameters:
-        #path
-        - $ref: "#/components/parameters/baseCurrencyCode"
-        #query
-        - $ref: "#/components/parameters/sourceQuery"
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CURRENCY_RATES"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403_AIS"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404_AIS"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
-
-  /v1/currencies/{quote-currency}/rates/{base-currency}:
-
-    get:
-      summary: Read rates for single currency entity with base currency defined
-      description: |
-        Read rates for single currency entity with base currency defined
-      operationId: readCurrencyRatesBaseCurrency
-      tags:
-        - currencies
-        - rates
-      security:
-        - {}
-      parameters:
-        #path
-        - $ref: "#/components/parameters/quoteCurrencyCode"
-        - $ref: "#/components/parameters/baseCurrencyCode"
-        #query
-        - $ref: "#/components/parameters/sourceQuery"
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CURRENCY_RATES_BASE_CURRENCY"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403_AIS"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404_AIS"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
-
-  /v1/currencies/{quote-currency}/rates/{base-currency}/history:
-
-    get:
-      summary: Read rates history for single currency entity with base currency defined
-      description: |
-        Read rates for single currency entity with base currency defined
-      operationId: readCurrencyRatesHistoryBaseCurrency
-      tags:
-        - currencies
-        - rates
-      security:
-        - {}
-      parameters:
-        #path
-        - $ref: "#/components/parameters/quoteCurrencyCode"
-        - $ref: "#/components/parameters/baseCurrencyCode"
-        #query
-        - $ref: "#/components/parameters/sourceQuery"
-        - $ref: "#/components/parameters/dateFrom"
-        - $ref: "#/components/parameters/dateTo"
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CURRENCY_RATES_BASE_CURRENCY_HISTORY"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403_AIS"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404_AIS"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
-
 
 components:
 #####################################################
@@ -2852,101 +2344,6 @@ components:
       description: |
         Authorization by OAuth2 based Protocol.
       type: string
-
-    readCurrenciesResponse-200_json:
-      description: Descriptions of the accessible currencies.
-      type: object
-      required:
-        - currencies
-      properties:
-        cards:
-          type: array
-          items:
-            $ref: "#/components/schemas/currency"
-
-    readCurrencyRateResponse-200_json:
-      description: Descriptions of the accessible currencies.
-      type: object
-      required:
-        - currencies
-      properties:
-        currencyRates:
-          type: array
-          items:
-            $ref: "#/components/schemas/currencyRate"
-
-    readCurrencySourcesResponse-200_json:
-      description: Descriptions of the currency source.
-      type: object
-      required:
-        - currencySources
-      properties:
-        currencySources:
-          type: array
-          items:
-            $ref: "#/components/schemas/currencySource"
-
-    readCurrencyRatesBaseCurrencyResponse-200_json:
-      description: Descriptions of the accessible currencies.
-      type: object
-      required:
-        - currencies
-      properties:
-        currencies:
-          type: array
-          items:
-            $ref: "#/components/schemas/currencyRate"
-
-    readCurrencyRatesBaseCurrencyHistoryResponse-200_json:
-      description: Descriptions of the accessible currencies.
-      type: object
-      required:
-        - currencies
-      properties:
-        currencies:
-          type: array
-          items:
-            $ref: "#/components/schemas/currencyRate"
-
-    readCardListResponse-200_json:
-      description: Descriptions of the accessible cards.
-      type: object
-      required:
-        - cards
-      properties:
-        cards:
-          type: array
-          items:
-            $ref: "#/components/schemas/cardAccountDetails"
-
-    readCardDetailsResponse-200_json:
-      description: Details of the card.
-      type: object
-      required:
-        - card
-      properties:
-        card:
-          $ref: "#/components/schemas/cardAccountDetails"
-
-    readCardBalancesResponse-200_json:
-      description: Balances of the cards.
-      type: object
-      required:
-        - balances
-      properties:
-        card:
-          $ref: "#/components/schemas/accountReference"
-        balances:
-          $ref: "#/components/schemas/balanceList"
-
-    readCardTransactionsResponse-200_json:
-      description: Balances of the cards.
-      type: object
-      properties:
-        card:
-          $ref: "#/components/schemas/cardAccountDetails"
-        balances:
-          $ref: "#/components/schemas/balanceList"
 
     transactionId:
       description: |
@@ -3569,61 +2966,6 @@ components:
         ownerName:
           $ref: "#/components/schemas/ownerName"
 
-    currency:
-      description: |
-        Currency details.
-      type: object
-      required:
-        - currency
-      properties:
-        currencyCode:
-          $ref: "#/components/schemas/currencyCode"
-        description:
-          description: |
-            Name of the currency source.
-          type: string
-          maxLength: 70
-
-    currencyRate:
-      description: |
-        Currency details.
-      type: object
-      required:
-        - baseCurrency
-        - quoteCurrency
-        - currencySource
-        - buy
-        - sell
-      properties:
-        baseCurrency:
-          $ref: "#/components/schemas/currencyCode"
-        quoteCurrency:
-          $ref: "#/components/schemas/currencyCode"
-        currencySource:
-          $ref: "#/components/schemas/currencySource"
-        buy:
-          $ref: "#/components/schemas/amountValue"
-        sell:
-          $ref: "#/components/schemas/amountValue"
-        date:
-          description: |
-            Execution datetime of the record
-          type: string
-          format: date
-          example: "2020-08-02"
-
-    currencySource:
-      description: |
-        Currency source.
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          description: |
-            Name of the currency source.
-          type: string
-          maxLength: 70
 
     cardAccountDetails:
       description: |
@@ -3683,76 +3025,6 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAccountDetails"
 
-    cardDetails:
-      description: |
-        Card details.
-      type: object
-      required:
-        - resourceId
-        - maskedPan
-        - currency
-        - cardholderName
-        - expDate
-      properties:
-        resourceId:
-          description: |
-            This is the data element to be used in the path when retrieving data from a dedicated account.
-            This shall be filled, if addressable resource are created by the ASPSP on the /cards endpoint.
-          type: string
-        maskedPan:
-          $ref: "#/components/schemas/maskedPan"
-        currency:
-          $ref: "#/components/schemas/currencyCode"
-        ownerName:
-          $ref: "#/components/schemas/ownerName"
-        expDate:
-          $ref: "#/components/schemas/expDate"
-        issueDate:
-          $ref: "#/components/schemas/issueDate"
-        cardholderName:
-          $ref: "#/components/schemas/cardholderName"
-        panId:
-          $ref: "#/components/schemas/panId"
-        bank:
-          $ref: "#/components/schemas/bank"
-        name:
-          description: |
-            Name of the account, as assigned by the ASPSP,
-            in agreement with the account owner in order to provide an additional means of identification of the account.
-          type: string
-          maxLength: 70
-        displayName:
-          $ref: "#/components/schemas/displayName"
-        product:
-          description: |
-            Product Name of the Bank for this account, proprietary definition.
-          type: string
-          maxLength: 35
-        status:
-          $ref: "#/components/schemas/accountStatus"
-        usage:
-          description: |
-            Specifies the usage of the account:
-              * PRIV: private personal account
-              * ORGA: professional account
-          type: string
-          maxLength: 4
-          enum:
-            - "PRIV"
-            - "ORGA"
-        details:
-          description: |
-            Specifications that might be provided by the ASPSP:
-              - characteristics of the account
-              - characteristics of the relevant card
-          type: string
-          maxLength: 500
-        creditLimit:
-          $ref: "#/components/schemas/amount"
-        balances:
-          $ref: "#/components/schemas/balanceList"
-        _links:
-          $ref: "#/components/schemas/_linksAccountDetails"
 
     accountList:
       description: |
@@ -3779,17 +3051,6 @@ components:
           items:
             $ref: "#/components/schemas/cardAccountDetails"
 
-    cardList:
-      description: |
-        List of card accounts with details.
-      type: object
-      required:
-        - cardAccounts
-      properties:
-        cardAccounts:
-          type: array
-          items:
-            $ref: "#/components/schemas/cardDetails"
 
     accountReport:
       description: |
@@ -4148,7 +3409,7 @@ components:
             }
           ]
 
-    bicfi:
+    bicfi: 
       description: |
         BICFI
       type: string
@@ -4183,13 +3444,13 @@ components:
         This data element can be used in the body of the consent request.
           Message for retrieving account access consent from this account. This
           data elements is used for payment accounts which have no IBAN.
-          ISO20022: Basic Bank Account Number (BBAN).
-
-          Identifier used nationally by financial institutions, i.e., in individual countries,
-          generally as part of a National Account Numbering Scheme(s),
+          ISO20022: Basic Bank Account Number (BBAN). 
+          
+          Identifier used nationally by financial institutions, i.e., in individual countries, 
+          generally as part of a National Account Numbering Scheme(s), 
           which uniquely identifies the account of a customer.
       type: string
-      pattern: "[a-zA-Z0-9]{1,30}"
+      pattern: "[a-zA-Z0-9]{1,30}" 
       example: "BARC12345612345678"
 
 
@@ -4276,6 +3537,7 @@ components:
       pattern: "[A-Z]{2}"
       example: "SE"
 
+
     cardAcceptorPhone:
       description: |
         Merchant phone number
@@ -4284,6 +3546,14 @@ components:
         pattern according to ISO20022 \+[0-9]{1,3}-[0-9()+\-]{1,30}
       type: string
       pattern: '\+[0-9]{1,3}\-[0-9()+\-]{1,30}'
+
+
+#    creditorNameAndAddress:
+#      description: Creditor Name and Address in a free text field.
+#      type: string
+#      maxLength: 140
+#      example: "Max Masters, Main Street 1, 12345 City, Example Country"
+
 
     ownerName:
       description: |
@@ -4360,6 +3630,15 @@ components:
           "currency": "EUR", 
           "amount": "123"
         }
+
+
+    currencyCode:
+      description: |
+        ISO 4217 Alpha 3 currency code.
+      type: string
+      pattern: '[A-Z]{3}'
+      example: "EUR"
+
 
     amountValue:
       description: |
@@ -5123,6 +4402,11 @@ components:
         endToEndIdentification:
           type: string
           maxLength: 35
+#        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
+#          type: string
+#          maxLength: 35
+#        debtorName: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/debtorName"
         debtorAccount: 
           $ref: "#/components/schemas/accountReference"
         chargesAccount:
@@ -5249,6 +4533,8 @@ components:
 #          $ref: "#/components/schemas/address"
 #        creditorId:  # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/creditorId"
+#        creditorNameAndAddress: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/creditorNameAndAddress"
         ultimateCreditor: # N.A. for all, but can be used by ASPSP if needed
           $ref: "#/components/schemas/ultimateCreditor"
         ultimateCreditorId:
@@ -5428,8 +4714,8 @@ components:
         - debtorAccount
         #- paymentInformationId
       properties:
-        #batchBookingPreferred:
-        #  $ref: "#/components/schemas/batchBookingPreferred"
+#       batchBookingPreferred:
+#         $ref: "#/components/schemas/batchBookingPreferred"
         debtorAccount:
           $ref: "#/components/schemas/accountReference"
         chargesAccount:
@@ -5442,11 +4728,11 @@ components:
         requestedExecutionDate:
           type: string
           format: date
-        #requestedExecutionTime:
-        #  type: string
-        #  format: date-time
-        #currency:
-        #  $ref: "#/components/schemas/currencyCode"
+#       requestedExecutionTime:
+#         type: string
+#         format: date-time
+#       currency:
+#         $ref: "#/components/schemas/currencyCode"
         payments:
           description: |
             A list of generic JSON bodies payment initations for bulk payments via JSON.
@@ -5665,6 +4951,9 @@ components:
         paymentId:
           $ref: "#/components/schemas/paymentId"
         transactionFees:
+          # description: |
+          #   Used by the ASPSP to show the transaction fees relevant for the underlying payments.
+          #   This field includes the entry of the currencyConversionFees if applicable. 
           $ref: "#/components/schemas/amount"
         transactionFeesDetails:
           $ref: "#/components/schemas/transactionFeesList"
@@ -5673,6 +4962,12 @@ components:
         currencyConversionFee:
           # description: Might be used by the ASPSP to transport specific currency conversion fees related to the initiated credit transfer.
           $ref: "#/components/schemas/amount"
+#        estimatedTotalAmount:
+#          # description: The amount which is estimated to be debted from the debtor account. Note: This amount includes fees.
+#          $ref: "#/components/schemas/amount"
+#        estimatedInterbankSettlementAmount:
+#          # description: The estimated amount to be transferred to the payee.
+#          $ref: "#/components/schemas/amount"
         transactionFeeIndicator:
           $ref: "#/components/schemas/transactionFeeIndicator"
         scaMethods:
@@ -5753,6 +5048,8 @@ components:
           description: Identification of Creditors, e.g. a SEPA Creditor ID.
           type: string
           maxLength: 35
+#        creditorNameAndAddress: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/creditorNameAndAddress"
         ultimateCreditor: # N.A.
           $ref: "#/components/schemas/ultimateCreditor"
         icelandicPurpose:
@@ -5772,6 +5069,9 @@ components:
         requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
           type: string
           format: date
+#        requestedExecutionTime: # N.A. for all, but can be used by ASPSP if needed
+#          type: string
+#          format: date-time
         transactionStatus:
           $ref: "#/components/schemas/transactionStatus"
         transactionFeesDetails:
@@ -5856,11 +5156,11 @@ components:
         - payments
         - debtorAccount
       properties:
-        #batchBookingPreferred:
-        #  $ref: "#/components/schemas/batchBookingPreferred"
-        #requestedExecutionDate:
-        #  type: string
-        #  format: date
+#        batchBookingPreferred:
+#          $ref: "#/components/schemas/batchBookingPreferred"
+#        requestedExecutionDate:
+#          type: string
+#          format: date
         acceptorTransactionDateTime:
           type: string
           format: date-time
@@ -6051,16 +5351,6 @@ components:
         balances:
           $ref: "#/components/schemas/balanceList"
 
-    readCardBalanceResponse-200:
-      description: Body of the response for a successful read balance for a card request.
-      type: object
-      required:
-        - balances
-      properties:
-        cardAccount:
-          $ref: "#/components/schemas/accountReference"
-        balances:
-          $ref: "#/components/schemas/balanceList"
 
     transactionsResponse-200_json:
       description: |
@@ -6093,20 +5383,6 @@ components:
         _links:
           $ref: "#/components/schemas/_linksDownload"
 
-    cardsTransactionsResponse200:
-      description: |
-        Body of the JSON response for a successful read card transaction list request.
-        This card account report contains transactions resulting from the query parameters.
-      type: object
-      properties:
-        cardAccount:
-          $ref: "#/components/schemas/accountReference"
-        cardTransactions:
-          $ref: "#/components/schemas/cardAccountReport"
-        balances:
-          $ref: "#/components/schemas/balanceList"
-        _links:
-          $ref: "#/components/schemas/_linksDownload"
 
     camt.052: 
       description: |
@@ -9420,52 +8696,11 @@ components:
           type: string
           maxLength: 150
 
-    cardId:
-      description: |
-        Uniquie identifier for card
-      type: string
-      maxLength: 35
-
-    currencyCode:
-      description: |
-        ISO 4217 Alpha 3 currency code.
-      type: string
-      pattern: '[A-Z]{3}'
-      example: "EUR"
 
   parameters:
   #####################################################
   # Predefined Parameters
   #####################################################
-
-    quoteCurrencyCode:
-      name: quote-currency
-      in: path
-      description: |
-        Currency code in path.
-      required: true
-      schema:
-        $ref: "#/components/schemas/currencyCode"
-
-    baseCurrencyCode:
-      name: base-currency
-      in: path
-      description: |
-        Currency code in path.
-      required: true
-      schema:
-        $ref: "#/components/schemas/currencyCode"
-
-    card-id:
-      name: card-id
-      in: path
-      description: |
-        This identification is denoting the addressed card. The card-id is retrieved by using a "Read Card List" call.
-        The card-id is the "resourceId" attribute of the card structure. Its value is constant at least throughout the lifecycle
-        of a given consent.
-      required: true
-      schema:
-        $ref: "#/components/schemas/cardId"
 
     paymentService:
       name: payment-service
@@ -9565,6 +8800,7 @@ components:
       schema:
         $ref: "#/components/schemas/transactionId"
 
+
     consentId_PATH:
       name: consentId
       in: path
@@ -9615,15 +8851,6 @@ components:
       required: false
       schema:
         type: boolean
-
-    sourceQuery:
-      name: sourceQuery
-      in: query
-      description: |
-        The currency source
-      required: false
-      schema:
-        $ref: "#/components/schemas/currencySource"
 
     withCreditLimitQuery:
       name: withCreditLimit
@@ -10228,119 +9455,6 @@ components:
           schema:
             $ref: "#/components/schemas/paymentId"
 
-    OK_200_CURRENCIES:
-      description: OK
-
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCurrenciesResponse-200_json"
-
-    OK_200_CURRENCY_RATES:
-      description: OK
-
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCurrencyRateResponse-200_json"
-
-    OK_200_CURRENCIES_SOURCES:
-      description: OK
-
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCurrencySourcesResponse-200_json"
-
-    OK_200_CURRENCY_RATES_BASE_CURRENCY:
-      description: OK
-
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCurrencyRatesBaseCurrencyResponse-200_json"
-
-    OK_200_CURRENCY_RATES_BASE_CURRENCY_HISTORY:
-      description: OK
-
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCurrencyRatesBaseCurrencyHistoryResponse-200_json"
-
-    OK_200_CARDS:
-      description: OK
-
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCardListResponse-200_json"
-          examples:
-            example:
-              $ref: "#/components/examples/readCardListResponse-200_json_Example"
-
-    OK_200_CARDDETAILS:
-      description: OK
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCardDetailsResponse-200_json"
-          examples:
-            "Example 1 (standard card)":
-              $ref: "#/components/examples/readCardDetailsResponse-200_json_Example1"
-            "Example 2 (multicurrency card with balances)":
-              $ref: "#/components/examples/readCardDetailsResponse-200_json_Example2"
-
-    OK_200_CARDBALANCES:
-      description: OK
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCardBalancesResponse-200_json"
-          examples:
-            "Example 1: Example on current balance only":
-              $ref: "#/components/examples/readCardBalancesResponse-200_json_Example1"
-            "Example 2: Example on booked balances of the past requested in addition":
-              $ref: "#/components/examples/readCardBalancesResponse-200_json_Example2"
-
-    OK_200_CARDTRANSACTIONS:
-      description: OK
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCardTransactionsResponse-200_json"
-          examples:
-            example:
-              $ref: "#/components/examples/readCardTransactionsResponse-200_json_Example"
-
     OK_200_PaymentInitiationInformation: 
       description: OK
       
@@ -10460,20 +9574,6 @@ components:
             "Example 1":
               $ref: "#/components/examples/cardAccountListExample1"
 
-    OK_200_CardList:
-      description: OK
-
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/cardList"
-          examples:
-            "Example 1":
-              $ref: "#/components/examples/cardListExample1"
 
     OK_200_AccountDetails:
       description: OK
@@ -10573,21 +9673,6 @@ components:
             "Example:":
               $ref: "#/components/examples/balancesExample_CardAccount"
 
-    OK_200_CardBalances:
-      description: OK
-
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readCardBalanceResponse-200"
-          examples:
-            "Example:":
-              $ref: "#/components/examples/balancesExample_Card"
-
     OK_200_AccountsTransactions:
       description: OK
       
@@ -10649,18 +9734,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/cardAccountsTransactionsResponse200"
-
-    OK_200_CardsTransactions:
-      description: OK
-      
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/cardsTransactionsResponse200"
 
 
     OK_200_UpdatePsuData:
@@ -11528,293 +10601,6 @@ components:
   # Predefined Examples
   #####################################################
 
-    readCardListResponse-200_json_Example:
-      description: Read card list.
-      value:
-        {
-          "cards": [
-            {
-              "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b99",
-              "maskedPan": "525412******3241",
-              "currency": "EUR",
-              "name": "Main",
-              "product": "Basic Credit Card",
-              "status": "enabled",
-              "creditLimit": { "currency": "EUR", "amount": "5000" },
-              "balances": [
-                {
-                  "balanceType": "interimBooked",
-                  "balanceAmount": { "currency": "EUR", "amount": "1390.10" }
-                },{
-                "balanceType": "interimAvailable",
-                “creditLimitIncluded”: true,
-                "balanceAmount": { "currency": "EUR", "amount": "3609.90" }
-              }
-            ]
-          },{
-            "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b98",
-            "maskedPan": "525412******3242",
-            "currency": "EUR",
-            "name": "PartnerCard",
-            "product": "Basic Credit Card",
-            "status": "enabled",
-            "creditLimit": { "currency": "EUR", "amount": "5000" },
-            "balances": [
-              {
-                "balanceType": "interimBooked",
-                "balanceAmount": { "currency": "EUR", "amount": "559.10" }
-              },{
-                "balanceType": "interimAvailable",
-                “creditLimitIncluded”: true,
-                "balanceAmount": { "currency": "EUR", "amount": "4440.90" }
-              }
-            ]
-          }
-        ]
-      }
-
-    readCardDetailsResponse-200_json_Example1:
-      description: Read card details.
-      value:
-        {
-          "card": {
-            "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b99",
-            "maskedPan": "525412******3241",
-            "currency": "EUR",
-            "name": "Main",
-            "product": "Basic Credit Card",
-            "status": "enabled",
-            "creditLimit": {
-              "currency": "EUR",
-              "amount": "5000"
-            },
-            "balances": [
-              {
-                "balanceType": "interimBooked",
-                "balanceAmount": {
-                  "currency": "EUR",
-                  "amount": "1390.10"
-                }
-              },
-              {
-                "balanceType": "interimAvailable",
-                "creditLimitIncluded": true,
-                "balanceAmount": {
-                  "currency": "EUR",
-                  "amount": "3609.90"
-                }
-              }
-            ],
-            "_links": {
-              "self": {
-                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99"
-              },
-              "transactions": {
-                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
-              }
-            }
-          }
-        }
-
-    readCardDetailsResponse-200_json_Example2:
-      description: Read card details.
-      value:
-        {
-          "card": {
-            "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b99",
-            "maskedPan": "525412******3241",
-            "currency": "XXX",
-            "name": "Main",
-            "product": "Basic Credit Card",
-            "status": "enabled",
-            "creditLimit": {
-              "currency": "EUR",
-              "amount": "5000"
-            },
-            "balances": [
-              {
-                "balanceType": "interimBooked",
-                "balanceAmount": {
-                  "currency": "EUR",
-                  "amount": "1390.10"
-                }
-              },
-              {
-                "balanceType": "interimAvailable",
-                "creditLimitIncluded": true,
-                "balanceAmount": {
-                  "currency": "EUR",
-                  "amount": "3155.17"
-                }
-              },
-              {
-                "balanceType": "interimBooked",
-                "balanceAmount": {
-                  "currency": "USD",
-                  "amount": "500.20"
-                }
-              },
-              {
-                "balanceType": "interimAvailable",
-                "creditLimitIncluded": true,
-                "balanceAmount": {
-                  "currency": "EUR",
-                  "amount": "3470.69"
-                }
-              }
-            ],
-            "_links": {
-              "self": {
-                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99"
-              },
-              "transactions": {
-                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
-              }
-            }
-          }
-        }
-
-    readCardBalancesResponse-200_json_Example1:
-      description: |
-        Read card balances.
-        Example on current balance only
-      value:
-        {
-          "card": {"maskedPan": "525412******3241"},
-          "balances":
-            [
-              {
-                "balanceAmount":
-                  {
-                    "currency": "EUR",
-                    "amount": "5654.22"
-                  },
-                "balanceType": "interimAvailable",
-                "creditLimitIncluded": true
-              },
-              {
-                "balanceAmount":
-                  {
-                    "currency": "EUR",
-                    "amount": "-4355.78"
-                  },
-                "balanceType": "interimBooked"
-              }
-            ]
-          }
-
-    readCardBalancesResponse-200_json_Example2:
-      description: |
-        Read card balances.
-        Example on booked balances of the past requested in addition
-      value:
-        {
-          "card": {"maskedPan": "525412******3241"},
-          "balances":
-            [
-              {
-                "balanceAmount": { "currency": "EUR", "amount": "5654.22" },
-                "balanceType": "interimAvailable",
-                "creditLimitIncluded": true,
-              },
-              {
-                "balanceAmount":
-                  {
-                    "currency": "EUR",
-                    "amount": "-4355.78"
-                  },
-                "balanceType": "interimBooked"
-              },
-              {
-                "balanceAmount":
-                  {
-                    "currency": "EUR",
-                    "amount": "-2255.45"
-                  },
-                "balanceType": "closingBooked",
-                "referenceDate": "2020-06-30"
-              },
-              {
-                "balanceAmount":
-                  {
-                    "currency": "EUR",
-                    "amount": "-1234.56"
-                  },
-                "balanceType": "closingBooked",
-                "referenceDate": "2020-07-31"
-              },
-              {
-                "balanceAmount":
-                  {
-                    "currency": "EUR",
-                    "amount": "-234.01"
-                  },
-                "balanceType": "closingBooked",
-                "referenceDate": "2020-08-31"
-               }
-            ]
-        }
-
-    readCardTransactionsResponse-200_json_Example:
-      description: Read card transaction list.
-      value:
-        {
-          "card": {
-            "maskedPan": "525412******3241"
-          },
-          "cardTransactions": {
-            "booked": [
-              {
-                "cardTransactionId": "201710020036959",
-                "transactionAmount": {
-                  "currency": "EUR",
-                  "amount": "256.67"
-                },
-                "transactionDate": "2017-10-25",
-                "bookingDate": "2017-10-26",
-                "originalAmount": {
-                  "currency": "SEK",
-                  "amount": "2499"
-                },
-                "cardAcceptorAddress": {
-                  "city": "STOCKHOLM",
-                  "country": "SE"
-                },
-                "proprietaryBankTransactionCode": "PURCHASE",
-                "invoiced": false,
-                "transactionDetails": "WIFIMARKET.SE"
-              },
-              {
-                "cardTransactionId": "201710020091863",
-                "transactionAmount": {
-                  "currency": "EUR",
-                  "amount": "10.72"
-                },
-                "transactionDate": "2017-10-25",
-                "bookingDate": "2017-10-26",
-                "originalAmount": {
-                  "currency": "SEK",
-                  "amount": "99"
-                },
-                "cardAcceptorAddress": {
-                  "city": "STOCKHOLM",
-                  "country": "SE"
-                },
-                "proprietaryBankTransactionCode": "PURCHASE",
-                "invoiced": false,
-                "transactionDetails": "ICA SUPERMARKET SKOGHA"
-              }
-            ],
-            "pending": [],
-            "_links": {
-              "card": {
-                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99"
-              }
-            }
-          }
-        }
-
-
     ibanExampleDe_01:
       value: "DE02100100109307118603"
 
@@ -12149,38 +10935,6 @@ components:
         ]
       }
 
-    cardListExample1:
-      summary: Card list example 1
-      description: |
-        Card list example.
-      value:
-        {
-        "cardAccounts": [
-          {
-            "resourceId": "3d9a81b3-a47d-4130-8765-a9c0ff861b99",
-            "maskedPan": "525412******3241",
-            "currency": "EUR",
-            "name": "Main",
-            "product": "Basic Credit",
-            "status": "enabled",
-            "creditLimit": { "currency": "EUR", "amount": "15000" },
-            "balances": [
-              {
-                "balanceType": "interimBooked",
-                "balanceAmount": { "currency": "EUR", "amount": "14355.78" }
-              },{
-                "balanceType": "nonInvoiced",
-                "balanceAmount": { "currency": "EUR", "amount": "4175.86" }
-              }
-            ],
-            "_links": {
-              "transactions": {
-                "href": "/v1/card-accounts/3d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
-              }
-            }
-          }
-        ]
-      }
 
     cardAccountDetailsExample:
       summary: Card account details example 1
@@ -12587,23 +11341,6 @@ components:
       description: |
         Response in case of card account balance request.
       value: 
-        {
-          "cardAccount": {"maskedPan": "525412******3241"},
-          "balances":[
-            {
-              "balanceType": "interimBooked",
-              "balanceAmount": { "currency": "EUR", "amount": "14355.78" }
-            },{
-              "balanceType": "nonInvoiced",
-              "balanceAmount": { "currency": "EUR", "amount": "4175.86" }
-            }
-          ]
-        }
-
-    balancesExample_Card:
-      description: |
-        Response in case of card balance request.
-      value:
         {
           "cardAccount": {"maskedPan": "525412******3241"},
           "balances":[

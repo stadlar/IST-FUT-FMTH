@@ -1,0 +1,523 @@
+openapi: 3.0.1
+info:
+  title: IOBWS 3.0 Currency
+  version: "3.0"
+  description: |
+    # Summary
+
+    This document contains version 3.0 of the Icelandic Online Banking Services (IOBWS), for currencies, released 
+    as a technical specification (TS) no. 312 by the Icelandic Standards Council. Previous versions of IOBWS, released
+    in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards to establish common banking
+    interfaces for the Icelandic market. They specified strict security requirements involving a combination of 
+    WS-Security X.509 Binary Security and Username tokens, making implementations on some platforms and frameworks
+    cumbersome, especially when third party service providers are involved. In the meantime new technology standards
+    have emerged and Europe been catching up to Iceland. The aim in v3.0 is to therefore to offer a modern, open, 
+    and interoperable set of Application Programming Interfaces (APIs) to provide data securely.
+
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://creativecommons.org/licenses/by/4.0/
+  contact:
+    name: Stadlarad Islands
+    url: https://www.stadlar.is
+    email: openbanking@stadlar.is
+
+externalDocs:
+  description: |
+    Documentation for TS 312 (General Introduction Paper, Operational Rules, Implementation Guidelines)
+  url: https://github.com/stadlar/IST-FUT-FMTH/blob/82d040dbed6cad040b043c3a1fd67a16060d9726/Deliverables/%C3%8DST-TS-312_2021%20Currency.pdf
+
+servers:
+  - url: https://psd2.example.com
+    description: PSD2 server
+  - url: https://sandbox-psd2.example.com
+    description: Optional PSD2 sandbox server
+
+paths:
+
+  #####################################################
+  # Currencies Information Service
+  #####################################################
+
+  /v1/currencies:
+
+    get:
+      summary: Read list of currencies
+      description: |
+        Read all supported currencies
+      operationId: readCurrencies
+      tags:
+        - currencies
+      security:
+        - {}
+      parameters:
+        #path
+        #query
+        - $ref: "#/components/parameters/sourceQuery"
+        #header
+        #mandatory header parameter
+        #optional header parameters
+        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CURRENCIES"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403_AIS"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404_AIS"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+
+  /v1/currencies/sources:
+
+    get:
+      summary: Read list of currencies sources
+      description: |
+        Read all supported currencies sources
+      operationId: readCurrenciesSources
+      tags:
+        - currencies
+        - sources
+      security:
+        - {}
+      parameters:
+        #path
+        #query
+        - $ref: "#/components/parameters/sourceQuery"
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CURRENCIES_SOURCES"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403_AIS"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404_AIS"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+
+  /v1/currencies/{base-currency}/rates:
+
+    get:
+      summary: Read rates for single currency entity
+      description: |
+        Read rates for single currency entity
+      operationId: readCurrencyRates
+      tags:
+        - currencies
+        - rates
+      security:
+        - {}
+      parameters:
+        #path
+        - $ref: "#/components/parameters/baseCurrencyCode"
+        #query
+        - $ref: "#/components/parameters/sourceQuery"
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CURRENCY_RATES"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403_AIS"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404_AIS"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+
+  /v1/currencies/{quote-currency}/rates/{base-currency}:
+
+    get:
+      summary: Read rates for single currency entity with base currency defined
+      description: |
+        Read rates for single currency entity with base currency defined
+      operationId: readCurrencyRatesBaseCurrency
+      tags:
+        - currencies
+        - rates
+      security:
+        - {}
+      parameters:
+        #path
+        - $ref: "#/components/parameters/quoteCurrencyCode"
+        - $ref: "#/components/parameters/baseCurrencyCode"
+        #query
+        - $ref: "#/components/parameters/sourceQuery"
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #optional header parameters
+        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CURRENCY_RATES_BASE_CURRENCY"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403_AIS"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404_AIS"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+
+  /v1/currencies/{quote-currency}/rates/{base-currency}/history:
+
+    get:
+      summary: Read rates history for single currency entity with base currency defined
+      description: |
+        Read rates for single currency entity with base currency defined
+      operationId: readCurrencyRatesHistoryBaseCurrency
+      tags:
+        - currencies
+        - rates
+      security:
+        - {}
+      parameters:
+        #path
+        - $ref: "#/components/parameters/quoteCurrencyCode"
+        - $ref: "#/components/parameters/baseCurrencyCode"
+        #query
+        - $ref: "#/components/parameters/sourceQuery"
+        - $ref: "#/components/parameters/dateFrom"
+        - $ref: "#/components/parameters/dateTo"
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
+        #optional header parameters
+        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CURRENCY_RATES_BASE_CURRENCY_HISTORY"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400_AIS"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401_AIS"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403_AIS"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404_AIS"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+
+components:
+#####################################################
+# Predefined Components
+#####################################################
+  schemas:
+  #####################################################
+  # Predefined Schemas
+  #####################################################
+
+    currency:
+      description: |
+        Currency details.
+      type: object
+      required:
+        - currency
+      properties:
+        currencyCode:
+          $ref: "#/components/schemas/currencyCode"
+        description:
+          description: |
+            Name of the currency source.
+          type: string
+          maxLength: 70
+
+    currencyRate:
+      description: |
+        Currency details.
+      type: object
+      required:
+        - baseCurrency
+        - quoteCurrency
+        - currencySource
+        - buy
+        - sell
+      properties:
+        baseCurrency:
+          $ref: "#/components/schemas/currencyCode"
+        quoteCurrency:
+          $ref: "#/components/schemas/currencyCode"
+        currencySource:
+          $ref: "#/components/schemas/currencySource"
+        buy:
+          $ref: "#/components/schemas/amountValue"
+        sell:
+          $ref: "#/components/schemas/amountValue"
+        date:
+          description: |
+            Execution datetime of the record
+          type: string
+          format: date
+          example: "2020-08-02"
+
+    currencySource:
+      description: |
+        Currency source.
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          description: |
+            Name of the currency source.
+          type: string
+          maxLength: 70
+
+
+#####################################################
+# Content of Request Bodies
+#####################################################
+
+#####################################################
+# _links
+#####################################################
+
+  parameters:
+  #####################################################
+  # Predefined Parameters
+  #####################################################
+
+    quoteCurrencyCode:
+      name: quote-currency
+      in: path
+      description: |
+        Currency code in path.
+      required: true
+      schema:
+        $ref: "#/components/schemas/currencyCode"
+
+    baseCurrencyCode:
+      name: base-currency
+      in: path
+      description: |
+        Currency code in path.
+      required: true
+      schema:
+        $ref: "#/components/schemas/currencyCode"
+
+    sourceQuery:
+      name: sourceQuery
+      in: query
+      description: |
+        The currency source
+      required: false
+      schema:
+        $ref: "#/components/schemas/currencySource"
+
+  requestBodies:
+  #####################################################
+  # Reusable Request Bodies
+  #####################################################
+
+  headers:
+  #####################################################
+  # Reusable Response Header Elements
+  #####################################################
+
+  responses:
+  #####################################################
+  # Reusabale Responses
+  #####################################################
+    
+    readCurrenciesResponse-200_json:
+      description: Descriptions of the accessible currencies.
+      type: object
+      required:
+        - currencies
+      properties:
+        cards:
+          type: array
+          items:
+            $ref: "#/components/schemas/currency"
+
+    readCurrencyRateResponse-200_json:
+      description: Descriptions of the accessible currencies.
+      type: object
+      required:
+        - currencies
+      properties:
+        currencyRates:
+          type: array
+          items:
+            $ref: "#/components/schemas/currencyRate"
+
+    readCurrencySourcesResponse-200_json:
+      description: Descriptions of the currency source.
+      type: object
+      required:
+        - currencySources
+      properties:
+        currencySources:
+          type: array
+          items:
+            $ref: "#/components/schemas/currencySource"
+
+    readCurrencyRatesBaseCurrencyResponse-200_json:
+      description: Descriptions of the accessible currencies.
+      type: object
+      required:
+        - currencies
+      properties:
+        currencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/currencyRate"
+
+    readCurrencyRatesBaseCurrencyHistoryResponse-200_json:
+      description: Descriptions of the accessible currencies.
+      type: object
+      required:
+        - currencies
+      properties:
+        currencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/currencyRate"
+            
+
+    #####################################################
+    # Positive Responses
+    #####################################################
+    OK_200_CURRENCIES:
+      description: OK
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/readCurrenciesResponse-200_json"
+
+    OK_200_CURRENCY_RATES:
+      description: OK
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/readCurrencyRateResponse-200_json"
+
+    OK_200_CURRENCIES_SOURCES:
+      description: OK
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/readCurrencySourcesResponse-200_json"
+
+    OK_200_CURRENCY_RATES_BASE_CURRENCY:
+      description: OK
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/readCurrencyRatesBaseCurrencyResponse-200_json"
+
+    OK_200_CURRENCY_RATES_BASE_CURRENCY_HISTORY:
+      description: OK
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/readCurrencyRatesBaseCurrencyHistoryResponse-200_json"
+
+    
+    #####################################################
+    # Negative Responses
+    #####################################################
+
+  examples:
+  #####################################################
+  # Predefined Examples
+  #####################################################
+
+security:
+  #####################################################
+  # Global security options
+  #####################################################
+  - {}
+
+tags:
+  #####################################################
+  # Predefined Tags to Group Methods
+  #####################################################

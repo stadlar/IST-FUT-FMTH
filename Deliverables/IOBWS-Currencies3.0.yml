@@ -274,7 +274,29 @@ components:
   #####################################################
   # Predefined Schemas
   #####################################################
+    
+    authorization:
+      description: |
+        Authorization by OAuth2 based Protocol.
+      type: string
+      
+    authorisationId:
+      description: Resource identification of the related SCA.
+      type: string
+      example: "123auth456"
+  
+    hrefType:
+      description: Link to a resource.
+      type: object
+      properties:
+        href:
+          $ref: "#/components/schemas/hrefEntry"
 
+    hrefEntry:
+      description: Link to a resource.
+      type: string
+      example: "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
+      
     currency:
       description: |
         Currency details.
@@ -330,63 +352,25 @@ components:
             Name of the currency source.
           type: string
           maxLength: 70
-
-
-#####################################################
-# Content of Request Bodies
-#####################################################
-
-#####################################################
-# _links
-#####################################################
-
-  parameters:
-  #####################################################
-  # Predefined Parameters
-  #####################################################
-
-    quoteCurrencyCode:
-      name: quote-currency
-      in: path
+          
+    amountValue:
       description: |
-        Currency code in path.
-      required: true
-      schema:
-        $ref: "#/components/schemas/currencyCode"
+        The amount given with fractional digits, where fractions must be compliant to the currency definition.
+        Up to 14 significant figures. Negative amounts are signed by minus.
+        The decimal separator is a dot.
+        
+        **Example:**
+        Valid representations for EUR with up to two decimals are:
+        
+          * 1056
+          * 5768.2
+          * -1.50
+          * 5877.78
+      type: string
+      pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
+      example: "5877.78"
 
-    baseCurrencyCode:
-      name: base-currency
-      in: path
-      description: |
-        Currency code in path.
-      required: true
-      schema:
-        $ref: "#/components/schemas/currencyCode"
-
-    sourceQuery:
-      name: sourceQuery
-      in: query
-      description: |
-        The currency source
-      required: false
-      schema:
-        $ref: "#/components/schemas/currencySource"
-
-  requestBodies:
-  #####################################################
-  # Reusable Request Bodies
-  #####################################################
-
-  headers:
-  #####################################################
-  # Reusable Response Header Elements
-  #####################################################
-
-  responses:
-  #####################################################
-  # Reusabale Responses
-  #####################################################
-    
+        
     readCurrenciesResponse-200_json:
       description: Descriptions of the accessible currencies.
       type: object
@@ -441,6 +425,1532 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/currencyRate"
+#####################################################
+# Content of Request Bodies
+#####################################################
+
+#####################################################
+# _links
+#####################################################
+    _linksAll:
+      description: |
+        A _link object with all availabel link types.
+      type: object
+      additionalProperties: 
+        $ref: "#/components/schemas/hrefType"
+      properties:
+        scaRedirect:
+          $ref: "#/components/schemas/hrefType"
+        scaOAuth:
+          $ref: "#/components/schemas/hrefType"
+        confirmation:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisation:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithPsuIdentification:
+          $ref: "#/components/schemas/hrefType"
+        updatePsuIdentification:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithProprietaryData:
+          $ref: "#/components/schemas/hrefType"
+        updateProprietaryData:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithPsuAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        updatePsuAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithEncryptedPsuAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        updateEncryptedPsuAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        updateAdditionalPsuAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        updateAdditionalEncryptedPsuAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithAuthenticationMethodSelection:
+          $ref: "#/components/schemas/hrefType"
+        selectAuthenticationMethod:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithTransactionAuthorisation:
+          $ref: "#/components/schemas/hrefType"
+        authoriseTransaction:
+          $ref: "#/components/schemas/hrefType"
+        self:
+          $ref: "#/components/schemas/hrefType"
+        status:
+          $ref: "#/components/schemas/hrefType"
+        scaStatus:
+          $ref: "#/components/schemas/hrefType"
+        account:
+          $ref: "#/components/schemas/hrefType"
+        balances:
+          $ref: "#/components/schemas/hrefType"
+        transactions:
+          $ref: "#/components/schemas/hrefType"
+        transactionDetails:
+          $ref: "#/components/schemas/hrefType"
+        cardAccount:
+          $ref: "#/components/schemas/hrefType"
+        cardTransactions:
+          $ref: "#/components/schemas/hrefType"
+        first:
+          $ref: "#/components/schemas/hrefType"
+        next:
+          $ref: "#/components/schemas/hrefType"
+        previous:
+          $ref: "#/components/schemas/hrefType"
+        last:
+          $ref: "#/components/schemas/hrefType"
+        download:
+          $ref: "#/components/schemas/hrefType"
+
+    _linksDownload:
+      description: |
+        A list of hyperlinks to be recognised by the TPP.
+
+        Type of links admitted in this response:
+          - "download": a link to a resource, where the transaction report might be downloaded from in
+          case where transaction reports have a huge size.
+
+        Remark: This feature shall only be used where camt-data is requested which has a huge size.
+
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/hrefType"
+      required:
+        - download
+      properties:
+        download:
+          $ref: "#/components/schemas/hrefType"
+
+    _linksCardAccountReport:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/hrefType"
+      required:
+        - cardAccount
+      properties:
+        cardAccount:
+          $ref: "#/components/schemas/hrefType"
+        first:
+          $ref: "#/components/schemas/hrefType"
+        next:
+          $ref: "#/components/schemas/hrefType"
+        previous:
+          $ref: "#/components/schemas/hrefType"
+        last:
+          $ref: "#/components/schemas/hrefType"
+
+    _linksAccountDetails:
+      description: |
+        Links to the account, which can be directly used for retrieving account information from this dedicated account.
+
+        Links to "balances" and/or "transactions"
+
+        These links are only supported, when the corresponding consent has been already granted.
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/hrefType"
+      properties:
+        balances:
+          $ref: "#/components/schemas/hrefType"
+        transactions:
+          $ref: "#/components/schemas/hrefType"
+
+
+#####################################################
+# Tpp-Messages to Communicate Error Information
+#####################################################
+
+
+  #####################################################
+  # Generic Elements
+  #####################################################
+
+    tppMessageCategory:
+      description: Category of the TPP message category.
+      type: string
+      enum:
+        - "ERROR"
+        - "WARNING"
+
+    MessageCode2XX:
+      description: Message codes for HTTP Error codes 2XX.
+      type: string
+      enum:
+        - "WARNING"
+
+
+    MessageCode400_AIS:
+      description: Message codes defined for AIS for HTTP Error code 400 (BAD_REQUEST).
+      type: string
+      enum:
+        - "FORMAT_ERROR"              #gen
+        - "PARAMETER_NOT_CONSISTENT"  #gen
+        - "PARAMETER_NOT_SUPPORTED"   #gen
+        - "SERVICE_INVALID"           #gen
+        - "RESOURCE_UNKNOWN"          #gen
+        - "RESOURCE_EXPIRED"          #gen
+        - "RESOURCE_BLOCKED"          #gen
+        - "TIMESTAMP_INVALID"         #gen
+        - "PERIOD_INVALID"            #gen
+        - "SCA_METHOD_UNKNOWN"        #gen
+        - "SCA_INVALID"               #gen
+        - "CONSENT_UNKNOWN"           #gen
+        - "SESSIONS_NOT_SUPPORTED"    #AIS
+
+
+
+    MessageCode401_AIS:
+      description: Message codes defined for AIS for HTTP Error code 401 (UNAUTHORIZED).
+      type: string
+      enum:
+        - "CERTIFICATE_INVALID"       #gen
+        - "ROLE_INVALID"              #gen
+        - "CERTIFICATE_EXPIRED"       #gen
+        - "CERTIFICATE_BLOCKED"       #gen
+        - "CERTIFICATE_REVOKE"        #gen
+        - "CERTIFICATE_MISSING"       #gen
+        - "SIGNATURE_INVALID"         #gen
+        - "SIGNATURE_MISSING"         #gen
+        - "CORPORATE_ID_INVALID"      #gen
+        - "PSU_CREDENTIALS_INVALID"   #gen
+        - "CONSENT_INVALID"           #gen, AIS
+        - "CONSENT_EXPIRED"           #gen
+        - "TOKEN_UNKNOWN"             #gen
+        - "TOKEN_INVALID"             #gen
+        - "TOKEN_EXPIRED"             #gen
+
+    MessageCode403_AIS:
+      description: Message codes defined for AIS for HTTP Error code 403 (FORBIDDEN).
+      type: string
+      enum:
+        - "CONSENT_UNKNOWN"           #gen
+        - "SERVICE_BLOCKED"           #gen
+        - "RESOURCE_UNKNOWN"          #gen
+        - "RESOURCE_EXPIRED"          #gen
+
+
+    MessageCode404_AIS:
+      description: Message codes defined for AIS for HTTP Error code 404 (NOT FOUND).
+      type: string
+      enum:
+        - "RESOURCE_UNKNOWN"          #gens
+
+    MessageCode405_AIS:
+      description: Message codes defined for AIS for HTTP Error code 405 (METHOD NOT ALLOWED).
+      type: string
+      enum:
+        - "SERVICE_INVALID"           #gens
+
+
+    MessageCode406_AIS:
+      description: Message codes defined for AIS for HTTP Error code 406 (NOT ACCEPTABLE).
+      type: string
+      enum:
+        - "REQUESTED_FORMATS_INVALID"  #AIS
+
+    MessageCode409_AIS:
+      description: Message codes defined for AIS for HTTP Error code 409 (CONFLICT).
+      type: string
+      enum:
+        - "STATUS_INVALID"            #gen
+
+    MessageCode429_AIS:
+      description: Message codes for HTTP Error code 429 (TOO MANY REQUESTS).
+      type: string
+      enum:
+        - "ACCESS_EXCEEDED"           #AIS
+
+
+  #####################################################
+  # Next Gen proprietary TPP-messages
+  #####################################################
+
+
+    tppMessageText:
+      description: Additional explaining text to the TPP.
+      type: string
+      maxLength: 500
+
+
+    tppMessage400_AIS:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode400_AIS"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+          
+
+    tppMessage401_AIS:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode401_AIS"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+
+    tppMessage403_AIS:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode403_AIS"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+
+    tppMessage404_AIS:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode404_AIS"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+    tppMessage405_AIS:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode405_AIS"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+    tppMessage406_AIS:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode406_AIS"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+    tppMessage409_AIS:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode409_AIS"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+    tppMessage429_AIS:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode429_AIS"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+
+  #####################################################
+  # RFC7807 Messages
+  #####################################################
+
+    tppErrorTitle:
+      description: |
+        Short human readable description of error type.
+        Could be in local language.
+        To be provided by ASPSPs.
+      type: string
+      maxLength: 70
+
+    tppErrorDetail:
+      description: |
+        Detailed human readable text specific to this instance of the error.
+        XPath might be used to point to the issue generating the error in addition.
+        Remark for Future: In future, a dedicated field might be introduced for the XPath.
+      type: string
+      maxLength: 500
+
+
+
+
+  #####################################################
+  # RFC7807 Messages
+  #####################################################
+
+
+    Error400_AIS:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 400 for AIS.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by ASPSPs.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode400_AIS"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/tppErrorTitle"
+              detail:
+                $ref: "#/components/schemas/tppErrorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode400_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error401_AIS:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 401 for AIS.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by ASPSPs.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode401_AIS"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/tppErrorTitle"
+              detail:
+                $ref: "#/components/schemas/tppErrorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode401_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error403_AIS:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 403 for AIS.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by ASPSPs.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode403_AIS"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/tppErrorTitle"
+              detail:
+                $ref: "#/components/schemas/tppErrorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode403_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error404_AIS:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 404 for AIS.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by ASPSPs.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode404_AIS"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/tppErrorTitle"
+              detail:
+                $ref: "#/components/schemas/tppErrorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode404_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error405_AIS:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 405 for AIS.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by ASPSPs.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode405_AIS"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/tppErrorTitle"
+              detail:
+                $ref: "#/components/schemas/tppErrorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode405_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error406_AIS:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 406 for AIS.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by ASPSPs.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode406_AIS"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/tppErrorTitle"
+              detail:
+                $ref: "#/components/schemas/tppErrorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode406_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error409_AIS:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 409 for AIS.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by ASPSPs.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode409_AIS"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/tppErrorTitle"
+              detail:
+                $ref: "#/components/schemas/tppErrorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode409_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error429_AIS:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 429 for AIS.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by ASPSPs.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode429_AIS"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: |
+              This is a data element to support the declaration of additional errors in the context of [RFC7807]
+              in case of a HTTP error code 429 for.
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/tppErrorTitle"
+              detail:
+                $ref: "#/components/schemas/tppErrorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode429_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+      #example:
+        #$ref: "#/components/examples/RFC7807_ErrorInfoBody"
+
+
+    Error400_NG_AIS:
+      description: |
+        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 400.
+      type: object
+      properties:
+        tppMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/tppMessage400_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error401_NG_AIS:
+      description: |
+        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 401.
+      type: object
+      properties:
+        tppMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/tppMessage401_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error403_NG_AIS:
+      description: |
+        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 403.
+      type: object
+      properties:
+        tppMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/tppMessage403_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error404_NG_AIS:
+      description: |
+        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 404.
+      type: object
+      properties:
+        tppMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/tppMessage404_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+          
+    Error405_NG_AIS:
+      description: |
+        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 401.
+      type: object
+      properties:
+        tppMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/tppMessage405_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error406_NG_AIS:
+      description: |
+        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 406.
+      type: object
+      properties:
+        tppMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/tppMessage406_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error409_NG_AIS:
+      description: |
+        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 409.
+      type: object
+      properties:
+        tppMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/tppMessage409_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+      example:
+        [{
+          "category": "ERROR",
+          "code": "STATUS_INVALID",
+          "text": "additional text information of the ASPSP up to 500 characters"
+        }]
+
+    Error429_NG_AIS:
+      description: |
+        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 429.
+      type: object
+      properties:
+        tppMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/tppMessage429_AIS"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+      example:
+        [{
+          "category": "ERROR",
+          "code": "ACCESS_EXCEEDED",
+          "text": "additional text information of the ASPSP up to 500 characters"
+        }]
+
+    cardId:
+      description: |
+        Uniquie identifier for card
+      type: string
+      maxLength: 35
+
+    currencyCode:
+      description: |
+        ISO 4217 Alpha 3 currency code.
+      type: string
+      pattern: '[A-Z]{3}'
+      example: "EUR"
+
+
+  parameters:
+  #####################################################
+  # Predefined Parameters
+  #####################################################
+
+    quoteCurrencyCode:
+      name: quote-currency
+      in: path
+      description: |
+        Currency code in path.
+      required: true
+      schema:
+        $ref: "#/components/schemas/currencyCode"
+
+    baseCurrencyCode:
+      name: base-currency
+      in: path
+      description: |
+        Currency code in path.
+      required: true
+      schema:
+        $ref: "#/components/schemas/currencyCode"
+
+    sourceQuery:
+      name: sourceQuery
+      in: query
+      description: |
+        The currency source
+      required: false
+      schema:
+        $ref: "#/components/schemas/currencySource"
+
+    authorisationId:
+      name: authorisationId
+      in: path
+      description: Resource identification of the related SCA.
+      required: true
+      schema:
+        $ref: "#/components/schemas/authorisationId"
+
+    Authorization:
+      name: Authorization
+      in: header
+      description: |
+        This field  might be used in case where a consent was agreed between ASPSP and PSU through an OAuth2 based protocol,
+        facilitated by the TPP.
+      required: false
+      schema:
+        $ref: "#/components/schemas/authorization"
+
+    withBalanceQuery:
+      name: withBalance
+      in: query
+      description: |
+        If contained, this function reads the list of accessible payment accounts including the booking balance,
+        if granted by the PSU in the related consent and available by the ASPSP.
+        This parameter might be ignored by the ASPSP.
+      required: false
+      schema:
+        type: boolean
+
+    dateFrom:
+      name: dateFrom
+      in: query
+      description: |
+        Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required
+        and if bookingStatus does not equal "information.
+
+        For booked transactions, the relevant date is the booking date.
+
+        For pending transactions, the relevant date is the entry date, which may not be transparent
+        neither in this API nor other channels of the ASPSP.
+      required: false
+      schema:
+        type: string
+        format: date
+
+    dateTo:
+      name: dateTo
+      in: query
+      description: |
+        End date (inclusive the data dateTo) of the transaction list, default is "now" if not given.
+
+        Might be ignored if a delta function is used.
+
+        For booked transactions, the relevant date is the booking date.
+
+        For pending transactions, the relevant date is the entry date, which may not be transparent
+        neither in this API nor other channels of the ASPSP.
+
+      required: false
+      schema:
+        type: string
+        format: date
+
+    entryReferenceFrom:
+      name: entryReferenceFrom
+      in: query
+      description: |
+        This data attribute is indicating that the AISP is in favour to get all transactions after
+        the transaction with identification entryReferenceFrom alternatively to the above defined period.
+        This is a implementation of a delta access.
+        If this data element is contained, the entries "dateFrom" and "dateTo" might be ignored by the ASPSP
+        if a delta report is supported.
+
+        Optional if supported by API provider.
+      required: false
+      schema:
+        type: string
+
+    bookingStatus:
+      name: bookingStatus
+      in: query
+      description: |
+        Permitted codes are
+          * "information",
+          * "booked",
+          * "pending", and
+          * "both"
+        "booked" shall be supported by the ASPSP.
+        To support the "pending" and "both" feature is optional for the ASPSP,
+        Error code if not supported in the online banking frontend
+      required: true
+      schema:
+        type: string
+        enum:
+          - "information"
+          - "booked"
+          - "pending"
+          - "both"
+
+    deltaList:
+      name: deltaList
+      in: query
+      description:
+        This data attribute is indicating that the AISP is in favour to get all transactions after the last report access
+        for this PSU on the addressed account.
+        This is another implementation of a delta access-report.
+
+        This delta indicator might be rejected by the ASPSP if this function is not supported.
+
+        Optional if supported by API provider
+      schema:
+        type: boolean
+
+    X-Request-ID:
+      name: X-Request-ID
+      in: header
+      description: ID of the request, unique to the call, as determined by the initiating party.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+
+    Query-X-Request-ID:
+      name: Query-X-Request-ID
+      in: path
+      description: ID of the request we are looking up.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+
+    Digest:
+      name: Digest
+      in: header
+      description: Is contained if and only if the "Signature" element is contained in the header of the request.
+      schema:
+        type: string
+      required: false # conditional
+      example: "SHA-256=hl1/Eps8BEQW58FJhDApwJXjGY4nr1ArGDHIT25vq6A="
+
+    Signature:
+      name: Signature
+      in: header
+      description: |
+        A signature of the request by the TPP on application level. This might be mandated by ASPSP.
+      schema:
+        type: string
+      required: false # conditional
+      example: >
+        keyId="SN=9FA1,CA=CN=D-TRUST%20CA%202-1%202015,O=D-Trust%20GmbH,C=DE",algorithm="rsa-sha256",
+        headers="Digest X-Request-ID PSU-ID TPP-Redirect-URI Date",
+        signature="Base64(RSA-SHA256(signing string))"
+
+
+
+    TPP-Signature-Certificate:
+      name: TPP-Signature-Certificate
+      in: header
+      description: |
+        The certificate used for signing the request, in base64 encoding.
+        Must be contained if a signature is contained.
+      schema:
+        type: string
+        format: byte
+      required: false # conditional
+
+    TPP-Redirect-Preferred:
+      name: TPP-Redirect-Preferred
+      in: header
+      description: |
+        If it equals "true", the TPP prefers a redirect over an embedded SCA approach.
+        If it equals "false", the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled
+        SCA approach, depending on the choice of the SCA procedure by the TPP/PSU.
+        If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the
+        TPP/PSU.
+      schema:
+        type: boolean
+      required: false
+
+    TPP-Redirect-URI:
+      name: TPP-Redirect-URI
+      in: header
+      description: |
+        URI of the TPP, where the transaction flow shall be redirected to after a Redirect.
+
+        Mandated for the Redirect SCA Approach, specifically
+        when TPP-Redirect-Preferred equals "true".
+        It is recommended to always use this header field.
+
+        **Remark for Future:**
+        This field might be changed to mandatory in the next version of the specification.
+      schema:
+        type: string
+        format: uri
+      required: false # conditional
+
+    TPP-Nok-Redirect-URI:
+      name: TPP-Nok-Redirect-URI
+      in: header
+      description: |
+        If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case
+        of a negative result of the redirect SCA method. This might be ignored by the ASPSP.
+      schema:
+        type: string
+        format: uri
+      required: false
+
+    TPP-Explicit-Authorisation-Preferred:
+      name: TPP-Explicit-Authorisation-Preferred
+      in: header
+      description: |
+        If it equals "true", the TPP prefers to start the authorisation process separately,
+        e.g. because of the usage of a signing basket.
+        This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.
+
+        If it equals "false" or if the parameter is not used, there is no preference of the TPP.
+        This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,
+        without using a signing basket.
+      schema:
+        type: boolean
+      required: false
+
+    TPP-Rejection-NoFunds-Preferred:
+      name: TPP-Rejection-NoFunds-Preferred
+      in: header
+      description: |
+        If it equals "true" then the TPP prefers a rejection of the payment initiation in case the ASPSP is
+        providing an integrated confirmation of funds request an the result of this is that not sufficient
+        funds are available.
+
+        If it equals "false" then the TPP prefers that the ASPSP is dealing with the payment initiation like
+        in the ASPSPs online channel, potentially waiting for a certain time period for funds to arrive to initiate the payment.
+
+        This parameter might be ignored by the ASPSP.
+
+      schema:
+        type: boolean
+      required: false
+
+    TPP-Brand-Logging-Information:
+      name: TPP-Brand-Logging-Information
+      in: header
+      description: |
+        This header might be used by TPPs to inform the ASPSP about the brand used by the TPP towards the PSU.
+        This information is meant for logging entries to enhance communication between ASPSP and PSU or ASPSP and TPP.
+        This header might be ignored by the ASPSP.
+
+      schema:
+        type: string
+      required: false
+
+    TPP-Notification-URI:
+      name: TPP-Notification-URI
+      in: header
+      description: |
+        URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent.
+        This header field may by ignored by the ASPSP.
+
+        For security reasons, it shall be ensured that the TPP-Notification-URI as introduced above is secured by the TPP eIDAS QWAC used for identification of the TPP. The following applies:
+
+        URIs which are provided by TPPs in TPP-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the TPP in the field CN or SubjectAltName of the certificate. Please note that in case of example-TPP.com as certificate entry TPP- Notification-URI like www.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications or notifications.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications would be compliant.
+
+        Wildcard definitions shall be taken into account for compliance checks by the ASPSP.
+         ASPSPs may respond with ASPSP-Notification-Support set to false, if the provided URIs do not comply.
+      schema:
+        type: string
+      required: false
+
+    TPP-Notification-Content-Preferred:
+      name: TPP-Notification-Content-Preferred
+      in: header
+      description: |
+        The string has the form
+
+        status=X1, ..., Xn
+
+        where Xi is one of the constants SCA, PROCESS, LAST and where constants are not
+        repeated.
+        The usage of the constants supports the of following semantics:
+
+          SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.
+
+          PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.
+          LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.
+
+        This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.
+      schema:
+        type: string
+      required: false
+
+    PSU-ID:
+      name: PSU-ID
+      in: header
+      description: |
+        Client ID of the PSU in the ASPSP client interface.
+
+        Might be mandated in the ASPSP's documentation.
+
+        It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding
+        AIS service in the same session.
+        In this case the ASPSP might check whether PSU-ID and token match,
+        according to ASPSP documentation.
+      schema:
+        type: string
+      required: false
+      example: "PSU-1234"
+
+    PSU-ID-Type:
+      name: PSU-ID-Type
+      in: header
+      description: |
+        Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.
+
+        In this case, the mean and use are then defined in the ASPSP’s documentation.
+      schema:
+        type: string
+      required: false
+
+    PSU-Corporate-ID:
+      name: PSU-Corporate-ID
+      in: header
+      description: |
+        Might be mandated in the ASPSP's documentation. Only used in a corporate context.
+      schema:
+        type: string
+      required: false
+
+    PSU-Corporate-ID-Type:
+      name: PSU-Corporate-ID-Type
+      in: header
+      description: |
+        Might be mandated in the ASPSP's documentation. Only used in a corporate context.
+      schema:
+        type: string
+      required: false
+
+    PSU-IP-Address_mandatory:
+      name: PSU-IP-Address
+      in: header
+      description: |
+        The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.
+        If not available, the TPP shall use the IP Address used by the TPP when submitting this request.
+      schema:
+        type: string
+        format: ipv4
+      required: true
+      example: 192.168.8.78
+
+    PSU-IP-Address_optional:
+      name: PSU-IP-Address
+      in: header
+      description: |
+        The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.
+      schema:
+        type: string
+        format: ipv4
+      required: false
+      example: 192.168.8.78
+
+    PSU-IP-Address_conditionalForAis:
+      name: PSU-IP-Address
+      in: header
+      description: |
+        The forwarded IP Address header field consists of the corresponding HTTP request
+        IP Address field between PSU and TPP.
+        It shall be contained if and only if this request was actively initiated by the PSU.
+      schema:
+        type: string
+        format: ipv4
+      required: false
+      example: 192.168.8.78
+
+    PSU-IP-Port:
+      name: PSU-IP-Port
+      in: header
+      description: |
+        The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.
+      schema:
+        type: string
+      required: false
+      example: "1234"
+
+    PSU-Accept:
+      name: PSU-Accept
+      in: header
+      description: |
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.
+      schema:
+        type: string
+      required: false
+
+    PSU-Accept-Charset:
+      name: PSU-Accept-Charset
+      in: header
+      description: |
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.
+      schema:
+        type: string
+      required: false
+
+    PSU-Accept-Encoding:
+      name: PSU-Accept-Encoding
+      in: header
+      description: |
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.
+      schema:
+        type: string
+      required: false
+
+    PSU-Accept-Language:
+      name: PSU-Accept-Language
+      in: header
+      description: |
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.
+      schema:
+        type: string
+      required: false
+
+    PSU-User-Agent:
+      name: PSU-User-Agent
+      in: header
+      description: |
+        The forwarded Agent header field of the HTTP request between PSU and TPP, if available.
+      schema:
+        type: string
+      required: false
+
+    PSU-Http-Method:
+      name: PSU-Http-Method
+      in: header
+      description: |
+        HTTP method used at the PSU ? TPP interface, if available.
+        Valid values are:
+        * GET
+        * POST
+        * PUT
+        * PATCH
+        * DELETE
+      schema:
+        type: string
+        enum:
+          - "GET"
+          - "POST"
+          - "PUT"
+          - "PATCH"
+          - "DELETE"
+      required: false
+
+    PSU-Device-ID:
+      name: PSU-Device-ID
+      in: header
+      description: |
+        UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available.
+        UUID identifies either a device or a device dependant application installation.
+        In case of an installation identification this ID needs to be unaltered until removal from device.
+      schema:
+        type: string
+        format: uuid
+      required: false
+      example: "99435c7e-ad88-49ec-a2ad-99ddcb1f5555"
+
+    PSU-Geo-Location:
+      name: PSU-Geo-Location
+      in: header
+      description: |
+        The forwarded Geo Location of the corresponding http request between PSU and TPP if available.
+      schema:
+        type: string
+        pattern: 'GEO:-?[0-9]{1,2}\.[0-9]{6};-?[0-9]{1,3}\.[0-9]{6}'
+      required: false
+      example: GEO:52.506931;13.144558
+
+  # requestBodies:
+  #####################################################
+  # Reusable Request Bodies
+  #####################################################
+
+  headers:
+  #####################################################
+  # Reusable Response Header Elements
+  #####################################################
+
+    X-Request-ID:
+      description: ID of the request, unique to the call, as determined by the initiating party.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+
+
+    ASPSP-SCA-Approach:
+      description: |
+        This data element must be contained, if the SCA Approach is already fixed.
+        Possible values are
+          * EMBEDDED
+          * DECOUPLED
+          * REDIRECT
+        The OAuth SCA approach will be subsumed by REDIRECT.
+      schema:
+        type: string
+        enum:
+          - "EMBEDDED"
+          - "DECOUPLED"
+          - "REDIRECT"
+        example: "EMBEDDED"
+      required: false
+
+    Location:
+      description: |
+        Location of the created resource.
+      schema:
+        type: string
+        format: url
+      required: false
+
+    #conditional for extended service lean push
+    ASPSP-Notification-Support:
+      description: |
+        true if the ASPSP supports resource status notification services.
+
+        false if the ASPSP supports resource status notification in general, but not for the current request.
+
+        Not used, if resource status notification services are generally not supported by the ASPSP.
+
+        Shall be supported if the ASPSP supports resource status notification services.
+      schema:
+        type: boolean
+      required: false
+  responses:
+  #####################################################
+  # Reusabale Responses
+  #####################################################
+
             
 
     #####################################################
@@ -506,7 +2016,186 @@ components:
     # Negative Responses
     #####################################################
 
-  examples:
+    BAD_REQUEST_400_AIS:
+      description: Bad Request
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error400_NG_AIS"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error400_AIS"
+
+    UNAUTHORIZED_401_AIS:
+      description: Unauthorized
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error401_NG_AIS"
+
+        application/problem+json:
+          schema:
+             $ref: "#/components/schemas/Error401_AIS"
+
+    FORBIDDEN_403_AIS:
+      description: Forbidden
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error403_NG_AIS"
+
+        application/problem+json:
+          schema:
+             $ref: "#/components/schemas/Error403_AIS"
+
+    NOT_FOUND_404_AIS:
+      description: Not found
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error404_NG_AIS"
+
+        application/problem+json:
+          schema:
+             $ref: "#/components/schemas/Error404_AIS"
+
+    METHOD_NOT_ALLOWED_405_AIS:
+      description: Method Not Allowed
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error405_NG_AIS"
+
+        application/problem+json:
+          schema:
+             $ref: "#/components/schemas/Error405_AIS"
+
+    NOT_ACCEPTABLE_406_AIS:
+      description: Not Acceptable
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error406_NG_AIS"
+        application/problem+json:
+          schema:
+             $ref: "#/components/schemas/Error406_AIS"
+
+    REQUEST_TIMEOUT_408_AIS:
+      description: Request Timeout
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #No Response body because there are no valid message codes for AIS in case of HTTP code 408
+    CONFLICT_409_AIS:
+      description: Conflict
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+             $ref: "#/components/schemas/Error409_NG_AIS"
+
+        application/problem+json:
+          schema:
+             $ref: "#/components/schemas/Error409_AIS"
+
+    UNSUPPORTED_MEDIA_TYPE_415_AIS:
+      description: Unsupported Media Type
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #No Response body because there are no valid message codes for AIS in case of HTTP code 415
+
+    TOO_MANY_REQUESTS_429_AIS:
+      description: Too Many Requests
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error429_NG_AIS"
+        application/problem+json:
+
+          schema:
+             $ref: "#/components/schemas/Error429_AIS"
+
+    INTERNAL_SERVER_ERROR_500_AIS:
+      description: Internal Server Error
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #No Response body because there are no valid message codes for AIS in case of HTTP code 500
+
+    SERVICE_UNAVAILABLE_503_AIS:
+      description: Service Unavailable
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #No Response body because there are no valid message codes for AIS in case of HTTP code 503
+
+  # examples:
   #####################################################
   # Predefined Examples
   #####################################################
@@ -521,3 +2210,12 @@ tags:
   #####################################################
   # Predefined Tags to Group Methods
   #####################################################
+    #####################################################
+
+  - name: Currency Information
+    description: |
+      The Currency Information Service offers the following services:
+        * Transaction reports for a given card, including balances.
+        * Balances of a given account or card account
+        * A list of available accounts or card account
+        * Account details of a given account or card account or of the list of all accessible accounts or card account  relative to a granted consent

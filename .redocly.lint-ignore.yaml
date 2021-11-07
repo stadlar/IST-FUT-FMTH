@@ -109,3 +109,5 @@ Deliverables/IOBWS3.0.yaml:
     - '#/components/examples/maskedPanExample'
     - '#/components/examples/uuidExample'
     - '#/components/headers/ASPSP-Multiple-Consent-Support'
+
+    - '#/components/schemas/debtorId'

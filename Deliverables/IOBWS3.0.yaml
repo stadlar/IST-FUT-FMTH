@@ -6201,6 +6201,44 @@ components:
     #####################################################
     # Content of Request Bodies - JSON
     #####################################################
+    paymentInitiationDomestic_json:
+      description: |
+        Generic Body for a domestic payment initation via JSON.
+
+      type: object
+      properties:
+        endToEndIdentification:
+          type: string
+        debtorId:
+          type: string
+          maxLength: 35
+        debtorAccount: 
+          $ref: "#/components/schemas/accountReference"
+        ultimateDebtor:
+          $ref: "#/components/schemas/ultimateDebtor"
+        ultimateDebtorId:
+          type: string
+          maxLength: 35
+        instructedAmount:
+          $ref: "#/components/schemas/amount"
+        creditorAccount: 
+          $ref: "#/components/schemas/accountReference"
+        creditorId:
+          type: string
+          maxLength: 35
+        ultimateCreditor:
+          $ref: "#/components/schemas/ultimateCreditor"
+        ultimateCreditorId:
+          $ref: "#/components/schemas/ultimateCreditorId"
+        icelandicPurpose:
+          $ref: "#/components/schemas/icelandicPurpose"
+        remittanceInformationUnstructured:
+          $ref: "#/components/schemas/remittanceInformationUnstructured"
+        requestedExecutionDate:
+          type: string
+          format: date
+        partialPayment:
+          type: boolean
 
     paymentInitiation_json: 
       description: |
@@ -11314,7 +11352,6 @@ components:
           - "sepa-credit-transfers"
           - "cross-border-credit-transfers"
 
-
     paymentId:
       name: paymentId
       in: path
@@ -11920,6 +11957,9 @@ components:
           * "payment-card-deposits with JSON-Body"
           * "sepa-credit-transfers" with JSON-Body
           * "cross-border-credit-transfers" with JSON-Body
+          * "credit-transfer with JSON-Body"
+          * "claim-payment with JSON-Body"
+          * "credit-card-deposit with JSON-Body"
 
         There are the following payment-services supported:
           * "payments"
@@ -13579,6 +13619,27 @@ components:
             "creditorAccount": {"iban": "FR7612345987650123456789014"},
             "remittanceInformationUnstructured": "Ref Number Merchant 2"
             }]
+        }
+
+    paymentInitiationDomesticBody_creditTransfer-payments_json:
+      value:
+        {
+          "endToEndIdentification": "Short description",
+          "debtorId": "0208714669",
+          "debtorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "creditorId": "0208714669",
+          "creditorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "instructedAmount": {
+            "amount": "1235"
+          },
+          "icelandicPurpose": {
+            "code": "03"
+          },
+          "remittanceInformationUnstructured": "My description"
         }
 
 

@@ -613,7 +613,6 @@ paths:
       operationId: startPaymentAuthorisation
       tags: 
         - Payment Initiation Service (PIS)
-        - Common Services
       security:
       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
@@ -713,7 +712,6 @@ paths:
       operationId: getPaymentInitiationAuthorisation
       tags:
         - Payment Initiation Service (PIS)
-        - Common Services
       
       security:
       ##################################################### 
@@ -795,7 +793,6 @@ paths:
       operationId: getPaymentInitiationScaStatus
       tags:
         - Payment Initiation Service (PIS)
-        - Common Services
       
       security:
       #####################################################
@@ -912,7 +909,6 @@ paths:
       operationId: updatePaymentPsuData
       tags:
         - Payment Initiation Service (PIS)
-        - Common Services
       
       security:
       #####################################################
@@ -1052,7 +1048,7 @@ paths:
       operationId: startPaymentInitiationCancellationAuthorisation
       tags:
         - Payment Initiation Service (PIS)
-        - Common Services
+
       security:
       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
@@ -1231,7 +1227,6 @@ paths:
       operationId: getPaymentCancellationScaStatus
       tags:
         - Payment Initiation Service (PIS)
-        - Common Services
       
       security:
       #####################################################
@@ -1351,7 +1346,6 @@ paths:
       operationId: updatePaymentCancellationPsuData
       tags:
         - Payment Initiation Service (PIS)
-        - Common Services
       
       security:
       #####################################################
@@ -11500,11 +11494,3 @@ tags:
         * Balances of a given account or card account
         * A list of available accounts or card account
         * Account details of a given account or card account or of the list of all accessible accounts or card account  relative to a granted consent
-  - name: Common Services
-    description: |
-      Processes on starting authorisations, update PSU identification or PSU authentication data and explicit 
-      authorisation of transactions by using SCA are very similar in PIS and AIS and signing baskets services. 
-      The API calls supporting these processes are described in the following independently from the service/endpoint. 
-      For reasons of clarity, the endpoints are defined always for the Payment Initiation Service, the payment cancellation, 
-      the Account Information Service (Consents), and Signing Baskets separately. 
-      These processes usually are used following a hyperlink of the ASPSP. 

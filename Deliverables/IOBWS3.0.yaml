@@ -117,6 +117,9 @@ paths:
           - Payment products with payment information in *JSON* format:
             - ***sepa-credit-transfers***
             - ***cross-border-credit-transfers***
+            - ***credit-transfer***
+            - ***claim-payment***
+            - ***credit-card-deposit***
 
         Furthermore the request body depends on the **payment-service**:
           * ***payments***: A single payment initiation request.
@@ -4373,6 +4376,44 @@ components:
     #####################################################
     # Content of Request Bodies - JSON
     #####################################################
+    paymentInitiationDomestic_json:
+      description: |
+        Generic Body for a domestic payment initation via JSON.
+
+      type: object
+      properties:
+        endToEndIdentification:
+          type: string
+        debtorId:
+          type: string
+          maxLength: 35
+        debtorAccount: 
+          $ref: "#/components/schemas/accountReference"
+        ultimateDebtor:
+          $ref: "#/components/schemas/ultimateDebtor"
+        ultimateDebtorId:
+          type: string
+          maxLength: 35
+        instructedAmount:
+          $ref: "#/components/schemas/amount"
+        creditorAccount: 
+          $ref: "#/components/schemas/accountReference"
+        creditorId:
+          type: string
+          maxLength: 35
+        ultimateCreditor:
+          $ref: "#/components/schemas/ultimateCreditor"
+        ultimateCreditorId:
+          $ref: "#/components/schemas/ultimateCreditorId"
+        icelandicPurpose:
+          $ref: "#/components/schemas/icelandicPurpose"
+        remittanceInformationUnstructured:
+          $ref: "#/components/schemas/remittanceInformationUnstructured"
+        requestedExecutionDate:
+          type: string
+          format: date
+        partialPayment:
+          type: boolean
 
     paymentInitiation_json: 
       description: |
@@ -8724,13 +8765,10 @@ components:
         
         The following payment products are supported:
           - sepa-credit-transfers
-          - instant-sepa-credit-transfers
-          - target-2-payments
           - cross-border-credit-transfers
-          - pain.001-sepa-credit-transfers
-          - pain.001-instant-sepa-credit-transfers
-          - pain.001-target-2-payments
-          - pain.001-cross-border-credit-transfers
+          - credit-transfer
+          - claim-payment
+          - credit-card-deposit
         
         **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, 
         the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. 
@@ -8745,14 +8783,10 @@ components:
         type: string
         enum:
           - "sepa-credit-transfers"
-          - "instant-sepa-credit-transfers"
-          - "target-2-payments"
           - "cross-border-credit-transfers"
-          - "pain.001-sepa-credit-transfers"
-          - "pain.001-instant-sepa-credit-transfers"
-          - "pain.001-target-2-payments"
-          - "pain.001-cross-border-credit-transfers"
-
+          - "credit-transfer"
+          - "claim-payment"
+          - "credit-card-deposit"
 
     paymentId:
       name: paymentId
@@ -9341,6 +9375,9 @@ components:
         There are the following payment-products supported:
           * "sepa-credit-transfers" with JSON-Body
           * "cross-border-credit-transfers" with JSON-Body
+          * "credit-transfer with JSON-Body"
+          * "claim-payment with JSON-Body"
+          * "credit-card-deposit with JSON-Body"
 
         There are the following payment-services supported:
           * "payments"
@@ -9356,7 +9393,7 @@ components:
               - $ref: "#/components/schemas/paymentInitiation_json"
               - $ref: "#/components/schemas/periodicPaymentInitiation_json"
               - $ref: "#/components/schemas/bulkPaymentInitiation_json"
-              
+              - $ref: "#/components/schemas/paymentInitiationDomestic_json"
               
           examples:
             "Example 1: 'payments' - 'sepa-credit-transfers'":
@@ -9365,6 +9402,8 @@ components:
               $ref: "#/components/examples/paymentInitiationSctBody_periodic-payments_json"
             "Example 3: 'bulk-payments' - 'sepa-credit-transfers'":
               $ref: "#/components/examples/paymentInitiationSctBody_bulk-payments_json"
+            "Example 4: 'payments' - 'domestic credit-transfers'":
+              $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-payments_json"
 
 
   headers:
@@ -10749,6 +10788,27 @@ components:
             "creditorAccount": {"iban": "FR7612345987650123456789014"},
             "remittanceInformationUnstructured": "Ref Number Merchant 2"
             }]
+        }
+
+    paymentInitiationDomesticBody_creditTransfer-payments_json:
+      value:
+        {
+          "endToEndIdentification": "Short description",
+          "debtorId": "0208714669",
+          "debtorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "creditorId": "0208714669",
+          "creditorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "instructedAmount": {
+            "amount": "1235"
+          },
+          "icelandicPurpose": {
+            "code": "03"
+          },
+          "remittanceInformationUnstructured": "My description"
         }
 
 

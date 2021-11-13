@@ -2949,9 +2949,9 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
 
-  - name: Debet and Credit Card Details and Information
+  - name: cards
     description: |
-      The Card Information Service offers the following services:
+      The Debet and Credit Card Details and Information API offers the following services:
         * Transaction reports for a given card, including balances.
         * Balances of a given account or card account
         * A list of available accounts or card account

@@ -860,15 +860,14 @@ components:
     expDate:
       type: string
       description: Experation date for a card in the form mm/yy.
-      pattern: "missing"
-      example: "missing"
+      pattern: "(0[1-9]|1[0-2])\/([0-9]{2})"
+      example: "03/23"
 
     issueDate:
       type: string
       format: date
       description: Issuing date for a card.
-      pattern: "missing"
-      example: "missing"
+      example: "2021-03-15"
 
     cardholderName:
       type: string
@@ -1925,11 +1924,11 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
+        {
           "category": "ERROR",
           "code": "STATUS_INVALID",
           "text": "additional text information of the Bank up to 500 characters"
-        }]
+        }
 
     Error429_IOBWS:
       description: |
@@ -1943,11 +1942,11 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
+        {
           "category": "ERROR",
           "code": "ACCESS_EXCEEDED",
           "text": "additional text information of the Bank up to 500 characters"
-        }]
+        }
 
     cardId:
       description: |
@@ -2882,7 +2881,8 @@ components:
       value:
         {
           "card": {
-            "maskedPan": "525412******3241"
+            "maskedPan": "525412******3241",
+            "currency": "ISK"
           },
           "cardTransactions": {
             "booked": [

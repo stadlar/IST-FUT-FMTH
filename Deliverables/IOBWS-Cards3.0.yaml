@@ -360,7 +360,7 @@ components:
         - card
       properties:
         card:
-          $ref: "#/components/schemas/cardAccountDetails"
+          $ref: "#/components/schemas/cardDetails"
 
     readCardBalancesResponse-200_json:
       description: Balances of the cards.
@@ -623,7 +623,7 @@ components:
         balances:
           $ref: "#/components/schemas/balanceList"
         _links:
-          $ref: "#/components/schemas/_linksAccountDetails"
+          $ref: "#/components/schemas/_linksCardDetails"
           
     cardAccountList:
       description: |
@@ -875,6 +875,7 @@ components:
 
     panId:
       type: string
+      description: Scoped identifier to be used as a replacement for the Primary Account Number when referencing card.
 
     bank:
       type: string
@@ -1108,6 +1109,26 @@ components:
         download:
           $ref: "#/components/schemas/hrefType"
 
+    _linksCardDetails:
+      description: |
+        Links to the card, which can be directly used for retrieving account information from this card account.
+        
+        Links to "balances" and/or "transactions".
+
+        These links are only supported, when the corresponding consent has been already granted.
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/hrefType"
+      properties:
+        self:
+          $ref: "#/components/schemas/hrefType"
+        cardAccount:
+          $ref: "#/components/schemas/hrefType"
+        balances:
+          $ref: "#/components/schemas/hrefType"
+        cardTransactions:
+          $ref: "#/components/schemas/hrefType"
+
     _linksCardAccountReport:
       type: object
       additionalProperties:
@@ -1130,7 +1151,7 @@ components:
       description: |
         Links to the account, which can be directly used for retrieving account information from this dedicated account.
 
-        Links to "balances" and/or "transactions"
+        Links to "balances" and/or "transactions".
 
         These links are only supported, when the corresponding consent has been already granted.
       type: object
@@ -1727,7 +1748,7 @@ components:
                 $ref: "#/components/schemas/MessageCode406"
         _links:
           $ref: "#/components/schemas/_linksAll"
-
+ 
 
     Error409:
       description: |
@@ -2662,7 +2683,7 @@ components:
               "expDate": "08/22",
               "issueDate": "2019-08-24",
               "cardholderName": "Ýr ÞÍ Ægisdóttir",
-              "panId": "string",
+              "panId": "4324234234234",
               "bank": "0999",
               "name": "Gold Card",
               "displayName": "Gull kreditkort",
@@ -2718,19 +2739,28 @@ components:
           "card": {
             "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b99",
             "maskedPan": "525412******3241",
-            "currency": "EUR",
-            "name": "Main",
-            "product": "Basic Credit Card",
+            "currency": "ISK",
+            "ownerName": "Ýr ÞÍ Ægisdóttir",
+            "expDate": "08/22",
+            "issueDate": "2019-08-24",
+            "cardholderName": "Ýr ÞÍ Ægisdóttir",
+            "panId": "4324234234234",
+            "bank": "0999",
+            "name": "Gold Card",
+            "displayName": "Gull kreditkort",
+            "product": "Payments Card",
             "status": "enabled",
+            "usage": "PRIV",
+            "details": "Gullkort",
             "creditLimit": {
-              "currency": "EUR",
-              "amount": "5000"
+            "currency": "ISK",
+            "amount": "5000"
             },
             "balances": [
               {
                 "balanceType": "interimBooked",
                 "balanceAmount": {
-                  "currency": "EUR",
+                  "currency": "ISK",
                   "amount": "1390.10"
                 }
               },
@@ -2738,7 +2768,7 @@ components:
                 "balanceType": "interimAvailable",
                 "creditLimitIncluded": true,
                 "balanceAmount": {
-                  "currency": "EUR",
+                  "currency": "ISK",
                   "amount": "3609.90"
                 }
               }
@@ -2763,6 +2793,9 @@ components:
             "maskedPan": "525412******3241",
             "currency": "XXX",
             "name": "Main",
+            "expDate": "08/22",
+            "issueDate": "2019-08-24",
+            "cardholderName": "Ýr ÞÍ Ægisdóttir",
             "product": "Basic Credit Card",
             "status": "enabled",
             "creditLimit": {
@@ -2807,6 +2840,9 @@ components:
               },
               "transactions": {
                 "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
+              },
+              "balances": {
+                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/balances"
               }
             }
           }

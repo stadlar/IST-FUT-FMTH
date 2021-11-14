@@ -41,7 +41,7 @@ paths:
     get:
       summary: Read list of currencies
       description: |
-        Read all supported currencies
+        Retrieve a list of all supported currencies
       operationId: readCurrencies
       tags:
         - currencies
@@ -50,7 +50,7 @@ paths:
       parameters:
         #path
         #query
-        - $ref: "#/components/parameters/sourceQuery"
+        - $ref: "#/components/parameters/currencySourceQuery"
         #header
         #mandatory header parameter
         #optional header parameters
@@ -92,7 +92,7 @@ paths:
       parameters:
         #path
         #query
-        - $ref: "#/components/parameters/sourceQuery"
+        - $ref: "#/components/parameters/currencySourceQuery"
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -136,7 +136,7 @@ paths:
         #path
         - $ref: "#/components/parameters/baseCurrencyCode"
         #query
-        - $ref: "#/components/parameters/sourceQuery"
+        - $ref: "#/components/parameters/currencySourceQuery"
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -181,7 +181,7 @@ paths:
         - $ref: "#/components/parameters/quoteCurrencyCode"
         - $ref: "#/components/parameters/baseCurrencyCode"
         #query
-        - $ref: "#/components/parameters/sourceQuery"
+        - $ref: "#/components/parameters/currencySourceQuery"
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -227,7 +227,7 @@ paths:
         - $ref: "#/components/parameters/quoteCurrencyCode"
         - $ref: "#/components/parameters/baseCurrencyCode"
         #query
-        - $ref: "#/components/parameters/sourceQuery"
+        - $ref: "#/components/parameters/currencySourceQuery"
         - $ref: "#/components/parameters/dateFrom"
         - $ref: "#/components/parameters/dateTo"
         #header
@@ -1338,11 +1338,11 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
+        {
           "category": "ERROR",
           "code": "STATUS_INVALID",
           "text": "additional text information of the Bank up to 500 characters"
-        }]
+        }
 
     Error429_IOBWS:
       description: |
@@ -1356,11 +1356,11 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
+        {
           "category": "ERROR",
           "code": "ACCESS_EXCEEDED",
           "text": "additional text information of the Bank up to 500 characters"
-        }]
+        }
 
     cardId:
       description: |
@@ -1399,8 +1399,8 @@ components:
       schema:
         $ref: "#/components/schemas/currencyCode"
 
-    sourceQuery:
-      name: sourceQuery
+    currencySourceQuery:
+      name: currencySourceQuery
       in: query
       description: |
         The currency source
@@ -2091,7 +2091,7 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
     #####################################################
-  - name: currency
+  - name: currencies
     description: |
       The Currency Information Service offers the following services:
         * Get a list of the available currencies

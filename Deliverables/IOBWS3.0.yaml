@@ -6196,108 +6196,217 @@ components:
 # Content of Request Bodies
 #####################################################
 
+    ultimateCreditorId:
+      description: Ultimate Creditor Id
+      type: string
+      maxLength: 35
+      example: "Ultimate Creditor Id 1234"
 
-
-    #####################################################
-    # Content of Request Bodies - JSON - Domestic
-    #####################################################
-
-    paymentInitiationDomestic_json:
+    partialPayment:
       description: |
-        Generic Body for a domestic payment initation via JSON.
+        Payment used to pay claim (Icelandic)
+      type: boolean
+      example: false
+    
+    posEntryMode:
+      description: |
+        Card transaction orginated from.
+      enum:
+        - "UNKNOWN"
+        - "MAGIC_STRIP"
+        - "CHIP"
+        - "TOUCHLESS"
+        - "RECURRING"
+        - "MANUAL"
+        - "MOTO"
 
+    expDate:
+      type: string
+      description: Experation date for a card in the form mm/yy.
+      pattern: "missing"
+      example: "missing"
+
+    issueDate:
+      type: string
+      format: date
+      description: Issuing date for a card.
+      pattern: "missing"
+      example: "missing"
+
+    cardholderName:
+      type: string
+      description: Experation date for a card.
+
+    panId:
+      type: string
+
+    bank:
+      type: string
+      description: Icelandic bank number.
+      pattern: "missing"
+      example: "missing"
+
+    transactionFeesDetail:
+      description: |
+        A single transaction fee details.
+        - fees: Standard fee
+        - priorityFees: The priority payment fee
+        - foreignBankServiceFees:
       type: object
+      required:
+        - feeType
+        - value
       properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
-        debtorId:
-          type: string
-          maxLength: 35
-        debtorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        ultimateDebtor:
-          $ref: "#/components/schemas/ultimateDebtor"
-        ultimateDebtorId:
-          type: string
-          maxLength: 35
-        instructedAmount:
+        feeType:
+          enum:
+            - "FEES"
+            - "PRIORITYFEES"
+            - "FOREIGNBANKSERVICEFEES"
+            - "OTHERFEES"
+        value:
           $ref: "#/components/schemas/amount"
-        creditorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        creditorId:
+      example:
+        {
+          "feeType": "otherFees",
+          "value": {
+            "currency": "ISK",
+            "amount": 0
+          }
+        }
+
+    transactionFeesList:
+      description: |
+        A list of transaction fees for example: foreignBankServiceFees, priorityFees
+        fees or otherFees
+      type: array
+      items:
+        $ref: "#/components/schemas/transactionFeesDetail"
+      example:
+          [
+            {
+              "feeType": "otherFees",
+              "value": {
+                "currency": "ISK",
+                "amount": 0
+              }
+            },
+            {
+              "feeType": "fees",
+              "value": {
+                "currency": "ISK",
+                "amount": 1000
+              }
+            },
+            {
+              "feeType": "priorityFees",
+              "value":
+                {
+                "currency": "ISK",
+                "amount": 2000
+              }
+            },
+            {
+              "feeType": "foreignBankServiceFees",
+              "value":
+                {
+                  "currency": "ISK",
+                  "amount": 3000
+                }
+            }
+          ]
+    
+    transactionDetails:
+      description: Transaction details.
+      type: object
+      required:
+        - transactionAmount
+      properties:
+        transactionId:
+          $ref: "#/components/schemas/transactionId"
+        transactionTimestamp:
+          description: |
+            Execution datetime of the record
+          type: string
+          format: date-time
+        entryReference:
+          $ref: "#/components/schemas/entryReference"
+        endToEndId:
+          description: Unique end to end identity.
           type: string
           maxLength: 35
+        mandateId:
+          description: Identification of Mandates, e.g. a SEPA Mandate ID.
+          type: string
+          maxLength: 35
+        checkId:
+          description: Identification of a Cheque.
+          type: string
+          maxLength: 35
+        creditorId:
+          $ref: "#/components/schemas/creditorId"
+        bookingDate:
+          $ref: "#/components/schemas/bookingDate"
+        valueDate:
+          description: The Date at which assets become available to the account owner in case of a credit.
+          type: string
+          format: date
+        transactionAmount:
+          $ref: "#/components/schemas/amount"
+        currencyExchange:
+          $ref: "#/components/schemas/reportExchangeRateList"
+        creditorName:
+          $ref: "#/components/schemas/creditorName"
+        creditorAccount:
+          $ref: "#/components/schemas/accountReference"
+        creditorAgent:
+          $ref: "#/components/schemas/bicfi"
         ultimateCreditor:
           $ref: "#/components/schemas/ultimateCreditor"
         ultimateCreditorId:
           $ref: "#/components/schemas/ultimateCreditorId"
+        debtorName:
+          $ref: "#/components/schemas/debtorName"
+        debtorId:
+          $ref: "#/components/schemas/debtorId"
+        debtorAccount:
+          $ref: "#/components/schemas/accountReference"
+        debtorAgent:
+          $ref: "#/components/schemas/bicfi"
+        ultimateDebtor:
+          $ref: "#/components/schemas/ultimateDebtor"
+        ultimateDebtorId:
+          $ref: "#/components/schemas/ultimateDebtorId"
+        remittanceInformationUnstructured: 
+          $ref: "#/components/schemas/remittanceInformationUnstructured"
+        remittanceInformationUnstructuredArray: 
+          $ref: "#/components/schemas/remittanceInformationUnstructuredArray"
+        remittanceInformationStructured:
+          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
+        remittanceInformationStructuredArray:
+          $ref: "#/components/schemas/remittanceInformationStructuredArray"
+        additionalInformation:
+          $ref: "#/components/schemas/additionalInformation"
+        additionalInformationStructured:
+          $ref: "#/components/schemas/additionalInformationStructured"
+        purposeCode:
+          $ref: "#/components/schemas/purposeCode"
         icelandicPurpose:
           $ref: "#/components/schemas/icelandicPurpose"
-        remittanceInformationUnstructured:
-          $ref: "#/components/schemas/remittanceInformationUnstructured"
-        requestedExecutionDate:
-          type: string
-          format: date
-        partialPayment:
-          type: boolean
+        bankTransactionCode:
+          $ref: "#/components/schemas/bankTransactionCode"
+        proprietaryBankTransactionCode:
+          $ref: "#/components/schemas/proprietaryBankTransactionCode"
+        balanceAfterTransaction: 
+          $ref: "#/components/schemas/balance"
+        _links:
+          $ref: "#/components/schemas/_linksTransactionDetails"
 
-    periodicPaymentInitiationDomestic_json:
-      description: |
-        Generic Body for a domestic payment initation via JSON.
 
-      type: object
-      properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
-        debtorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        instructedAmount:
-          $ref: "#/components/schemas/amount"
-        remittanceInformationUnstructured:
-          $ref: "#/components/schemas/remittanceInformationUnstructured"
-        startDate:
-          type: string
-          format: date
-        executionRule:
-          type: string
-        endDate:
-          type: string
-          format: date
-        frequency:
-          $ref: "#/components/schemas/frequencyCode"
-        dayOfExecution:
-          type: string
-          maxLength: 2
+#####################################################
+# Content of Request Bodies
+#####################################################
 
-    bulkPaymentInitiationDomestic_json:
-      description: |
-        Generic Body for a domestic bulk payments initation via JSON.
 
-      type: object
-      properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
-        paymentInformationId:
-          type: string
-          maxLength: 35
-        batchBookingPreferred:
-          type: boolean
-        requestedExecutionDate:
-          type: string
-          format: date
-        requestedExecutionTime:
-          type: string
-          format: date-time
-        payments:
-          description: |
-            A list of generic JSON bodies domestic payment initations for bulk payments via JSON.
-
-          type: array
-          items:
-            $ref: "#/components/schemas/paymentInitiationDomestic_json"
 
     #####################################################
     # Content of Request Bodies - JSON
@@ -6431,7 +6540,8 @@ components:
 #        requestedExecutionTime: # N.A. for all, but can be used by ASPSP if needed
 #          type: string
 #          format: date-time
-
+        centralBankPurpose:
+          $ref: "#/components/schemas/centralBankPurposeCode"
 
     paymentInitiationBulkElement_json:
       description: |
@@ -6554,6 +6664,8 @@ components:
 #          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
+        centralBankPurpose:
+          $ref: "#/components/schemas/centralBankPurposeCode"
 
 
     periodicPaymentInitiation_json: 
@@ -6730,6 +6842,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/paymentInitiationBulkElement_json"
+  
 
 
     confirmationOfFunds:
@@ -7620,6 +7733,7 @@ components:
           $ref: "#/components/schemas/scaStatus"
         psuMessage:
           $ref: "#/components/schemas/psuMessageText"
+    
 
 
     signingBasketResponse-200:
@@ -12023,6 +12137,8 @@ components:
           * "credit-transfer with JSON-Body"
           * "claim-payment with JSON-Body"
           * "credit-card-deposit with JSON-Body"
+          * "sepa-credit-transfers" with JSON-Body
+          * "cross-border-credit-transfers" with JSON-Body
 
         There are the following payment-services supported:
           * "payments"
@@ -12423,7 +12539,6 @@ components:
             "Example 6:":
               $ref: "#/components/examples/balancesDomesticExample6_RegularAccount"
 
-
     OK_200_CardAccountBalances:
       description: OK
       
@@ -12776,6 +12891,27 @@ components:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       #NO RESPONSE BODY
+
+
+    NO_CONTENT_204_SigningBasket:
+      description: No Content
+      
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #NO RESPONSE BODY
+
+    #####################################################
+    # Positive Responses Domestic
+    #####################################################
+
+    OK_200_PaymentId:
+      description: |
+        The payment id
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/paymentId"
 
     #####################################################
     # Negative Responses
@@ -13684,174 +13820,6 @@ components:
             }]
         }
 
-    paymentInitiationDomesticBody_creditTransfer-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "instructedAmount": {
-            "currency": "ISK",
-            "amount": "1235"
-          },
-          "icelandicPurpose": {
-            "code": "03"
-          },
-          "remittanceInformationUnstructured": "My description"
-        }
-
-    paymentInitiationDomesticBody_creditTransfer-claim-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "bban": "030015000001"
-          },
-          "instructedAmount": {
-            "currency": "ISK",
-            "amount": "1235"
-          },
-          "ultimateDebtorId": "0808714569",
-          "ultimateDebtor": "Jón Jónsson (Real payer)",
-          "ultimateCreditorId": "0109722329",
-          "ultimateCreditor": "Páll Pálsson (Real receiver)",
-          "partialPayment": "true",
-          "icelandicPurpose": {
-            "code": "03"
-          },
-          "remittanceInformationUnstructured": "My description"
-        }
-
-    paymentInitiationDomesticBody_creditTransfer-credit-card-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "pan": "1234567"
-          },
-          "instructedAmount": {
-            "currency": "ISK",
-            "amount": "1235"
-          },
-          "partialPayment": "true",
-          "icelandicPurpose": {
-            "code": "87"
-          },
-          "remittanceInformationUnstructured": "My description"
-        }
-
-    paymentInitiationDomesticBody_creditTransfer-periodic-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "instructedAmount": {
-            "currency": "ISK",
-            "amount": "1235"
-          },
-          "icelandicPurpose": {
-            "code": "87"
-          },
-          "remittanceInformationUnstructured": "My description",
-          "startDate": "2020-03-01",
-          "executionRule": "preceeding",
-          "frequency": "monthly",
-          "dayOfExecution": "01"
-        }
-
-    paymentInitiationDomesticBody_creditCardTopUp-periodic-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "bban": "030013000001"
-          },
-          "instructedAmount": {
-            "amount": "1235"
-          },
-          "icelandicPurpose": {
-            "code": "87"
-          },
-          "remittanceInformationUnstructured": "My description",
-          "startDate": "2020-03-01",
-          "executionRule": "preceeding",
-          "frequency": "monthly",
-          "dayOfExecution": "01"
-        }
-
-    paymentInitiationDomesticBody_bulk-payments_json:
-      value:
-        {
-          "paymentInformationId": "75BA1A88-4184-45C0-BE88-AABFBEEEE230",
-          "batchBookingPreferred": "true",
-          "requestExecutionDate": "2020-08-01",
-          "payments": [
-            {
-              "endToEndIdentification": "Short description",
-              "debtorId": "0208714669",
-              "debtorAccount": {
-                "iban": "IS40100100103307118608"
-              },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "030013000001"
-              },
-              "instructedAmount": {
-                "amount": "1235"
-              },
-              "icelandicPurpose": {
-                "code": "87"
-              },
-              "remittanceInformationUnstructured": "My description"
-            },
-            {
-              "endToEndIdentification": "Short description",
-              "debtorId": "0208714669",
-              "debtorAccount": {
-                "iban": "IS40100100103307118608"
-              },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "030013000001"
-              },
-              "instructedAmount": {
-                "amount": "1235"
-              },
-              "icelandicPurpose": {
-                "code": "87"
-              },
-              "remittanceInformationUnstructured": "My description"
-            }
-          ]
-        }
 
     accountDetailsRegularAccount:
       description: Account details for a regular Account.
@@ -14681,7 +14649,147 @@ components:
         { 
           "authorisationIds": ["123auth456"]
         }
+
+#####################################################
+# Predefined Examples Domestic
+#####################################################
+
+    paymentInitiationDomesticBody_creditTransfer-payments_json:
+      value:
+        {
+          "endToEndIdentification": "Short description",
+          "debtorId": "0208714669",
+          "debtorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "creditorId": "0208714669",
+          "creditorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "instructedAmount": {
+            "currency": "ISK",
+            "amount": "1235"
+          },
+          "icelandicPurpose": {
+            "code": "03"
+          },
+          "remittanceInformationUnstructured": "My description"
+        }
+
+    paymentInitiationDomesticBody_creditTransfer-claim-payments_json:
+      value:
+        {
+          "endToEndIdentification": "Short description",
+          "debtorId": "0208714669",
+          "debtorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "creditorId": "0208714669",
+          "creditorAccount": {
+            "bban": "030015000001"
+          },
+          "instructedAmount": {
+            "currency": "ISK",
+            "amount": "1235"
+          },
+          "ultimateDebtorId": "0808714569",
+          "ultimateDebtor": "Jón Jónsson (Real payer)",
+          "ultimateCreditorId": "0109722329",
+          "ultimateCreditor": "Páll Pálsson (Real receiver)",
+          "partialPayment": "true",
+          "icelandicPurpose": {
+            "code": "03"
+          },
+          "remittanceInformationUnstructured": "My description"
+        }
+
+    paymentInitiationDomesticBody_creditTransfer-credit-card-payments_json:
+      value:
+        {
+          "endToEndIdentification": "Short description",
+          "debtorId": "0208714669",
+          "debtorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "creditorId": "0208714669",
+          "creditorAccount": {
+            "pan": "1234567"
+          },
+          "instructedAmount": {
+            "currency": "ISK",
+            "amount": "1235"
+          },
+          "partialPayment": "true",
+          "icelandicPurpose": {
+            "code": "87"
+          },
+          "remittanceInformationUnstructured": "My description"
+        }
+
+    paymentInitiationDomesticBody_creditTransfer-foreign-sepa-payments_json:
+      value:
+        {
+          "debtorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "chargesAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "instructedAmount": {
+            "currency": "EUR",
+            "amount": "123.5"
+          },
+          "creditorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "creditorName": "Jón Jónsson",
+          "creditorAddress": {
+            "streetName": "Lambhagi",
+            "buildingNumber": "10",
+            "townName": "Reykjavík",
+            "postCode": "101",
+            "country": "IS"
+          },
+          "centralBankPurpose": "099",
+          "remittanceInformationUnstructured": "My description"
+        }
     
+    paymentInitiationDomesticBody_creditTransfer-foreign-cross-border-payments_json:
+      value:
+        {
+          "debtorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "chargesAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "instructedAmount": {
+            "currency": "EUR",
+            "amount": "123.5"
+          },
+          "creditorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "creditorName": "Jón Jónsson",
+          "creditorAddress": {
+            "streetName": "Lambhagi",
+            "buildingNumber": "10",
+            "townName": "Reykjavík",
+            "postCode": "101",
+            "country": "IS"
+          },
+          "creditorAgent": "DABADKKK",
+          "creditorAgentAddress": {
+            "streetName": "BROGADE",
+            "buildingNumber": "3",
+            "townName": " KØGE",
+            "postCode": "4600",
+            "country": "DK"
+          },
+          "serviceLevel": "PRPT",
+          "centralBankPurpose": "099",
+          "remittanceInformationUnstructured": "My description"
+        }
 
 #####################################################
 # Predefined Examples Domestic

@@ -351,7 +351,7 @@ components:
         cards:
           type: array
           items:
-            $ref: "#/components/schemas/cardAccountDetails"
+            $ref: "#/components/schemas/cardDetails"
 
     readCardDetailsResponse-200_json:
       description: Details of the card.
@@ -879,8 +879,8 @@ components:
     bank:
       type: string
       description: Icelandic bank number.
-      pattern: "missing"
-      example: "missing"
+      pattern: "[0-9]{3,4}"
+      example: "0999"
 
     address:
       type: object
@@ -2657,27 +2657,44 @@ components:
             {
               "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b99",
               "maskedPan": "525412******3241",
-              "currency": "EUR",
-              "name": "Main",
-              "product": "Basic Credit Card",
+              "currency": "ISK",
+              "ownerName": "Ísland ÞÍ Ögrum",
+              "expDate": "08/22",
+              "issueDate": "2019-08-24",
+              "cardholderName": "Ýr ÞÍ Ægisdóttir",
+              "panId": "string",
+              "bank": "0999",
+              "name": "Gold Card",
+              "displayName": "Gull kreditkort",
+              "product": "Payment Card",
               "status": "enabled",
-              "creditLimit": { "currency": "EUR", "amount": "5000" },
+              "usage": "PRIV",
+              "details": "Gullkort",
+              "creditLimit": {
+              "currency": "ISK",
+              "amount": "5000"
+            },
               "balances": [
                 {
                   "balanceType": "interimBooked",
-                  "balanceAmount": { "currency": "EUR", "amount": "1390.10" }
-                },{
+                  "balanceAmount": { "currency": "ISK", "amount": "1390.00" }
+                },
+                {
                 "balanceType": "interimAvailable",
                 "creditLimitIncluded": true,
-                "balanceAmount": { "currency": "EUR", "amount": "3609.90" }
+                "balanceAmount": { "currency": "ISK", "amount": "3609.00" }
               }
             ]
-          },{
+          },
+          {
             "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b98",
             "maskedPan": "525412******3242",
             "currency": "EUR",
-            "name": "PartnerCard",
-            "product": "Basic Credit Card",
+            "ownerName": "Ísland ÞÍ Ögrum",
+            "expDate": "08/22",
+            "name": "Platinum Card",
+            "cardholderName": "Iða ÞÍ Örlygsdóttir",
+            "product": "Payment Card",
             "status": "enabled",
             "creditLimit": { "currency": "EUR", "amount": "5000" },
             "balances": [

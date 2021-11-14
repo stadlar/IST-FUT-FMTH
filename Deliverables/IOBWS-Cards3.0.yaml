@@ -42,8 +42,13 @@ paths:
       summary: Read list of cards.
       description: |
         Reads a list of cards potentially with additional information, e.g. balance information.
+        
         It is assumed that a consent of the PSU to this access is already given and stored on the Bank's system.
         The addressed list of cards depends then on the stored consent addressed by consentId, respectively the OAuth2 access token.
+
+        Please note, that the current line of credit of a given card might be tighter than what the balance
+        response will suggest, due to credit limits on the card account and transactions by
+        other cards to the same account.
 
       operationId: readListOfCards
       tags:
@@ -106,8 +111,13 @@ paths:
       summary: Read card details.
       description: |
         Reads details about a card. It is assumed that a consent of the PSU to this access is already given and stored on the Bank's system.
+        
         The addressed details of this account depends then on the stored consent addressed by consentId, respectively the OAuth2 access
         token.
+
+        Please note, that the current line of credit of a given card might be tighter than what the balance
+        response will suggest, due to credit limits on the card account and transactions by
+        other cards to the same account.
 
       operationId: readCardDetails
       tags:
@@ -170,11 +180,13 @@ paths:
     get:
       summary: Read card balances.
       description: |
-         Read detailed balance information about the addressed card by "card-id".
-         For a given card, an optional parameter "dateFrom" defines the begin of a period from which to obtain available balance related information.
-         Please note, that the current credit line of a given card might be
-         tighter than what a response to this request will suggest due to general credit limits on the card account and transactions by
-         other cards to the same card account.
+        Read detailed balance information about the addressed card by "card-id".
+
+        For a given card, an optional parameter "dateFrom" defines the begin of a period from which to obtain available balance related information.
+        
+        Please note, that the current line of credit of a given card might be tighter than what the balance
+        response will suggest, due to credit limits on the card account and transactions by
+        other cards to the same account.
 
       operationId: readCardBalances
       tags:

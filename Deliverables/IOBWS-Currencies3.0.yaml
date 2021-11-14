@@ -54,7 +54,7 @@ paths:
         #header
         #mandatory header parameter
         #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
 
       responses:
         '200':
@@ -73,6 +73,8 @@ paths:
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
@@ -96,7 +98,7 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
 
       responses:
         '200':
@@ -115,6 +117,8 @@ paths:
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
@@ -140,7 +144,7 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
 
       responses:
         '200':
@@ -159,6 +163,8 @@ paths:
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
@@ -184,9 +190,8 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
 
       responses:
         '200':
@@ -205,6 +210,8 @@ paths:
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
@@ -232,9 +239,8 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
 
       responses:
         '200':
@@ -253,6 +259,8 @@ paths:
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
@@ -344,6 +352,7 @@ components:
             Name of the currency source.
           type: string
           maxLength: 70
+          example: "General"
           
     amountValue:
       description: |
@@ -496,10 +505,6 @@ components:
         download:
           $ref: "#/components/schemas/hrefType"
 
-    _linksDownload:
-      description: |
-        A list of hyperlinks to be recognised by the TPP.
-
         Type of links admitted in this response:
           - "download": a link to a resource, where the transaction report might be downloaded from in
           case where transaction reports have a huge size.
@@ -559,8 +564,8 @@ components:
   # Generic Elements
   #####################################################
 
-    tppMessageCategory:
-      description: Category of the TPP message category.
+    svcMessageCategory:
+      description: Category of the intermediary service message category.
       type: string
       enum:
         - "ERROR"
@@ -589,7 +594,7 @@ components:
         - "SCA_METHOD_UNKNOWN"        #gen
         - "SCA_INVALID"               #gen
         - "CONSENT_UNKNOWN"           #gen
-        - "SESSIONS_NOT_SUPPORTED"    #AIS
+        - "SESSIONS_NOT_SUPPORTED"    #IOBWS
 
 
 
@@ -606,8 +611,8 @@ components:
         - "SIGNATURE_INVALID"         #gen
         - "SIGNATURE_MISSING"         #gen
         - "CORPORATE_ID_INVALID"      #gen
-        - "PSU_CREDENTIALS_INVALID"   #gen
-        - "CONSENT_INVALID"           #gen, AIS
+        - "USR_CREDENTIALS_INVALID"   #gen
+        - "CONSENT_INVALID"           #gen, IOBWS
         - "CONSENT_EXPIRED"           #gen
         - "TOKEN_UNKNOWN"             #gen
         - "TOKEN_INVALID"             #gen
@@ -640,7 +645,7 @@ components:
       description: Message codes defined for HTTP Error code 406 (NOT ACCEPTABLE).
       type: string
       enum:
-        - "REQUESTED_FORMATS_INVALID"  #AIS
+        - "REQUESTED_FORMATS_INVALID"  #IOBWS
 
     MessageCode409:
       description: Message codes defined for HTTP Error code 409 (CONFLICT).
@@ -652,149 +657,149 @@ components:
       description: Message codes for HTTP Error code 429 (TOO MANY REQUESTS).
       type: string
       enum:
-        - "ACCESS_EXCEEDED"           #AIS
+        - "ACCESS_EXCEEDED"           #IOBWS
 
 
   #####################################################
-  # Next Gen proprietary TPP-messages
+  # IOBWS scoped SVC-messages
   #####################################################
 
 
-    tppMessageText:
-      description: Additional explaining text to the TPP.
+    svcMessageText:
+      description: Additional explaining text to the intermediary service.
       type: string
       maxLength: 500
 
 
-    tppMessage400:
+    svcMessage400:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode400"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/svcMessageText"
           
 
-    tppMessage401:
+    svcMessage401:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode401"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/svcMessageText"
 
 
-    tppMessage403:
+    svcMessage403:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode403"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/svcMessageText"
 
 
-    tppMessage404:
+    svcMessage404:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode404"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-    tppMessage405:
+    svcMessage405:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode405"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-    tppMessage406:
+    svcMessage406:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode406"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-    tppMessage409:
+    svcMessage409:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode409"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-    tppMessage429:
+    svcMessage429:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/tppMessageCategory"
+           $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode429"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/tppMessageText"
+          $ref: "#/components/schemas/svcMessageText"
 
 
   #####################################################
   # RFC7807 Messages
   #####################################################
 
-    tppErrorTitle:
+    svcErrorTitle:
       description: |
         Short human readable description of error type.
         Could be in local language.
@@ -802,7 +807,7 @@ components:
       type: string
       maxLength: 70
 
-    tppErrorDetail:
+    svcErrorDetail:
       description: |
         Detailed human readable text specific to this instance of the error.
         XPath might be used to point to the issue generating the error in addition.
@@ -830,7 +835,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -863,9 +868,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode400"
         _links:
@@ -884,7 +889,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -917,9 +922,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode401"
         _links:
@@ -938,7 +943,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -971,9 +976,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode403"
         _links:
@@ -992,7 +997,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1025,9 +1030,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode404"
         _links:
@@ -1046,7 +1051,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1079,9 +1084,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode405"
         _links:
@@ -1100,7 +1105,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1133,9 +1138,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode406"
         _links:
@@ -1154,7 +1159,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1187,9 +1192,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode409"
         _links:
@@ -1207,7 +1212,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1242,9 +1247,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/tppErrorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/tppErrorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode429"
         _links:
@@ -1255,85 +1260,85 @@ components:
 
     Error400_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 400.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 400.
       type: object
       properties:
-        tppMessages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage400"
+            $ref: "#/components/schemas/svcMessage400"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
     Error401_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 401.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        tppMessages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage401"
+            $ref: "#/components/schemas/svcMessage401"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
     Error403_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 403.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 403.
       type: object
       properties:
-        tppMessages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage403"
+            $ref: "#/components/schemas/svcMessage403"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
     Error404_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 404.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 404.
       type: object
       properties:
-        tppMessages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage404"
+            $ref: "#/components/schemas/svcMessage404"
         _links:
           $ref: "#/components/schemas/_linksAll"
           
     Error405_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 401.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        tppMessages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage405"
+            $ref: "#/components/schemas/svcMessage405"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
     Error406_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 406.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 406.
       type: object
       properties:
-        tppMessages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage406"
+            $ref: "#/components/schemas/svcMessage406"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
     Error409_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 409.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 409.
       type: object
       properties:
-        tppMessages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage409"
+            $ref: "#/components/schemas/svcMessage409"
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
@@ -1345,13 +1350,13 @@ components:
 
     Error429_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 429.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 429.
       type: object
       properties:
-        tppMessages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage429"
+            $ref: "#/components/schemas/svcMessage429"
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
@@ -1419,8 +1424,8 @@ components:
       name: Authorization
       in: header
       description: |
-        This field  might be used in case where a consent was agreed between Bank and PSU through an OAuth2 based protocol,
-        facilitated by the TPP.
+        This field  might be used in case where a consent was agreed between Bank and user through an OAuth2 based protocol,
+        facilitated by the intermediary service.
       required: false
       schema:
         $ref: "#/components/schemas/authorization"
@@ -1464,8 +1469,8 @@ components:
         type: string
         format: uuid
 
-    TPP-Signature-Certificate:
-      name: TPP-Signature-Certificate
+    SVC-Signature-Certificate:
+      name: SVC-Signature-Certificate
       in: header
       description: |
         The certificate used for signing the request, in base64 encoding.
@@ -1475,27 +1480,27 @@ components:
         format: byte
       required: false # conditional
 
-    TPP-Redirect-Preferred:
-      name: TPP-Redirect-Preferred
+    SVC-Redirect-Preferred:
+      name: SVC-Redirect-Preferred
       in: header
       description: |
-        If it equals "true", the TPP prefers a redirect over an embedded SCA approach.
-        If it equals "false", the TPP prefers not to be redirected for SCA. The Bank will then choose between the Embedded or the Decoupled
-        SCA approach, depending on the choice of the SCA procedure by the TPP/PSU.
+        If it equals "true", the intermediary service prefers a redirect over an embedded SCA approach.
+        If it equals "false", the intermediary service prefers not to be redirected for SCA. The Bank will then choose between the Embedded or the Decoupled
+        SCA approach, depending on the choice of the SCA procedure by the intermediary service or user.
         If the parameter is not used, the Bank will choose the SCA approach to be applied depending on the SCA method chosen by the
-        TPP/PSU.
+        intermediary service or user.
       schema:
         type: boolean
       required: false
 
-    TPP-Redirect-URI:
-      name: TPP-Redirect-URI
+    SVC-Redirect-URI:
+      name: SVC-Redirect-URI
       in: header
       description: |
-        URI of the TPP, where the transaction flow shall be redirected to after a Redirect.
+        URI of the intermediary service, where the transaction flow shall be redirected to after a Redirect.
 
         Mandated for the Redirect SCA Approach, specifically
-        when TPP-Redirect-Preferred equals "true".
+        when SVC-Redirect-Preferred equals "true".
         It is recommended to always use this header field.
 
         **Remark for Future:**
@@ -1505,80 +1510,63 @@ components:
         format: uri
       required: false # conditional
 
-    TPP-Nok-Redirect-URI:
-      name: TPP-Nok-Redirect-URI
+    SVC-Nok-Redirect-URI:
+      name: SVC-Nok-Redirect-URI
       in: header
       description: |
-        If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case
+        If this URI is contained, the intermediary service is asking to redirect the transaction flow to this address instead of the SVC-Redirect-URI in case
         of a negative result of the redirect SCA method. This might be ignored by the Bank.
       schema:
         type: string
         format: uri
       required: false
 
-    TPP-Explicit-Authorisation-Preferred:
-      name: TPP-Explicit-Authorisation-Preferred
+    SVC-Explicit-Authorisation-Preferred:
+      name: SVC-Explicit-Authorisation-Preferred
       in: header
       description: |
-        If it equals "true", the TPP prefers to start the authorisation process separately,
+        If it equals "true", the intermediary service prefers to start the authorisation process separately,
         e.g. because of the usage of a signing basket.
         This preference might be ignored by the Bank, if a signing basket is not supported as functionality.
 
-        If it equals "false" or if the parameter is not used, there is no preference of the TPP.
-        This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,
+        If it equals "false" or if the parameter is not used, there is no preference of the intermediary service.
+        This especially indicates that the intermediary service assumes a direct authorisation of the transaction in the next step,
         without using a signing basket.
       schema:
         type: boolean
       required: false
 
-    TPP-Rejection-NoFunds-Preferred:
-      name: TPP-Rejection-NoFunds-Preferred
+    SVC-Brand-Logging-Information:
+      name: SVC-Brand-Logging-Information
       in: header
       description: |
-        If it equals "true" then the TPP prefers a rejection of the payment initiation in case the Bank is
-        providing an integrated confirmation of funds request an the result of this is that not sufficient
-        funds are available.
-
-        If it equals "false" then the TPP prefers that the Bank is dealing with the payment initiation like
-        in the Banks online channel, potentially waiting for a certain time period for funds to arrive to initiate the payment.
-
-        This parameter might be ignored by the Bank.
-
-      schema:
-        type: boolean
-      required: false
-
-    TPP-Brand-Logging-Information:
-      name: TPP-Brand-Logging-Information
-      in: header
-      description: |
-        This header might be used by TPPs to inform the Bank about the brand used by the TPP towards the PSU.
-        This information is meant for logging entries to enhance communication between Bank and PSU or Bank and TPP.
+        This header might be used by intermediary services to inform the Bank about the brand used by the intermediary service towards the user.
+        This information is meant for logging entries to enhance communication between Bank and user or Bank and intermediary service.
         This header might be ignored by the Bank.
 
       schema:
         type: string
       required: false
 
-    TPP-Notification-URI:
-      name: TPP-Notification-URI
+    SVC-Notification-URI:
+      name: SVC-Notification-URI
       in: header
       description: |
-        URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent.
+        URI for the Endpoint of the SVC-API to which the status of a resource entity update should be sent.
         This header field may by ignored by the Bank.
 
-        For security reasons, it shall be ensured that the TPP-Notification-URI as introduced above is secured by the TPP eIDAS QWAC used for identification of the TPP. The following applies:
+        For security reasons, it shall be ensured that the SVC-Notification-URI as introduced above is secured by the intermediary service eIDAS QWAC used for identification of the intermediary service. The following applies:
 
-        URIs which are provided by TPPs in TPP-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the TPP in the field CN or SubjectAltName of the certificate. Please note that in case of example-TPP.com as certificate entry TPP- Notification-URI like www.example-TPP.com/xs2a-client/v1/Bankidentifcation/mytransaction- id/notifications or notifications.example-TPP.com/xs2a-client/v1/Bankidentifcation/mytransaction- id/notifications would be compliant.
-
+        URIs which are provided by intermediary services in SVC-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the intermediary service in the field CN or SubjectAltName of the certificate. 
+        
         Wildcard definitions shall be taken into account for compliance checks by the Bank.
-         Banks may respond with Bank-Notification-Support set to false, if the provided URIs do not comply.
+        Banks may respond with IOBWS-Notification-Support set to false, if the provided URIs do not comply.
       schema:
         type: string
       required: false
 
-    TPP-Notification-Content-Preferred:
-      name: TPP-Notification-Content-Preferred
+    SVC-Notification-Content-Preferred:
+      name: SVC-Notification-Content-Preferred
       in: header
       description: |
         The string has the form
@@ -1589,46 +1577,45 @@ components:
         repeated.
         The usage of the constants supports the of following semantics:
 
-          SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.
+          SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the intermediary service.
 
-          PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.
-          LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.
+          PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the intermediary service.
+          LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the intermediary service.
 
-        This header field may be ignored, if the Bank does not support resource notification services for the related TPP.
+        This header field may be ignored, if the Bank does not support resource notification services for the related intermediary service.
       schema:
         type: string
       required: false
 
-    PSU-ID:
-      name: PSU-ID
+    USR-ID:
+      name: USR-ID
       in: header
       description: |
-        Client ID of the PSU in the Bank's client interface.
+        Client ID of the user in the Bank client interface.
 
         Might be mandated in the Bank's documentation.
 
-        It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding
-        AIS service in the same session.
-        In this case the Bank might check whether PSU-ID and token match,
+        It might be contained even if an OAuth2 based authentication was performed in a pre-step.
+        In this case the Bank might check whether USR-ID and token match,
         according to Bank's documentation.
       schema:
         type: string
       required: false
-      example: "PSU-1234"
+      example: "USR-1234"
 
-    PSU-ID-Type:
-      name: PSU-ID-Type
+    USR-ID-Type:
+      name: USR-ID-Type
       in: header
       description: |
-        Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.
+        Type of the USR-ID, needed in scenarios where users have several USR-IDs as access possibility.
 
-        In this case, the mean and use are then defined in the Bank’s documentation.
+        In this case, the means and use are then defined in the Bankâ€™s documentation.
       schema:
         type: string
       required: false
 
-    PSU-Corporate-ID:
-      name: PSU-Corporate-ID
+    USR-Corporate-ID:
+      name: USR-Corporate-ID
       in: header
       description: |
         Might be mandated in the Bank's documentation. Only used in a corporate context.
@@ -1636,8 +1623,8 @@ components:
         type: string
       required: false
 
-    PSU-Corporate-ID-Type:
-      name: PSU-Corporate-ID-Type
+    USR-Corporate-ID-Type:
+      name: USR-Corporate-ID-Type
       in: header
       description: |
         Might be mandated in the Bank's documentation. Only used in a corporate context.
@@ -1645,102 +1632,79 @@ components:
         type: string
       required: false
 
-    PSU-IP-Address_mandatory:
-      name: PSU-IP-Address
+    USR-IP-Address_mandatory:
+      name: USR-IP-Address
       in: header
       description: |
-        The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.
-        If not available, the TPP shall use the IP Address used by the TPP when submitting this request.
+        The forwarded IP Address header field consists of the corresponding http request IP Address field between user and intermediary service.
+        If not available, the intermediary service shall use the IP Address used by the service when submitting this request.
       schema:
         type: string
         format: ipv4
       required: true
       example: 192.168.8.78
 
-    PSU-IP-Address_optional:
-      name: PSU-IP-Address
+    USR-IP-Address_optional:
+      name: USR-IP-Address
       in: header
       description: |
-        The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.
+        The forwarded IP Address header field consists of the corresponding http request IP Address field between user and intermediary service.
       schema:
         type: string
         format: ipv4
       required: false
       example: 192.168.8.78
 
-    PSU-IP-Address_conditionalForAis:
-      name: PSU-IP-Address
+    USR-Accept:
+      name: USR-Accept
       in: header
       description: |
-        The forwarded IP Address header field consists of the corresponding HTTP request
-        IP Address field between PSU and TPP.
-        It shall be contained if and only if this request was actively initiated by the PSU.
-      schema:
-        type: string
-        format: ipv4
-      required: false
-      example: 192.168.8.78
-
-    PSU-IP-Port:
-      name: PSU-IP-Port
-      in: header
-      description: |
-        The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.
-      schema:
-        type: string
-      required: false
-      example: "1234"
-
-    PSU-Accept:
-      name: PSU-Accept
-      in: header
-      description: |
-        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
       schema:
         type: string
       required: false
 
-    PSU-Accept-Charset:
-      name: PSU-Accept-Charset
+    USR-Accept-Charset:
+      name: USR-Accept-Charset
       in: header
       description: |
-        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
       schema:
         type: string
       required: false
 
-    PSU-Accept-Encoding:
-      name: PSU-Accept-Encoding
+    USR-Accept-Encoding:
+      name: USR-Accept-Encoding
       in: header
       description: |
-        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
       schema:
         type: string
       required: false
 
-    PSU-Accept-Language:
-      name: PSU-Accept-Language
+    USR-Accept-Language:
+      name: USR-Accept-Language
       in: header
       description: |
-        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
       schema:
         type: string
       required: false
 
-    PSU-User-Agent:
-      name: PSU-User-Agent
+    USR-User-Agent:
+      name: USR-User-Agent
       in: header
       description: |
-        The forwarded Agent header field of the HTTP request between PSU and TPP, if available.
+        The forwarded Agent header field of the HTTP request between user and intermediary service, if available.
       schema:
         type: string
       required: false
 
-    PSU-Http-Method:
-      name: PSU-Http-Method
+    USR-Http-Method:
+      name: USR-Http-Method
       in: header
       description: |
-        HTTP method used at the PSU ? TPP interface, if available.
+        HTTP method used at the user and intermediary service interface, if available.
         Valid values are:
         * GET
         * POST
@@ -1757,11 +1721,11 @@ components:
           - "DELETE"
       required: false
 
-    PSU-Device-ID:
-      name: PSU-Device-ID
+    USR-Device-ID:
+      name: USR-Device-ID
       in: header
       description: |
-        UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available.
+        UUID (Universally Unique Identifier) for a device, which is used by the intermediary service, if available.
         UUID identifies either a device or a device dependant application installation.
         In case of an installation identification this ID needs to be unaltered until removal from device.
       schema:
@@ -1770,11 +1734,11 @@ components:
       required: false
       example: "99435c7e-ad88-49ec-a2ad-99ddcb1f5555"
 
-    PSU-Geo-Location:
-      name: PSU-Geo-Location
+    USR-Geo-Location:
+      name: USR-Geo-Location
       in: header
       description: |
-        The forwarded Geo Location of the corresponding http request between PSU and TPP if available.
+        The forwarded Geo Location of the corresponding http request between user and intermediary service if available.
       schema:
         type: string
         pattern: 'GEO:-?[0-9]{1,2}\.[0-9]{6};-?[0-9]{1,3}\.[0-9]{6}'
@@ -2021,22 +1985,6 @@ components:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       #No Response body because there are no valid message codes in case of HTTP code 408
-    CONFLICT_409:
-      description: Conflict
-
-      headers:
-        Location:
-          $ref: "#/components/headers/Location"
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-             $ref: "#/components/schemas/Error409_IOBWS"
-
-        application/problem+json:
-          schema:
-             $ref: "#/components/schemas/Error409"
 
     UNSUPPORTED_MEDIA_TYPE_415:
       description: Unsupported Media Type
@@ -2097,7 +2045,8 @@ components:
             {
               "currencyCode": "ISK",
               "description": "Icelandic krona"
-            },{
+            },
+            {
               "currencyCode": "EUR",
               "description": "EURO"
             }
@@ -2183,7 +2132,7 @@ tags:
   #####################################################
   # Predefined Tags to Group Methods
   #####################################################
-    #####################################################
+  
   - name: currencies
     description: |
       The Currency Information Service offers the following services:

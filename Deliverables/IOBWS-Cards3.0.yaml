@@ -1146,7 +1146,7 @@ components:
         - "SIGNATURE_INVALID"         #gen
         - "SIGNATURE_MISSING"         #gen
         - "CORPORATE_ID_INVALID"      #gen
-        - "PSU_CREDENTIALS_INVALID"   #gen
+        - "USR_CREDENTIALS_INVALID"   #gen
         - "CONSENT_INVALID"           #gen, IOBWS
         - "CONSENT_EXPIRED"           #gen
         - "TOKEN_UNKNOWN"             #gen
@@ -1338,7 +1338,7 @@ components:
       description: |
         Short human readable description of error type.
         Could be in local language.
-        To be provided by ASPSPs.
+        To be provided by Banks.
       type: string
       maxLength: 70
 
@@ -1370,7 +1370,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1378,7 +1378,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1424,7 +1424,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1432,7 +1432,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1478,7 +1478,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1486,7 +1486,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1532,7 +1532,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1540,7 +1540,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1586,7 +1586,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1594,7 +1594,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1640,7 +1640,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1648,7 +1648,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1694,7 +1694,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1702,7 +1702,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1747,7 +1747,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1755,7 +1755,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1795,7 +1795,7 @@ components:
 
     Error400_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 400.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 400.
       type: object
       properties:
         svcMessages:
@@ -1807,7 +1807,7 @@ components:
 
     Error401_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 401.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
         svcMessages:
@@ -1819,7 +1819,7 @@ components:
 
     Error403_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 403.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 403.
       type: object
       properties:
         svcMessages:
@@ -1831,7 +1831,7 @@ components:
 
     Error404_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 404.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 404.
       type: object
       properties:
         svcMessages:
@@ -1843,7 +1843,7 @@ components:
           
     Error405_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 401.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
         svcMessages:
@@ -1855,7 +1855,7 @@ components:
 
     Error406_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 406.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 406.
       type: object
       properties:
         svcMessages:
@@ -1867,7 +1867,7 @@ components:
 
     Error409_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 409.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 409.
       type: object
       properties:
         svcMessages:
@@ -1885,7 +1885,7 @@ components:
 
     Error429_IOBWS:
       description: |
-        NextGenPSD2 specific definition of reporting error information in case of a HTTP error code 429.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 429.
       type: object
       properties:
         svcMessages:
@@ -1954,13 +1954,11 @@ components:
       name: dateFrom
       in: query
       description: |
-        Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required
+        Conditional: Starting date (inclusive the date dateFrom) of the expected list, mandated if no delta access is required
         and if bookingStatus does not equal "information.
 
-        For booked transactions, the relevant date is the booking date.
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
 
-        For pending transactions, the relevant date is the entry date, which may not be transparent
-        neither in this API nor other channels of the Bank.
       required: false
       schema:
         type: string
@@ -1970,14 +1968,11 @@ components:
       name: dateTo
       in: query
       description: |
-        End date (inclusive the data dateTo) of the transaction list, default is "now" if not given.
+        End date (inclusive the data dateTo) of the expected list, default is "now" if not given.
 
         Might be ignored if a delta function is used.
 
-        For booked transactions, the relevant date is the booking date.
-
-        For pending transactions, the relevant date is the entry date, which may not be transparent
-        neither in this API nor other channels of the Bank.
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
 
       required: false
       schema:
@@ -2116,7 +2111,7 @@ components:
 
         For security reasons, it shall be ensured that the SVC-Notification-URI as introduced above is secured by the intermediary service eIDAS QWAC used for identification of the intermediary service. The following applies:
 
-        URIs which are provided by TPPs in SVC-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the intermediary service in the field CN or SubjectAltName of the certificate. 
+        URIs which are provided by intermediary services in SVC-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the intermediary service in the field CN or SubjectAltName of the certificate. 
         
         Wildcard definitions shall be taken into account for compliance checks by the Bank.
         Banks may respond with IOBWS-Notification-Support set to false, if the provided URIs do not comply.
@@ -2319,6 +2314,19 @@ components:
         format: url
       required: false
 
+    #conditional for extended service lean push
+    IOBWS-Notification-Support:
+      description: |
+        true if the Bank supports resource status notification services.
+
+        false if the Bank supports resource status notification in general, but not for the current request.
+
+        Not used, if resource status notification services are generally not supported by the Bank.
+
+        Shall be supported if the Bank supports resource status notification services.
+      schema:
+        type: boolean
+      required: false
   responses:
   #####################################################
   # Reusabale Responses

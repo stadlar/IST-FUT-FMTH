@@ -248,11 +248,11 @@ paths:
   /v1/cards/{card-id}/transactions:
 
     get:
-      summary: Read account data.
+      summary: Read transaction list of a card.
       description: |
-        Reads account data from a given card addressed by "card-id".
+        Reads transaction list or transaction report from a given card addressed by "card-id".
 
-      operationId: readAccountData
+      operationId: readCardTransactionData
       tags:
         - cards
 
@@ -390,7 +390,9 @@ components:
       type: object
       properties:
         card:
-          $ref: "#/components/schemas/cardAccountDetails"
+          $ref: "#/components/schemas/accountReference"
+        cardTransactions:
+          $ref: "#/components/schemas/cardAccountReport"
         balances:
           $ref: "#/components/schemas/balanceList"
 
@@ -1142,21 +1144,22 @@ components:
           $ref: "#/components/schemas/hrefType"
 
     _linksCardAccountReport:
+      description: |
+        A list of hyperlinks to be recognised by the TPP.
+        
+        Type of links admitted in this response:
+          - "download": a link to a resource, where the transaction report might be downloaded from in 
+          case where transaction reports have a huge size.
+        
+        Remark: This feature shall only be used where camt-data is requested which has a huge size.
+        
       type: object
-      additionalProperties:
+      additionalProperties: 
         $ref: "#/components/schemas/hrefType"
       required:
-        - cardAccount
+        - download
       properties:
-        cardAccount:
-          $ref: "#/components/schemas/hrefType"
-        first:
-          $ref: "#/components/schemas/hrefType"
-        next:
-          $ref: "#/components/schemas/hrefType"
-        previous:
-          $ref: "#/components/schemas/hrefType"
-        last:
+        download:
           $ref: "#/components/schemas/hrefType"
 
     _linksAccountDetails:
@@ -2789,7 +2792,7 @@ components:
               "self": {
                 "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99"
               },
-              "transactions": {
+              "cardTransactions": {
                 "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
               }
             }
@@ -2850,7 +2853,7 @@ components:
               "self": {
                 "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99"
               },
-              "transactions": {
+              "cardTransactions": {
                 "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
               },
               "balances": {
@@ -2994,8 +2997,8 @@ components:
             ],
             "pending": [],
             "_links": {
-              "card": {
-                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99"
+              "download": {
+                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions/download"
               }
             }
           }

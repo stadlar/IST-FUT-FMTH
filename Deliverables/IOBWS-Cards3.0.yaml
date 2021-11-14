@@ -57,7 +57,7 @@ paths:
       security:
       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      #In this file only the basic security element to transport
+      # In this file only the basic security element to transport
       # the bearer token of an an OAuth2 process, which has to
       # be included inthe HTTP header ist described.
       #
@@ -75,8 +75,8 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
+        - $ref: "#/components/parameters/consentId_HEADER_optional"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
 
@@ -145,8 +145,8 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
+        - $ref: "#/components/parameters/consentId_HEADER_optional"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
 
@@ -195,7 +195,7 @@ paths:
       security:
       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      #In this file only the basic security element to transport
+      # In this file only the basic security element to transport
       # the bearer token of an an OAuth2 process, which has to
       # be included inthe HTTP header ist described.
       #
@@ -215,8 +215,8 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
+        - $ref: "#/components/parameters/consentId_HEADER_optional"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
 
@@ -259,7 +259,7 @@ paths:
       security:
       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      #In this file only the basic security element to transport
+      # In this file only the basic security element to transport
       # the bearer token of an an OAuth2 process, which has to
       # be included inthe HTTP header ist described.
       #
@@ -282,8 +282,8 @@ paths:
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #- $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #optional header parameters
+        - $ref: "#/components/parameters/consentId_HEADER_optional"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
 
@@ -352,6 +352,11 @@ components:
     authorization:
       description: |
         Authorization by OAuth2 based Protocol.
+      type: string
+
+    consentId:
+      description: |
+        ID of the corresponding consent object as returned by an account information consent request.
       type: string
 
     readCardListResponse-200_json:
@@ -1152,7 +1157,7 @@ components:
           case where transaction reports have a huge size.
         
         Remark: This feature shall only be used where camt-data is requested which has a huge size.
-        
+
       type: object
       additionalProperties: 
         $ref: "#/components/schemas/hrefType"
@@ -2001,7 +2006,16 @@ components:
   #####################################################
   # Predefined Parameters
   #####################################################
-
+    
+    consentId_HEADER_optional:
+      name: Consent-ID
+      in: header
+      description: |
+        This data element may be contained, if the session is part of a TPP interaction where the user
+        has previously granted his consent for data retrieval or resource update.
+      required: false
+      schema:
+        $ref: "#/components/schemas/consentId"
 
     card-id:
       name: card-id

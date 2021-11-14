@@ -3,10 +3,13 @@ info:
   title: IOBWS 3.0 Documents
   version: "3.0"
   description: |
-    #Summary
-    This is an independent document but delivered as an part of IOBWS version 3.0 of the Icelandic banking API standard.
-    The new standard is defined as an RESTful API to make it easier for programmers of any programming language without
-    compromize security and follow standards.
+    # Summary
+    
+    This document contains version 3.0 of the Icelandic Online Banking Services (IOBWS), for documents, released 
+    as a technical specification (TS) no. 314 by the Icelandic Standards Council. Previous versions of IOBWS, released
+    in 2013, established in 'TS 165:2013 Rafræn skjöl' a common interfaces for uploading documents. 
+    The aim in v3.0 is to offer a more modern and interoperable set of Application Programming Interfaces (APIs)
+    to provide a comparable interface.
 
     The document API is defined for both not durable and durable medium. Durability is controlled using the document types.
 
@@ -15,7 +18,13 @@ info:
     url: https://creativecommons.org/licenses/by/4.0/
   contact:
     name: Stadlarad Islands
-    url: https://www.stadlar.is
+    url: https://www.stadlar.
+
+servers:
+  - url: https://iobws.example.com
+    description: IOBWS server
+  - url: https://sandbox-iobws.example.com
+    description: Optional IOBWS sandbox server
 
 paths:
 
@@ -31,7 +40,7 @@ paths:
         Get single batch by id
       operationId: getSingleDocumentBatch
       tags:
-        - Document Service
+        - documents
       security:
       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
@@ -88,7 +97,7 @@ paths:
         Update document batch if the document type allows it. User can choose to only send new or changes files
       operationId: update
       tags:
-        - Document Service
+        - documents
 
       security:
       #####################################################
@@ -160,7 +169,7 @@ paths:
         The document owner goes thought the banks portal.
       operationId: searchForDocumentBatch
       tags:
-        - Document Service
+        - documents
       security:
         - {}
         - BearerAuthOAuth: []
@@ -218,7 +227,7 @@ paths:
       description: Upload and store new document
       operationId: uploadDocument
       tags:
-        - Document Services
+        - documents
       security:
         - {}
         - BearerAuthOAuth: []
@@ -273,7 +282,7 @@ paths:
         Get list of all document types. Document types control if document can be updated
       operationId: getDocumentTypeList
       tags:
-        - Document Service
+        - documents
       security:
         - {}
         - BearerAuthOAuth: []
@@ -445,7 +454,11 @@ components:
       name: dateFrom
       in: query
       description: |
-        Conditional: Starting date (inclusive the date dateFrom) of the document list
+        Conditional: Starting date (inclusive the date dateFrom) of the expected list, mandated if no delta access is required
+        and if bookingStatus does not equal "information.
+
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
+
       required: false
       schema:
         type: string
@@ -455,7 +468,12 @@ components:
       name: dateTo
       in: query
       description: |
-        End date (inclusive the data dateTo) of the document list
+        End date (inclusive the data dateTo) of the expected list, default is "now" if not given.
+
+        Might be ignored if a delta function is used.
+
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
+
       required: false
       schema:
         type: string
@@ -465,7 +483,7 @@ components:
       name: senderKennitala
       in: query
       description: |
-        Kennitala
+        Kennitala of the sender for filtering.
       required: true
       schema:
         type: string
@@ -475,7 +493,7 @@ components:
       name: sender-kennitala
       in: path
       description: |
-        Kennitala of the documents sender
+        Kennitala of the documents sender.
       required: true
       schema:
         type: string
@@ -485,7 +503,7 @@ components:
       name: receiverKennitala
       in: query
       description: |
-        Kennitala
+        Kennitala of the receiver.
       required: false
       schema:
         type: string
@@ -606,6 +624,15 @@ components:
       type: string
       maxLength: 150
 
+    kennitala:
+      description: |
+        An Icelandic national ID, either issued for individuals by the Registers Iceland (Þjóðskrá) or the 
+        Register of Enterprises maintained by the office of Iceland Revenue and Customs (Skatturinn). As
+        suggestions to change this ID from the current pattern exist, future updates might be needed.
+      type: string
+      pattern: '[0-9]{10}'
+      example: "1111111119"
+
     documentTypeDetails:
       description: |
         Document details.
@@ -669,7 +696,7 @@ components:
           maxLength: 140
         kennitala:
           description: |
-            The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
+            The ID Number of the receiver of the document. 
           type: string
           maxLength: 10
         fileType:
@@ -683,13 +710,8 @@ components:
           description: The file in the form of base64 encoded characters
           type: string
           format: byte
-        fileRef:
-          description: |
-            If the file is reference to an external reference, like https://www.example.com/files/file.pdf. If the field
-            'file' contains data then this field is disgarded.
-          type: string
-          format: uri
-        reference:
+        fileRef: 
+          # If the field 'file' contains data then this field is disgarded.
           $ref: "#/components/schemas/fileReference"
 
     documentBatchDetails:
@@ -801,8 +823,7 @@ components:
         - files
       properties:
         id:
-          description: |
-            Unique ID of the batch, as determined by the initiating party.
+          # Unique ID of the batch, as determined by the initiating party.
           $ref: "#/components/schemas/uuid"
         name:
           description: Short description for the batch
@@ -842,6 +863,7 @@ components:
             $ref: "#/components/schemas/documentBatchWithStatusDetails"
 
     uuid:
+      description: Unique Identifier 
       type: string
       pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
       minLength: 36
@@ -1614,11 +1636,11 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
+        {
           "category": "ERROR",
           "code": "STATUS_INVALID",
           "text": "additional text information of the ASPSP up to 500 characters"
-        }]
+        }
 
     Error429_NG:
       description: |
@@ -1632,11 +1654,11 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
+        {
           "category": "ERROR",
           "code": "ACCESS_EXCEEDED",
           "text": "additional text information of the ASPSP up to 500 characters"
-        }]
+        }
 
   requestBodies:
     #####################################################
@@ -1917,9 +1939,9 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
 
-  - name: Document Service
+  - name: documents
     description: |
-      The component for Documents offers the following services:
+      The API interface for Documents offers the following services:
         * Initiation and update of a document request
         * Status information of a document
         * Document type

@@ -39,9 +39,9 @@ paths:
   /v1/currencies:
 
     get:
-      summary: Read list of currencies
+      summary: Read list of currencies.
       description: |
-        Retrieve a list of all supported currencies
+        Retrieve a list of all available currencies, optionally by a particular source.
       operationId: readCurrencies
       tags:
         - currencies
@@ -83,7 +83,7 @@ paths:
     get:
       summary: Read list of currencies sources
       description: |
-        Read all supported currencies sources
+        Retrieve all supported currencies sources.
       operationId: readCurrenciesSources
       tags:
         - currencies
@@ -92,7 +92,6 @@ paths:
       parameters:
         #path
         #query
-        - $ref: "#/components/parameters/currencySourceQuery"
         #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -124,9 +123,9 @@ paths:
   /v1/currencies/{base-currency}/rates:
 
     get:
-      summary: Read rates for single currency entity
+      summary: Read rates for a base currency.
       description: |
-        Read rates for single currency entity
+        Read currency rates for a given base currency.
       operationId: readCurrencyRates
       tags:
         - currencies
@@ -145,7 +144,7 @@ paths:
 
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_CURRENCY_RATES"
+          $ref: "#/components/responses/OK_200_BASE_CURRENCY_RATES"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -168,9 +167,9 @@ paths:
   /v1/currencies/{quote-currency}/rates/{base-currency}:
 
     get:
-      summary: Read rates for single currency entity with base currency defined
+      summary: Reads rates for a quoted currency with defined base currency.
       description: |
-        Read rates for single currency entity with base currency defined
+        Reads currency rates for a quoted currency, given a defined base currency.
       operationId: readCurrencyRatesBaseCurrency
       tags:
         - currencies
@@ -338,9 +337,9 @@ components:
         Currency source.
       type: object
       required:
-        - name
+        - sourceName
       properties:
-        name:
+        sourceName:
           description: |
             Name of the currency source.
           type: string
@@ -365,12 +364,12 @@ components:
 
         
     readCurrenciesResponse-200_json:
-      description: Descriptions of the accessible currencies.
+      description: A list of the accessible currencies.
       type: object
       required:
         - currencies
       properties:
-        cards:
+        currency:
           type: array
           items:
             $ref: "#/components/schemas/currency"
@@ -1430,13 +1429,11 @@ components:
       name: dateFrom
       in: query
       description: |
-        Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required
+        Conditional: Starting date (inclusive the date dateFrom) of the expected list, mandated if no delta access is required
         and if bookingStatus does not equal "information.
 
-        For booked transactions, the relevant date is the booking date.
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
 
-        For pending transactions, the relevant date is the entry date, which may not be transparent
-        neither in this API nor other channels of the Bank.
       required: false
       schema:
         type: string
@@ -1446,14 +1443,11 @@ components:
       name: dateTo
       in: query
       description: |
-        End date (inclusive the data dateTo) of the transaction list, default is "now" if not given.
+        End date (inclusive the data dateTo) of the expected list, default is "now" if not given.
 
         Might be ignored if a delta function is used.
 
-        For booked transactions, the relevant date is the booking date.
-
-        For pending transactions, the relevant date is the entry date, which may not be transparent
-        neither in this API nor other channels of the Bank.
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
 
       required: false
       schema:
@@ -1846,8 +1840,11 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrenciesResponse-200_json"
+        examples:
+          example:
+            $ref: "#/components/examples/readCurrenciesResponse-200_json_Example"
 
-    OK_200_CURRENCY_RATES:
+    OK_200_BASE_CURRENCY_RATES:
       description: OK
 
       headers:
@@ -1857,6 +1854,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrencyRateResponse-200_json"
+        examples:
+          example:
+            $ref: "#/components/examples/readCurrencyRateResponse-200_json_Example"
 
     OK_200_CURRENCIES_SOURCES:
       description: OK
@@ -1868,6 +1868,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrencySourcesResponse-200_json"
+        examples:
+          example:
+            $ref: "#/components/examples/readCurrencySourcesResponse-200_json_Example"
 
     OK_200_CURRENCY_RATES_BASE_CURRENCY:
       description: OK
@@ -1879,6 +1882,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrencyRatesBaseCurrencyResponse-200_json"
+        examples:
+          example:
+            $ref: "#/components/examples/readCurrencyRatesBaseCurrencyResponse-200_json_Example"
 
     OK_200_CURRENCY_RATES_BASE_CURRENCY_HISTORY:
       description: OK
@@ -1890,6 +1896,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrencyRatesBaseCurrencyHistoryResponse-200_json"
+        examples:
+          example:
+            $ref: "#/components/examples/readCurrencyRatesBaseCurrencyHistoryResponse-200_json_Example"
 
     
     #####################################################
@@ -2075,10 +2084,94 @@ components:
           $ref: "#/components/headers/X-Request-ID"
       #No Response body because there are no valid message codes in case of HTTP code 503
 
-  # examples:
+  examples:
   #####################################################
   # Predefined Examples
   #####################################################
+
+    readCurrenciesResponse-200_json_Example:
+      description: List of available currencies.
+      value:
+        {
+          "currencies": [
+            {
+              "currencyCode": "ISK",
+              "description": "Icelandic krona"
+            },{
+              "currencyCode": "EUR",
+              "description": "EURO"
+            }
+          ]
+        }
+        
+    readCurrencySourcesResponse-200_json_Example:
+      description: List of available currency sources.
+      value:
+        {
+          "currencySources":
+            {
+              "sourceName": "General"
+            },
+            {
+              "sourceName": "Notes"
+            }
+        }
+    
+    readCurrencyRateResponse-200_json_Example:
+      description: List of available rates for a base currency.
+      value:
+        {
+          "currencyRates": [
+            {
+              "baseCurrency": "ISK",
+              "quoteCurrency": "EUR",
+              "currencySource": "General",
+              "buy": "154.34",
+              "sell": "155.26",
+              "date": "2020-08-02"
+            },
+            {
+              "baseCurrency": "ISK",
+              "quoteCurrency": "USD",
+              "currencySource": "General",
+              "buy": "130.95",
+              "sell": "131.87",
+              "date": "2020-08-02"
+            }
+          ]
+        }
+    
+    readCurrencyRatesBaseCurrencyResponse-200_json_Example:
+      description: List of available rates for a base currency.
+      value:
+        {
+          "currencyRates": [
+            {
+              "baseCurrency": "ISK",
+              "quoteCurrency": "EUR",
+              "currencySource": "General",
+              "buy": "154.34",
+              "sell": "155.26",
+              "date": "2020-08-02"
+            }
+          ]
+        }
+    
+    readCurrencyRatesBaseCurrencyHistoryResponse-200_json_Example:
+      description: List of available rates for a base currency.
+      value:
+        {
+          "currencyRates": [
+            {
+              "baseCurrency": "ISK",
+              "quoteCurrency": "EUR",
+              "currencySource": "General",
+              "buy": "154.34",
+              "sell": "155.26",
+              "date": "2020-08-02"
+            }
+          ]
+        }    
 
 security:
   #####################################################

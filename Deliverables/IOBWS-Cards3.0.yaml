@@ -100,6 +100,8 @@ paths:
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
@@ -170,6 +172,8 @@ paths:
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
@@ -240,6 +244,8 @@ paths:
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
@@ -307,6 +313,8 @@ paths:
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':

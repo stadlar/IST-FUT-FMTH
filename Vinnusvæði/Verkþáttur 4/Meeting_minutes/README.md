@@ -1,6 +1,47 @@
 #2021-10-19
-- [Open issutes]
-- idem potency strategy
+- Fara yfir Landsbanka listann á Github
+- Nýr vinnuháttur, yaml verði orðið uppfært á fimmtudagsmorgun
+- Idempotency - allir að kynna sér hvernig þeir myndu vilja útfæra idempotency og í hvaða aðgerðum. 
+  Sjá athugasemdir á github - https://github.com/stadlar/IST-FUT-FMTH/issues/99.
+- Paging strategíu fyrir lista aðgerðir - sjá það sem er komið nú þegar í yaml og umræðu á github - https://github.com/stadlar/IST-FUT-FMTH/issues/83
+- Tillaga frá Landsbanka um að fella út numberOfDepositingAccounts - sjá á github https://github.com/stadlar/IST-FUT-FMTH/issues/67
+- Lokum /v1/claimtemplates - lokayfirferð yfir þessa rútu, allir að klára rýni á slóðirnar og objectin.
+- Github
+  - Idem potency strategy
+    https://github.com/stadlar/IST-FUT-FMTH/issues/99
+  - Claims - GET /v1/claims
+    https://github.com/stadlar/IST-FUT-FMTH/issues/94
+  - Claims - GET /v1/claimtemplates/{template-id}
+    https://github.com/stadlar/IST-FUT-FMTH/issues/93
+  - Claims - GET /v1/claimtemplates - claimantId should not be required
+    https://github.com/stadlar/IST-FUT-FMTH/issues/92
+  - Claims - Rework of batch operations
+    https://github.com/stadlar/IST-FUT-FMTH/issues/85
+  - Claims - No paging info
+    https://github.com/stadlar/IST-FUT-FMTH/issues/83
+  - Claims - PUT /claims/{id}/transfer
+    https://github.com/stadlar/IST-FUT-FMTH/issues/82
+  - Claims - PUT /claims/{id}/recreate
+    https://github.com/stadlar/IST-FUT-FMTH/issues/81
+  - Claims - POST /claims/{claimant-id}/{claim-no}/{due-date}
+    https://github.com/stadlar/IST-FUT-FMTH/issues/77
+  - Claims - PUT vs PATCH on a single claim
+    https://github.com/stadlar/IST-FUT-FMTH/issues/76
+  - Claims - printingLocation
+    https://github.com/stadlar/IST-FUT-FMTH/issues/70
+  - Claims - Remove or make optional depositingAccount.errorText & depositingAccountWithDetails.errorText
+    https://github.com/stadlar/IST-FUT-FMTH/issues/68
+  - Claims - Remove numberOfDepositingAccounts
+    https://github.com/stadlar/IST-FUT-FMTH/issues/67
+  - Claims - Remove payorStatementExtendedReferenceType
+    https://github.com/stadlar/IST-FUT-FMTH/issues/65
+  - Claims - Headers 
+    https://github.com/stadlar/IST-FUT-FMTH/issues/64
+  - Claims - Get rid of the /claims/collection
+    https://github.com/stadlar/IST-FUT-FMTH/issues/63
+  - Claims - Remove the ability to recreate claims
+    https://github.com/stadlar/IST-FUT-FMTH/issues/62
+
 
 #2021-10-12
 - X-Request-ID er idempotency key.

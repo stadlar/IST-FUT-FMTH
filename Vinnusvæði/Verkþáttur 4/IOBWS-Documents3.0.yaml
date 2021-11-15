@@ -151,7 +151,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{documentStoreLocation}:
+  /v1/documents/{document-store-location}:
 
     get:
       summary: Query already uploaded document batch
@@ -265,7 +265,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{documentStoreLocation}/types:
+  /v1/documents/{document-store-location}/types:
 
     get:
       summary: Get list of all document types
@@ -467,9 +467,9 @@ components:
       description: |
         Kennitala
       required: true
-      type: string
-      minLength: 10
-      maxLenght: 10
+      schema:
+        type: string
+        minLength: 10
 
     senderKennitala:
       name: sender-kennitala
@@ -477,9 +477,9 @@ components:
       description: |
         Kennitala of the documents sender
       required: true
-      type: string
-      minLength: 10
-      maxLenght: 10
+      schema:
+        type: string
+        minLength: 10
 
     receiverKennitala:
       name: receiverKennitala
@@ -487,8 +487,9 @@ components:
       description: |
         Kennitala
       required: false
-      type: string
-      maxLenght: 10
+      schema:
+        type: string
+        minLength: 10
 
     documentTypeCode:
       name: documentTypeCode
@@ -496,8 +497,9 @@ components:
       description: |
         Document Type Code
       required: false
-      type: string
-      maxLenght: 10
+      schema:
+        type: string
+        minLength: 10
 
     status:
       name: status
@@ -601,9 +603,8 @@ components:
       type: string
 
     fileReference:
-      schema:
-        type: string
-        maxLength: 150
+      type: string
+      maxLength: 150
 
     documentTypeDetails:
       description: |
@@ -656,10 +657,7 @@ components:
         - fileType
       properties:
         id:
-          description: Unique ID of the batch, as determined by the initiating party.
-          type: string
-          schema:
-            $ref: "#/components/schemas/uuid"
+          $ref: "#/components/schemas/uuid"
         name:
           description: Short description for the file
           type: string
@@ -706,10 +704,7 @@ components:
         - files
       properties:
         id:
-          description: |
-            Unique ID of the batch, as determined by the initiating party.
-          schema:
-            $ref: "#/components/schemas/uuid"
+          $ref: "#/components/schemas/uuid"
         name:
           description: Short description for the batch
           type: string
@@ -761,10 +756,7 @@ components:
         - status
       properties:
         id:
-          description: Unique ID of the batch, as determined by the initiating party.
-          type: string
-          schema:
-            $ref: "#/components/schemas/uuid"
+          $ref: "#/components/schemas/uuid"
         name:
           description: Short description for the file
           type: string

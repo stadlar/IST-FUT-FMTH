@@ -2,11 +2,11 @@
 
 The technical specifications for individual aspects of the Icelandic Online Banking Web Services 3.0 do not address all implementation details, something these guidelines will try to address at least in parts.  
 
-It is the intention that the guidelines will be living documents. Clarifications and changes can be suggested through issues on the Github site or with direct Pull Requests. All updates, similar to the maintenance of the technical specifications, will be funneled through Pull Requests as part of the regular work overseen by workgroup 7 (VH-7). It is expected they will then be released on a regular basis as workshop agreements under the technical committee, along with other updates to the technical specifications or individually. 
+It is the intention that the guidelines will be living documents. Clarifications and changes can be suggested through issues on the Github site or with direct Pull Requests. All updates, similar to the maintenance of the technical specifications, will be funneled through Pull Requests as part of the regular work overseen by workgroup 7 (VH-7). It is expected they will then be released regularly as workshop agreements under the technical committee, along with other updates to the technical specifications or individually. 
 
 ## Authentication Use Cases and Requirements
 
-The API specifications for IOBWS reference OAuth2 based authorization, with the NextGenPSD2 ancestry of parts of the specification, occasionally showing through in reference to consents. It is the intention here to further elaborate on the ways the most common use cases should be handled as the common dominator among implementors and consumers of the APIs.  
+The API specifications for IOBWS reference OAuth2 based authorization, with the NextGenPSD2 ancestry of parts of the specification, occasionally showing through as references to consents. It is the intention here to further elaborate on the ways the most common use cases should be handled as the common dominator among implementors and consumers of the APIs.  
 
 It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication will continue to be supported. They will however not require, as in the previous IOBWS specifications, the usage of username and passwords.  
 
@@ -61,7 +61,7 @@ Acceptance criteria:
 Acceptance criteria:
 
 #### Enterprise with the Claim Collection Agency role logs in for the first time
-> As a **Claim Collection Agency**, I want my system to be able to login into the system and clearly separate my authentication as a secondary collection agency vs. my use as a primary claims collector. 
+> As a **Claim Collection Agency**, I want my system to be able to login into the system and separate my authentication as a secondary collection agency vs. my use as a primary claims collector. 
 Acceptance criteria:
 1. When I log in as a secondary collection role, I identify using a client ID that is related to that role.
 2. When I log in as the parent enterprise to create claims as a primary claims collector, I identify using a client ID that is related to that role
@@ -75,90 +75,88 @@ Acceptance criteria:
 
 ## Scopes
 
-/v1/claimtemplates
-/v1/claimtemplates/{template-id}
-/v1/claims/{claim-id}, post, get, delete, put
-/v1/claims/{claim-id}/transactions
-/v1/claims/{claim-id}/history
+In general, scopes should reflect and communicate transparently the owner's intent at the highest level, as to what kind of access to resources she is consenting an application to have.  
+The scopes described here are the least common denominator for scopes that requesting applications can ask to receive through a participating bank's authorization server, directly in code in the appropriate use cases, or with the resource owner potentially involved in others. If the latter, the client implementation must expect the final granted scopes to possibly reflect a subset of those originally requested.  
+The authorization mechanism in each bank will, of course, further define access based on internal rules, e.g. their specific product offerings or service agreements.  
 
-| Scope                        | Description        |
-|------------------------------|--------------------|
-| payments                          | Payment scope without prefix, when specific tokens are not issued for individual payments |
-| pis:{PaymentId}              | Prefix for payment scope, when dynamic scopes are supported by provider |
-| accounts                          | Account scope without prefix, when user access is not specified by the optional consent endpoint |
-| ais:{ConsentId}              | Account consent scope |
-| claimtemplates                          | Claim template scope |
-| claims                          | Claim scope |
-| claimscollection                          | Collection Claims scope |
-| documents                          | Document scope |
-| consents                          | Consent scope |
+| Scope                        | Description                                                                                        |
+|------------------------------|--------------------                                                                                |
+| payments                     | Payment scope without prefix, when specific tokens are not issued for individual payments          |
+| pis:{PaymentId}              | Prefix for payment scope, when dynamic scopes are supported by provider                            |
+| accounts                     | Account scope without prefix, when user access is not specified by the optional consent endpoint   |
+| ais:{ConsentId}              | Account consent scope                                                                              |
+| claimtemplates               | Claim template scope                                                                               |
+| claims                       | Claim scope                                                                                        |
+| claimscollection             | Collection Claims scope                                                                            |
+| documents                    | Document scope                                                                                     |
+| consents                     | Consent scope                                                                                      |
 
-|  Payments EndPoint	                                                                                | Scope               |              
-|---------------------------------------------------------------------------------------|---------------------|
-| /v1/{payment-service}/{payment-product}:                                                            |	payments                 |            
-| /v1/{payment-service}/{payment-product}/{paymentId}:                                                |	payments, pis:{paymentId}     |                        
-| /v1/{payment-service}/{payment-product}/info/{Query-X-Request-ID}:                                  |	payments, pis:{paymentId}     |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/status:                                         |	payments, pis:{paymentId}     |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations:                                 |	payments, pis:{paymentId}     |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}:               |	payments, pis:{paymentId}     |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations:                    |	payments, pis:{paymentId}     |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}:  |	payments, pis:{paymentId}     |   
+|  Payments EndPoint	                                                                              | Scope                       |              
+|---------------------------------------------------------------------------------------              |---------------------        |
+| /v1/{payment-service}/{payment-product}:                                                            |	payments                    |            
+| /v1/{payment-service}/{payment-product}/{paymentId}:                                                |	payments, pis:{paymentId}   |                        
+| /v1/{payment-service}/{payment-product}/info/{Query-X-Request-ID}:                                  |	payments, pis:{paymentId}   |                        
+| /v1/{payment-service}/{payment-product}/{paymentId}/status:                                         |	payments, pis:{paymentId}   |                        
+| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations:                                 |	payments, pis:{paymentId}   |                        
+| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}:               |	payments, pis:{paymentId}   |                        
+| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations:                    |	payments, pis:{paymentId}   |                        
+| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}:  |	payments, pis:{paymentId}   |   
 
-|              Accounts EndPoint                                                                            | Scope               |              
-|-----------------------------------------------------------------------------------------------------|---------------------|
-| /v1/accounts:                                                                                       |	accounts, ais:{consentId}     |                        
-| /v1/accounts/{account-id}:                                                                          |	accounts, ais:{consentId}     |                        
-| /v1/accounts/{account-id}/balances:                                                                 |	accounts, ais:{consentId}     |                        
-| /v1/accounts/{account-id}/transactions:                                                             |	accounts, ais:{consentId}     |                        
-| /v1/accounts/{account-id}/transactions/{transactionId}:                                             |	accounts, ais:{consentId}     |                        
-| /v1/card-accounts:                                                                                  |	accounts, ais:{consentId}     |                        
-| /v1/card-accounts/{account-id}:                                                                     |	accounts, ais:{consentId}     |                        
-| /v1/card-accounts/{account-id}/balances:                                                            |	accounts, ais:{consentId}     |                        
-| /v1/card-accounts/{account-id}/transactions:                                                        |	accounts, ais:{consentId}     | 
+|              Accounts EndPoint                                                                      | Scope                       |              
+|-----------------------------------------------------------------------------------------------------|---------------------        |
+| /v1/accounts:                                                                                       |	accounts, ais:{consentId}   |                        
+| /v1/accounts/{account-id}:                                                                          |	accounts, ais:{consentId}   |                        
+| /v1/accounts/{account-id}/balances:                                                                 |	accounts, ais:{consentId}   |                        
+| /v1/accounts/{account-id}/transactions:                                                             |	accounts, ais:{consentId}   |                        
+| /v1/accounts/{account-id}/transactions/{transactionId}:                                             |	accounts, ais:{consentId}   |                        
+| /v1/card-accounts:                                                                                  |	accounts, ais:{consentId}   |                        
+| /v1/card-accounts/{account-id}:                                                                     |	accounts, ais:{consentId}   |                        
+| /v1/card-accounts/{account-id}/balances:                                                            |	accounts, ais:{consentId}   |                        
+| /v1/card-accounts/{account-id}/transactions:                                                        |	accounts, ais:{consentId}   | 
 
-|              Currency EndPoint                                                                      | Scope               |              
-|-----------------------------------------------------------------------------------------------------|---------------------|                    
-| /v1/currencies:                                                                                     |     NA              |        
-| /v1/currencies/sources:                                                                             |     NA              |        
-| /v1/currencies/{base-currency}/rates:                                                               |     NA              |        
-| /v1/currencies/{quote-currency}/rates/{base-currency}:                                              |     NA              |        
-| /v1/currencies/{quote-currency}/rates/{base-currency}/history:                                      |     NA              |  
+|              Currency EndPoint                                                                      | Scope                       |              
+|-----------------------------------------------------------------------------------------------------|---------------------        |                    
+| /v1/currencies:                                                                                     |     NA                      |        
+| /v1/currencies/sources:                                                                             |     NA                      |        
+| /v1/currencies/{base-currency}/rates:                                                               |     NA                      |        
+| /v1/currencies/{quote-currency}/rates/{base-currency}:                                              |     NA                      |        
+| /v1/currencies/{quote-currency}/rates/{base-currency}/history:                                      |     NA                      |  
       
-|              Claim Templates EndPoint                                                                            | Scope               |              
-|-----------------------------------------------------------------------------------------------------|---------------------|                    
-| /v1/claimtemplates:                                                                                 |	claimtemplates.read            |                 
-| /v1/claimtemplates/{templateId}:                                                                    |	claimtemplates.read            |  
+|              Claim Templates EndPoint                                                               | Scope                       |              
+|-----------------------------------------------------------------------------------------------------|---------------------        |                    
+| /v1/claimtemplates:                                                                                 |	claimtemplates.read         |                 
+| /v1/claimtemplates/{templateId}:                                                                    |	claimtemplates.read         |  
 
-|              Claims EndPoint                                                                        | Scope               |              
-|-----------------------------------------------------------------------------------------------------|---------------------|                           |                 
-| /v1/claims/{claimId}:                                                                               |	claims.read, claims.write |                            
-| /v1/claims/{claimId}/transactions:                                                                  |	claims.read         |                 
-| /v1/claims/{claimId}/history:                                                                       |	claims.read         |                 
-| /v1/claims/{claimId}/transfer:                                                                      |	claims.read, claims.write |                            
-| /v1/claims:                                                                                         |	claims.read, claims.write |                            
-| /v1/claimsRecreationBatch:                                                                          |	claims.read, claims.write |                            
-| /v1/claimsRecreationBatch/{batchId}:                                                                |	claims.read, claims.write |                            
-| /v1/claimsCreationBatch:                                                                            |	claims.read, claims.write |                            
-| /v1/claimsCreationBatch/{batchId}:                                                                  |	claims.read, claims.write |                            
-| /v1/claimsCancellationBatch:                                                                        |	claims.read, claims.write |                            
-| /v1/claimsCancellationBatch/{batchId}:                                                              |	claims.read, claims.write |                            
-| /v1/claimsAlterationBatch:                                                                          |	claims.read, claims.write |                            
-| /v1/claimsAlterationBatch/{batchId}:                                                                |	claims.read, claims.write |                            
-| /v1/claims/transactions:                                                                            |	claims.read         |                 
-| /v1/claimsTransferBatch:                                                                            |	claims.read, claims.write |                            
-| /v1/claims/{claimId}/documentReferences:                                                            |	claims.read, claims.write |                            
-| /v1/claims/{claimId}/documentReferences/{documentStoreLocation}/{documentReferenceId}:              |	claims.read, claims.write |      
+|              Claims EndPoint                                                                        | Scope                       |              
+|-----------------------------------------------------------------------------------------------------|---------------------        |                                            
+| /v1/claims/{claimId}:                                                                               |	claims.read, claims.write   |                            
+| /v1/claims/{claimId}/transactions:                                                                  |	claims.read                 |                   
+| /v1/claims/{claimId}/history:                                                                       |	claims.read                 |                 
+| /v1/claims/{claimId}/transfer:                                                                      |	claims.read, claims.write   |                            
+| /v1/claims:                                                                                         |	claims.read, claims.write   |                            
+| /v1/claimsRecreationBatch:                                                                          |	claims.read, claims.write   |                            
+| /v1/claimsRecreationBatch/{batchId}:                                                                |	claims.read, claims.write   |                            
+| /v1/claimsCreationBatch:                                                                            |	claims.read, claims.write   |                            
+| /v1/claimsCreationBatch/{batchId}:                                                                  |	claims.read, claims.write   |                            
+| /v1/claimsCancellationBatch:                                                                        |	claims.read, claims.write   |                            
+| /v1/claimsCancellationBatch/{batchId}:                                                              |	claims.read, claims.write   |                            
+| /v1/claimsAlterationBatch:                                                                          |	claims.read, claims.write   |                            
+| /v1/claimsAlterationBatch/{batchId}:                                                                |	claims.read, claims.write   |                            
+| /v1/claims/transactions:                                                                            |	claims.read                 |                 
+| /v1/claimsTransferBatch:                                                                            |	claims.read, claims.write   |                            
+| /v1/claims/{claimId}/documentReferences:                                                            |	claims.read, claims.write   |                            
+| /v1/claims/{claimId}/documentReferences/{documentStoreLocation}/{documentReferenceId}:              |	claims.read, claims.write   |      
 
-|              __??ClaimsCollection??__ EndPoint                                                                        | Scope               |              
-|-----------------------------------------------------------------------------------------------------|---------------------|                           |                 
-| /v1/claimscollection/{claimId}:                                                                               |	claimscollection.read, claimscollection.write |                              
+|              __??ClaimsCollection??__ EndPoint                                                      | Scope                                         |              
+|-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
+| /v1/claimscollection/{claimId}:                                                                     |	claimscollection.read, claimscollection.write |                              
                       
-|              Documents EndPoint                                                                            | Scope               |              
-|-----------------------------------------------------------------------------------------------------|---------------------|                           |                 
-| /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:                          |	documents.read, documents.write |                            
-| /v1/documents/{documentStoreLocation}:                                                              |	documents.read, documents.write |                            
-| /v1/documents/{documentStoreLocation}/types:                                                        |	documents.read            |               
+|              Documents EndPoint                                                                     | Scope                                         |              
+|-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
+| /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:                          |	documents.read, documents.write               |                            
+| /v1/documents/{documentStoreLocation}:                                                              |	documents.read, documents.write               |                            
+| /v1/documents/{documentStoreLocation}/types:                                                        |	documents.read                                |               
  
-|              Consents EndPoint                                                                            | Scope               |              
-|-----------------------------------------------------------------------------------------------------|---------------------|                           |                 
-| /v1/consents/                          |	consents.read, consents.write |                        
+|              Consents EndPoint                                                                      | Scope                                         |              
+|-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
+| /v1/consents/                                                                                       |	consents.read, consents.write                 |                        

@@ -11458,11 +11458,11 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
-          "category": "ERROR",
-          "code": "ACCESS_EXCEEDED",
-          "text": "additional text information of the ASPSP up to 500 characters"
-        }]
+        value:
+          {
+
+          }
+        
 
 
   parameters:

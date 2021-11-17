@@ -6267,10 +6267,10 @@ components:
           $ref: "#/components/schemas/amount"
       example:
         {
-          "feeType": "otherFees",
+          "feeType": "OTHERFEES",
           "value": {
             "currency": "ISK",
-            "amount": 0
+            "amount": "0"
           }
         }
 
@@ -6284,33 +6284,33 @@ components:
       example:
           [
             {
-              "feeType": "otherFees",
+              "feeType": "OTHERFEES",
               "value": {
                 "currency": "ISK",
-                "amount": 0
+                "amount": "0"
               }
             },
             {
-              "feeType": "fees",
+              "feeType": "FEES",
               "value": {
                 "currency": "ISK",
-                "amount": 1000
+                "amount": "1000"
               }
             },
             {
-              "feeType": "priorityFees",
+              "feeType": "PRIORITYFEES",
               "value":
                 {
                 "currency": "ISK",
-                "amount": 2000
+                "amount": "2000"
               }
             },
             {
-              "feeType": "foreignBankServiceFees",
+              "feeType": "FOREIGNBANKSERVICEFEES",
               "value":
                 {
                   "currency": "ISK",
-                  "amount": 3000
+                  "amount": "3000"
                 }
             }
           ]
@@ -11466,11 +11466,8 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
-          "category": "ERROR",
-          "code": "ACCESS_EXCEEDED",
-          "text": "additional text information of the ASPSP up to 500 characters"
-        }]
+        value:
+          {
 
 
   parameters:

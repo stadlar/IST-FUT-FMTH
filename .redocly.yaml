@@ -1,0 +1,10 @@
+apiDefinitions:
+  # a set of named keys and values of entrypoints to OpenAPI definitions.
+  # example
+  # petstore: ./openapi.yaml
+
+lint:
+# the lint options
+
+referenceDocs:
+# the API reference docs options, including theme options.

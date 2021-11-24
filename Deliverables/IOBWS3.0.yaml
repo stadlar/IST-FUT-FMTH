@@ -11152,7 +11152,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-R        [{
+        [{
           "category": "ERROR",
           "code": "ACCESS_EXCEEDED",
           "text": "additional text information of the ASPSP up to 500 characters"

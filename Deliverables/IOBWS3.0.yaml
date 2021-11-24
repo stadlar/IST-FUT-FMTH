@@ -2748,7 +2748,7 @@ paths:
         This function returns an array of hyperlinks to all generated authorisation sub-resources.
       operationId: getConsentAuthorisation
       tags:
-        - Account Information Service (AIS)
+        - Consent Service
       
       security:
       #####################################################

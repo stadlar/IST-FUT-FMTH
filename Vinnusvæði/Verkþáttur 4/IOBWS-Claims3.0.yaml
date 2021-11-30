@@ -627,7 +627,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimbatches:
+  /v1/batches:
 
     post:
       summary: List of action defined by the request body object

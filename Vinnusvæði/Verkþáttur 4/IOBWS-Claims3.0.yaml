@@ -3542,11 +3542,10 @@ components:
         JSON request body for a action inition request message
 
         There are the following batch action supported:
-        * recreate
-        * create
-        * cancel
-        * alter
-        * transfer
+        * claimPost
+        * claimPut
+        * claimDelete
+        * transferPut
 
       required: true
       content:

@@ -687,7 +687,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimbatches/{batchId}:
+  /v1/batches/{batchId}:
 
     get:
       summary: Get a status of batch initiation

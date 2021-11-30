@@ -2250,11 +2250,10 @@ components:
         actionType:
           type: string
           enum:
-            - recreate
-            - create
-            - cancel
-            - alter
-            - transfer
+            - "claimPost"
+            - "claimPut"
+            - "claimDelete"
+            - "transferPut"
 
     claimError:
       description: OK

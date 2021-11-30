@@ -2247,7 +2247,7 @@ components:
         pending:
           type: integer
           description: Number of items pending processing
-        batchType:
+        actionType:
           type: string
           enum:
             - recreate

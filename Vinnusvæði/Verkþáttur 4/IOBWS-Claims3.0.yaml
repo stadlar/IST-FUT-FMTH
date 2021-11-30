@@ -743,7 +743,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimbatches/{batchId}/success:
+  /v1/batches/{batchId}/success:
 
     get:
       summary: Gets a list of claims successfully create in batch initiation

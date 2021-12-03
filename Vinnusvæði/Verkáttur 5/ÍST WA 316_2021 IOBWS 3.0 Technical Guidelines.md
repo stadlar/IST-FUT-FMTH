@@ -1,8 +1,87 @@
-# WA 316 IOBWS 3.0 Technical Guidelines
+> © Icelandic Standards (IST) 2020. All Rights Reserved.
+>
+> Without the written permission of the publisher, this workshop
+> agreement may not be reprinted or reproduced in any form by any means,
+> mechanical or electronic, such as by photocopying, sound recording or
+> other means, currently known or later invented, nor may the agreement
+> be disseminated through an electronic database.
+>
+> 1\. edition
 
-The technical specifications for individual aspects of the Icelandic Online Banking Web Services 3.0 do not address all implementation details, something these guidelines will try to address at least in parts.  
+# TODO
 
-It is the intention that the guidelines will be living documents. Clarifications and changes can be suggested through issues on the Github site or with direct Pull Requests. All updates, similar to the maintenance of the technical specifications, will be funneled through Pull Requests as part of the regular work overseen by workgroup 7 (VH-7). It is expected they will then be released regularly as workshop agreements under the technical committee, along with other updates to the technical specifications or individually. 
+- [ ] Review list of final WA participants
+
+# Foreword
+
+This IST workshop agreement was developed in accordance with "ÍST Reglur
+um tækniforskriftir, tækniskýrslur og vinnu­stofu­samþykktir" (*e.* IST
+rules on Technical Specifications, Technical Reports and Workshop
+Agreements). It was agreed on 2021-X-X in a workshop by
+representatives of interested parties, approved and supported by IST
+following a public call for participation within TN-FMÞ, the FUT
+technical committee on financial services. It does not necessarily
+reflect the views of all stakeholders that might have an interest in its
+subject matter.
+
+The Workshop Agreement (ÍST WA) was funded by Íslandsbanki, Arion banki
+and Landsbankinn. This ÍST WA is based on the results of the work of two
+workgroups TN-FMÞ-VH-1 Technical requirements and TN-FMÞ-VH-2 Business
+requirements.
+
+The final text of ÍST WA-316 was submitted to IST for publication on
+2021-X-X. It was developed as part of the agreement made by TN-FMÞ 
+under the working group TN-FMÞ-VH7, and approved by:
+
+-   Arion banki (Atli Már Gunnarsson, Védís Ingólfsdóttir, Björn Ingi
+    Björnsson. Kristinn Stefánsson, Eiríkur Haraldsson, Eiríkur Egilsson,
+    Steinar Þorbjörnsson)
+
+-   Íslandsbanki (Halldór Vagn Hreinsson, Ingvi Rafn Guðmundsson, 
+    Snorri Jónsson, Jóhannes Þór Ágústarson, Snorri Karlsson,  
+    Stefán Orri Stefánsson, Frans Veigar Garðarson)
+
+-   Landsbankinn (Hermann Þór Snorrason, Jökull
+    Huxley Yngvason, Ólafur Eiríksson, Halldóra G. Steindórsdóttir,
+    Guðni Þ. Björgvinsson, Guðmundur Ólafsson, Gísli Konráð Björnsson)
+
+-   Alskil (Sigurður Gauti Hauksson)
+
+-   Uniconta (Þorsteinn Lemke)
+
+-   RB (Guðjón Karl Arnarsson, Halla Sigrún Árnadóttir)
+
+ÍST WA-316 is not subject to any patent rights As part of the IOBWS v3.0 
+Technical Specifications, the document is distributed under a 
+Creative Commons Attri­bution 4.0 International Public License.
+
+The Workshop participants have made every effort to ensure the
+reliability and accuracy of the technical and non-technical content of
+ÍST WA-315, but this does not guarantee, either explicitly or
+implicitly, its correctness. Users of ÍST WA-316 should be aware that
+neither the workshop participants, nor IST can be held liable for
+damages or losses of any kind whatsoever which may arise from its
+application. Users of ÍST WA-316 do so on their own responsibility and
+at their own risk.
+# Scope 
+
+The technical specifications for individual aspects of the Icelandic Online Banking Web Services 3.0,
+(IOBWS) do not address all implementation details, something these guidelines will try to address at least in parts.
+
+
+# Normative references, definitions, and symbols 
+
+## Definitions 
+
+-   **IOBWS 3.0** -- This is the acronym of the third version of the
+    Icelandic Open Banking Web Services project and its product.
+
+-   **FUT** is the IT sector council at Icelandic standards.
+
+-   **TN-FMÞ** - Technical committee on finance services, working under
+    FUT.
+
+It is the intention that the guidelines will be living documents, though issued as workshop agreements. Clarifications and changes can be suggested through issues on the Github site or with direct Pull Requests. All updates, similar to the maintenance of the technical specifications, will be funneled through Pull Requests as part of the regular work overseen by workgroup 7 (VH-7). It is expected they will then be released regularly by the working group TN-FMÞ-VH7. 
 
 ## Authentication Use Cases and Requirements
 

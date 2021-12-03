@@ -91,12 +91,13 @@ The work and resulting artifacts are distributed under the Creative Commons Attr
 
 | Previous Specification                                         | New Specification |
 |----------------------------------------------------------------|--------------------------------|
-| TS 160:2013 Gengi                                              | TS 312:2021 Currency           |    
-| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | WA  310:2020 / (TS 310)                  |  
+| TS 160:2013 Gengi                                              | [TS 312:2021 Currency](https://github.com/stadlar/IST-FUT-FMTH/blob/8a2e3d012c873c61eb3d205bc093e043aadaa7a4/Deliverables/%C3%8DST-TS-312_2021%20Currency.pdf)           |    
+| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | [WA 310:2020 Domestic payments and deposits (Will become TS 310:2022)](https://github.com/stadlar/IST-FUT-FMTH/blob/8a2e3d012c873c61eb3d205bc093e043aadaa7a4/Deliverables/%C3%8DST%20WA%20310_2020%20Vinnustofusam%C3%BEykkt%20-%20Innlendar%20grei%C3%B0slur%20og%20innl%C3%A1n.pdf.pdf)                  |  
+| ---                                                            | [WA 311:2021 Debit and credit cards details and statements (new in IOBWS v3.0)](https://github.com/stadlar/IST-FUT-FMTH/blob/8a2e3d012c873c61eb3d205bc093e043aadaa7a4/Deliverables/%C3%8DST-TS-311_2021%20Debit%20and%20credit%20cards%20details%20and%20statements.pdf)                  |  
 | TS 162:2013 Innheimtukröfur<br>TS 163:2013 Milliinnheimta      | TS 315 Claims (in draft)<br>TS 31x Secondary Collecion (not started)                         |  
-| TS 165:2013 Rafræn skjöl                                       | TS 314:2021 Documents                    |  
-| TS 166:2013 Tæknilegar upplýsingar og villuboð                 | WA 316:202112 Technical Guidelines       |  
-| ---                                                            | TS 313:2021 Foreign Payments             |  
+| TS 165:2013 Rafræn skjöl                                       | [TS 314:2021 Documents](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/)                    |  
+| TS 166:2013 Tæknilegar upplýsingar og villuboð                 | [WA 316:2021 Technical Requirements](Verkáttur%205/ÍST%20WA%20316_2021%20IOBWS%203.0%20Technical%20Requirements)       |  
+| ---                                                            | [TS 313:2021 Foreign Payments](https://github.com/stadlar/IST-FUT-FMTH/blob/8a2e3d012c873c61eb3d205bc093e043aadaa7a4/Deliverables/%C3%8DST-TS-313_2021%20Foreign%20payments.pdf)             |  
 
 
 <!-- CONTACT -->

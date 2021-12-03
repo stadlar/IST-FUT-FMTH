@@ -1,4 +1,4 @@
-> © Icelandic Standards (IST) 2020. All Rights Reserved.
+> © Icelandic Standards (IST) 2021. All Rights Reserved.
 >
 > Without the written permission of the publisher, this workshop
 > agreement may not be reprinted or reproduced in any form by any means,

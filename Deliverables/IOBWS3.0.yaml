@@ -4933,7 +4933,6 @@ components:
         icelandicPurpose:
           $ref: "#/components/schemas/icelandicPurpose"
 
-
     cardTransaction:
       description: Card transaction information.
       type: object
@@ -6019,6 +6018,12 @@ components:
         The first applicable day of execution starting from this date is the first payment.
       type: string
       format: date
+    
+    requestExecutionDate:
+      description: |
+        Requested day of execution
+      type: string
+      format: date
 
     endDate:
       description: |
@@ -6315,92 +6320,6 @@ components:
             }
           ]
     
-    transactionDetails:
-      description: Transaction details.
-      type: object
-      required:
-        - transactionAmount
-      properties:
-        transactionId:
-          $ref: "#/components/schemas/transactionId"
-        transactionTimestamp:
-          description: |
-            Execution datetime of the record
-          type: string
-          format: date-time
-        entryReference:
-          $ref: "#/components/schemas/entryReference"
-        endToEndId:
-          description: Unique end to end identity.
-          type: string
-          maxLength: 35
-        mandateId:
-          description: Identification of Mandates, e.g. a SEPA Mandate ID.
-          type: string
-          maxLength: 35
-        checkId:
-          description: Identification of a Cheque.
-          type: string
-          maxLength: 35
-        creditorId:
-          $ref: "#/components/schemas/creditorId"
-        bookingDate:
-          $ref: "#/components/schemas/bookingDate"
-        valueDate:
-          description: The Date at which assets become available to the account owner in case of a credit.
-          type: string
-          format: date
-        transactionAmount:
-          $ref: "#/components/schemas/amount"
-        currencyExchange:
-          $ref: "#/components/schemas/reportExchangeRateList"
-        creditorName:
-          $ref: "#/components/schemas/creditorName"
-        creditorAccount:
-          $ref: "#/components/schemas/accountReference"
-        creditorAgent:
-          $ref: "#/components/schemas/bicfi"
-        ultimateCreditor:
-          $ref: "#/components/schemas/ultimateCreditor"
-        ultimateCreditorId:
-          $ref: "#/components/schemas/ultimateCreditorId"
-        debtorName:
-          $ref: "#/components/schemas/debtorName"
-        debtorId:
-          $ref: "#/components/schemas/debtorId"
-        debtorAccount:
-          $ref: "#/components/schemas/accountReference"
-        debtorAgent:
-          $ref: "#/components/schemas/bicfi"
-        ultimateDebtor:
-          $ref: "#/components/schemas/ultimateDebtor"
-        ultimateDebtorId:
-          $ref: "#/components/schemas/ultimateDebtorId"
-        remittanceInformationUnstructured: 
-          $ref: "#/components/schemas/remittanceInformationUnstructured"
-        remittanceInformationUnstructuredArray: 
-          $ref: "#/components/schemas/remittanceInformationUnstructuredArray"
-        remittanceInformationStructured:
-          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
-        remittanceInformationStructuredArray:
-          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-        additionalInformation:
-          $ref: "#/components/schemas/additionalInformation"
-        additionalInformationStructured:
-          $ref: "#/components/schemas/additionalInformationStructured"
-        purposeCode:
-          $ref: "#/components/schemas/purposeCode"
-        icelandicPurpose:
-          $ref: "#/components/schemas/icelandicPurpose"
-        bankTransactionCode:
-          $ref: "#/components/schemas/bankTransactionCode"
-        proprietaryBankTransactionCode:
-          $ref: "#/components/schemas/proprietaryBankTransactionCode"
-        balanceAfterTransaction: 
-          $ref: "#/components/schemas/balance"
-        _links:
-          $ref: "#/components/schemas/_linksTransactionDetails"
-
 
 #####################################################
 # Content of Request Bodies
@@ -7042,6 +6961,8 @@ components:
           $ref: "#/components/schemas/chargeBearer"
         serviceLevel:
           type: string
+        requestExecutionDate:
+          $ref: "#/components/schemas/requestExecutionDate"
 
     periodicPaymentInitiationDomestic_json:
       description: |
@@ -14696,7 +14617,7 @@ components:
           "ultimateDebtor": "Jón Jónsson (Real payer)",
           "ultimateCreditorId": "0109722329",
           "ultimateCreditor": "Páll Pálsson (Real receiver)",
-          "partialPayment": "true",
+          "partialPayment": true,
           "icelandicPurpose": {
             "code": "03"
           },
@@ -14719,7 +14640,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "partialPayment": "true",
+          "partialPayment": true,
           "icelandicPurpose": {
             "code": "87"
           },
@@ -14750,7 +14671,9 @@ components:
             "postCode": "101",
             "country": "IS"
           },
-          "centralBankPurpose": "099",
+          "centralBankPurpose": {
+            "code": "099"
+          },
           "remittanceInformationUnstructured": "My description"
         }
     
@@ -14787,7 +14710,9 @@ components:
             "country": "DK"
           },
           "serviceLevel": "PRPT",
-          "centralBankPurpose": "099",
+          "centralBankPurpose": {
+            "code": "099"
+          },
           "remittanceInformationUnstructured": "My description"
         }
 

@@ -6021,6 +6021,12 @@ components:
         The first applicable day of execution starting from this date is the first payment.
       type: string
       format: date
+    
+    requestExecutionDate:
+      description: |
+        Requested day of execution
+      type: string
+      format: date
 
     endDate:
       description: |
@@ -6911,6 +6917,8 @@ components:
           $ref: "#/components/schemas/chargeBearer"
         serviceLevel:
           type: string
+        requestExecutionDate:
+          $ref: "#/components/schemas/requestExecutionDate"
 
     periodicPaymentInitiationDomestic_json:
       description: |
@@ -14727,7 +14735,7 @@ components:
           "ultimateDebtor": "Jón Jónsson (Real payer)",
           "ultimateCreditorId": "0109722329",
           "ultimateCreditor": "Páll Pálsson (Real receiver)",
-          "partialPayment": "true",
+          "partialPayment": true,
           "icelandicPurpose": {
             "code": "03"
           },
@@ -14750,7 +14758,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "partialPayment": "true",
+          "partialPayment": true,
           "icelandicPurpose": {
             "code": "87"
           },
@@ -14781,7 +14789,9 @@ components:
             "postCode": "101",
             "country": "IS"
           },
-          "centralBankPurpose": "099",
+          "centralBankPurpose": {
+            "code": "099"
+          },
           "remittanceInformationUnstructured": "My description"
         }
     
@@ -14818,7 +14828,9 @@ components:
             "country": "DK"
           },
           "serviceLevel": "PRPT",
-          "centralBankPurpose": "099",
+          "centralBankPurpose": {
+            "code": "099"
+          },
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14843,9 +14855,9 @@ components:
           },
           "remittanceInformationUnstructured": "My description",
           "startDate": "2020-03-01",
-          "executionRule": "preceeding",
-          "frequency": "monthly",
-          "dayOfExecution": "01"
+          "executionRule": "preceding",
+          "frequency": "Monthly",
+          "dayOfExecution": "1"
         }
 
     paymentInitiationDomesticBody_creditCardTopUp-periodic-payments_json:
@@ -14861,6 +14873,7 @@ components:
             "bban": "030013000001"
           },
           "instructedAmount": {
+            "currency": "ISK",
             "amount": "1235"
           },
           "icelandicPurpose": {
@@ -14868,15 +14881,15 @@ components:
           },
           "remittanceInformationUnstructured": "My description",
           "startDate": "2020-03-01",
-          "executionRule": "preceeding",
-          "frequency": "monthly",
-          "dayOfExecution": "01"
+          "executionRule": "preceding",
+          "frequency": "Monthly",
+          "dayOfExecution": "1"
         }
 
     paymentInitiationDomesticBody_bulk-payments_json:
       value:
         {
-          "paymentInformationId": "75BA1A88-4184-45C0-BE88-AABFBEEEE230",
+          "paymentInformationId": "75BA1A88418445C0BE88AABFBEEEE230",
           "batchBookingPreferred": "true",
           "requestExecutionDate": "2020-08-01",
           "payments": [
@@ -14891,6 +14904,7 @@ components:
                 "bban": "030013000001"
               },
               "instructedAmount": {
+                "currency": "ISK",
                 "amount": "1235"
               },
               "icelandicPurpose": {
@@ -14909,6 +14923,7 @@ components:
                 "bban": "030013000001"
               },
               "instructedAmount": {
+                "currency": "ISK",
                 "amount": "1235"
               },
               "icelandicPurpose": {

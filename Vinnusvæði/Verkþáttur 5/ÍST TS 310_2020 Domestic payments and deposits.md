@@ -1,309 +1,167 @@
 ---
----
+title: "ÍST TS 310:2020"
+author: ICS. 3.060
+date: "Gildistaka: 22.09.2020"
+subject: "Icelandic Online Banking Webservices "
+keywords: [IOBWS, ÍST, WA, 316]
+subtitle: ["Tækniforskrift - Innlendar greiðslur og innlán", "Technical Specification - Domestic payments and deposits"]
+lang: "en"
+titlepage: true,
+# titlepage-rule-color: "360049"
+titlepage-rule-height: 0
+titlepage-background: "lib/istfrontpage.pdf"
+toc: true
+toc-title: Table of contents
+# toc-own-page: true
+book: true
+classoption: oneside
+numbersections: true
+first-chapter: 1
+listings-no-page-break: false
+highlight: "zenburn"
+include-before: |
+  Participants in ÍST Workshop VS-3 Innlendar greiðslur og innlán (e.
+  Domestic payments and deposits) and participants in working groups preparing the workshop agreement.
+
+    -----------------------------------------------------------------------------------
+    Name                  Company / \                 Name               Company / \                 
+                          organisation / \                               organisation / \             
+                          association                                    association                
+    -------------------- ---------------------------- ------------------ --------------
+    Árni Björnsson       Samband sparisjóða á Íslandi Ingibergur S.      Unimaze
+                                                      Stefnisson         
+    Arnar Freyr          Íslandsbanki                 Íris Dögg          Kvika
+    Björnsson                                         Kristmundsdóttir   
+
+    Ásgeir Helgi         Atlas lögmenn                Jóhannes Þór       Íslandsbanki
+    Jóhannsson                                        Ágústarson         
+
+    Ásgeir Örn           Samtök                       Jóhann             Landsbankinn
+    Ásgeirsson           fjártæknifyrirtækja/Meniga   Þorvarðarson       
+
+    Atli Mar Gunnarsson  Arion banki                  Jökull Huxley      Landsbankinn
+                                                      Yngvason           
+
+    Bjarki Jóhannsson    Creditinfo                   Kjartan Ásþórsson  Kvika
 
-**Participants in ÍST Workshop VS-3 Innlendar greiðslur og innlán (e.
-Domestic payments and deposits)**
+    Bjarni Þór Pálsson   RB                           Kristinn           Arion banki
+                                                      Stefánsson         
 
-**and participants in working groups preparing the workshop agreement**
+    Björn Ingi Björnsson Arion banki                  Markús Guðmundsson Sendill
 
-  -----------------------------------------------------------------------------------
-  Árni Björnsson       Samband sparisjóða á Íslandi Ingibergur S.      Unimaze
-                                                    Stefnisson         
-  -------------------- ---------------------------- ------------------ --------------
-  Arnar Freyr          Íslandsbanki                 Íris Dögg          Kvika
-  Björnsson                                         Kristmundsdóttir   
+    Bragi Þór            RB                           Ólafur Bergsson    Íslandsbanki
+    Guðmundsson                                                          
 
-  Ásgeir Helgi         Atlas lögmenn                Jóhannes Þór       Íslandsbanki
-  Jóhannsson                                        Ágústarson         
+    Daníel Snorrason     Seðlabanki Íslands           Ólafur Eiríksson   Landsbankinn
 
-  Ásgeir Örn           Samtök                       Jóhann             Landsbankinn
-  Ásgeirsson           fjártæknifyrirtækja/Meniga   Þorvarðarson       
+    Einar Eiríksson      Origo                        Páll Arnar         Creditinfo
+                                                      Guðmundsson        
 
-  Atli Mar Gunnarsson  Arion banki                  Jökull Huxley      Landsbankinn
-                                                    Yngvason           
+    Elfa D.              Arion banki                  Sigrún             WISE
+    Marteinsdóttir                                    Gunnarsdóttir      
 
-  Bjarki Jóhannsson    Creditinfo                   Kjartan Ásþórsson  Kvika
-
-  Bjarni Þór Pálsson   RB                           Kristinn           Arion banki
-                                                    Stefánsson         
-
-  Björn Ingi Björnsson Arion banki                  Markús Guðmundsson Sendill
-
-  Bragi Þór            RB                           Ólafur Bergsson    Íslandsbanki
-  Guðmundsson                                                          
-
-  Daníel Snorrason     Seðlabanki Íslands           Ólafur Eiríksson   Landsbankinn
-
-  Einar Eiríksson      Origo                        Páll Arnar         Creditinfo
-                                                    Guðmundsson        
-
-  Elfa D.              Arion banki                  Sigrún             WISE
-  Marteinsdóttir                                    Gunnarsdóttir      
-
-  Gísli Konráð         Landsbankinn                 Sigurbjörn         TCM innheimta
-  Björnsson                                         Þorbjörnsson       
-
-  Guðjón Karl Arnarson RB                           Sigurður Gauti     Alskil
-                                                    Hauksson           
-
-  Guðmundur Jón        DataPlato ehf                Sigurjón Örn       Valitor
-  Halldórsson                                       Kárason            
-
-  Gunnar Stefánsson    Arion banki                  Snorri Karlsson    Íslandsbanki
-
-  Halla Árnadóttir     RB                           Snorri Jónsson     Íslandsbanki
-
-  Halldór Vagn         Landsbankinn                 Stefán Orri        Íslandsbanki
-  Hreinsson                                         Stefánsson         
-
-  Halldóra G.          Landsbankinn                 Styrmir            Sjálfstæður
-  Steindórsdóttir                                   Kristjánsson       
-
-  Helena Pálsdóttir    FME                          Sveinn G.          Landsbankinn
-                                                    Gunnarsson         
-
-  Helena Rúriksdóttir  Arion banki                  Þorsteinn          Wise
-                                                    Guðmundsson        
-
-  Hermann Snorrason    Landsbankinn                 Þorsteinn Lemke    Uniconta
-
-  Hjálmar Brynjólfsson FME                          Védís              Arion banki
-                                                    Ingólfsdóttir      
-
-  Hrannar Már          Arion banki                  Védís              Landsbankinn
-  Hallkelsson                                       Sigurðardóttir     
-
-  Ingibjartur Jónsson  Valitor                      Ingvi Rafn         Íslandsbanki
-                                                    Guðmundsson        
-
-  Ingvaldur Einarsson  Uniconta                                        
-  -----------------------------------------------------------------------------------
-
-> © Icelandic Standards (IST) 2020. All Rights Reserved.
->
-> Without the written permission of the publisher, this workshop
-> agreement may not be reprinted or reproduced in any form by any means,
-> mechanical or electronic, such as by photocopying, sound recording or
-> other means, currently known or later invented, nor may the agreement
-> be disseminated through an electronic database.
->
-> 1\. edition
-
-# Foreword
-
-This IST workshop agreement was developed in accordance with "ÍST Reglur
-um tækniforskriftir, tækniskýrslur og vinnu­stofu­samþykktir" (*e.* IST
-rules on Technical Specifications, Technical Reports and Workshop
-Agreements). It was agreed on 2019-12-12 in a workshop by
-representatives of interested parties, approved and supported by IST
-following a public call for participation within TN-FMÞ, the FUT
-technical committee on financial services. It does not necessarily
-reflect the views of all stakeholders that might have an interest in its
-subject matter.
-
-The Workshop Agreement (ÍST WA) was funded by Íslandsbanki, Arion banki
-and Landsbankinn. This ÍST WA is based on the results of the work of two
-workgroups TN-FMÞ-VH-1 Technical requirements and TN-FMÞ-VH-2 Business
-requirements.
-
-The final text of ÍST WA-310 was submitted to IST for publication on
-2020-08-17. It was developed and approved by:
-
--   Arion banki (Atli Már Gunnarsson, Védís Ingólfsdóttir, Björn Ingi
-    Björnsson. Kristinn Stefánsson)
-
--   Íslandsbanki (Ingvi Rafn Guðmundsson, Snorri Jónsson, Jóhannes Þór
-    Ágústarson Snorri Karlsson, Frans Veigar Garðarson)
-
--   Landsbankinn (Halldór Vagn Hreinsson, Hermann Þór Snorrason, Jökull
-    Huxley Yngvason, Ólafur Eiríksson, Halldóra G. Steindórsdóttir,
-    Guðni Þ. Björgvinsson, Guðmundur Ólafsson, Gísli Konráð Björnsson)
-
--   Alskil (Sigurður Gauti Hauksson)
-
--   Uniconta (Þorsteinn Lemke)
-
--   RB (Guðjón Karl Arnarsson)
-
--   Crossing the line (Guðmundur Jón Halldórsson) Consultant for the
-    project
-
-ÍST WA-310 is not subject to any patent rights.
-
-ÍST WA-310 extends the NextGenPSD2 XS2A Framework, distributed under a
-Creative Commons Attri­bution 4.0 International Public License.
-
-The Workshop participants have made every effort to ensure the
-reliability and accuracy of the technical and non-technical content of
-ÍST WA-310, but this does not guarantee, either explicitly or
-implicitly, its correctness. Users of ÍST WA-310 should be aware that
-neither the workshop participants, nor IST can be held liable for
-damages or losses of any kind whatsoever which may arise from its
-application. Users of ÍST WA-310 do so on their own responsibility and
-at their own risk.
-
-# ![](./media//media/image1.png){width="7.188888888888889in" height="11.693055555555556in"}Table of contents 
-
-# 
-
-[Foreword [3](#foreword)](#foreword)
-
-[Table of contents [4](#_Toc48908006)](#_Toc48908006)
-
-[Introduction [6](#introduction)](#introduction)
-
-[1. Scope [7](#scope)](#scope)
-
-[2. Normative references, definitions and symbols
-[7](#normative-references-definitions-and-symbols)](#normative-references-definitions-and-symbols)
-
-[2.1 Definitions [7](#definitions)](#definitions)
-
-[2.2 Definition of the payment product
-[8](#definition-of-the-payment-product)](#definition-of-the-payment-product)
-
-[3. Icelandic domestic adaptions
-[9](#icelandic-domestic-adaptions)](#icelandic-domestic-adaptions)
-
-[3.1 Payment products [9](#payment-products)](#payment-products)
-
-[3.2 Functionally & data model changes
-[9](#functionally-data-model-changes)](#functionally-data-model-changes)
-
-[4 Presumptions, future work, maintenance
-[10](#presumptions-future-work-maintenance)](#presumptions-future-work-maintenance)
-
-[4.1 Presumptions [10](#presumptions)](#presumptions)
-
-[4.2 Future work [10](#future-work)](#future-work)
-
-[4.3 Maintenance [10](#maintenance)](#maintenance)
-
-[Annex [11](#annex)](#annex)
-
-[Payment Definitions [12](#payment-definitions)](#payment-definitions)
-
-[Methods [14](#methods)](#methods)
-
-[Payment Initiation [14](#payment-initiation-1)](#payment-initiation-1)
-
-[Transaction Status [15](#transaction-status-1)](#transaction-status-1)
-
-[Get Payment [17](#get-payment)](#get-payment)
-
-[Cancellation [20](#cancellation)](#cancellation)
-
-[Cancellation Authorization
-[21](#cancellation-authorization)](#cancellation-authorization)
-
-[Get Payment Id [21](#get-payment-id)](#get-payment-id)
-
-[Path Parameters [21](#path-parameters-4)](#path-parameters-4)
-
-[Response Code [22](#response-code-3)](#response-code-3)
-
-[Payment Service [22](#payment-service)](#payment-service)
-
-[Available payment services are:
-[23](#available-payment-services-are)](#available-payment-services-are)
-
-[Payment Product [23](#payment-product)](#payment-product)
-
-[Icelandic Domestic Claim Payment (Account -\> Claim)
-[24](#icelandic-domestic-claim-payment-account---claim)](#icelandic-domestic-claim-payment-account---claim)
-
-[Bulk Payments [26](#bulk-payments)](#bulk-payments)
-
-[Periodic Payments [30](#periodic-payments)](#periodic-payments)
-
-[Request Header [33](#request-header-5)](#request-header-5)
-
-[Request Body [35](#_Toc48908037)](#_Toc48908037)
-
-[Response Header [36](#response-header-5)](#response-header-5)
-
-[Confirmation of funds
-[37](#confirmation-of-funds)](#confirmation-of-funds)
-
-[Methods [37](#methods-1)](#methods-1)
-
-[Confirmation of Funds Consent
-[37](#confirmation-of-funds-consent-1)](#confirmation-of-funds-consent-1)
-
-[Response Header [38](#response-header-7)](#response-header-7)
-
-[Response Code [39](#response-code-4)](#response-code-4)
-
-[Get Status Request [40](#get-status-request-1)](#get-status-request-1)
-
-[Response Header [40](#response-header-8)](#response-header-8)
-
-[Get Consent Request
-[41](#get-consent-request-1)](#get-consent-request-1)
-
-[Revoke a Confirmation of Funds Consent
-[42](#revoke-a-confirmation-of-funds-consent-1)](#revoke-a-confirmation-of-funds-consent-1)
-
-[Account Overview Definitions
-[42](#account-overview-definitions)](#account-overview-definitions)
-
-[Consent Request (single)
-[44](#consent-request-single)](#consent-request-single)
-
-[Consent Request (list)
-[47](#consent-request-list)](#consent-request-list)
-
-[Get Status [48](#get-status)](#get-status)
-
-[Get Consent [49](#get-consent)](#get-consent)
-
-[Delete Consent [51](#delete-consent)](#delete-consent)
-
-[Get Accounts [52](#get-accounts)](#get-accounts)
-
-[Get Account [54](#get-account)](#get-account)
-
-[Get Balance [55](#get-balance)](#get-balance)
-
-[Get Transactions [57](#get-transactions)](#get-transactions)
-
-[Get Transaction [61](#get-transaction)](#get-transaction)
-
-[Account Header [63](#account-header)](#account-header)
-
-[Responses [63](#responses)](#responses)
-
-[Scenarios [64](#section-7)](#section-7)
-
-[Changes to the data model [65](#_Toc48908062)](#_Toc48908062)
-
-[Data Model [65](#data-model)](#data-model)
-
-[accountDetails [65](#accountdetails)](#accountdetails)
-
-[balance [66](#balance)](#balance)
-
-[icelandicPurpose [67](#icelandicpurpose)](#icelandicpurpose)
-
-[transactionDetails [67](#transactiondetails)](#transactiondetails)
-
-[Examples [70](#examples)](#examples)
-
-[Accounts [70](#accounts)](#accounts)
-
-[account [70](#account)](#account)
-
-[account-transaction [70](#account-transaction)](#account-transaction)
-
-[Payments [71](#payments)](#payments)
-
-[claimPayment [71](#claimpayment)](#claimpayment)
-
-[creditCardDeposit [72](#creditcarddeposit)](#creditcarddeposit)
-
-[creditTransfer [72](#credittransfer)](#credittransfer)
-
-# 
+    Gísli Konráð         Landsbankinn                 Sigurbjörn         TCM innheimta
+    Björnsson                                         Þorbjörnsson       
+
+    Guðjón Karl Arnarson RB                           Sigurður Gauti     Alskil
+                                                      Hauksson           
+
+    Guðmundur Jón        DataPlato ehf                Sigurjón Örn       Valitor
+    Halldórsson                                       Kárason            
+
+    Gunnar Stefánsson    Arion banki                  Snorri Karlsson    Íslandsbanki
+
+    Halla Árnadóttir     RB                           Snorri Jónsson     Íslandsbanki
+
+    Halldór Vagn         Landsbankinn                 Stefán Orri        Íslandsbanki
+    Hreinsson                                         Stefánsson         
+
+    Halldóra G.          Landsbankinn                 Styrmir            Sjálfstæður
+    Steindórsdóttir                                   Kristjánsson       
+
+    Helena Pálsdóttir    FME                          Sveinn G.          Landsbankinn
+                                                      Gunnarsson         
+
+    Helena Rúriksdóttir  Arion banki                  Þorsteinn          Wise
+                                                      Guðmundsson        
+
+    Hermann Snorrason    Landsbankinn                 Þorsteinn Lemke    Uniconta
+
+    Hjálmar Brynjólfsson FME                          Védís              Arion banki
+                                                      Ingólfsdóttir      
+
+    Hrannar Már          Arion banki                  Védís              Landsbankinn
+    Hallkelsson                                       Sigurðardóttir     
+
+    Ingibjartur Jónsson  Valitor                      Ingvi Rafn         Íslandsbanki
+                                                      Guðmundsson        
+
+    Ingvaldur Einarsson  Uniconta                                        
+    -----------------------------------------------------------------------------------
+
+  > © Icelandic Standards (IST) 2020. All Rights Reserved.
+  >
+  > Without the written permission of the publisher, this workshop
+  > agreement may not be reprinted or reproduced in any form by any means,
+  > mechanical or electronic, such as by photocopying, sound recording or
+  > other means, currently known or later invented, nor may the agreement
+  > be disseminated through an electronic database.
+  >
+  > 1\. edition
+
+  # Foreword
+
+  This IST workshop agreement was developed in accordance with "ÍST Reglur
+  um tækniforskriftir, tækniskýrslur og vinnu­stofu­samþykktir" (*e.* IST
+  rules on Technical Specifications, Technical Reports and Workshop
+  Agreements). It was agreed on 2019-12-12 in a workshop by
+  representatives of interested parties, approved and supported by IST
+  following a public call for participation within TN-FMÞ, the FUT
+  technical committee on financial services. It does not necessarily
+  reflect the views of all stakeholders that might have an interest in its
+  subject matter.
+
+  The Workshop Agreement (ÍST WA) was funded by Íslandsbanki, Arion banki
+  and Landsbankinn. This ÍST WA is based on the results of the work of two
+  workgroups TN-FMÞ-VH-1 Technical requirements and TN-FMÞ-VH-2 Business
+  requirements.
+
+  The final text of ÍST WA-310 was submitted to IST for publication on
+  2020-08-17. It was developed and approved by:
+
+  -   Arion banki (Atli Már Gunnarsson, Védís Ingólfsdóttir, Björn Ingi
+      Björnsson. Kristinn Stefánsson)
+
+  -   Íslandsbanki (Ingvi Rafn Guðmundsson, Snorri Jónsson, Jóhannes Þór
+      Ágústarson Snorri Karlsson, Frans Veigar Garðarson)
+
+  -   Landsbankinn (Halldór Vagn Hreinsson, Hermann Þór Snorrason, Jökull
+      Huxley Yngvason, Ólafur Eiríksson, Halldóra G. Steindórsdóttir,
+      Guðni Þ. Björgvinsson, Guðmundur Ólafsson, Gísli Konráð Björnsson)
+
+  -   Alskil (Sigurður Gauti Hauksson)
+
+  -   Uniconta (Þorsteinn Lemke)
+
+  -   RB (Guðjón Karl Arnarsson)
+
+  -   Crossing the line (Guðmundur Jón Halldórsson) Consultant for the
+      project
+
+  ÍST WA-310 is not subject to any patent rights.
+
+  ÍST WA-310 extends the NextGenPSD2 XS2A Framework, distributed under a
+  Creative Commons Attri­bution 4.0 International Public License.
+
+  The Workshop participants have made every effort to ensure the
+  reliability and accuracy of the technical and non-technical content of
+  ÍST WA-310, but this does not guarantee, either explicitly or
+  implicitly, its correctness. Users of ÍST WA-310 should be aware that
+  neither the workshop participants, nor IST can be held liable for
+  damages or losses of any kind whatsoever which may arise from its
+  application. Users of ÍST WA-310 do so on their own responsibility and
+  at their own risk.
+...
 
 # Introduction 
 
@@ -457,7 +315,7 @@ working groups of TN-FMÞ on the matter.
 ```
 -   **Payment service directive** -- PSD2 overview.
 
-![](./media//media/image37.png){width="4.175999562554681in"
+![](310media/image37.png){width="4.175999562554681in"
 height="2.0937707786526683in"}
 
 ### 2.2 Definition of the payment product
@@ -532,10 +390,6 @@ in the big picture:
     allows partial payment and API consumer want to pay for example ISK
     500 of ISK 1000 claim, then this flag is used.
 
-# 
-
-# 
-
 # 3. Icelandic domestic adaptions 
 
 This chapter concludes the domestic adaptation to the payment products
@@ -574,8 +428,6 @@ the swagger-hub
 New function was introduced 'GetPaymentId' that allows the caller to
 query the paymentId using X-RequestID. The function returns the
 paymentId in question.
-
-# 
 
 # 4 Presumptions, future work, maintenance 
 
@@ -1136,6 +988,8 @@ Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
 
 \*Request\*
 
+```http
+
 GET /v1/{payment-service}/{payment-product}/{paymentId}/status
 
 Accept: application/json
@@ -1161,6 +1015,7 @@ Content-Type: application/json
 \"fundsAvailable\": true
 
 }
+```
 
 ### Get Payment
 
@@ -1225,6 +1080,7 @@ The HTTP response code equals 200.
 
 \*Request\*
 
+```http
 GET /v1/{payment-service}/{payment-product}/{paymentId}
 
 Accept: application/json
@@ -1278,11 +1134,13 @@ Content-Type: application/json
 \"reference\": \"ABC (16 char)\"
 
 }
+```
 
 ####### Example - Bulk Payments
 
 \*Request\*
 
+```http
 GET /v1/{payment-service}/{payment-product}/{paymentId}
 
 Accept: application/json
@@ -1291,8 +1149,12 @@ X-Request-ID: 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
 
 Date: Sun, 06 Aug 2017 15:04:07 GMT
 
+```
+
 \*Response\*
 
+
+```http
 HTTP/1.x 200 Ok
 
 X-Request-ID: 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
@@ -1351,10 +1213,13 @@ Content-Type: application/json
 
 }
 
+```
+
 ####### Example - Periodic Payments
 
 \*Request\*
 
+```http
 GET /v1/{payment-service}/{payment-product}/{paymentId}
 
 Accept: application/json
@@ -1363,8 +1228,10 @@ X-Request-ID: 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
 
 Date: Sun, 06 Aug 2017 15:04:07 GMT
 
+``
 \*Response\*
 
+```http
 HTTP/1.x 200 Ok
 
 X-Request-ID: 99391c7e-ad88-49ec-a2ad-99ddcb1f7721
@@ -1418,6 +1285,7 @@ Content-Type: application/json
 \"dayOfExecution\": \"01\"
 
 }
+``
 
 ### Cancellation
 
@@ -1500,6 +1368,7 @@ The HTTP response code equals 204.
 
 \*Request\*
 
+```http
 DELETE /v1/{payment-service}/{payment-product}/{paymentId}
 
 Content-Type application/json
@@ -1507,14 +1376,16 @@ Content-Type application/json
 X-Request-ID 99391c7e-ad88-49ec-a2ad-99ddcb1f7769
 
 Date Sun, 13 Aug 2017 17:05:37 GMT
+```
 
 \*Response\*
-
+```http
 HTTP/1.x 204
 
 X-Request-ID: 99391c7e-ad88-49ec-a2ad-99ddcb1f7769
 
 Date: Sun, 13 Aug 2017 17:05:38 GMT
+```
 
 ### Cancellation Authorization
 
@@ -1684,6 +1555,7 @@ Possible values for Icelandic Domestic products are:
 
 Url:
 
+```http
 /v1/{payment-service}/credit-transfer
 
 {
@@ -1723,6 +1595,7 @@ Url:
 }
 
 }
+```
 
 ### Icelandic Domestic Claim Payment (Account -\> Claim)
 
@@ -1770,6 +1643,7 @@ Url:
 
 Url:
 
+```http
 /v1/{payment-service}/claim-payment
 
 {
@@ -1821,6 +1695,7 @@ Url:
 }
 
 }
+```
 
 ###### Icelandic Domestic Credit Card Deposit (Account -\> Credit card)
 
@@ -1856,6 +1731,7 @@ Url:
 
 Url:
 
+```http
 /v1/{payment-service}/credit-card-deposit
 
 {
@@ -1899,6 +1775,7 @@ Url:
 }
 
 }
+```
 
 ####### Example 2
 

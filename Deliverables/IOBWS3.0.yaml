@@ -411,7 +411,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_PIS"
 
-  /v1/{payment-service}/{payment-product}/info/{Query-X-Request-ID}:
+  /v1/{payment-service}/{payment-product}/{Query-X-Request-ID}/info:
 
     get:
       summary: Payment id info request

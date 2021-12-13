@@ -1,0 +1,87 @@
+# This file instructs Redocly's linter to ignore warnings in IOBWS 3.0.
+# as they are orgiginate in the Vinnusvæði/Stuðningsefni/Berlin-group/v.1.3.6/
+# contract or "psd2-api 1.3.6 2020-08-14.yaml"
+Deliverables/IOBWS3.0.yaml:
+  no-invalid-media-type-examples:
+    - >-
+      #/components/examples/paymentInitiationSctBody_periodic-payments_json/value/startDate
+    - >-
+      #/components/examples/paymentInitiationSctBody_periodic-payments_json/value/executionRule
+    - >-
+      #/components/examples/paymentInitiationSctBody_periodic-payments_json/value/frequency
+    - >-
+      #/components/examples/paymentInitiationSctBody_periodic-payments_json/value/dayOfExecution
+    - >-
+      #/components/examples/paymentInitiationSctBody_periodic-payments_json/value
+    - >-
+      #/components/examples/paymentInitiationSctBody_periodic-payments_json/value/instructedAmount
+    - >-
+      #/components/examples/paymentInitiationSctBody_periodic-payments_json/value/creditorName
+    - >-
+      #/components/examples/paymentInitiationSctBody_periodic-payments_json/value/creditorAccount
+    - >-
+      #/components/examples/paymentInitiationSctBody_periodic-payments_json/value/remittanceInformationUnstructured
+    - '#/components/examples/paymentInitiationSctBody_bulk-payments_json/value'
+    - >-
+      #/components/examples/paymentInitiationSctBody_bulk-payments_json/value/batchBookingPreferred
+    - >-
+      #/components/examples/paymentInitiationSctBody_bulk-payments_json/value/paymentInformationId
+    - >-
+      #/components/examples/paymentInitiationSctBody_bulk-payments_json/value/requestedExecutionDate
+    - >-
+      #/components/examples/paymentInitiationSctBody_bulk-payments_json/value/payments
+    - >-
+      #/components/examples/paymentInitiationSctBody_bulk-payments_json/value/payments/0
+    - >-
+      #/components/examples/paymentInitiationSctBody_bulk-payments_json/value/payments/0/instructedAmount"
+    - >-
+      #/components/examples/paymentInitiationSctBody_bulk-payments_json/value/payments/1
+    - >-
+      #/components/examples/paymentInitiationSctBody_bulk-payments_json/value/payments/1/instructedAmount"
+    - '#/components/examples/pain.001.001_SCT_singleTransaction/value'
+    - >-
+      #/components/responses/CREATED_201_PaymentInitiation/content/application~1json/schema
+    - >-
+      #/components/responses/RECEIVED_202_PaymentInitiationCancel/content/application~1json/schema
+    - '#/components/examples/paymentInitiationStatusResponse_json_Extended/value'
+    - >-
+      #/components/responses/CREATED_201_StartScaProcess/content/application~1json/schema
+    - '#/components/examples/updatePsuAuthenticationExample_Embedded/value'
+    - '#/components/examples/selectPsuAuthenticationMethodExample_Embedded/value'
+    - >-
+      #/components/examples/selectPsuAuthenticationMethodExample_Embedded/value/authenticationMethodId
+    - '#/components/examples/transactionAuthorisationExample_Embedded/value'
+    - >-
+      #/components/examples/transactionAuthorisationExample_Embedded/value/scaAuthenticationData
+    - '#/components/examples/authorisationConfirmationExample_Redirect/value'
+    - >-
+      #/components/examples/authorisationConfirmationExample_Redirect/value/confirmationCode
+    - >-
+      #/components/responses/OK_200_UpdatePsuData/content/application~1json/schema
+    - '#/components/requestBodies/consents/content/application~1json/schema'
+    - >-
+      #/components/responses/CREATED_201_Consents/content/application~1json/schema
+    - >-
+      #/components/responses/OK_200_ConsentInformation/content/application~1json/schema
+    - >-
+      #/components/examples/confirmationOfFundsResponseExample/value/fundsAvailable
+    - >-
+      #/components/responses/CREATED_201_SigningBasket/content/application~1json/schema
+  no-unused-components:
+    - '#/components/schemas/combinedServiceIndicator'
+    - '#/components/schemas/paymentExchangeRate'
+    - '#/components/schemas/creditorNameAndAddress'
+    - '#/components/schemas/chargeBearer'
+    - '#/components/schemas/debtorId'
+    - '#/components/schemas/Error400_PIIS'
+    - '#/components/schemas/Error400_NG_PIIS'
+    - '#/components/examples/ibanExampleDe_01'
+    - '#/components/examples/ibanExampleDe_02'
+    - '#/components/examples/ibanExampleDe_03'
+    - '#/components/examples/ibanExampleDe_04'
+    - '#/components/examples/ibanExampleDe_05'
+    - '#/components/examples/ibanExampleFr_01'
+    - '#/components/examples/ibanExampleNl_01'
+    - '#/components/examples/ibanExampleSe_01'
+    - '#/components/examples/maskedPanExample'
+    - '#/components/examples/uuidExample'

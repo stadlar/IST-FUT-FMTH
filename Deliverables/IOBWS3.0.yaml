@@ -6018,12 +6018,6 @@ components:
         The first applicable day of execution starting from this date is the first payment.
       type: string
       format: date
-    
-    requestExecutionDate:
-      description: |
-        Requested day of execution
-      type: string
-      format: date
 
     endDate:
       description: |
@@ -6961,8 +6955,6 @@ components:
           $ref: "#/components/schemas/chargeBearer"
         serviceLevel:
           type: string
-        requestExecutionDate:
-          $ref: "#/components/schemas/requestExecutionDate"
 
     periodicPaymentInitiationDomestic_json:
       description: |

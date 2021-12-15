@@ -3,7 +3,7 @@ title: "ÍST TS 310:2020"
 author: ICS. 3.060
 date: "Gildistaka: 22.09.2020"
 subject: "Icelandic Online Banking Webservices "
-keywords: [IOBWS, ÍST, WA, 316]
+keywords: [IOBWS, ÍST, TS, 310]
 subtitle: ["Tækniforskrift - Innlendar greiðslur og innlán", "Technical Specification - Domestic payments and deposits"]
 lang: "en"
 titlepage: true,
@@ -99,15 +99,15 @@ include-before: |
     Ingvaldur Einarsson  Uniconta                                        
     -----------------------------------------------------------------------------------
 
-  > © Icelandic Standards (IST) 2020. All Rights Reserved.
-  >
-  > Without the written permission of the publisher, this workshop
-  > agreement may not be reprinted or reproduced in any form by any means,
-  > mechanical or electronic, such as by photocopying, sound recording or
-  > other means, currently known or later invented, nor may the agreement
-  > be disseminated through an electronic database.
-  >
-  > 1\. edition
+    © Icelandic Standards (IST) 2020. All Rights Reserved.
+   
+    Without the written permission of the publisher, this workshop
+    agreement may not be reprinted or reproduced in any form by any means,
+    mechanical or electronic, such as by photocopying, sound recording or
+    other means, currently known or later invented, nor may the agreement
+    be disseminated through an electronic database.
+   
+    1\. edition
 
   # Foreword
 
@@ -163,7 +163,7 @@ include-before: |
   at their own risk.
 ...
 
-# Introduction 
+# Introduction {.unnumbered}
 
 This workshop agreement (WA) is written to present a preferred way to
 implement payments and accounts according to the European initiative
@@ -480,11 +480,11 @@ maintenance task and issues shall be raised and processed by VH-BG.
 
 # Annex
 
-#### Icelandic Standard -- [www.stadlar.is](https://www.stadlar.is/) -- FUT TN-FMTH
+Icelandic Standard -- [www.stadlar.is](https://www.stadlar.is/) -- FUT TN-FMTH
 
-#### ÍST WA 310 Domestic payments and accounts
+ÍST WA 310 Domestic payments and accounts
 
-##### Phase 2
+## Phase 2
 
 > Approved changes:
 
@@ -530,7 +530,7 @@ maintenance task and issues shall be raised and processed by VH-BG.
 14. Payment initiation returns always on paymentId even for bulk
     payments or periodic payments.
 
-###### Definition of elements
+## Definition of elements
 
 The following elements are used to define the payment product. It is
 important to understand the meaning of each element to see how it fits

@@ -6371,7 +6371,7 @@ components:
 #          type: string
 #          format: date-time
         centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurposeCode"
+          $ref: "#/components/schemas/centralBankPurpose"
 
     paymentInitiationBulkElement_json:
       description: |
@@ -6493,7 +6493,7 @@ components:
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
         centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurposeCode"
+          $ref: "#/components/schemas/centralBankPurpose"
 
 
     periodicPaymentInitiation_json: 
@@ -6850,7 +6850,7 @@ components:
         ultimateCreditorId:
           $ref: "#/components/schemas/ultimateCreditorId"
         centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurposeCode"
+          $ref: "#/components/schemas/centralBankPurpose"
         icelandicPurpose:
           $ref: "#/components/schemas/icelandicPurpose"
         remittanceInformationUnstructured:
@@ -7006,7 +7006,7 @@ components:
         icelandicPurpose:
           $ref: "#/components/schemas/icelandicPurpose"
         centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurposeCode"
+          $ref: "#/components/schemas/centralBankPurpose"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
         remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
@@ -11103,26 +11103,14 @@ components:
     icelandicPurpose:
       description: |
         Standardised definition of transaction used in the Iceland market to define the purpose of the transaction.
-      type: object
-      properties:
-        code:
-          type: string
-          maxLength: 3
-        description:
-          type: string
-          maxLength: 150
+      type: string
+      maxLength: 3
 
-    centralBankPurposeCode:
+    centralBankPurpose:
       description: |
         Standardised definition of purpose code required by the Icelandic Central Bank.
-      type: object
-      properties:
-        code:
-          type: string
-          maxLength: 3
-        description:
-          type: string
-          maxLength: 150
+      type: string
+      maxLength: 3
 
 
   parameters:
@@ -14279,9 +14267,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": {
-            "code": "03"
-          },
+          "icelandicPurpose": "03",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14306,9 +14292,7 @@ components:
           "ultimateCreditorId": "0109722329",
           "ultimateCreditor": "Páll Pálsson (Real receiver)",
           "partialPayment": true,
-          "icelandicPurpose": {
-            "code": "03"
-          },
+          "icelandicPurpose": "03",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14329,9 +14313,7 @@ components:
             "amount": "1235"
           },
           "partialPayment": true,
-          "icelandicPurpose": {
-            "code": "87"
-          },
+          "icelandicPurpose": "87",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14359,9 +14341,7 @@ components:
             "postCode": "101",
             "country": "IS"
           },
-          "centralBankPurpose": {
-            "code": "099"
-          },
+          "centralBankPurpose": "099",
           "remittanceInformationUnstructured": "My description"
         }
     
@@ -14398,9 +14378,7 @@ components:
             "country": "DK"
           },
           "serviceLevel": "PRPT",
-          "centralBankPurpose": {
-            "code": "099"
-          },
+          "centralBankPurpose": "099",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14420,9 +14398,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": {
-            "code": "87"
-          },
+          "icelandicPurpose": "87",
           "remittanceInformationUnstructured": "My description",
           "startDate": "2020-03-01",
           "executionRule": "preceding",
@@ -14446,9 +14422,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": {
-            "code": "87"
-          },
+          "icelandicPurpose": "87",
           "remittanceInformationUnstructured": "My description",
           "startDate": "2020-03-01",
           "executionRule": "preceding",

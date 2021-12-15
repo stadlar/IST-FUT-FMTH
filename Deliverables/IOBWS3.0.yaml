@@ -6454,7 +6454,7 @@ components:
 #          type: string
 #          format: date-time
         centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurposeCode"
+          $ref: "#/components/schemas/centralBankPurpose"
 
     paymentInitiationBulkElement_json:
       description: |
@@ -6578,7 +6578,7 @@ components:
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
         centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurposeCode"
+          $ref: "#/components/schemas/centralBankPurpose"
 
 
     periodicPaymentInitiation_json: 
@@ -14583,9 +14583,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": {
-            "code": "03"
-          },
+          "icelandicPurpose": "03",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14610,9 +14608,7 @@ components:
           "ultimateCreditorId": "0109722329",
           "ultimateCreditor": "Páll Pálsson (Real receiver)",
           "partialPayment": true,
-          "icelandicPurpose": {
-            "code": "03"
-          },
+          "icelandicPurpose": "03",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14633,9 +14629,7 @@ components:
             "amount": "1235"
           },
           "partialPayment": true,
-          "icelandicPurpose": {
-            "code": "87"
-          },
+          "icelandicPurpose": "87",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14663,9 +14657,7 @@ components:
             "postCode": "101",
             "country": "IS"
           },
-          "centralBankPurpose": {
-            "code": "099"
-          },
+          "centralBankPurpose": "099",
           "remittanceInformationUnstructured": "My description"
         }
     
@@ -14702,9 +14694,7 @@ components:
             "country": "DK"
           },
           "serviceLevel": "PRPT",
-          "centralBankPurpose": {
-            "code": "099"
-          },
+          "centralBankPurpose": "099",
           "remittanceInformationUnstructured": "My description"
         }
 

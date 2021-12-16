@@ -1715,18 +1715,6 @@ components:
         second:
           $ref: "#/components/schemas/dayAmountItem"
 
-    billPresentmentSystem:
-      description: |
-        Contains information on the publication system in which a collection claim is published, if any.
-      properties:
-        fieldType:
-          type: string
-          enum:
-            - "A"
-            - "D"
-        parameters:
-          type: string
-
     address:
       description: |
         Address or legal address of a legal entity
@@ -2013,8 +2001,6 @@ components:
         # other
         CurrencyInformation:
           $ref: "#/components/schemas/currencyInformation"
-        billPresentmentSystem:
-          $ref: "#/components/schemas/billPresentmentSystem"
         additionalInformation:
           type: string
           maxLength: 200
@@ -2130,8 +2116,6 @@ components:
         # other
         CurrencyInformation:
           $ref: "#/components/schemas/currencyInformation"
-        billPresentmentSystem:
-          $ref: "#/components/schemas/billPresentmentSystem"
         additionalInformation:
           type: string
           maxLength: 200
@@ -2219,8 +2203,6 @@ components:
         # other
         CurrencyInformation:
           $ref: "#/components/schemas/currencyInformation"
-        billPresentmentSystem:
-          $ref: "#/components/schemas/billPresentmentSystem"
         additionalInformation:
           type: string
           maxLength: 200

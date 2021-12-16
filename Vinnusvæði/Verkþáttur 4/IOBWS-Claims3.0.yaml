@@ -676,7 +676,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/batch:
+  /v1/batches:
 
     post:
       summary: List of action defined by the request body object
@@ -735,7 +735,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/batch/{batchId}:
+  /v1/batches/{batchId}:
 
     get:
       summary: Get a status of batch initiation
@@ -790,7 +790,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/batch/{batchId}/success:
+  /v1/batches/{batchId}/success:
 
     get:
       summary: Gets a list of claims successfully create in batch initiation
@@ -848,7 +848,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/batch/{batchId}/failed:
+  /v1/batches/{batchId}/failed:
 
     get:
       summary: Gets a list of batch action that failed processing
@@ -2271,14 +2271,13 @@ components:
         pending:
           type: integer
           description: Number of items pending processing
-        batchType:
+        actionType:
           type: string
           enum:
-            - recreate
-            - create
-            - cancel
-            - alter
-            - transfer
+            - "claimPost"
+            - "claimPut"
+            - "claimDelete"
+            - "transferPut"
 
     claimError:
       description: OK
@@ -3210,11 +3209,10 @@ components:
         JSON request body for a action inition request message
 
         There are the following batch action supported:
-        * recreate
-        * create
-        * cancel
-        * alter
-        * transfer
+        * claimPost
+        * claimPut
+        * claimDelete
+        * transferPut
 
       required: true
       content:

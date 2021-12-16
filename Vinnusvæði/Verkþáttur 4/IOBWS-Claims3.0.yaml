@@ -3,18 +3,19 @@ info:
   title: IOBWS 3.0 Domestic Claims
   version: "3.0"
   description: |
-    The service is two folded.
-    1. Claims methods used by companies
-    2. Collection used by collection companies
+    The claim service is focused on two parties. First is the company (claimant) creating claims and then
+    if the collection company.  
 
-    Claim Service
+    Claimant
     The Claims Service enables creditors to create, modify and cancel claims. A creditor can also revive canceled
     claims, send claims to an intermediate debt collector and obtain a list of claims according to the given search
     criteria, and thus get a good overview of all their claims.
 
-    Collection Service
-    The Collection Service enables dept collectors to work with the claims under their care. The service is mostly
-    as structured as the service for claims, except that it is not possible to create collection claims
+    Claim Collection
+    The Collection Service uses the same endpoints as the claimant endpoints. There is a restriction on the 
+    collection company, it's not allowed to create claims. The claim service enables dept collectors to work 
+    with the claims under their care. The service is mostly as structured as the service for claims, except 
+    that it is not possible to create collection claims
 
   license:
     name: Creative Commons Attribution 4.0 International Public License
@@ -22,7 +23,7 @@ info:
   contact:
     name: Stadlarad Islands
     url: https://www.stadlar.is
-    email: openbanking@stadlar.is
+    email: stadlar@stadlar.is
 
 paths:
 
@@ -57,8 +58,8 @@ paths:
       #path # NO PATH PARAMETER
       #query
         - $ref: "#/components/parameters/claimantIdQuery"
-        - $ref: "#/components/schemas/bankCode"
-        - $ref: "#/components/schemas/templateCode"
+        - $ref: "#/components/parameters/bankCodeQuery"
+        - $ref: "#/components/parameters/templateCodeQuery"
         - $ref: "#/components/parameters/isActiveQuery"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
@@ -261,65 +262,6 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-    put:
-      summary: Alter existing claim
-      description: |
-        The Alter Claim function modifies a previously created collection claim. The claim in its entirety is
-        then submitted and amended according to new information.
-      operationId: alterClaim
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/X-Idempotency-Key"
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      requestBody:
-        $ref: "#/components/requestBodies/alterClaim"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
     patch:
       summary: Patches existing claim
       description: |
@@ -496,7 +438,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claims/{claimId}/primary:
+  /v1/claims/{claimId}/collection:
 
     put:
       summary: Move claim between template code.
@@ -523,7 +465,8 @@ paths:
       parameters:
       #path
         - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
+      #query
+        - $ref: "#/components/schemas/templateCode"
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -1224,9 +1167,7 @@ components:
     BearerAuthOAuth:
       description: |
         Bearer Token.
-
-        Is contained only, if an OAuth2 based authentication was performed in a pre-step or
-        an OAuth2 based SCA was performed in a preceding AIS service in the same session.
+        Is contained only, if an OAuth2 based authentication was performed in a pre-step.
       type: http
       scheme: bearer
 
@@ -2523,7 +2464,7 @@ components:
         - "WARNING"
 
     MessageCode400:
-      description: Message codes defined for AIS for HTTP Error code 400 (BAD_REQUEST).
+      description: Message codes. HTTP Error code 400 (BAD_REQUEST).
       type: string
       enum:
         - "FORMAT_ERROR"              #gen
@@ -2538,10 +2479,10 @@ components:
         - "SCA_METHOD_UNKNOWN"        #gen
         - "SCA_INVALID"               #gen
         - "CONSENT_UNKNOWN"           #gen
-        - "SESSIONS_NOT_SUPPORTED"    #AIS
+        - "SESSIONS_NOT_SUPPORTED"    #gen
 
     MessageCode401:
-      description: Message codes defined for AIS for HTTP Error code 401 (UNAUTHORIZED).
+      description: Message codes. HTTP Error code 401 (UNAUTHORIZED).
       type: string
       enum:
         - "CERTIFICATE_INVALID"       #gen
@@ -2552,16 +2493,12 @@ components:
         - "CERTIFICATE_MISSING"       #gen
         - "SIGNATURE_INVALID"         #gen
         - "SIGNATURE_MISSING"         #gen
-        - "CORPORATE_ID_INVALID"      #gen
-        - "PSU_CREDENTIALS_INVALID"   #gen
-        - "CONSENT_INVALID"           #gen, AIS
-        - "CONSENT_EXPIRED"           #gen
         - "TOKEN_UNKNOWN"             #gen
         - "TOKEN_INVALID"             #gen
         - "TOKEN_EXPIRED"             #gen
 
     MessageCode403:
-      description: Message codes defined for AIS for HTTP Error code 403 (FORBIDDEN).
+      description: Message codes. HTTP Error code 403 (FORBIDDEN).
       type: string
       enum:
         - "CONSENT_UNKNOWN"           #gen
@@ -2570,13 +2507,13 @@ components:
         - "RESOURCE_EXPIRED"          #gen
 
     MessageCode404:
-      description: Message codes defined for AIS for HTTP Error code 404 (NOT FOUND).
+      description: Message codes. HTTP Error code 404 (NOT FOUND).
       type: string
       enum:
         - "RESOURCE_UNKNOWN"          #gens
 
     MessageCode405:
-      description: Message codes defined for AIS for HTTP Error code 405 (METHOD NOT ALLOWED).
+      description: Message codes. HTTP Error code 405 (METHOD NOT ALLOWED).
       type: string
       enum:
         - "SERVICE_INVALID"           #gens
@@ -2661,8 +2598,7 @@ components:
 
     Error400:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 400 for AIS.
+        Standardised definition of reporting error information according to [RFC7807].
       type: object
       required:
         - type
@@ -2713,8 +2649,7 @@ components:
 
     Error401:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 401 for AIS.
+        Standardised definition of reporting error information according to [RFC7807].
       type: object
       required:
         - type
@@ -2765,8 +2700,7 @@ components:
 
     Error403:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 403 for AIS.
+        Standardised definition of reporting error information according to [RFC7807].
       type: object
       required:
         - type
@@ -2817,8 +2751,7 @@ components:
 
     Error404:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 404 for AIS.
+        Standardised definition of reporting error information according to [RFC7807].
       type: object
       required:
         - type
@@ -2827,7 +2760,6 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
           type: string
           format: uri
           maxLength: 70
@@ -2870,8 +2802,7 @@ components:
 
     Error405:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 405 for AIS.
+        Standardised definition of reporting error information according to [RFC7807].
       type: object
       required:
         - type
@@ -2880,7 +2811,6 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
           type: string
           format: uri
           maxLength: 70
@@ -3133,6 +3063,14 @@ components:
       required: false
       schema:
         $ref: "#/components/schemas/kennitala"
+
+    bankCodeQuery:
+      name: bankCode
+      in: query
+      description: |
+        Bank code
+      schema:
+        $ref: "#/components/schemas/bankCode"
 
     templateCodeQuery:
       name: templateCode

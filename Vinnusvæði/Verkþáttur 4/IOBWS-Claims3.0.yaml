@@ -3,23 +3,18 @@ info:
   title: IOBWS 3.0 Domestic Claims
   version: "3.0"
   description: |
-    The claim service is focused on two parties. First is the company (claimant) creating claims and then
-    if the collection company.  
+    The claim service is focused on two parties. First is the company (claimant) who creates claims and then
+    the collection company.  
 
-    Claimant
     The Claims Service enables creditors to create, modify and cancel claims. A creditor can also revive canceled
     claims, send claims to an intermediate debt collector and obtain a list of claims according to the given search
     criteria, and thus get a good overview of all their claims.
 
-    Claim Collection
     The Collection Service uses the same endpoints as the claimant endpoints. There is a restriction on the 
     collection company, it's not allowed to create claims. The claim service enables dept collectors to work 
     with the claims under their care. The service is mostly as structured as the service for claims, except 
     that it is not possible to create collection claims
 
-  license:
-    name: Creative Commons Attribution 4.0 International Public License
-    url: https://creativecommons.org/licenses/by/4.0/
   contact:
     name: Stadlarad Islands
     url: https://www.stadlar.is
@@ -36,7 +31,8 @@ paths:
     get:
       summary: List of claim templates
       description: |
-        Returns a list of claim templates according to the filters provided
+        Returns a list of claim templates according to the filters provided. Claim template describes many 
+        attributes of the claim process and gives the consumer key information needed to know.
       operationId: getClaimTemplateList
       tags:
         - Claim Service
@@ -157,7 +153,8 @@ paths:
     get:
       summary: Get single claim
       description: |
-        The QueryClaim function returns the billing claim requested based on a composite key (claim-id).
+        Returns single claim if exists or if the user has access. The single claim function returns the existing 
+        claim requested based on the claim id.
       operationId: queryClaim
       tags:
         - Claim Service
@@ -326,7 +323,7 @@ paths:
     get:
       summary: Query claim payments
       description: |
-        Get all payments for a claim
+        Returns all claim payments. Payments are visible on the claim in near realtime.
       operationId: queryClaimPayments
       tags:
         - Claim Service
@@ -441,10 +438,10 @@ paths:
   /v1/claims/{claimId}/collection:
 
     put:
-      summary: Move claim between template code.
+      summary: Move claim between claim templates.
       description: |
-        The action transfer replaces the claim template code and by doing so the claim is moved to
-        claim collection and made accessable by claim collection services.
+        The action transfers the claim between template code. When claim is moved between template codes
+        it might change who can see the claim. Claims in primary collection are only visible to the claimant.
       operationId: transferClaim
       tags:
         - Claim Service
@@ -500,10 +497,10 @@ paths:
   /v1/claims:
 
     get:
-      summary: Gets a list of claims defined by the query object
+      summary: Get a list of claims as defined by the query.
       description: |
-        The QueryClaims function returns a list of billing claims based on the called creditors. The maximum
-        return is set with the page number and number per page.
+        The QueryClaims function returns a list of claims. The maximum return is set with the page number and 
+        number per page.
       operationId: queryClaims
       tags:
         - Claim Service
@@ -565,7 +562,8 @@ paths:
     post:
       summary: Create claim
       description: |
-        The Create Claim function creates a new billing claim.
+        Create new claim. When claim is create operation is returned with information if claim was 
+        created successfully or not.
       operationId: createClaims
       tags:
         - Claim Service
@@ -1615,7 +1613,8 @@ components:
 
     claimKey:
       description: |
-        OK
+        Claim key is a composit key of kennitala, account no and due date. Accountno is defined as
+        <bank code>66<claim number>
       type: object
       required:
         - claimantId

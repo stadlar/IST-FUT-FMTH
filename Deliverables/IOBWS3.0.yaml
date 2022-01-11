@@ -191,6 +191,7 @@ paths:
         - $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
         - $ref: "#/components/parameters/TPP-Rejection-NoFunds-Preferred"
         - $ref: "#/components/parameters/TPP-Brand-Logging-Information"
+        - $ref: "#/components/parameters/Idempotency-Key"        
           #conditional for extended service lean Push
         - $ref: "#/components/parameters/TPP-Notification-URI"
         - $ref: "#/components/parameters/TPP-Notification-Content-Preferred"
@@ -206,6 +207,8 @@ paths:
         - $ref: "#/components/parameters/PSU-Geo-Location"
       #optional additional idempotency value of operation in header    
         - $ref: "#/components/parameters/Idempotency-Key"
+
+        
 
       requestBody:
         $ref: "#/components/requestBodies/paymentInitiation"

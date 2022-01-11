@@ -1,4 +1,4 @@
-> © Icelandic Standards (IST) 202. All Rights Reserved.
+> © Icelandic Standards (IST) 2022. All Rights Reserved.
 >
 > Without the written permission of the publisher, this workshop
 > agreement may not be reprinted or reproduced in any form by any means,
@@ -57,13 +57,13 @@ under the working group TN-FMÞ-VH7, and approved by:
 
 -   RB (Guðjón Karl Arnarsson, Halla Sigrún Árnadóttir)
 
-ÍST WA-316 is not subject to any patent rights. As part of the IOBWS v3.0 
+ÍST WA-316 is not subject to any patent rights. As part of the IOBWS 3.0 
 Technical Specifications, the document is distributed under a 
 Creative Commons Attri­bution 4.0 International Public Licens.
 
 The Workshop participants have made every effort to ensure the
 reliability and accuracy of the technical and non-technical content of
-ÍST WA-315, but this does not guarantee, either explicitly or
+ÍST WA-316, but this does not guarantee, either explicitly or
 implicitly, its correctness. Users of ÍST WA-316 should be aware that
 neither the workshop participants, nor IST can be held liable for
 damages or losses of any kind whatsoever which may arise from its
@@ -104,12 +104,12 @@ at their own risk.
 
 # Introduction  
 
-This Workshop Agreement (TS) presents aspects of the preferred way
+This Workshop Agreement (WA) presents aspects of the preferred way
 to implement API service in IOBWS 3.0.
 
 API interfaces enable various systems to interact with the financial
 resource. Example of such use cases are accounting systems, but others
-are provided in teh section on [Use Cases](#main-use-cases).
+are provided in the section on [Use Cases](#main-use-cases).
 
 The Icelandic banks together with RB (Clearing House of Iceland),
 Central Bank of Iceland, software companies, billing companies, fintech

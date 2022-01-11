@@ -191,6 +191,7 @@ paths:
         - $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
         - $ref: "#/components/parameters/TPP-Rejection-NoFunds-Preferred"
         - $ref: "#/components/parameters/TPP-Brand-Logging-Information"
+        - $ref: "#/components/parameters/Idempotency-Key"        
           #conditional for extended service lean Push
         - $ref: "#/components/parameters/TPP-Notification-URI"
         - $ref: "#/components/parameters/TPP-Notification-Content-Preferred"
@@ -204,6 +205,8 @@ paths:
         - $ref: "#/components/parameters/PSU-Http-Method"
         - $ref: "#/components/parameters/PSU-Device-ID"
         - $ref: "#/components/parameters/PSU-Geo-Location"
+
+        
 
       requestBody:
         $ref: "#/components/requestBodies/paymentInitiation"
@@ -11674,6 +11677,15 @@ components:
       schema:
         type: string
         format: uuid
+        
+    Idempotency-Key:
+      name: Idempotency-Key
+      in: header
+      description: Idempotent value for the operation being performed.
+      required: false
+      example: "paym-init-001"
+      schema:
+        type: string        
 
   requestBodies:
   #####################################################

@@ -117,9 +117,9 @@ paths:
           - Payment products with payment information in *JSON* format:
             - ***sepa-credit-transfers***
             - ***cross-border-credit-transfers***
-            - ***credit-transfers***
-            - ***claim-payments***
-            - ***credit-card-deposits***
+            - ***credit-transfer***
+            - ***claim-payment***
+            - ***credit-card-deposit***
 
         Furthermore the request body depends on the **payment-service**:
           * ***payments***: A single payment initiation request.
@@ -6805,8 +6805,8 @@ components:
 
         Payments types:
           * credit-transfers
-          * claim-payments
-          * credit-card-deposits
+          * claim-payment
+          * credit-card-deposit
           * foreign-payment
 
       type: object
@@ -6921,8 +6921,8 @@ components:
 
         Payments types:
           * credit-transfers
-          * claim-payments
-          * credit-card-deposits
+          * claim-payment
+          * credit-card-deposit
 
       type: object
       properties:
@@ -6963,8 +6963,8 @@ components:
         which where defined in the Implementation Guidelines:
         
           * credit-transfers
-          * claim-payments
-          * credit-card-deposits
+          * claim-payment
+          * credit-card-deposit
         
         For the convenience of the implementer additional which are already predefinded in the Implementation Guidelines 
         are included (but commented in source code), such that an ASPSP may add them easily.
@@ -11145,9 +11145,9 @@ components:
         The ASPSP will publish which of the payment products/endpoints will be supported.
         
         The following payment products are supported:
-          - credit-transfers
-          - claim-payments
-          - credit-card-deposits
+          - credit-transfer
+          - claim-payment
+          - credit-card-deposit
           - sepa-credit-transfers
           - cross-border-credit-transfers
         
@@ -11163,9 +11163,9 @@ components:
       schema:
         type: string
         enum:
-          - "credit-transfers"
-          - "claim-payments"
-          - "credit-card-deposits"
+          - "credit-transfer"
+          - "claim-payment"
+          - "credit-card-deposit"
           - "sepa-credit-transfers"
           - "cross-border-credit-transfers"
 
@@ -11769,9 +11769,9 @@ components:
         JSON request body for a payment inition request message.
         
         There are the following payment-products supported:
-          * "credit-transfers with JSON-Body"
-          * "claim-payments with JSON-Body"
-          * "credit-card-deposits with JSON-Body"
+          * "credit-transfer with JSON-Body"
+          * "claim-payment with JSON-Body"
+          * "credit-card-deposit with JSON-Body"
           * "sepa-credit-transfers" with JSON-Body
           * "cross-border-credit-transfers" with JSON-Body
 
@@ -11803,19 +11803,19 @@ components:
               $ref: "#/components/examples/paymentInitiationSctBody_bulk-payments_json"
             "Example 4: 'payments' - 'credit-transfers'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-payments_json"
-            "Example 5: 'payments' - 'claim-payments'":
+            "Example 5: 'payments' - 'claim-payment'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-claim-payments_json"
-            "Example 6: 'payments' - 'credit-card-deposits'":
+            "Example 6: 'payments' - 'credit-card-deposit'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-credit-card-payments_json"
             "Example 7: 'payments' - 'foreign-payment-sepa'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-foreign-sepa-payments_json"
             "Example 8: 'payments' - 'foreign-payment-cross-border'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-foreign-cross-border-payments_json"            
-            "Example 9: 'periodic-payments' - 'credit-transfers'":
+            "Example 9: 'periodic-payments' - 'credit-transfer'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-periodic-payments_json"
-            "Example 10: 'periodic-payments' - 'credit-card-deposits'":
+            "Example 10: 'periodic-payments' - 'credit-card-deposit'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditCardTopUp-periodic-payments_json"
-            "Example 11: 'bulk-payments' - 'credit-transfers'":
+            "Example 11: 'bulk-payments' - 'credit-transfer'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_json"
     signingBasket:
       description: |

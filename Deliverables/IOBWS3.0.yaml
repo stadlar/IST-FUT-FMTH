@@ -11876,9 +11876,9 @@ components:
         JSON request body for a payment inition request message.
         
         There are the following payment-products supported:
-          * "credit-transfers with JSON-Body"
-          * "claim-payments with JSON-Body"
-          * "credit-card-deposits with JSON-Body"
+          * "credit-transfer with JSON-Body"
+          * "claim-payment with JSON-Body"
+          * "credit-card-deposit with JSON-Body"
           * "sepa-credit-transfers" with JSON-Body
           * "cross-border-credit-transfers" with JSON-Body
 
@@ -11910,7 +11910,7 @@ components:
               $ref: "#/components/examples/paymentInitiationSctBody_bulk-payments_json"
             "Example 4: 'payments' - 'credit-transfers'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-payments_json"
-            "Example 5: 'payments' - 'claim-payments'":
+            "Example 5: 'payments' - 'claim-payment'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-claim-payments_json"
             "Example 6: 'payments' - 'payment-card-deposits'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-payment-card-payments_json"
@@ -11918,7 +11918,7 @@ components:
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-foreign-sepa-payments_json"
             "Example 8: 'payments' - 'foreign-payment-cross-border'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-foreign-cross-border-payments_json"            
-            "Example 9: 'periodic-payments' - 'credit-transfers'":
+            "Example 9: 'periodic-payments' - 'credit-transfer'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-periodic-payments_json"
             "Example 10: 'periodic-payments' - 'payment-card-deposits'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_paymentCardTopUp-periodic-payments_json"

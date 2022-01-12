@@ -1,7 +1,7 @@
 ---
 title: "ÍST TS 310:2020"
 author: ICS. 3.060
-date: "Gildistaka: 22.09.2020"
+date: "Gildistaka: 22.02.2022"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 310]
 subtitle: ["Tækniforskrift - Innlendar greiðslur og innlán", "Technical Specification - Domestic payments and deposits"]
@@ -99,7 +99,7 @@ include-before: |
     Ingvaldur Einarsson  Uniconta                                        
     -----------------------------------------------------------------------------------
 
-    © Icelandic Standards (IST) 2020. All Rights Reserved.
+    ©Icelandic Standards (IST) 2020, 2022. All Rights Reserved.
    
     Without the written permission of the publisher, this workshop
     agreement may not be reprinted or reproduced in any form by any means,
@@ -111,101 +111,98 @@ include-before: |
 
   # Foreword
 
-  This IST workshop agreement was developed in accordance with "ÍST Reglur
-  um tækniforskriftir, tækniskýrslur og vinnu­stofu­samþykktir" (*e.* IST
-  rules on Technical Specifications, Technical Reports and Workshop
-  Agreements). It was agreed on 2019-12-12 in a workshop by
-  representatives of interested parties, approved and supported by IST
-  following a public call for participation within TN-FMÞ, the FUT
-  technical committee on financial services. It does not necessarily
-  reflect the views of all stakeholders that might have an interest in its
-  subject matter.
+  TODO
+  [] Finalize the final of participants @gudval
+  [] Update final dates in foreword
 
-  The Workshop Agreement (ÍST WA) was funded by Íslandsbanki, Arion banki
-  and Landsbankinn. This ÍST WA is based on the results of the work of two
-  workgroups TN-FMÞ-VH-1 Technical requirements and TN-FMÞ-VH-2 Business
-  requirements.
+  This ÍST Technical Specification was developed in accordance with "ÍST
+  Reglur um tækniforskriftir, tækniskýrslur og vinnustofusamþykktir" (*e.*
+  IST rules on Technical Specifications, Technical Reports and Workshop
+  Agreements). The TS (Technical specification) was prepared by the
+  technical committee TN-FMÞ (The Technical Committee on Financial 
+  Services) that operates within FUT (Sector committee for ICT
+  standardisation) following a public call for participation within
+  TN-FMÞ. The final draft was sent to the TN-FMÞ on the 2022-01-XX and
+  approved by correspondence on the 2022-XX-XX.
+  The text of ÍST TS-310 was submitted to IST for publication on 2022-02-XX.
+ 
+  The ÍST TS was primarly funded by Íslandsbanki, Arion Banki and 
+  Landsbankinn. 
+  
+  This ÍST TS is the result the workgroup TN-FMÞ-VH-8.
+  It parts it is based on the WA-310 workshop agreement 
+  that resulted from previous work by TN-FMÞ-VH-1 on Technical requirements 
+  and TN-FMÞ-VH-2 on Business requirements, and which was approved within TN-FMÞ 
+  on the 2019-12-12. TS 310 should, however, not be viewed as a succesor to, even
+  directly related to that agreement, which focused on laying groundwork for PSD2
+  compliance.
 
-  The final text of ÍST WA-310 was submitted to IST for publication on
-  2020-08-17. It was developed and approved by:
+  ÍST TS-310 is not subject to any patent rights. It is based on the Berlin Group's
+  NextGenPSD2 XS2A Framework, which is distributed under a Creative Commons
+  Attribution 4.0 International Public License (CC BY).
 
-  -   Arion banki (Atli Már Gunnarsson, Védís Ingólfsdóttir, Björn Ingi
-      Björnsson. Kristinn Stefánsson)
+  This means that the underlying Specification for ÍST TS-310 can be copied and redistributed in any
+  medium or format for any purpose, even commercially, and when shared,
+  that appropriate credit must be given, a link to the license must be
+  provided, and indicated if changes were made. You may do so in any
+  reasonable manner, but not in any way that suggests the licensor
+  endorses you or your use. In addition, if you remix, transform, or build
+  upon the Specification, you may not distribute the modified
+  Specification.
 
-  -   Íslandsbanki (Ingvi Rafn Guðmundsson, Snorri Jónsson, Jóhannes Þór
-      Ágústarson Snorri Karlsson, Frans Veigar Garðarson)
-
-  -   Landsbankinn (Halldór Vagn Hreinsson, Hermann Þór Snorrason, Jökull
-      Huxley Yngvason, Ólafur Eiríksson, Halldóra G. Steindórsdóttir,
-      Guðni Þ. Björgvinsson, Guðmundur Ólafsson, Gísli Konráð Björnsson)
-
-  -   Alskil (Sigurður Gauti Hauksson)
-
-  -   Uniconta (Þorsteinn Lemke)
-
-  -   RB (Guðjón Karl Arnarsson)
-
-  -   Crossing the line (Guðmundur Jón Halldórsson) Consultant for the
-      project
-
-  ÍST WA-310 is not subject to any patent rights.
-
-  ÍST WA-310 extends the NextGenPSD2 XS2A Framework, distributed under a
-  Creative Commons Attri­bution 4.0 International Public License.
-
-  The Workshop participants have made every effort to ensure the
-  reliability and accuracy of the technical and non-technical content of
-  ÍST WA-310, but this does not guarantee, either explicitly or
-  implicitly, its correctness. Users of ÍST WA-310 should be aware that
-  neither the workshop participants, nor IST can be held liable for
-  damages or losses of any kind whatsoever which may arise from its
-  application. Users of ÍST WA-310 do so on their own responsibility and
-  at their own risk.
-...
+  The Technical Committee's participants have made every effort to ensure
+  the reliability and accuracy of the technical and non-technical content
+  of ÍST TS-310, but this does not guarantee, either explicitly or
+  implicitly, its correctness. Users of ÍST TS-310 should be aware that
+  neither the TN-FMÞ, nor IST can be held liable for damages or losses of
+  any kind whatsoever which may arise from its application. Users of ÍST
+  TS-310 do so on their own responsibility and at their own risk.
 
 # Introduction {.unnumbered}
 
-This workshop agreement (WA) is written to present a preferred way to
-implement payments and accounts according to the European initiative
-Berlin Group for implementing PSD2 in Icelandic finance and banking
-transactions. In addition, banks are free to have this WA in mind when
-implementing their PSD2 technical specifications.
+This Technical Specification (TS) present version 3.0 of the Icelandic 
+Online Banking Services (IOBWS), for domestic payments and deposits. Related
+TS documents will address other parts of the IOBWS, as upgradess or new functionality
+to the common service interfaces offered by those Icelandic banks that choose to implement each
+specifications.
 
-One part of the WA is the confirmation of will to participate in the
-Berlin Group initiative and to recommend a common domestic platform for
-distributing and maintaining the products.
+Previous versions of IOBWS, released
+in 2007 and 2013 respectively, used the most recent OASIS SOAP
+standards at the time, to define common web service interfaces for  
+for the Icelandic market. This enabled software vendors, enterprises
+and service providers to integrate their accounting, payment, and information
+systems with the commercial and savings banks, to act on behalf of the
+customers and with full access to their data.
 
-API interfaces enable accounting systems, payment systems, information
-systems and other systems to exchange data with the banks without
-registering in traditional online banking. An example of exchanging data
-with the banks can be through the accounting systems interface. With a
-click of a button in the accounting system exchange of data is performed
-by the system in background and latest deposits is shown in the
-accounting system.
+Iceland, with its homogeneous financial landscape, has enjoyed instant
+credit transfers between all the banks since 1987, with real-time gross
+settlements, and other universally accepted services such as the common collection 
+solution (Kröfupotturinn) for issuing and paying claims. All this functionality
+was expected and has been available through IOBWS v1 and v2, comparable to 
+the functionality enjoyed by users of the online banking Web UIs.
 
-The Icelandic banks together with RB (Clearing House of Iceland),
-Central Bank of Iceland, software companies, billing companies, fintech
-companies and other stakeholders within the TN FMÞ at the Icelandic
-Standards Council have written a standard on how the banks should
-conduct electronic interconnection in the construction of interfaces
-APIs. The first version of that standard was published in 2007 and was
-named IOBWS (Icelandic Online Banking Web Service). Six years later,
-version 2, IOBWS 2.0 of the standard was published. The work was
-developed to make corrections and upgrade to business operations that
-were not foreseen in the earlier standard. This document describes the
-results of the first phase of the third IOBWS project, IOBWS 3.0.
+When initiating work on the previous versions, the participants in
+the TN-FMÞ started out with reviewing existing or emerging specifications 
+in the global or mostly European financial industry. None were deemed a 
+good fit at the time for local adaptation, as they reflected inherent the legacy
+in inter-bank communications outside Iceland, even in the case of other 
+Nordic countries.
 
-Next phases of the IOBWS 3.0 project will provide technical
-specifications of the of remaining domestic open banking plat­form.
+Meanwhile, the broader market and new technology standards in Europe been catching up. 
+The Open Banking regulation in UK and the PSD2 regulation issued by the European Parliment
+gave rise to initiatives to standardize access to payment functionality and 
+account information, on behalf of customers by third parties. One such effort, the 
+NextGenPSD2 Framework developed by the Berlin Group, has met a broad acceptance in the EEA. 
+The data model references ISO 20022, and close enough to how the Icelandic market has evolved as to
+make it a relatively straightforward to adapt IOBWS to use it as a base, instead of maintaining 
+an independant linage of API specifications. 
 
-This document is based on the results from two working groups of the
-TN-FMÞ, VH-1 Financial claims and VH-2 Technical claims, presented on
-the ÍST workshop VS-3 Innlendar greiðslur og innlán on the 12-12-2019.
-The following workshop agree­ment describes national modifications to
-Berlin-group NextGenPSD2 technical specifications and needed
-recommendation for national implementation.
+Another goal with v3 that is achieved in adopting the NextGenPSD2 Framework, is moving to
+a REST like API defined by a recent version of the Open API Specification, and more
+open authentication and authorization standards than supported by previous incarnations
+of IOBWS.
 
-# 1. Scope 
+# Scope 
 
 The Icelandic banks joint effort to create third version of the IOBWS
 (Icelandic Online Banking Web Service) is described in this workshop
@@ -214,7 +211,7 @@ implementation of the Payment Service Directive (EU 2015/2366, also
 known as PSD2).
 
 The workshop agreed to extend the Berlin Group NextGenPSD2 Framework and
-add Icelandic requirements to the frame­work. Berlin Group NextGenPSD2
+add Icelandic requirements to the framework. Berlin Group NextGenPSD2
 includes payments, accounts and consent. NextGenPSD2 can be described as
 \'Access to Account (XS2A) Framework\' with data model (at conceptual,
 logical and physical data levels) and associated messaging.
@@ -226,9 +223,9 @@ This document reflects the agreements made on the workshop ÍST VS-3
 Innlendar greiðslur og innlán, and are based on the analysis of two
 working groups of TN-FMÞ on the matter.
 
-# 2. Normative references, definitions and symbols 
+# Normative references, definitions and symbols 
 
-## 2.1 Definitions 
+## Definitions 
 
 -   **Kennitala**: The Icelandic identification number (Icelandic:
     kennitala, abbreviated kt.) is a unique national identification
@@ -239,7 +236,7 @@ working groups of TN-FMÞ on the matter.
     <https://en.wikipedia.org/wiki/International_Bank_Account_Number>
     ISO 13616:1997
 
--   **ISO 20022** is an ISO standard for electronic data interchange
+-   **ISO 20022** is an ISO standard for electronic data interchange
     between financial institutions.
 
 -   **eIDAS** -- Regulation (EU) No 910/2014 of the European Parliament
@@ -247,12 +244,12 @@ working groups of TN-FMÞ on the matter.
     trust services for electronic transactions in the internal market
     and repealing Directive 1999/93/EC
 
--   **AISP** -- Account Information Service Provider -- Being an
+-   **AISP** Account Information Service Provider -- Being an
     authorised AISP means that business can ask for permission to
     connect to a bank account and use that bank account information to
     provide a service.
 
--   **PISP** -- Payment Initiation Service Provider -- Businesses that
+-   **PISP** Payment Initiation Service Provider -- Businesses that
     are authorised PISP's can ask for permission to connect to a bank
     account and initiate payments on the customer's behalf, from their
     bank account.
@@ -310,58 +307,57 @@ working groups of TN-FMÞ on the matter.
     such a way as to protect the confidentiality of the authentication
     data."
 
-```{=html}
-<!-- -->
-```
+\newpage
+
 -   **Payment service directive** -- PSD2 overview.
 
 ![](310media/image37.png){width="4.175999562554681in"
 height="2.0937707786526683in"}
 
-### 2.2 Definition of the payment product
+### Definition of the payment product
 
 The following elements are used to define the payment product. It is
 important to understand the meaning of each element to see how it fits
 in the big picture:
 
--   **endToEndIdentification** (Max35Text): This element is optional and
+-   **endToEndIdentification** (Max35Text): This element is optional and
     provided by the API consumer as the payment short description.
     Should be visible for both debtor and creditor and can be used as
     the customers unique identification of the business transaction.
 
--   **debtorAccount** (Account Reference): Debtor account is the account
+-   **debtorAccount** (Account Reference): Debtor account is the account
     used to transfer money from.
 
--   **debtorId** (Max35Text): Can be used to define id of the debtor.
+-   **debtorId** (Max35Text): Can be used to define id of the debtor.
 
--   **ultimateDebtor** (Max70Text): Ultimate Debtor identifies the party
-    that owes the cash to the Creditor as a re­sult of receipt of goods
+-   **ultimateDebtor** (Max70Text): Ultimate Debtor identifies the party
+    that owes the cash to the Creditor as a result of receipt of goods
     or services. To name the original recipient of the invoice, Ultimate
     Debtor, in cases where it is different from the Payer.
 
--   **ultimateDebtorId** (Max35Text): Ultimate Debtor identifies the
-    party that owes the cash to the Creditor as a re­sult of receipt of
+-   **ultimateDebtorId** (Max35Text): Ultimate Debtor identifies the
+    party that owes the cash to the Creditor as a result of receipt of
     goods or services. Ultimate Debtor is defined when it is different
     from the Debtor.
 
--   **instructedAmount** (Amount): Amount and currency to be
+-   **instructedAmount** (Amount): Amount and currency to be
     transferred.
 
--   **creditorAccount** (Account Reference): Creditor account is the
+-   **creditorAccount** (Account Reference): Creditor account is the
     account used to transfer money to Beneficiary's account.
 
--   **creditorId** (Max35Text): Can be used to define id of the
+-   **creditorId** (Max35Text): Can be used to define id of the
     creditor. Creditor is the party whose account is credited with the
     payment.
 
--   **creditorName** (Max70Text): The creditor name is not necessary due
+-   **creditorName** (Max70Text): The creditor name is not necessary due
     to the fact that *kennitala* is part of the IBAN number.
 
--   **creditorAddress** (Address): The creditor address is not necessary
+-   **creditorAddress** (Address): The creditor address is not necessary
     due to the fact that kennitala is part of the IBAN number and
     kennitala can be used as lookup key through the national registry.
 
--   **ultimateCreditor** (Max70Text): The creditor (for example a
+-   **ultimateCreditor** (Max70Text): The creditor (for example a
     finance company or an intermediary in a business transaction), may
     be different from the ultimate creditor. The payer can enter who the
     final/real beneficiary of the payment is.
@@ -369,33 +365,33 @@ in the big picture:
 -   In the case of credit card deposit using the masked pan ultimate
     Creditor contains the owner of the card.
 
--   **ultimateCreditorId** (Max35Text): In the case of credit card
+-   **ultimateCreditorId** (Max35Text): In the case of credit card
     deposit using the masked pan ultimate Creditor contains *kennitala*
     of the owner of the card.
 
 -   **icelandicPurpose** (Purpose Code): Text key (*is.* textalykill).
 
--   **remittanceInformationUnStructured** (Max140Text): My description
+-   **remittanceInformationUnStructured** (Max140Text): My description
     for the payment.
 
--   **executionDate** (ISODate): Execution date if not today, if used
+-   **executionDate** (ISODate): Execution date if not today, if used
     then set as a future date.
 
--   **executionTime** (ISODateTime): Will be supported in the future.
+-   **executionTime** (ISODateTime): Will be supported in the future.
     Would allow payment instruction to be performed at specific date and
     time.
 
--   **partialPayment** (Boolean): Only used when a claim is paid by
+-   **partialPayment** (Boolean): Only used when a claim is paid by
     transferring amount from debtor Account to existing claim. If claim
     allows partial payment and API consumer want to pay for example ISK
     500 of ISK 1000 claim, then this flag is used.
 
-# 3. Icelandic domestic adaptions 
+# Icelandic domestic adaptions 
 
 This chapter concludes the domestic adaptation to the payment products
 and data model changes.
 
-## 3.1 Payment products
+## Payment products
 
 The workshop concluded to define three following payment products,
 defined in detail in Annex:
@@ -410,7 +406,7 @@ defined in detail in Annex:
     pay onto a payment card, in the same bank or between two domestic
     banks.
 
-## 3.2 Functionally & data model changes
+## Functionally & data model changes
 
 The Berlin Group data model NextGenPSD2 framework is described in the
 document PSD2-API 1.3.5 20191216v1.yaml.
@@ -429,9 +425,9 @@ New function was introduced 'GetPaymentId' that allows the caller to
 query the paymentId using X-RequestID. The function returns the
 paymentId in question.
 
-# 4 Presumptions, future work, maintenance 
+# Presumptions, future work, maintenance 
 
-## 4.1 Presumptions
+## Presumptions
 
 The Icelandic financial sector must live up to the goals of the PSD2
 directive in the near future. NextGenPSD2 technical standard from Berlin
@@ -449,7 +445,7 @@ Group is written to fulfil the following goals:
 By extending the NextGenPSD2 Framework from Berlin Group the following
 goals of PSD2 will be fulfilled in the domestic open banking platform.
 
-## 4.2 **Future work**
+## **Future work**
 
 -   The workshop agrees that it is important for the domestic fintech
     market to take part in the Berlin Group European standards
@@ -466,7 +462,7 @@ goals of PSD2 will be fulfilled in the domestic open banking platform.
 -   The workshop agrees that the delivery of the yaml document will in
     the Github of FUT-TN-FMTH by versioned release 1.0.
 
-## 4.3 Maintenance
+## Maintenance
 
 The workshop agrees that the following maintenance tasks should be
 performed in the name of TN-FMÞ by participation in the work of Berlin
@@ -536,44 +532,44 @@ The following elements are used to define the payment product. It is
 important to understand the meaning of each element to see how it fits
 in the big picture:
 
--   **endToEndIdentification** This element is optional and provided by
+-   **endToEndIdentification** This element is optional and provided by
     the API consumer as the payment short description.
 
--   **debtorAccount** (Account Reference): Debtor account is the account
+-   **debtorAccount** (Account Reference): Debtor account is the account
     used to transfer money from.
 
--   **debtorId** (Max35Text): Can be used to define id of the debtor.
+-   **debtorId** (Max35Text): Can be used to define id of the debtor.
 
--   **ultimateDebtor** (Max70Text): Ultimate Debtor identifies the party
+-   **ultimateDebtor** (Max70Text): Ultimate Debtor identifies the party
     that owes the cash to the Creditor as a result of receipt of goods
     or services.
 
--   **ultimateDebtorId** (Max35Text): Ultimate Debtor identifies the
+-   **ultimateDebtorId** (Max35Text): Ultimate Debtor identifies the
     party that owes the cash to the Creditor as a result of receipt of
     goods or services.
 
--   **instructedAmount** (Amount): Amount and currency to be
+-   **instructedAmount** (Amount): Amount and currency to be
     transferred.
 
--   **creditorAccount** (Account Reference): Creditor account is the
+-   **creditorAccount** (Account Reference): Creditor account is the
     account used to transfer money to.
 
--   **creditorId** (Max35Text): Can be used to define id of the
+-   **creditorId** (Max35Text): Can be used to define id of the
     creditor.
 
--   **creditorName** (Max70Text): For domestic payments, the name of the
+-   **creditorName** (Max70Text): For domestic payments, the name of the
     creditor is not required, only the national registry number
     (kennitala).
 
--   **creditorAddress** (Address): For domestic payments, the address of
+-   **creditorAddress** (Address): For domestic payments, the address of
     the creditor is not required, instead the address found in the
     national registry is used.
 
--   **ultimateCreditor** (Max70Text): Party that owns the credit account
+-   **ultimateCreditor** (Max70Text): Party that owns the credit account
     that will be used to receive cash from the Debtor/originating party.
     It may the same as or different from the Creditor.
 
--   **ultimateCreditorId** (Max35Text): Id of the party that owns the
+-   **ultimateCreditorId** (Max35Text): Id of the party that owns the
     credit account that will be used to receive cash from the
     Debtor/originating party. It may be the same as or different from
     the Creditor.
@@ -581,15 +577,15 @@ in the big picture:
 -   **icelandicPurpose** (icelandicPurpose): Text key (*is.*
     textalykill).
 
--   **remittanceInformationUnStructured** (Max140Text): See approved
+-   **remittanceInformationUnStructured** (Max140Text): See approved
     changes.
 
--   **ExecutionDate** (Date): Execution date if not today, if used then
+-   **ExecutionDate** (Date): Execution date if not today, if used then
     set as future date.
 
--   **ExecutionTime** (Date-Time): Will be supported in the future.
+-   **ExecutionTime** (Date-Time): Will be supported in the future.
 
--   **partialPayment** (Boolean): Only used when a claim is paid by
+-   **partialPayment** (Boolean): Only used when a claim is paid by
     transferring amount from debtorAccount to existing claim. If claim
     allows partial payment and API consumer want to pay for example ISK
     500 of ISK 1000 claim, then this flag is used.
@@ -677,7 +673,7 @@ Only JSON is supported
   partialPayment           Boolean            n/a           Mandatory     n/a           
   -----------------------------------------------------------------------------------------
 
-**partialPayment** describes the behaviour when the payment product
+**partialPayment** describes the behaviour when the payment product
 offers a partial payment for a claim.
 
 **icelandicPurpose** describes purpose of the transaction using
@@ -698,7 +694,7 @@ scenarios.
 [https://github.com/stadlar/IST-FUT-FMTH/tree/master/Vinnusvæði/Verkþáttur
 2/Images/Flows](https://github.com/stadlar/IST-FUT-FMTH/tree/master/Vinnusvæði/Verkþáttur%202/Images/Flows)
 
-##### 1. Redirect SCA Approach: Explicit Start of the Authorization Process
+##### Redirect SCA Approach: Explicit Start of the Authorization Process
 
 If the ASPSP supports the Redirect SCA Approach, the message flow within
 the payment initiation service is simple. The Payment Initiation Request
@@ -707,7 +703,7 @@ authorization. This is followed by a redirection to the ASPSP SCA
 authorization site. A status request might be requested by the TPP after
 the session is redirected to the TPP's system.
 
-##### 2. Redirect SCA Approach: Implicit Start of the Authorization Process
+##### Redirect SCA Approach: Implicit Start of the Authorization Process
 
 ASPSPs might start the authorization process implicitly in case of no
 additional data is needed from the TPP. This optimization process
@@ -718,7 +714,7 @@ the redirection of the PSU browser session happens directly after the
 Payment Initiation Response. In addition, an SCA status request can be
 sent by the TPP to follow the SCA process (not shown in the diagram).
 
-##### 3. OAuth2 SCA Approach: Implicit Start of the Authorization Process
+##### OAuth2 SCA Approach: Implicit Start of the Authorization Process
 
 If the ASPSP supports the OAuth2 SCA Approach, the flow is very similar
 to the Redirect SCA Approach with the implicit start of the
@@ -726,7 +722,7 @@ Authorization Process. Instead of redirecting the PSU directly to an
 authentication server, the OAuth2 protocol is used for the transaction
 authorization process.
 
-##### 4. Decoupled SCA Approach: Implicit Start of the Authorization Process
+##### Decoupled SCA Approach: Implicit Start of the Authorization Process
 
 The transaction flow in the Decoupled SCA Approach is similar to the
 Redirect SCA Approach. The difference is that the ASPSP is asking the
@@ -736,7 +732,7 @@ frontend. The ASPSP is asking the TPP to inform the PSU about this
 authentication by sending a corresponding PSU Message like \"Please use
 your xxx App to authorize the payment\".
 
-##### 5. Embedded SCA Approach without SCA method
+##### Embedded SCA Approach without SCA method
 
 In the following, several exemplary flows are shown, where the ASPSP has
 chosen to process the SCA methods through the PISP -- ASPSP interface.
@@ -749,14 +745,14 @@ or an OTP. The later exemplary flows then will show scenarios, where
 complexities like SCA processing and choosing an SCA method will be
 added.
 
-##### 6. Embedded SCA Approach with only one SCA method available
+##### Embedded SCA Approach with only one SCA method available
 
 In the case where only one SCA method is available, the \"Authorize
 Transaction Request\" is added to the flow, where the TPP is
 transmitting the authentication data of the customer, e.g. an OTP with
 included dynamic linking to the transaction details.
 
-##### 7. Embedded SCA Approach with Selection of an SCA method
+##### Embedded SCA Approach with Selection of an SCA method
 
 In the following flow, there is a selection of an SCA method added in
 the case of the ASPSP supporting several SCA methods for the
@@ -767,7 +763,7 @@ to the PSU for choice.
 
 #### Combination of Flows due to mixed SCA Approaches
 
-##### 8. Multilevel SCA Approach: Example of the Redirect SCA Approach
+##### Multilevel SCA Approach: Example of the Redirect SCA Approach
 
 The multilevel SCA Approach supports the authorization of payment by
 several users, e.g. in a four eyes principle authorization. Multilevel
@@ -814,15 +810,15 @@ cancellation authorization sub-resources.
   **Attribute**    **Type**   **Description**
   ---------------- ---------- -------------------------------------------------------------------------------------
   payment- service String     The possible values are "payments", "bulk-payments" and "periodic-payments".
-                              See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
+                              See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
 
   payment- product String     The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT).
-                              See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
+                              See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
   -----------------------------------------------------------------------------------------------------------------
 
 ###### Request Header
 
-All methods in the payment service have the same request header [Payment
+All methods in the payment service have the same request header [Payment
 Request
 Header](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Request-Header).
 
@@ -831,12 +827,12 @@ Header](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Request-Header).
 ###### Response Header
 
 All methods in the payment service have the same response
-header [Payment Response
+header [Payment Response
 Header](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Response-Header).
 
 ###### Response Body
 
-All methods in the payment service have the same response body [Payment
+All methods in the payment service have the same response body [Payment
 Response
 Body](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Response-Body).
 
@@ -923,10 +919,10 @@ Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
   **Attribute**   **Type**   **Description**
   --------------- ---------- -------------------------------------------------------------------------------------
   payment-        String     The possible values are "payments", "bulk-payments" and "periodic-payments".
-  service                    See [Payment-Service](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
+  service                    See [Payment-Service](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
 
   payment-        String     The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT).
-  product                    See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
+  product                    See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
 
   paymentId       String     Resource Identification of the related payment.
   ----------------------------------------------------------------------------------------------------------------
@@ -975,7 +971,7 @@ Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
                       Status                      Request was JSON encoded as defined
                                                   in Section 5.3.1, the status is
                                                   returned in this JSON based
-                                                  encoding. transactionStatus defined
+                                                  encoding. transactionStatus defined
 
   fundsAvailable      Boolean       Conditional   This data element is contained, if
                                                   supported by the ASPSP, if a funds
@@ -1029,10 +1025,10 @@ Content-Type: application/json
   **Attribute**   **Type**   **Description**
   --------------- ---------- -------------------------------------------------------------------------------------
   payment-        String     The possible values are "payments", "bulk-payments" and "periodic-payments".
-  service                    See [Payment-Service](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
+  service                    See [Payment-Service](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
 
   payment-        String     The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT).
-  product                    See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
+  product                    See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
 
   paymentId       String     Resource Identification of the related payment.
   ----------------------------------------------------------------------------------------------------------------
@@ -1299,10 +1295,10 @@ Content-Type: application/json
   **Attribute**   **Type**   **Description**
   --------------- ---------- -------------------------------------------------------------------------------------
   payment-        String     The possible values are "payments", "bulk-payments" and "periodic-payments".
-  service                    See [Payment-Service](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
+  service                    See [Payment-Service](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
 
   payment-        String     The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT).
-  product                    See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
+  product                    See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
 
   paymentId       String     Resource Identification of the related payment.
   ----------------------------------------------------------------------------------------------------------------
@@ -1351,7 +1347,7 @@ Content-Type: application/json
                       Status                        Request was JSON encoded as defined
                                                     in Section 5.3.1, the status is
                                                     returned in this JSON based
-                                                    encoding. transactionStatus defined
+                                                    encoding. transactionStatus defined
 
   fundsAvailable      Boolean       Conditional     This data element is contained, if
                                                     supported by the ASPSP, if a funds
@@ -1409,10 +1405,10 @@ Date: Sun, 13 Aug 2017 17:05:38 GMT
   **Attribute**   **Type**   **Description**
   --------------- ---------- -------------------------------------------------------------------------------------
   payment-        String     The possible values are "payments", "bulk-payments" and "periodic-payments".
-  service                    See [Payment-Service](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
+  service                    See [Payment-Service](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Service)
 
   payment-        String     The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT).
-  product                    See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
+  product                    See [Payment-Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product)
 
   x-request-id    String     Identification of the related payment.
   ----------------------------------------------------------------------------------------------------------------
@@ -1523,33 +1519,33 @@ Possible values for Icelandic Domestic products are:
 
 ###### Credit Transfer
 
--   **endToEndIdentification** (Max35Text): **optional**
+-   **endToEndIdentification** (Max35Text): **optional**
 
--   **debtorId**: (Max35Text): **optional**
+-   **debtorId**: (Max35Text): **optional**
 
--   **debtorAccount** (incl. type) (Account Reference): **mandatory**
+-   **debtorAccount** (incl. type) (Account Reference): **mandatory**
 
--   **ultimateDebtor** (Max70Text): **optional**
+-   **ultimateDebtor** (Max70Text): **optional**
 
--   **ultimateDebtorId** (Max35Text): **optional**
+-   **ultimateDebtorId** (Max35Text): **optional**
 
--   **instructedAmount** (inc. Curr.) (Amount): **mandatory**
+-   **instructedAmount** (inc. Curr.) (Amount): **mandatory**
 
--   **creditorAccount** (Account Reference): **mandatory**
+-   **creditorAccount** (Account Reference): **mandatory**
 
--   **creditorId** (Max35Text): **optional**
+-   **creditorId** (Max35Text): **optional**
 
--   **ultimateCreditor** (Max70Text): **optional**
+-   **ultimateCreditor** (Max70Text): **optional**
 
--   **ultimateCreditorId** (Max35Text): **optional**
+-   **ultimateCreditorId** (Max35Text): **optional**
 
--   **icelandicPurpose** (icelandicPurpose): **optional**
+-   **icelandicPurpose** (icelandicPurpose): **optional**
 
--   **remittanceInformationUnStructured** (Max70Text): **optional**
+-   **remittanceInformationUnStructured** (Max70Text): **optional**
 
--   **requestedExecution** (Date): **optional**
+-   **requestedExecution** (Date): **optional**
 
--   **partialPayment** (Boolean): **n/a**
+-   **partialPayment** (Boolean): **n/a**
 
 ####### Example
 
@@ -1599,40 +1595,40 @@ Url:
 
 ### Icelandic Domestic Claim Payment (Account -\> Claim)
 
--   **endToEndIdentification** (Max35Text): **optional**
+-   **endToEndIdentification** (Max35Text): **optional**
 
--   **debtorAccount** (incl. type) (Account Reference): **mandatory**
+-   **debtorAccount** (incl. type) (Account Reference): **mandatory**
 
 ```{=html}
 <!-- -->
 ```
--   **endToEndIdentification** (Max35Text): **optional**
+-   **endToEndIdentification** (Max35Text): **optional**
 
--   **debtorId**: (Max35Text): **optional**
+-   **debtorId**: (Max35Text): **optional**
 
--   **debtorAccount** (incl. type) (Account Reference): **mandatory**
+-   **debtorAccount** (incl. type) (Account Reference): **mandatory**
 
--   **ultimateDebtor** (Max70Text): **optional**
+-   **ultimateDebtor** (Max70Text): **optional**
 
--   **ultimateDebtorId** (Max35Text): **optional**
+-   **ultimateDebtorId** (Max35Text): **optional**
 
--   **instructedAmount** (inc. Curr.) (Amount): **mandatory**
+-   **instructedAmount** (inc. Curr.) (Amount): **mandatory**
 
--   **creditorAccount** (Account Reference): **mandatory**
+-   **creditorAccount** (Account Reference): **mandatory**
 
--   **creditorId** (Max35Text): **optional**
+-   **creditorId** (Max35Text): **optional**
 
--   **ultimateCreditor** (Max70Text): **optional**
+-   **ultimateCreditor** (Max70Text): **optional**
 
--   **ultimateCreditorId** (Max35Text): **optional**
+-   **ultimateCreditorId** (Max35Text): **optional**
 
--   **icelandicPurpose** (icelandicPurpose): **optional**
+-   **icelandicPurpose** (icelandicPurpose): **optional**
 
--   **remittanceInformationUnStructured** (Max70Text): **optional**
+-   **remittanceInformationUnStructured** (Max70Text): **optional**
 
--   **requestedExecution** (Date): **optional**
+-   **requestedExecution** (Date): **optional**
 
--   **partialPayment** (Boolean): **mandatory**
+-   **partialPayment** (Boolean): **mandatory**
 
 ```{=html}
 <!-- -->
@@ -1699,33 +1695,33 @@ Url:
 
 ###### Icelandic Domestic Credit Card Deposit (Account -\> Credit card)
 
--   **endToEndIdentification** (Max35Text): **optional**
+-   **endToEndIdentification** (Max35Text): **optional**
 
--   **debtorId**: (Max35Text): **optional**
+-   **debtorId**: (Max35Text): **optional**
 
--   **debtorAccount** (incl. type) (Account Reference): **mandatory**
+-   **debtorAccount** (incl. type) (Account Reference): **mandatory**
 
--   **ultimateDebtor** (Max70Text): **optional**
+-   **ultimateDebtor** (Max70Text): **optional**
 
--   **ultimateDebtorId** (Max35Text): **optional**
+-   **ultimateDebtorId** (Max35Text): **optional**
 
--   **instructedAmount** (inc. Curr.) (Amount): **mandatory**
+-   **instructedAmount** (inc. Curr.) (Amount): **mandatory**
 
--   **creditorAccount** (Account Reference): **mandatory**
+-   **creditorAccount** (Account Reference): **mandatory**
 
--   **creditorId** (Max35Text): **optional**
+-   **creditorId** (Max35Text): **optional**
 
--   **ultimateCreditor** (Max70Text): **optional**
+-   **ultimateCreditor** (Max70Text): **optional**
 
--   **ultimateCreditorId** (Max35Text): **optional**
+-   **ultimateCreditorId** (Max35Text): **optional**
 
--   **icelandicPurpose** (icelandicPurpose): **optional**
+-   **icelandicPurpose** (icelandicPurpose): **optional**
 
--   **remittanceInformationUnStructured** (Max70Text): **optional**
+-   **remittanceInformationUnStructured** (Max70Text): **optional**
 
--   **requestedExecution** (Date): **optional**
+-   **requestedExecution** (Date): **optional**
 
--   **partialPayment** (Boolean): **n/a**
+-   **partialPayment** (Boolean): **n/a**
 
 #### Example 1
 
@@ -1852,18 +1848,18 @@ Possible values are:
 
 ###### Icelandic Domestic Credit Transfer
 
--   **endToEndIdentification** (Max35Text): **optional**
+-   **endToEndIdentification** (Max35Text): **optional**
 
--   **paymentInformationId** (Max35Text): **optional**
+-   **paymentInformationId** (Max35Text): **optional**
 
--   **batchBookingPreferred** (Boolean): **optional**
+-   **batchBookingPreferred** (Boolean): **optional**
 
--   **requestedExecutionDate** (ISODate): **optional**
+-   **requestedExecutionDate** (ISODate): **optional**
 
--   **requestedExecutionTime** (ISODateTime): **optional**
+-   **requestedExecutionTime** (ISODateTime): **optional**
 
--   **payments** (Bulk Entry): **mandatory** Same structure as [Payment
-    Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product) except
+-   **payments** (Bulk Entry): **mandatory** Same structure as [Payment
+    Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product) except
     (requestedExecutionDate and requestedExecutionTime)
 
 ####### Example
@@ -1924,18 +1920,18 @@ Url: /v1/bulk-payments/icelandic-domestic-credit-transfer
 
 ###### Icelandic Domestic Claim Payment (Account -\> Claim)
 
--   **endToEndIdentification** (Max35Text): **optional**
+-   **endToEndIdentification** (Max35Text): **optional**
 
--   **paymentInformationId** (Max35Text): **optional**
+-   **paymentInformationId** (Max35Text): **optional**
 
--   **batchBookingPreferred** (Boolean): **optional**
+-   **batchBookingPreferred** (Boolean): **optional**
 
--   **requestedExecutionDate** (ISODate): **optional**
+-   **requestedExecutionDate** (ISODate): **optional**
 
--   **requestedExecutionTime** (ISODateTime): **optional**
+-   **requestedExecutionTime** (ISODateTime): **optional**
 
--   **payments** (Bulk Entry): **mandatory** Same structure as [[Payment
-    Product]{.underline}](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product) except
+-   **payments** (Bulk Entry): **mandatory** Same structure as [[Payment
+    Product]{.underline}](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product) except
     (requestedExecutionDate and requestedExecutionTime)
 
 ####### Example
@@ -1994,18 +1990,18 @@ Url: /v1/bulk-payments/icelandic-domestic-claim-payment
 
 ###### Icelandic Domestic Credit Card Deposit (Account -\> Credit card)
 
--   **endToEndIdentification** (Max35Text): **optional.**
+-   **endToEndIdentification** (Max35Text): **optional.**
 
--   **paymentInformationId** (Max35Text): **optional.**
+-   **paymentInformationId** (Max35Text): **optional.**
 
--   **batchBookingPreferred** (Boolean): **optional.**
+-   **batchBookingPreferred** (Boolean): **optional.**
 
--   **requestedExecutionDate** (ISODate): **optional.**
+-   **requestedExecutionDate** (ISODate): **optional.**
 
--   **requestedExecutionTime** (ISODateTime): **optional.**
+-   **requestedExecutionTime** (ISODateTime): **optional.**
 
--   **payments** (Bulk Entry): **mandatory** Same structure as [Payment
-    Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product) except
+-   **payments** (Bulk Entry): **mandatory** Same structure as [Payment
+    Product](https://github.com/stadlar/IST-FUT-FMTH/wiki/Payment-Product) except
     (requestedExecutionDate and requestedExecutionTime).
 
 ####### Example 1
@@ -2130,25 +2126,25 @@ Possible values are:
 
 ###### Icelandic Domestic Credit Transfer
 
--   **endToEndIdentification** (Max35Text): **optional**
+-   **endToEndIdentification** (Max35Text): **optional**
 
--   **debtorAccount** (incl. type) (Account Reference): **mandatory**
+-   **debtorAccount** (incl. type) (Account Reference): **mandatory**
 
--   **instructedAmount** (inc. Curr.) (Amount): **mandatory**
+-   **instructedAmount** (inc. Curr.) (Amount): **mandatory**
 
--   **creditorAccount** (Account Reference): **mandatory**
+-   **creditorAccount** (Account Reference): **mandatory**
 
--   **remittanceInformationUnstructured** (Max140Text): **optional**
+-   **remittanceInformationUnstructured** (Max140Text): **optional**
 
--   **startDate** (ISODate): **Mandatory**
+-   **startDate** (ISODate): **Mandatory**
 
--   **executionRule** (String): **Optional**
+-   **executionRule** (String): **Optional**
 
--   **endDate** (ISODate): **Optional**
+-   **endDate** (ISODate): **Optional**
 
--   **frequency** (Frequency Code): **Mandatory**
+-   **frequency** (Frequency Code): **Mandatory**
 
--   **dayOfExecution** (Max2Text): **Conditional**
+-   **dayOfExecution** (Max2Text): **Conditional**
 
 ####### Example
 
@@ -2202,23 +2198,23 @@ Url: /v1/periodic-payments/icelandic-domestic-credit-transfer
 
 ###### Icelandic Domestic Claim Payment (Account -\> Claim)
 
--   **endToEndIdentification** (Max35Text): **optional.**
+-   **endToEndIdentification** (Max35Text): **optional.**
 
--   **debtorAccount** (incl. type) (Account Reference): **mandatory.**
+-   **debtorAccount** (incl. type) (Account Reference): **mandatory.**
 
--   **instructedAmount** (inc. Curr.) (Amount): **mandatory.**
+-   **instructedAmount** (inc. Curr.) (Amount): **mandatory.**
 
--   **creditorAccount** (Account Reference): **mandatory.**
+-   **creditorAccount** (Account Reference): **mandatory.**
 
--   **startDate** (ISODate): **mandatory.**
+-   **startDate** (ISODate): **mandatory.**
 
--   **executionRule** (String): **optional.**
+-   **executionRule** (String): **optional.**
 
--   **endDate** (ISODate): **optional.**
+-   **endDate** (ISODate): **optional.**
 
--   **frequency** (Frequency Code): **mandatory.**
+-   **frequency** (Frequency Code): **mandatory.**
 
--   **dayOfExecution** (Max2Text): **conditional.**
+-   **dayOfExecution** (Max2Text): **conditional.**
 
 ####### Example
 
@@ -2272,27 +2268,27 @@ Url: /v1/periodic-payments/icelandic-domestic-claim-payment
 
 ###### Icelandic Domestic Credit Card Deposit (Account -\> Credit card)
 
--   **endToEndIdentification** (Max35Text): **optional.**
+-   **endToEndIdentification** (Max35Text): **optional.**
 
--   **debtorAccount** (incl. type) (Account Reference): **mandatory.**
+-   **debtorAccount** (incl. type) (Account Reference): **mandatory.**
 
--   **instructedAmount** (inc. Curr.) (Amount): **mandatory.**
+-   **instructedAmount** (inc. Curr.) (Amount): **mandatory.**
 
--   **creditorAccount** (Account Reference): **mandatory.**
+-   **creditorAccount** (Account Reference): **mandatory.**
 
--   **remittanceInformationUnstructured** (Max140Text): **optional.**
+-   **remittanceInformationUnstructured** (Max140Text): **optional.**
 
--   **ultimateCreditor** (Max140Text): **optional.**
+-   **ultimateCreditor** (Max140Text): **optional.**
 
--   **startDate** (ISODate): **mandatory.**
+-   **startDate** (ISODate): **mandatory.**
 
--   **executionRule** (String): **optional.**
+-   **executionRule** (String): **optional.**
 
--   **endDate** (ISODate): **optional.**
+-   **endDate** (ISODate): **optional.**
 
--   **frequency** (Frequency Code): **mandatory.**
+-   **frequency** (Frequency Code): **mandatory.**
 
--   **dayOfExecution** (Max2Text): **conditional.**
+-   **dayOfExecution** (Max2Text): **conditional.**
 
 ####### Example 1
 

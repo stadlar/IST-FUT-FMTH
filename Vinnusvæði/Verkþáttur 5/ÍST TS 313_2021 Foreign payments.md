@@ -69,33 +69,29 @@ include-before: |
 
   # Foreword
 
-  This IST Technical Specification was developed in accordance with "ÍST
+  This ÍST Technical Specification was developed in accordance with "ÍST
   Reglur um tækniforskriftir, tækniskýrslur og vinnustofusamþykktir" (*e.*
   IST rules on Technical Specifications, Technical Reports and Workshop
   Agreements). The TS (Technical specification) was prepared by the
-  technical committee TN-FMÞ within FUT (Sector committee for ICT
+  technical committee TN-FMÞ (The Technical Committee on Financial 
+  Services) that operates within FUT (Sector committee for ICT
   standardisation) following a public call for participation within
   TN-FMÞ. Committee draft was sent to TN-FMÞ on the 2020-12-08 and
   approved by correspondence on the 2020-12-22.
+  The text of ÍST TS-313 was submitted to IST for publication on 2021-02-02.
 
-  The ÍST -- Technical Specification (ÍST TS) was mainly funded by
-  Íslandsbanki, Arion Banki and Landsbankinn and as well by Alskil hf,
-  Eignaumsjón hf, Payday ehf, Wise lausnir ehf and Seðlabanki Íslands.
+  The wotk on ÍST TS was primarly funded by Íslandsbanki, Arion Banki and 
+  Landsbankinn, with participation by Alskil hf, Eignaumsjón hf, 
+  Payday ehf, Wise lausnir ehf and Seðlabanki Íslands. 
 
-  This ÍST TS is based on the results of the work of workgroup TN-FMÞ-VH-1
+  This ÍST TS is the result of work by the workgroup TN-FMÞ-VH-1
   Business claims.
 
-  The text of ÍST TS-313 was based on the work of following specialists
-  working in TN-FMÞ-VH-1 in cooperation with the consultant Guðmundur Jón
-  Halldórsson.
+  ÍST TS-313 is not subject to any patent rights. It is based on the Berlin Group's
+  NextGenPSD2 XS2A Framework, which is distributed under a Creative Commons
+  Attribution 4.0 International Public License (CC BY).
 
-  The text of ÍST TS-313 was submitted to IST for publication on 2021-2-2.
-
-  ÍST TS-313 is not subject to any patent rights and all extends the
-  NextGenPSD2 XS2A Framework, distributed under a Creative Commons
-  Attri­bution 4.0 International Public License (CC BY).
-
-  This means that the Specification can be copied and redistributed in any
+  This means that the underlying Specification for ÍST TS-313 can be copied and redistributed in any
   medium or format for any purpose, even commercially, and when shared,
   that appropriate credit must be given, a link to the license must be
   provided, and indicated if changes were made. You may do so in any
@@ -111,7 +107,6 @@ include-before: |
   neither the TN-FMÞ, nor IST can be held liable for damages or losses of
   any kind whatsoever which may arise from its application. Users of ÍST
   TS-313 do so on their own responsibility and at their own risk.
-...
 
 # Introduction {.unnumbered}
 

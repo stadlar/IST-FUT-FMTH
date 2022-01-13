@@ -190,8 +190,7 @@ paths:
         - $ref: "#/components/parameters/TPP-Nok-Redirect-URI"
         - $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
         - $ref: "#/components/parameters/TPP-Rejection-NoFunds-Preferred"
-        - $ref: "#/components/parameters/TPP-Brand-Logging-Information"
-        - $ref: "#/components/parameters/Idempotency-Key"        
+        - $ref: "#/components/parameters/TPP-Brand-Logging-Information"        
           #conditional for extended service lean Push
         - $ref: "#/components/parameters/TPP-Notification-URI"
         - $ref: "#/components/parameters/TPP-Notification-Content-Preferred"
@@ -205,6 +204,9 @@ paths:
         - $ref: "#/components/parameters/PSU-Http-Method"
         - $ref: "#/components/parameters/PSU-Device-ID"
         - $ref: "#/components/parameters/PSU-Geo-Location"
+		  #optional additional idempotency value of operation in header		
+        - $ref: "#/components/parameters/Idempotency-Key"
+		
 
         
 

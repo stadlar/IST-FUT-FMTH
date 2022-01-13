@@ -11675,15 +11675,6 @@ components:
       schema:
         type: boolean
 
-    Query-X-Request-ID:
-      name: Query-X-Request-ID
-      in: path
-      description: ID of the request we are looking up.
-      required: true
-      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
-      schema:
-        type: string
-        format: uuid
         
     Idempotency-Key:
       name: Idempotency-Key

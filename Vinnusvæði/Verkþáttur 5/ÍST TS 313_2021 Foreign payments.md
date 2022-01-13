@@ -59,9 +59,10 @@ include-before: |
   -----------------------------------------------------------------------------------------------
 
   © Icelandic Standards (IST) 2021. All Rights Reserved.  
-  Without the written permission of the publisher, this workshop
-  agreement may not be reprinted or reproduced in any form by any means,
-  mechanical or electronic, such as by photocopying, sound recording or
+  
+  Without the written permission of the publisher, this technical
+  specification document may not be reprinted or reproduced in any form by 
+  any means, mechanical or electronic, such as by photocopying, sound recording or
   other means, currently known or later invented, nor may the agreement
   be disseminated through an electronic database. 
 
@@ -80,7 +81,7 @@ include-before: |
   approved by correspondence on the 2020-12-22.
   The text of ÍST TS-313 was submitted to IST for publication on 2021-02-02.
 
-  The wotk on ÍST TS was primarly funded by Íslandsbanki, Arion Banki and 
+  The work on the ÍST TS was primarly funded by Íslandsbanki, Arion Banki and 
   Landsbankinn, with participation by Alskil hf, Eignaumsjón hf, 
   Payday ehf, Wise lausnir ehf and Seðlabanki Íslands. 
 

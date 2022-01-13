@@ -5082,6 +5082,13 @@ components:
       type: string
       pattern: '[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}'
       example: "AAAADEBBXXX"
+	  
+	  
+    bicfiOrIdentification: 
+      description: |
+        BICFI or other organization identification
+      type: string
+      example: "AAAADEBBXXX or //FW123456789 or other"	  
 
 
     pan:
@@ -6256,7 +6263,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfi"
+          $ref: "#/components/schemas/bicfiOrIdentification"
         creditorAgentName:
           $ref: "#/components/schemas/creditorAgentName"
         creditorName:
@@ -6386,7 +6393,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
 #        creditorAgent:
-#          $ref: "#/components/schemas/bicfi"
+#          $ref: "#/components/schemas/bicfiOrIdentification"
 #        creditorAgentName:
 #          $ref: "#/components/schemas/creditorAgentName"
 #        creditorName:
@@ -6513,7 +6520,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfi"
+          $ref: "#/components/schemas/bicfiOrIdentification"
 #        creditorId: # N.A. for all, but can be used by ASPSP if needed
 #          description: Identification of Creditors, e.g. a SEPA Creditor ID.
 #          type: string
@@ -7179,7 +7186,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfi"
+          $ref: "#/components/schemas/bicfiOrIdentification"
         creditorName:
           $ref: "#/components/schemas/creditorName"
         creditorAddress:
@@ -7250,7 +7257,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfi"
+          $ref: "#/components/schemas/bicfiOrIdentification"
 #        creditorId: # N.A. for all, but can be used by ASPSP if needed
 #          description: Identification of Creditors, e.g. a SEPA Creditor ID.
 #          type: string

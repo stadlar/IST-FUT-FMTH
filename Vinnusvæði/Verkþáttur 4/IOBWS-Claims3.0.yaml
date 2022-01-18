@@ -303,7 +303,7 @@ paths:
 
       requestBody:
         # $ref: "#/components/requestBodies/patchClaim"       # JSON Patch
-        $ref: "#/components/requestBodies/mergeClaimDetails"  # JSON Merge Patch
+        $ref: "#/components/requestBodies/mergeClaim"  # JSON Merge Patch
 
       responses:
         '200':
@@ -925,6 +925,7 @@ paths:
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/documentStoreLocation"
         #optional header parameters
         - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/Authorization"
@@ -1313,35 +1314,24 @@ components:
     batchStatusInitiation:
       description: |
         Batch status object
-
         There are the following batch action supported:
         * claimPost
         * claimPut
         * claimDelete
         * collectionPut
-
-      required: true
-      content:
-        application/json:
-          schema:
-            oneOf:
-              - $ref: "#/components/schemas/recreateClaimList"
-              - $ref: "#/components/schemas/createClaimList"
-              - $ref: "#/components/schemas/cancelClaimList"
-              - $ref: "#/components/schemas/alterClaimList"
-              - $ref: "#/components/schemas/transferClaimList"
-            properties:
-              batchType:
-                type: string
-                enum:
-                  - recreate
-                  - create
-                  - cancel
-                  - alter
-                  - transfer
-              statusCode:
-                description: Http status code
-                type: integer
+      properties:
+        action:
+          $ref: "#/components/schemas/claimDetails"
+        batchType:
+          type: string
+          enum:
+            - create
+            - cancel
+            - alter
+            - transfer
+        statusCode:
+          description: Http status code
+          type: integer
 
 
     patchObject:
@@ -1427,7 +1417,7 @@ components:
         Information on the main disposal account.
       properties:
         id:
-          $ref: "#/components/schemas/accountId"
+          $ref: "#/components/schemas/account"
         ownerId:
           $ref: "#/components/schemas/kennitala"
 
@@ -1438,7 +1428,7 @@ components:
 
       properties:
         id:
-          $ref: "#/components/schemas/accountId"
+          $ref: "#/components/schemas/account"
         ownerId:
           $ref: "#/components/schemas/kennitala"
         type:
@@ -1545,8 +1535,8 @@ components:
           type: string
           pattern: "[0-9A-Za-z]{3}"
           example: "MI1"
-        withdrawalAccountId:
-          $ref: "#/components/schemas/accountId"
+        withdrawalAccount:
+          $ref: "#/components/schemas/account"
         additionalDepositAccounts:
           type: array
           items:
@@ -1576,7 +1566,7 @@ components:
 
     claimKey:
       description: |
-        Claim key is a composit key of kennitala, account no and due date. AccountId is defined as
+        Claim key is a composit key of kennitala, account no and due date. Account is defined as
         <bank code>66<claim number>
       type: object
       required:
@@ -1613,37 +1603,6 @@ components:
           $ref: "#/components/schemas/dayAmountItem"
         second:
           $ref: "#/components/schemas/dayAmountItem"
-
-    address:
-      description: |
-        Address or legal address of a legal entity
-      type: object
-      properties:
-        name:
-          type: string
-        addressLine1:
-          type: string
-        addressLine2:
-          type: string
-        postalCode:
-          type: string
-        city:
-          type: string
-        region:
-          type: string
-        country:
-          type: string
-          pattern: '[A-Z]{2}'
-
-    itemRow:
-      description: |
-        Contains information on the breakdown of the collection claim.
-      type: object
-      properties:
-        text:
-          type: string
-        amount:
-          $ref: "#/components/schemas/amountValue"
 
     defaultCharge:
       description: |
@@ -2077,12 +2036,12 @@ components:
       items:
         $ref: "#/components/schemas/createClaimDetails"
 
-    recreateClaimList:
-      description: |
-        JSON request body for a claims update request message
-      type: array
-      items:
-        $ref: "#/components/schemas/createClaimDetails"
+    #recreateClaimList:
+    #  description: |
+    #    JSON request body for a claims update request message
+    #  type: array
+    #  items:
+    #    $ref: "#/components/schemas/createClaimDetails"
 
     transferClaimList:
       description: |
@@ -2261,7 +2220,7 @@ components:
         claim:
           $ref: "#/components/schemas/claimDetails"
         payment:
-          $ref: "#/components/schemas/claimPayment"
+          $ref: "#/components/schemas/claimTransaction"
         transactionType:
           type: string
           enum:
@@ -2955,7 +2914,7 @@ components:
       description: |
         Deposit account filter
       schema:
-        $ref: "#/components/schemas/accountId"
+        $ref: "#/components/schemas/account"
 
     payorIdQuery:
       name: payorId

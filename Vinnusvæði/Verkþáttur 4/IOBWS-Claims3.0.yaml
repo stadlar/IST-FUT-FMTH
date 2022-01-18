@@ -29,10 +29,10 @@ paths:
   /v1/claimtemplates:
 
     get:
-      summary: List of claim templates
+      summary: Get a list of claim templates
       description: |
         Returns a list of claim templates according to the filters provided. Claim template describes many 
-        attributes of the claim process and gives the consumer key information needed to know.
+        attributes of the claim process and gives the consumer key information needed.
       operationId: getClaimTemplateList
       tags:
         - Claim Service
@@ -54,7 +54,7 @@ paths:
       #path # NO PATH PARAMETER
       #query
         - $ref: "#/components/parameters/claimantIdQuery"
-        - $ref: "#/components/parameters/bankCodeQuery"
+        - $ref: "#/components/parameters/bankQuery"
         - $ref: "#/components/parameters/templateCodeQuery"
         - $ref: "#/components/parameters/isActiveQuery"
         - $ref: "#/components/parameters/page"
@@ -91,7 +91,7 @@ paths:
   /v1/claimtemplates/{claimTemplateId}:
 
     get:
-      summary: Claim template
+      summary: Get a single claim template
       description: |
         Returns a single claim templates by supplied template id
       operationId: getClaimTemplate
@@ -206,9 +206,10 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
     delete:
-      summary: Cancel claim
+      summary: Cancel a single claim
       description: |
-        The Cancel Claim feature cancels an unpaid billing claim.
+        Change the claim status to "Cancelled". Claim can be recreated by setting the claim status to "Unpaid". When  
+        a claim is cancelled, it is not deleted.
       operationId: cancelClaim
       tags:
         - Claim Service
@@ -238,8 +239,8 @@ paths:
         #NO REQUEST BODY
 
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
+        '204':
+          $ref: "#/components/responses/NO_CONTENT_204_Cancel"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -260,10 +261,18 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
     patch:
-      summary: Patches existing claim
+      summary: Patch a single claim
       description: |
-        The Patch Claim function modifies a previously created claim. The patch is
+        The patch claim method modifies a previously created claim. The patch is
         then submitted and amended according to new information.
+         
+        Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
+        from cancelled the recreate is triggered. Recreating a claim keeps existing history.
+        
+        Claim is cancelled by changing the claim status to "Cancelled".
+        
+        Use the claimDetails object to understand all the fields awailable.
+
       operationId: patchClaim
       tags:
         - Claim Service
@@ -289,16 +298,16 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       requestBody:
-        $ref: "#/components/requestBodies/patchClaim"
+        # $ref: "#/components/requestBodies/patchClaim"       # JSON Patch
+        $ref: "#/components/requestBodies/mergeClaimDetails"  # JSON Merge Patch
 
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
+          $ref: "#/components/responses/OK_200_ClaimDetailResponseInformation"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -321,9 +330,9 @@ paths:
   /v1/claims/{claimId}/transactions:
 
     get:
-      summary: Query claim payments
+      summary: Get payments for a single claim
       description: |
-        Returns all claim payments. Payments are visible on the claim in near realtime.
+        Returns all claim payments. When claim is paid by debtor the claim paymentis visible is near real-time.
       operationId: queryClaimPayments
       tags:
         - Claim Service
@@ -379,9 +388,9 @@ paths:
   /v1/claims/{claimId}/history:
 
     get:
-      summary: Query claim history for single claim
+      summary: Get single claim history
       description: |
-        The Query Claims history operation returns the whole story from the beginning, i.e. all changes that
+        Claim history contains every event for the claim from the beginning, i.e. all changes that
         have been made to the claim together with information about the claim itself.
       operationId: queryClaimHistory
       tags:
@@ -438,7 +447,7 @@ paths:
   /v1/claims/{claimId}/collection:
 
     put:
-      summary: Move claim between claim templates.
+      summary: Move claim from one claim template to another.
       description: |
         The action transfers the claim between template code. When claim is moved between template codes
         it might change who can see the claim. Claims in primary collection are only visible to the claimant.
@@ -463,14 +472,16 @@ paths:
       #path
         - $ref: "#/components/parameters/claimId"
       #query
-        - $ref: "#/components/schemas/templateCode"
+        - $ref: "#/components/parameters/templateCodeQuery"
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/X-Idempotency-Key"
         - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
+        #REQUEST BODY
+      requestBody:
+        $ref: "#/components/requestBodies/templateCode"
 
       responses:
         '200':
@@ -497,8 +508,29 @@ paths:
   /v1/claims:
 
     get:
-      summary: Get a list of claims as defined by the query.
+      summary: Get a list of claims as defined by the query parameters.
       description: |
+        Getting a list of claim can be done by multiple query parameters to get focused answer.        
+        Parameters:
+        - dateFromQuery: Searching from a starting date
+        - dateToQuery: Searching to a end date
+        - dateSpanReferenceDateQuery: When date range (from, to) is defined then the next step to tell what the range
+                                      applies to. Possible valibles are:
+                                      - DueDate: The claim's due date
+                                      - FinalDueDate: The claim's final due date
+                                      - ExpirationDate: has a condition
+                                        - Before cancellation: The claim cancellation date
+                                        - Cancelled claims: The real claim cancellation date as shown in the history
+                                      - CreationDate: When the claim was created
+                                      - LastChanged: Last claim change event date
+        - claimantIdQuery: The claim claimant
+        - payorIdQuery: The claim payor
+        - statusQuery: Claim has one-of ["Unpaid", "Paid", "Cancelled"] statuses
+        - stateQuery: Claim states are:
+          - PrimaryCollection
+          - SecondaryCollection
+          - LegalCollection
+        - templateCodeQuery: Bank claim identifier
         The QueryClaims function returns a list of claims. The maximum return is set with the page number and 
         number per page.
       operationId: queryClaims
@@ -560,10 +592,14 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
     post:
-      summary: Create claim
+      summary: Create a single claim
       description: |
-        Create new claim. When claim is create operation is returned with information if claim was 
-        created successfully or not.
+        When claim is create operation is returned with more information about the claim create status. When claim is 
+        created the possible operation statuses are:
+        - InProgress: Claim has been accepted and is in the process of being created
+        - Compledted: Claim has been created in the banks system without error
+        - CompletedWithErrors: One ore more errors have prevented the claim to be created
+        - NotConfirmed: Not confirmed
       operationId: createClaims
       tags:
         - Claim Service
@@ -596,8 +632,8 @@ paths:
         $ref: "#/components/requestBodies/createClaim"
 
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
+        '201':
+          $ref: "#/components/responses/OK_201_ClaimResponseInformation"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -620,9 +656,14 @@ paths:
   /v1/batches:
 
     post:
-      summary: List of action defined by the request body object
+      summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
-        Creates a list of action defined by the request body object
+        Creates a list of action defined by the request body object. Actions can be one of: 
+        - recreateClaimList: List of claims to be re-created
+        - createClaimList: List of claims to be created
+        - cancelClaimList: List of claims to be cancelled
+        - alterClaimList: List of claims to be changed
+        - transferClaimList: List of claims to be moved from one template code to another
       operationId: createBatch
       tags:
         - Claim Service
@@ -679,9 +720,12 @@ paths:
   /v1/batches/{batchId}:
 
     get:
-      summary: Get a status of batch initiation
+      summary: Get a status of previously created batch
       description: |
-        Get a list of claims previously initiated by POST method
+        Get status of a batch. The status contains number of claims processed under the following categories:
+        - Success: Number of successful processed claims
+        - Failed: Number of failed claims
+        - Pending: Number of waiting claims
       operationId: getBatchStatus
       tags:
         - Claim Service
@@ -731,128 +775,13 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/batches/{batchId}/success:
-
-    get:
-      summary: Gets a list of claims successfully create in batch initiation
-      description: |
-        The QueryClaims function returns a list of successful claims based on the batch. The maximum
-        return is set with the page number and number per page.
-      operationId: queryBatchSuccess
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-        #path # NO PATH PARAMETER
-        #query
-        - $ref: "#/components/parameters/batchId"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/itemsPerPage"
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryClaimListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/batches/{batchId}/failed:
-
-    get:
-      summary: Gets a list of batch action that failed processing
-      description: |
-        Returns a list of failed batch actions with reason. The maximum
-        return is set with the page number and number per page.
-      operationId: queryFailedBatch
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path # NO PATH PARAMETER
-      #query
-        - $ref: "#/components/parameters/batchId"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/itemsPerPage"
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
   /v1/claims/transactions:
 
     get:
-      summary: Gets a list of claim payments defined by the query object
+      summary: Get payments for multiple claims
       description: |
-        Gets a list of claim payments defined by the query object
+        Returns all payments for multiple claims. When claim is paid by debtor the claim paymentis visible 
+        is near real-time.
       operationId: getClaimTransactions
       tags:
         - Claim Service
@@ -877,11 +806,7 @@ paths:
         - $ref: "#/components/parameters/dateFromQuery"
         - $ref: "#/components/parameters/dateToQuery"
         - $ref: "#/components/parameters/templateCodeQuery"
-        - $ref: "#/components/parameters/disposalAccountQuery"
-        - $ref: "#/components/parameters/transactionDateFrom"
-        - $ref: "#/components/parameters/transactionDateTo"
-        - $ref: "#/components/parameters/recordFromQuery"
-        - $ref: "#/components/parameters/recordToQuery"
+        - $ref: "#/components/parameters/depositAccountQuery"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
       #header
@@ -913,12 +838,12 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claims/{claimId}/documentReferences:
+  /v1/claims/{claimId}/documentReferences/{documentStoreLocation}:
 
     get:
-      summary: Get a document references
+      summary: Get a document references by claim and document store location
       description: |
-        Get a all document references for a given claim
+        Get a list of document references for a given claim and document store location
       operationId: getDocumentReferences
       tags:
         - Claim Service
@@ -939,6 +864,7 @@ paths:
       parameters:
       #path
         - $ref: "#/components/parameters/claimId"
+        - $ref: "#/components/parameters/documentStoreLocation"
       #query
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
@@ -972,7 +898,7 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
     post:
-      summary: Add new file reference to the claim
+      summary: Add new file reference added to the claim
       description: |
         Add new file reference to the claim
       operationId: addDocumentReferenceToClaim
@@ -1034,7 +960,7 @@ paths:
     get:
       summary: Get a document reference
       description: |
-        Get a single document
+        Get a single document reference
       operationId: getDocumentReference
       tags:
         - Claim Service
@@ -1226,7 +1152,8 @@ components:
       maxLength: 36
 
     claimantId:
-      description: Claimant kennitala
+      description: |
+        ClaimantId is the Icelandic kennitala for the claimant
       type: string
       pattern: '[0-9]{10}'
 
@@ -1239,6 +1166,7 @@ components:
       description: Due date
       type: string
       format: date
+      example: "2022-01-31"
 
     statusId:
       description: Status of an request with multiple claims to update, delete or create
@@ -1256,37 +1184,37 @@ components:
           - Date in the form of YYYYMMDD
       type: string
 
-    accountNo:
+    account:
       description: |
-        Basic Icelandic Bank Account Number Identifier.
+        Icelandic Bank Account Number Identifier.
       type: string
       pattern: "[0-9]{12}"
       example: "000126123456"
 
     templateCode:
       description: |
-        Basic Icelandic Bank claim identifier.
+        Claim template identifier.
       type: string
       pattern: "[0-9A-Z]{3}"
       example: "001"
 
-    bankCode:
+    bank:
       description: |
-        Basic Icelandic Bank code.
+        Icelandic Bank number.
       type: string
       pattern: "[0-9]{4}"
       example: "0001"
 
     kennitala:
       description: |
-        Basic Icelandic Id number (kennitala).
+        Icelandic Id number (kennitala).
       type: string
       pattern: "[0-9]{10}"
       example: "0208715009"
 
     reference:
       description: |
-        Reference number determined by creditors. May be a number and letters.
+        Reference number determined by creditors.
       type: string
       maxLength: 16
 
@@ -1367,20 +1295,54 @@ components:
         Types of dates are as follows:
         - DueDate: In the period (from, to) dates, we are referencing the due date
         - FinalDueDate: In the period (from, to) dates, we are referencing the final due date
-        - CancellationDate: Conditional
+        - ExpirationDate: Conditional
             - Before cancellation: Cancellation date from claim details
             - Cancelled claims: Date of cancellation
         - CreationDate:
-        - LastChangedDate: In the period (from, to) dates, we are referencing the changed date of the claim
+        - LastChanged: In the period (from, to) dates, we are referencing the changed date of the claim
       type: string
       enum:
         - "DueDate"
         - "FinalDueDate"
-        - "CancellationDate"
+        - "ExpirationDate"
         - "CreationDate"
-        - "LastChangedDate"
+        - "LastChanged"
 
     # COMPLEX
+
+    batchStatusInitiation:
+      description: |
+        Batch status object
+
+        There are the following batch action supported:
+        * claimPost
+        * claimPut
+        * claimDelete
+        * collectionPut
+
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/recreateClaimList"
+              - $ref: "#/components/schemas/createClaimList"
+              - $ref: "#/components/schemas/cancelClaimList"
+              - $ref: "#/components/schemas/alterClaimList"
+              - $ref: "#/components/schemas/transferClaimList"
+            properties:
+              batchType:
+                type: string
+                enum:
+                  - recreate
+                  - create
+                  - cancel
+                  - alter
+                  - transfer
+              statusCode:
+                description: Http status code
+                type: integer
+
 
     patchObject:
       description: A JSONPatch document as defined by RFC 6902
@@ -1460,36 +1422,36 @@ components:
           type: string
           maxLength: 30
 
-    depositingAccount:
+    depositAccount:
       description: |
         Information on the main disposal account.
       properties:
         id:
-          $ref: "#/components/schemas/accountNo"
+          $ref: "#/components/schemas/accountId"
         ownerId:
           $ref: "#/components/schemas/kennitala"
 
-    depositingAccountWithDetails:
+    depositAccountWithDetails:
       description: |
         Additional disposition invoices. Used to dispose of fees, costs or part of the payment of the claim. There
         can be a maximum of 98 accounts for each identifier.
 
       properties:
-        accountId:
-          $ref: "#/components/schemas/accountNo"
-        accountOwnerId:
+        id:
+          $ref: "#/components/schemas/accountId"
+        ownerId:
           $ref: "#/components/schemas/kennitala"
         type:
           description: |
-            Describes what type of additional depositing account this is.
+            Describes what type of additional deposit account this is.
 
             - "DefaultInterest" - Penalty interest.
-            - "DefaultCharge" - Default fee.
-            - "OtherDefaultCost" - Other default costs.
-            - "AllDefaultCharge" - Arrears and other default costs.
-            - "OtherCost" - Other costs.
+            - "DefaultCharge" - Default cost.
+            - "OtherDefaultCosts" - Other default costs.
+            - "AllDefaultCharges" - All default costs.
+            - "OtherCosts" - Other costs.
             - "NoticeAndPaymentFee" - Notification fee.
-            - "AllCost" - All costs and fees imposed on the claim.
+            - "AllCosts" - All costs and fees imposed on the claim.
             - "FixedAmount" - A fixed amount is deducted from the amount of the payment and deposited in a disposable account.
             - "Percentage" - Percentage of the amount of the payment deposited in the disposable account.
             - "PrincipalDetail" - Amount of the principal of the payment deposited in a disposable account.
@@ -1497,23 +1459,23 @@ components:
           enum:
             - "DefaultInterest"
             - "DefaultCharge"
-            - "OtherDefaultCost"
-            - "AllDefaultCharge"
-            - "OtherCost"
+            - "OtherDefaultCosts"
+            - "AllDefaultCharges"
+            - "OtherCosts"
             - "NoticeAndPaymentFee"
-            - "AllCost"
+            - "AllCosts"
             - "FixedAmount"
             - "Percentage"
             - "PrincipalDetail"
         priority:
-          description: Priority controls in which order the additional depositing is executed
+          description: Priority controls in which order the additional deposit is executed
           type: integer
         depositAmount:
-          $ref: "#/components/schemas/depositAccountAmountValue"
+          $ref: "#/components/schemas/depositAccountAmount"
 
-    depositAccountAmountValue:
+    depositAccountAmount:
       description: |
-        Describes what kind of depositing this is (percentage based or fixed amount)
+        Describes what kind of deposit this is (percentage based or fixed amount)
       type: object
       properties:
         value:
@@ -1535,7 +1497,7 @@ components:
         claimantId:
           $ref: "#/components/schemas/claimantId"
         bank:
-          $ref: "#/components/schemas/bankCode"
+          $ref: "#/components/schemas/bank"
         templateCode:
           $ref: "#/components/schemas/templateCode"
         collectionType:
@@ -1575,27 +1537,28 @@ components:
             - DueDate
             - BillNumber
             - ClaimNumber
-        depositingAccount:
-          $ref: "#/components/schemas/depositingAccount"
+        depositAccount:
+          $ref: "#/components/schemas/depositAccount"
         secondaryCollectionClaimTemplateCode:
           description: |
-            ID of a collection claim template to which arrears claims are transferred.
+            ID of a collection claim template to which claims are transferred.
           type: string
           pattern: "[0-9A-Za-z]{3}"
           example: "MI1"
         withdrawalAccountId:
-          $ref: "#/components/schemas/accountNo"
-        additionalDepositingAccounts:
+          $ref: "#/components/schemas/accountId"
+        additionalDepositAccounts:
           type: array
           items:
-            $ref: "#/components/schemas/depositingAccountWithDetails"
+            $ref: "#/components/schemas/depositAccountWithDetails"
         isActive:
           type: boolean
         lastModified:
           description: |
             This data element might be used to indicate e.g. last time when changed.
           type: string
-          format: date-time
+          format: date
+          example: "2022-01-31"
 
     paymentFee:
       description: |
@@ -1606,25 +1569,25 @@ components:
           - Paperless (Direct Debit Fee) (is. Beingreiðslugjald)
       type: object
       properties:
-        directPaymentFee:
-          $ref: "#/components/schemas/amountValue"
+        paymentFee:
+          type: integer
         directDebitFee:
-          $ref: "#/components/schemas/amountValue"
+          type: integer
 
     claimKey:
       description: |
-        Claim key is a composit key of kennitala, account no and due date. Accountno is defined as
+        Claim key is a composit key of kennitala, account no and due date. AccountId is defined as
         <bank code>66<claim number>
       type: object
       required:
         - claimantId
-        - accountNo
+        - account
         - dueDate
       properties:
         claimantId:
           $ref: "#/components/schemas/kennitala"
-        accountNo:
-          $ref: "#/components/schemas/accountNo"
+        account:
+          $ref: "#/components/schemas/account"
         dueDate:
           $ref: "#/components/schemas/dueDate"
 
@@ -1635,7 +1598,7 @@ components:
         day:
           type: integer
         amount:
-          $ref: "#/components/schemas/amountValue"
+          type: integer
 
     discount:
       description: |
@@ -1646,10 +1609,6 @@ components:
           enum:
             - "FinalDueDate"
             - "DueDate"
-        isPostRefDate:
-          description: |
-            Is reference date days before or after
-          type: boolean
         first:
           $ref: "#/components/schemas/dayAmountItem"
         second:
@@ -1686,42 +1645,6 @@ components:
         amount:
           $ref: "#/components/schemas/amountValue"
 
-    printing:
-      description: |
-        Contains information if a collection claim is printed at a bank / savings bank to manage the
-        printout of the collection claim. Changing a printout to a change entry after printing a note
-        does not result in it being reprinted
-      type: object
-      properties:
-        claimantAddress:
-          $ref: "#/components/schemas/address"
-        payorAddress:
-          $ref: "#/components/schemas/address"
-        itemRows:
-          type: array
-          items:
-            $ref: "#/components/schemas/itemRow"
-        comments:
-          type: array
-          items:
-            type: string
-
-    currencyInformation:
-      description: |
-        Contains information for collection claims in foreign currency.
-      properties:
-        referenceRate:
-          type: string
-          enum:
-            - "ExchangeRate"
-        currency:
-          type: string
-          pattern: '[A-Z]{3}'
-        paymentRate:
-          type: string
-          enum:
-            - "DueDateRate"
-
     defaultCharge:
       description: |
         OK
@@ -1733,7 +1656,7 @@ components:
             - "DueDate"
         isPostRefDate:
           description: |
-            Is reference date days before or after
+            Indicates whether the declared number of days is before or after the reference day.
           type: boolean
         first:
           $ref: "#/components/schemas/dayAmountItem"
@@ -1748,7 +1671,11 @@ components:
           - DefaultInterestAmount:
             Indicates that penalty interest is calculated on the basis of the amount claim.
           - DefaultInterestAmountAndDefaultCharge:
-            Segir til um hvort dráttarvextir reiknast út frá upphæð og vanskilagjaldi kröfu.
+            Indicates whether penalty interest is calculated on the basis of the amount and arrears of the claim.
+        Percentage4: 
+        Indicates the percentage of penalty interest, may not be higher than the Central Bank's maximum permitted 
+        penalty interest rate. If the penalty interest rule specifies that penalty interest is to be calculated and 
+        this value is not specified, the Central Bank's maximum penalty interest rate is used automatically.
       properties:
         rule:
           description: |
@@ -1760,52 +1687,6 @@ components:
             - "DefaultInterestAmountAndDefaultCharge"
         percentage4:
           $ref: "#/components/schemas/rateValue"
-        specialCode:
-          description: |
-            To set certain values on a claim, you must submit values that are in accordance with the penalty interest
-            rules of RB.
-              "-":  Penalty interest is calculated from the due date, but is calculated from the due date. If the due
-                    date and due date are the same day as on a closed banking day, the claim can be paid without penalty
-                    interest before 21:00 next banking day. The claim can always be paid on or before the due date
-                    without penalty interest.
-              "1":  No penalty interest is calculated.
-              "2":  Penalty interest is calculated from the due date, but is calculated from the due date. If the
-                    deadline is on a closed banking day and payment is made before 21:00 on the last banking day,
-                    no penalty interest is calculated, but after that they are calculated. Penalty interest is
-                    calculated as paid on the next banking day. Due date and deadline do not have to be the same days.
-              "3":  1% penalty interest is calculated per day. - Government requirements.
-              "4":  Penalty interest is calculated from the due date, but is calculated from the due date. If the
-                    deadline is on a closed banking day and payment is made before 21:00 on the last banking day,
-                    no penalty interest is calculated, but after that they are calculated. Penalty interest is
-                    calculated as paid on the next banking day. Due date and deadline do not have to be the same days.
-              "5":  Like the penalty interest rule [space] unless the number of days calculated is / 360.
-              "6":  Like the penalty interest rule '2' unless the number of days calculated is / 360.
-              "7":  According to the penalty interest rule '4', the number of days calculated is 360/360.
-              "8":  Penalty interest is calculated from the due date, but is calculated from the due date. If the
-                    due date and due date are the same day as on a closed banking day, the claim can be paid without
-                    penalty interest before 21:00 next banking day. If the due date and due date are not the same day
-                    as the due date on a closed banking day, the claim must be paid before 21:00 last open banking day
-                    without penalty interest.
-              "9":  Like the penalty interest rule '8' unless the number of days calculated is / 360.
-              "B":  Penalty interest is calculated from the due date, but is calculated from the due date. The claim
-                    can be paid if the due date and due date are on a closed banking day before 21:00 next banking day
-                    without penalty interest, even though the due date and due date are not the same day. The claim can
-                    always be paid on or before the due date without penalty interest.
-              "C":  5% penalty interest is calculated per day. - Government requirements TIF.
-          type: string
-          enum:
-            - ""
-            - "1"
-            - "2"
-            - "3"
-            - "4"
-            - "5"
-            - "6"
-            - "7"
-            - "8"
-            - "9"
-            - "B"
-            - "C"
 
     claimStatus:
       description: Claim status
@@ -1814,7 +1695,6 @@ components:
         - "Unpaid"
         - "Paid"
         - "Cancelled"
-        - "Invalid"
 
     collectionState:
       description: Billing process status
@@ -1823,13 +1703,6 @@ components:
       - "PrimaryCollection"
       - "SecondaryCollection"
       - "LegalCollection"
-
-    claimKeyListDetails:
-      description: |
-        List of claimkey
-      type: array
-      items:
-        $ref: "#/components/schemas/claimKey"
 
     documentReferenceListDetails:
       description: |
@@ -1867,7 +1740,7 @@ components:
         * otherDefaultCosts: Determined fees, e.g. intermediate collection fee.
         * defaultInterest: Contains information on how penalty interest is calculated.
         * discount: Contains information about discount as constant or percent
-        * permitOutOfSequencePayment: Out of sequence payment allowed
+        * isPermitOutOfSequencePayment: Out of sequence payment allowed
         * isPartialPaymentAllowed: Partial payment is allowed
         * isPartialPaymentAllowed: Partial payment is allowed 
         *   additionalInformation:
@@ -1878,19 +1751,9 @@ components:
       required:
         - claimKey
         - payorId
-        # details
-        - cancellationDate
         - templateCode
         - amount
-        - reference
         - finalDueDate
-        - otherCosts
-        - otherDefaultCosts
-        # rules
-        - defaultCharge
-        - defaultInterestx
-        - isPartialPaymentAllowed
-        # other
       properties:
         claimKey:
           $ref: "#/components/schemas/claimKey"
@@ -1901,9 +1764,10 @@ components:
         collectionState:
           $ref: "#/components/schemas/collectionState"
         # details
-        cancellationDate:
+        expirationDate:
           type: string
           format: date
+          example: "2022-01-31"
         templateCode:
           $ref: "#/components/schemas/templateCode"
         amount:
@@ -1913,20 +1777,19 @@ components:
         finalDueDate:
           type: string
           format: date
+          example: "2022-01-31"
         billNumber:
           type: string
+          maxLength: 7
         customerNumber:
           type: string
+          maxLength: 16
         paymentFee:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
-          type: string
-          pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
-          example: "5877.00"
+          type: integer
         otherDefaultCosts:
-          type: string
-          pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
-          example: "5877.00"
+          type: integer
         # rules
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
@@ -1934,23 +1797,27 @@ components:
           $ref: "#/components/schemas/defaultInterest"
         discount:
           $ref: "#/components/schemas/discount"
-        permitOutOfSequencePayment:
+        isPermitOutOfSequencePayment:
           type: boolean
         isPartialPaymentAllowed:
           type: boolean
         # other
-        CurrencyInformation:
-          $ref: "#/components/schemas/currencyInformation"
+        currency:
+          type: string
+          pattern: '[A-Z]{3}'
+        referenceRate:
+          type: string
+          enum:
+            - "ExchangeRate"
         additionalInformation:
           type: string
           maxLength: 200
-        printing:
-          $ref: "#/components/schemas/printing"
-        lastChangeDateTime:
+        lastChanged:
           description: |
             This data element might be used to indicate e.g. last time when changed.
           type: string
-          format: date-time
+          format: date
+          example: "2022-01-31"
         hasDocumentReference:
           description: |
             Has the claim a file reference
@@ -1958,7 +1825,7 @@ components:
 
     transferClaimDetails:
       description: |
-        OK
+        Transfer claim to another collection
       type: object
       required:
         - claimKey
@@ -1989,7 +1856,7 @@ components:
         * otherDefaultCosts: Determined fees, e.g. intermediate collection fee.
         * defaultInterest: Contains information on how penalty interest is calculated.
         * discount: Contains information about discount as constant or percent
-        * permitOutOfSequencePayment: Out of sequence payment allowed
+        * isPermitOutOfSequencePayment: Out of sequence payment allowed
         * isPartialPaymentAllowed: Partial payment is allowed
         * isPartialPaymentAllowed: Partial payment is allowed 
         *   additionalInformation:
@@ -1998,26 +1865,16 @@ components:
       type: object
       required:
         - claimKey
-        # details
-        - cancellationDate
         - templateCode
         - amount
-        - reference
-        - finalDueDate
-        - otherCosts
-        - otherDefaultCosts
-        # rules
-        - defaultCharge
-        - defaultInterest
-        - isPartialPaymentAllowed
-        # other
       properties:
         claimKey:
           $ref: "#/components/schemas/claimKey"
         # details
-        cancellationDate:
+        expirationDate:
           type: string
           format: date
+          example: "2022-01-31"
         templateCode:
           $ref: "#/components/schemas/templateCode"
         amount:
@@ -2027,20 +1884,19 @@ components:
         finalDueDate:
           type: string
           format: date
+          example: "2022-01-31"
         billNumber:
           type: string
+          maxLength: 7
         customerNumber:
           type: string
+          maxLength: 16
         paymentFee:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
-          type: string
-          pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
-          example: "5877.00"
+          type: integer
         otherDefaultCosts:
-          type: string
-          pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
-          example: "5877.00"
+          type: integer
         # rules
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
@@ -2048,19 +1904,78 @@ components:
           $ref: "#/components/schemas/defaultInterest"
         discount:
           $ref: "#/components/schemas/discount"
-        permitOutOfSequencePayment:
+        isPermitOutOfSequencePayment:
           type: boolean
         isPartialPaymentAllowed:
           description: Partial payment is allowed
           type: boolean
         # other
-        CurrencyInformation:
-          $ref: "#/components/schemas/currencyInformation"
+        currency:
+          type: string
+          pattern: '[A-Z]{3}'
+        referenceRate:
+          type: string
+          enum:
+            - "ExchangeRate"
         additionalInformation:
           type: string
           maxLength: 200
-        printing:
-          $ref: "#/components/schemas/printing"
+
+    mergeClaimDetails:
+      description: |
+        Merge patch claim object
+      type: object
+      properties:
+        # details
+        expirationDate:
+          type: string
+          format: date
+          example: "2022-01-31"
+        templateCode:
+          $ref: "#/components/schemas/templateCode"
+        amount:
+          $ref: "#/components/schemas/amount"
+        reference:
+          $ref: "#/components/schemas/reference"
+        finalDueDate:
+          type: string
+          format: date
+          example: "2022-01-31"
+        billNumber:
+          type: string
+          maxLength: 7
+        customerNumber:
+          type: string
+          maxLength: 16
+        paymentFee:
+          $ref: "#/components/schemas/paymentFee"
+        otherCosts:
+          type: integer
+        otherDefaultCosts:
+          type: integer
+        # rules
+        defaultCharge:
+          $ref: "#/components/schemas/defaultCharge"
+        defaultInterest:
+          $ref: "#/components/schemas/defaultInterest"
+        discount:
+          $ref: "#/components/schemas/discount"
+        isPermitOutOfSequencePayment:
+          type: boolean
+        isPartialPaymentAllowed:
+          description: Partial payment is allowed
+          type: boolean
+        # other
+        currency:
+          type: string
+          pattern: '[A-Z]{3}'
+        referenceRate:
+          type: string
+          enum:
+            - "ExchangeRate"
+        additionalInformation:
+          type: string
+          maxLength: 200
 
     createClaimDetails:
       description: |
@@ -2077,7 +1992,7 @@ components:
         * otherDefaultCosts: Determined fees, e.g. intermediate collection fee.
         * defaultInterest: Contains information on how penalty interest is calculated.
         * discount: Contains information about discount as constant or percent
-        * permitOutOfSequencePayment: Out of sequence payment allowed
+        * isPermitOutOfSequencePayment: Out of sequence payment allowed
         * isPartialPaymentAllowed: Partial payment is allowed
         * isPartialPaymentAllowed: Partial payment is allowed 
         *   additionalInformation:
@@ -2087,25 +2002,19 @@ components:
       required:
         - claimKey
         - payorId
-        # details
-        - cancellationDate
         - templateCode
         - amount
-        - reference
         - finalDueDate
-        - otherCosts
-        - otherDefaultCosts
-        # rules
-        # other
       properties:
         claimKey:
           $ref: "#/components/schemas/claimKey"
         payorId:
           $ref: "#/components/schemas/kennitala"
         # details
-        cancellationDate:
+        expirationDate:
           type: string
           format: date
+          example: "2022-01-31"
         templateCode:
           $ref: "#/components/schemas/templateCode"
         amount:
@@ -2115,20 +2024,19 @@ components:
         finalDueDate:
           type: string
           format: date
+          example: "2022-01-31"
         billNumber:
           type: string
+          maxLength: 7
         customerNumber:
           type: string
+          maxLength: 16
         paymentFee:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
-          type: string
-          pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
-          example: "5877.00"
+          type: integer
         otherDefaultCosts:
-          type: string
-          pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
-          example: "5877.00"
+          type: integer
         # rules
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
@@ -2136,18 +2044,21 @@ components:
           $ref: "#/components/schemas/defaultInterest"
         discount:
           $ref: "#/components/schemas/discount"
-        permitOutOfSequencePayment:
+        isPermitOutOfSequencePayment:
           type: boolean
         isPartialPaymentAllowed:
           type: boolean
         # other
-        CurrencyInformation:
-          $ref: "#/components/schemas/currencyInformation"
+        currency:
+          type: string
+          pattern: '[A-Z]{3}'
+        referenceRate:
+          type: string
+          enum:
+            - "ExchangeRate"
         additionalInformation:
           type: string
           maxLength: 200
-        printing:
-          $ref: "#/components/schemas/printing"
 
     cancelClaimDetails:
       description: |
@@ -2218,9 +2129,15 @@ components:
             - "claimPut"
             - "claimDelete"
             - "transferPut"
+        actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/batchStatusInitiation"
+
+
 
     claimError:
-      description: OK
+      description: Error code and description for the claim error
       type: object
       properties:
         code:
@@ -2229,7 +2146,7 @@ components:
           type: string
 
     claimOperationSuccess:
-      description: OK
+      description: Claim operation success for a claim key
       type: object
       properties:
         claimKey:
@@ -2239,7 +2156,7 @@ components:
           type: boolean
 
     claimOperationError:
-      description: OK
+      description: Claim operation error for a claim key
       type: object
       properties:
         claimKey:
@@ -2277,6 +2194,16 @@ components:
           items:
             $ref: "#/components/schemas/claimOperationError"
 
+    claimFailedOperation:
+      description: |
+        Failed claims when created in batch.
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/claimOperationError"
+
     documentReferenceOperation:
       description: |
         List of file reference response
@@ -2287,10 +2214,10 @@ components:
 
     claimHistoryList:
       description: |
-        List of claim transaction
+        Claim history
       type: array
       items:
-        $ref: "#/components/schemas/claimTransaction"
+        $ref: "#/components/schemas/claimHistoryEvent"
 
     documentReferenceList:
       description: |
@@ -2299,7 +2226,7 @@ components:
       items:
         $ref: "#/components/schemas/documentReference"
 
-    claimTransaction:
+    claimHistoryEvent:
       description: |
         Contains the Claim and Payment class as well as basic information on financial actions and changes to a claim,
         but the daily account of the Claim Pot's expense items is not shown. The Claim class contains the appearance
@@ -2357,99 +2284,74 @@ components:
         List of claim payments
       type: array
       items:
-        $ref: "#/components/schemas/claimPayment"
+        $ref: "#/components/schemas/claimTransaction"
 
-    claimPayment:
+    claimTransaction:
       description: |
-        Contains individual payment information.
-        
-        Description:
-        * templateCode: Creditors' identity to which the collection claim relates. Specifies the disposable account 
-                        of the creditors to use the system.
-        * reference: Reference number determined by creditors. May be a number and letters. 
-        * categoryCode: Creditors' text key, explanation of payment. Optional attribute on billing claim 
-        * transactionDate: Date when the update of the claims register is performed
-        * bookingDate: Date when the booked at RB
-        * valueDate: Legal date of the date on which the effective date or interest date of payment is based, a maximum 
-                     of 10 calendar days back in time. If the date is not specified, blank, then it is based on the 
-                     transaction date. 
-                     Payment of a claim is the interest date of the effective date of penalty interest. 
-        * paymentType: Type of payment, full payment, deposit, refund.
-        * amountDeposited: The amount deposited at the disposal of creditors' accounts.
-        * totalAmount: Total amount paid
-        * capitalGainsTax: Deducted capital gains tax.
-        * billNumber: Bill number.
-        * customerNumber: Customer number.
-        * noticeChargeAmount: Paid notification fee
-        * noticeChargeAmount: Paid notification fee
-        * defaultChargeAmount: Paid amount of arrears to be paid
-        * otherCostsAmount: Other paid cost.
-        * otherDefaultCostsAmount: Other default paid.
-        * defaultInterestAmount: Amount of accrued penalty interest paid.
-        * discountAmount: Discount that was granted when a claim was paid.
-
+        Contains individual claim transaction information.
       properties:
+        claimId:
+          $ref: "#/components/schemas/claimId"
         claimKey:
           $ref: "#/components/schemas/claimKey"
         payorId:
           $ref: "#/components/schemas/kennitala"
-        claimAmount:
+        amount:
           $ref: "#/components/schemas/amountValue"
-        finalDueDate:
-          type: string
-          format: date
-        templateCode:
-          $ref: "#/components/schemas/templateCode"
-        reference:
-          $ref: "#/components/schemas/reference"
-        categoryCode:
-          type: string
-          pattern: '[0-9]{3}'
-        redeemingBank:
-          type: string
-          format: '[0-9]{4}'
-        transactionDate:
+        transactionTimestamp:
+          description: Timestamp when the update of the claims is performed
           type: string
           format: date-time
         bookingDate:
+          description: Date when the booked at RB
           type: string
           format: date
+          example: "2022-01-31"
         valueDate:
+          description: | 
+            Legal date of the date on which the effective date or interest date of payment is based, a maximum 
+            of 10 calendar days back in time. If the date is not specified, blank, then it is based on the 
+            transaction date. 
+            Payment of a claim is the interest date of the effective date of penalty interest.
           type: string
           format: date
+          example: "2022-01-31"
         paymentType:
+          description: Type of payment, full payment, deposit, refund.
           type: string
           enum:
             - "Complete"
             - "Partial"
             - "Refund"
-        amountDeposited:
+        depositedAmount:
+          description: The amount deposited at the creditor's account.
           type: integer
         totalAmount:
+          description: Total amount paid with accrued interest and fees.
           type: integer
         capitalGainsTax:
-          type: integer
-        billNumber:
-          type: string
-        customerNumber:
-          type: string
-          maxLength: 12
-        noticeChargeAmount:
+          description: Deducted capital gains tax.
           type: integer
         defaultChargeAmount:
           type: integer
         otherCostsAmount:
           type: integer
         otherDefaultCostsAmount:
+          description: Other default paid.
           type: integer
         defaultInterestAmount:
+          description: Amount of accrued penalty interest paid.
           type: integer
         discountAmount:
+          description: Discount that was granted when a claim was paid.
           type: integer
         currency:
-          $ref: "#/components/schemas/currencyInformation"
-        batchNumber:
-          $ref: "#/components/schemas/uuid"
+          type: string
+          pattern: '[A-Z]{3}'
+        referenceRate:
+          type: string
+          enum:
+            - "ExchangeRate"
 
     #####################################################
     # Standard messages
@@ -2876,7 +2778,7 @@ components:
 
     Error405_NG:
       description: |
-        IOBWS specific definition of reporting error information in case of a HTTP error code 401.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 405.
       type: object
       properties:
         messages:
@@ -2935,7 +2837,7 @@ components:
       in: header
       description: |
         The bearer token
-      required: false
+      required: True
       schema:
         $ref: "#/components/schemas/authorization"
 
@@ -2966,6 +2868,7 @@ components:
       schema:
         type: string
         format: date
+        example: "2022-01-31"
 
     dateToQuery:
       name: dateTo
@@ -2974,26 +2877,13 @@ components:
       schema:
         type: string
         format: date
-
-    recordFromQuery:
-      name: recFrom
-      in: query
-      required: false
-      schema:
-        type: string
-
-    recordToQuery:
-      name: recTo
-      in: query
-      required: false
-      schema:
-        type: string
+        example: "2022-01-31"
 
     claimantId:
       name: claimantId
       in: query
       description: |
-        Claimant kennitala
+        ClaimantId is the Icelandic kennitala for the claimant
       required: true
       schema:
         $ref: "#/components/schemas/kennitala"
@@ -3015,26 +2905,6 @@ components:
       required: true
       schema:
         $ref: "#/components/schemas/dueDate"
-
-    transactionDateFrom:
-      name: transactionDateFrom
-      in: query
-      description: |
-        Transaction from date
-      required: true
-      schema:
-        type: string
-        format: date
-
-    transactionDateTo:
-      name: transactionDateTo
-      in: query
-      description: |
-        Transaction to date
-      required: true
-      schema:
-        type: string
-        format: date
 
     claimTemplateId:
       name: claimTemplateId
@@ -3058,18 +2928,18 @@ components:
       name: claimantId
       in: query
       description: |
-        Claimant kennitala
+        ClaimantId is the Icelandic kennitala for the claimant
       required: false
       schema:
         $ref: "#/components/schemas/kennitala"
 
-    bankCodeQuery:
-      name: bankCode
+    bankQuery:
+      name: bank
       in: query
       description: |
         Bank code
       schema:
-        $ref: "#/components/schemas/bankCode"
+        $ref: "#/components/schemas/bank"
 
     templateCodeQuery:
       name: templateCode
@@ -3079,13 +2949,13 @@ components:
       schema:
         $ref: "#/components/schemas/templateCode"
 
-    disposalAccountQuery:
-      name: disposalAccount
+    depositAccountQuery:
+      name: depositAccount
       in: query
       description: |
-        Disposal account filter
+        Deposit account filter
       schema:
-        $ref: "#/components/schemas/accountNo"
+        $ref: "#/components/schemas/accountId"
 
     payorIdQuery:
       name: payorId
@@ -3096,7 +2966,7 @@ components:
         $ref: "#/components/schemas/kennitala"
 
     dateSpanReferenceDateQuery:
-      name: date-type
+      name: dateType
       in: query
       description: |
         Date type to search for
@@ -3143,20 +3013,20 @@ components:
 
     batchInitiation:
       description: |
-        JSON request body for a action inition request message
+        JSON request body for a list of actions inition request message
 
         There are the following batch action supported:
         * claimPost
         * claimPut
         * claimDelete
-        * transferPut
+        * collectionPut
 
       required: true
       content:
         application/json:
           schema:
             oneOf:
-              - $ref: "#/components/schemas/recreateClaimList"
+              #- $ref: "#/components/schemas/recreateClaimList"
               - $ref: "#/components/schemas/createClaimList"
               - $ref: "#/components/schemas/cancelClaimList"
               - $ref: "#/components/schemas/alterClaimList"
@@ -3165,20 +3035,12 @@ components:
               batchType:
                 type: string
                 enum:
-                  - recreate
-                  - create
-                  - cancel
-                  - alter
-                  - transfer
+                  #- recreate
+                  - claimPost
+                  - claimPut
+                  - claimDelete
+                  - collectionPut
 
-    claimKeyList:
-      description: |
-        JSON request body for a claimkeys request message
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/claimKeyListDetails"
 
     documentReferenceList:
       description: |
@@ -3188,6 +3050,15 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/documentReferenceListDetails"
+
+    templateCode:
+      description: |
+        JSON request body for a claim request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/templateCode"
 
     claim:
       description: |
@@ -3207,6 +3078,15 @@ components:
           schema:
             $ref: "#/components/schemas/alterClaimDetails"
 
+    mergeClaim:
+      description: |
+        JSON request body for a create claim request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/mergeClaimDetails"
+
     createClaim:
       description: |
         JSON request body for a create claim request message
@@ -3216,23 +3096,14 @@ components:
           schema:
             $ref: "#/components/schemas/createClaimDetails"
 
-    patchClaimList:
+    patchClaim:
       description: |
-        JSON request body for patching a list of claim messages
+        JSON request body for patching a claim
       required: true
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/patchObjectList"
-
-    patchClaim:
-      description: |
-        JSON request body for patching a list of claim messages
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/patchObject"
 
   headers:
   #####################################################
@@ -3263,31 +3134,19 @@ components:
     # Positive Responses
     #####################################################
 
+    NO_CONTENT_204_Cancel:
+      description:  No Content
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #NO RESPONSE BODY
+
     OK_201_BatchInitiation:
       description: Batch initiation created
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-        X-Paging-CurrentPage:
-          description: |
-            Current page number
-          schema:
-            type: integer
-        X-Paging-TotalPages:
-          description: |
-            Total pages
-          schema:
-            type: integer
-        X-Paging-TotalItems:
-          description: |
-            Total items
-          schema:
-            type: integer
-        X-Paging-PerPage:
-          description: |
-            Items per page
-          schema:
-            type: integer
       content:
         application/json:
           schema:
@@ -3298,26 +3157,6 @@ components:
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-        X-Paging-CurrentPage:
-          description: |
-            Current page number
-          schema:
-            type: integer
-        X-Paging-TotalPages:
-          description: |
-            Total pages
-          schema:
-            type: integer
-        X-Paging-TotalItems:
-          description: |
-            Total items
-          schema:
-            type: integer
-        X-Paging-PerPage:
-          description: |
-            Items per page
-          schema:
-            type: integer
       content:
         application/json:
           schema:
@@ -3385,7 +3224,42 @@ components:
           schema:
             $ref: "#/components/schemas/claimHistoryList"
 
+    OK_200_ClaimResponseFailedInformation:
+      description: |
+        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/claimFailedOperation"
+
+
+    OK_200_ClaimDetailResponseInformation:
+      description: |
+        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/claimDetails"
+
+
     OK_200_ClaimResponseInformation:
+      description: |
+        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/claimOperation"
+
+    OK_201_ClaimResponseInformation:
       description: |
         The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
       headers:

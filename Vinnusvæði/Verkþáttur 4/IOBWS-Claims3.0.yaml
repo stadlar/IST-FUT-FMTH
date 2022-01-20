@@ -1398,6 +1398,30 @@ components:
             - "DefaultInterestAmountAndDefaultCharge"
         percentage4:
           $ref: "#/components/schemas/rateValue"
+        specialCode:
+          description: |
+            To set certain values on a claim, you must submit values that are in accordance with the penalty interest
+            rules of RB.
+              "-":  360/360 (Due date) If penalty interest is calculated on the claim, it is always calculated 
+                    from the due date to the payment date.
+              "1":  No penalty interest is calculated.
+              "2":  360/360 (Final due date) If penalty interest is calculated on the claim, it is always calculated 
+                    from the final due date to the payment date.
+              "3":  360/360 (Final due date) 1% penalty interest is calculated per day. - Government requirements.            
+              "5":  Real/360 (Due date) If penalty interest is calculated on the claim, it is always calculated 
+                    from the due date to the payment date.
+              "6":  Real/360 (Final due date) If penalty interest is calculated on the claim, it is always calculated 
+                    from the final due date to the payment date.            
+              "C":  5% penalty interest is calculated per day. - Government requirements TIF.
+          type: string
+          enum:
+            - ""
+            - "1"
+            - "2"
+            - "3"
+            - "5"
+            - "6"
+            - "C"
 
     claimStatus:
       description: Claim status

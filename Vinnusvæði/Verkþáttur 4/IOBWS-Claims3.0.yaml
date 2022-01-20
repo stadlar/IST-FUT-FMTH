@@ -838,238 +838,6 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claims/{claimId}/documentReferences/{documentStoreLocation}:
-
-    get:
-      summary: Get a document references by claim and document store location
-      description: |
-        Get a list of document references for a given claim and document store location
-      operationId: getDocumentReferences
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-        - $ref: "#/components/parameters/documentStoreLocation"
-      #query
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryDocumentReference"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-    post:
-      summary: Add new file reference added to the claim
-      description: |
-        Add new file reference to the claim
-      operationId: addDocumentReferenceToClaim
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/documentStoreLocation"
-        #optional header parameters
-        - $ref: "#/components/parameters/X-Idempotency-Key"
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      requestBody:
-        $ref: "#/components/requestBodies/documentReferenceList"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claims/{claimId}/documentReferences/{documentStoreLocation}/{documentReferenceId}:
-
-    get:
-      summary: Get a document reference
-      description: |
-        Get a single document reference
-      operationId: getDocumentReference
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-        - $ref: "#/components/parameters/documentStoreLocation"
-        - $ref: "#/components/parameters/documentReferenceId"
-      #query # NO QUERY PARAMETER
-      #header
-          #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryDocumentReference"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-    delete:
-      summary: Remove document reference from the claim
-      description: |
-        Remove document reference from the claim
-      operationId: removeDocumentReferenceFromClaim
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-        - $ref: "#/components/parameters/documentStoreLocation"
-        - $ref: "#/components/parameters/documentReferenceId"
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimDocumentReferenceInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
 
 components:
 #####################################################
@@ -1367,22 +1135,6 @@ components:
       items:
         $ref: "#/components/schemas/patchObject"
 
-
-    documentReference:
-      type: object
-      required:
-        - documentStoreLocation
-        - documentReferenceId
-        - typeCode
-      properties:
-        documentStoreLocation:
-          type: string
-        documentReferenceId:
-          $ref: "#/components/schemas/uuid"
-        typeCode:
-          type: string
-          maxLength: 10
-
     amount:
       type: object
       required:
@@ -1663,13 +1415,6 @@ components:
       - "SecondaryCollection"
       - "LegalCollection"
 
-    documentReferenceListDetails:
-      description: |
-        List of file reference
-      type: array
-      items:
-        $ref: "#/components/schemas/documentReference"
-
     claimListDetails:
       description: |
         List of claim
@@ -1777,10 +1522,6 @@ components:
           type: string
           format: date
           example: "2022-01-31"
-        hasDocumentReference:
-          description: |
-            Has the claim a file reference
-          type: boolean
 
     transferClaimDetails:
       description: |
@@ -2163,14 +1904,6 @@ components:
           items:
             $ref: "#/components/schemas/claimOperationError"
 
-    documentReferenceOperation:
-      description: |
-        List of file reference response
-      properties:
-        status:
-          description: Did the method success
-          type: boolean
-
     claimHistoryList:
       description: |
         Claim history
@@ -2178,12 +1911,6 @@ components:
       items:
         $ref: "#/components/schemas/claimHistoryEvent"
 
-    documentReferenceList:
-      description: |
-        List of document references
-      type: array
-      items:
-        $ref: "#/components/schemas/documentReference"
 
     claimHistoryEvent:
       description: |
@@ -2777,20 +2504,6 @@ components:
       schema:
         $ref: "#/components/schemas/claimId"
 
-    documentStoreLocation:
-      name: documentStoreLocation
-      in: path
-      required: true
-      schema:
-        type: string
-
-    documentReferenceId:
-      name: documentReferenceId
-      in: path
-      required: true
-      schema:
-        type: string
-
     Authorization:
       name: Authorization
       in: header
@@ -3000,15 +2713,6 @@ components:
                   - claimDelete
                   - collectionPut
 
-
-    documentReferenceList:
-      description: |
-        JSON request body for a file reference request message
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/documentReferenceListDetails"
 
     templateCode:
       description: |
@@ -3228,48 +2932,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimOperation"
-
-    OK_200_ClaimDocumentReferenceInformation:
-      description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/documentReferenceOperation"
-
-    OK_200_QueryDocumentReference:
-      description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
-      headers:
-        X-Paging-CurrentPage:
-          description: |
-            Current page number
-          schema:
-            type: integer
-        X-Paging-TotalPages:
-          description: |
-            Total pages
-          schema:
-            type: integer
-        X-Paging-TotalItems:
-          description: |
-            Total items
-          schema:
-            type: integer
-        X-Paging-PerPage:
-          description: |
-            Items per page
-          schema:
-            type: integer
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/documentReferenceList"
 
     OK_200_QueryClaimInformation:
       description: |

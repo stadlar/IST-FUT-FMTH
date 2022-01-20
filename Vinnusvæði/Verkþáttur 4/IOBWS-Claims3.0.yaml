@@ -527,6 +527,7 @@ paths:
         - statusQuery: Claim has one-of ["Unpaid", "Paid", "Cancelled"] statuses
         - stateQuery: Claim states are:
           - PrimaryCollection
+          - WaitingForSecondary
           - SecondaryCollection
           - LegalCollection
         - templateCodeQuery: Bank claim identifier
@@ -1431,10 +1432,11 @@ components:
         - "Cancelled"
 
     collectionState:
-      description: Billing process status
+      description: Claim process status
       type: string
       enum:
       - "PrimaryCollection"
+      - "WaitingForSecondary"
       - "SecondaryCollection"
       - "LegalCollection"
 

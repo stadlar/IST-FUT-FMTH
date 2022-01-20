@@ -243,7 +243,6 @@ paths:
         #NO REQUEST BODY
 
       requestBody:
-        # $ref: "#/components/requestBodies/patchClaim"       # JSON Patch
         $ref: "#/components/requestBodies/mergeClaim"  # JSON Merge Patch
 
       responses:
@@ -592,15 +591,16 @@ paths:
 
   /v1/batches:
 
-    post:
+    patch:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
         Creates a list of action defined by the request body object. Actions can be one of: 
-        - createClaimList: List of claims to be created
-        - cancelClaimList: List of claims to be cancelled
-        - alterClaimList: List of claims to be changed
-        - transferClaimList: List of claims to be moved from one template code to another
-      operationId: createBatch
+        - Recreate a list of claims
+        - Create a list of claims
+        - Cancel a list of claims
+        - Alter a list of claims
+        - Transfer a list of claims to be moved from one template code to another
+      operationId: patchBatch
       tags:
         - Claim Service
       security:
@@ -800,46 +800,6 @@ components:
   # Predefined Schemas
   #####################################################
 
-    #####################################################
-    # _links
-    #####################################################
-
-    hrefType:
-      description: Link to a resource.
-      type: object
-      properties:
-        href:
-          $ref: "#/components/schemas/hrefEntry"
-
-    hrefEntry:
-      description: Link to a resource.
-      type: string
-
-    _linksAll:
-      description: |
-        A _link object with all availabel link types.
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/hrefType"
-      properties:
-        self:
-          $ref: "#/components/schemas/hrefType"
-        status:
-          $ref: "#/components/schemas/hrefType"
-        scaStatus:
-          $ref: "#/components/schemas/hrefType"
-        first:
-          $ref: "#/components/schemas/hrefType"
-        next:
-          $ref: "#/components/schemas/hrefType"
-        previous:
-          $ref: "#/components/schemas/hrefType"
-        last:
-          $ref: "#/components/schemas/hrefType"
-        download:
-          $ref: "#/components/schemas/hrefType"
-
-    # SIMPLE
     uuid:
       type: string
       pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
@@ -1000,61 +960,23 @@ components:
         - "CreationDate"
         - "LastChanged"
 
-    # COMPLEX
-
     batchStatusInitiation:
       description: |
-        Batch status object
-        There are the following batch action supported:
-        * claimPost
-        * claimPut
-        * collectionPut
+        Batch status object. There are the following batch action supported: claimPost, claimPut, collectionPut
       properties:
         action:
           $ref: "#/components/schemas/claimDetails"
         batchType:
           type: string
           enum:
-            - create
-            - alter
-            - transfer
+            - "recreate"
+            - "cancel"
+            - "create"
+            - "alter"
+            - "transfer"
         statusCode:
           description: Http status code
           type: integer
-
-
-    patchObject:
-      description: A JSONPatch document as defined by RFC 6902
-      required:
-       - "op"
-       - "path"
-      properties:
-        op:
-          type: string
-          description: The operation to be performed
-          enum:
-           - "add"
-           - "remove"
-           - "replace"
-           - "move"
-           - "copy"
-           - "test"
-        path:
-          type: string
-          description: A JSON-Pointer
-        value:
-          type: object
-          description: The value to be used within the operations.
-        from:
-          type: string
-          description: A string containing a JSON Pointer value.
-
-    patchObjectList:
-      description: |
-        List of patches on a set of objects
-      type: array
-      items:
-        $ref: "#/components/schemas/patchObject"
 
     amount:
       type: object
@@ -1470,6 +1392,9 @@ components:
         additionalInformation:
           type: string
           maxLength: 200
+        directPaymentClaim:
+          description: Is the claim registered as direct payment claim
+          type: boolean
         lastChanged:
           description: |
             This data element might be used to indicate e.g. last time when changed.
@@ -1477,110 +1402,13 @@ components:
           format: date
           example: "2022-01-31"
 
-    transferClaimDetails:
-      description: |
-        Transfer claim to another collection
-      type: object
-      required:
-        - claimKey
-        - collectionState
-      properties:
-        claimKey:
-          $ref: "#/components/schemas/claimKey"
-        transferToCollectionState:
-          description: Billing process status, where to move the claim
-          type: string
-          enum:
-          - "PrimaryCollection"
-          - "SecondaryCollection"
-          - "LegalCollection"
-
-    alterClaimDetails:
-      description: |
-        Alter claim object
-
-        Description:
-        * billNumber: Banknote number, optional. Information provided by creditors.        
-        * discount: Contains information about discount as constant or percent
-        * customerNumber: Customer billing. Unique key of the payor of the claim with the creditor. Necessary if a 
-                          direct payment agreement related to a collection claim is to be established.
-        * otherCosts: Other costs, including determined fees paid by the payor of a collection claim.
-        * defaultCharge: Contains information on the default fee, either in a fixed amount or in percentages. Note that 
-                         the amount must be within the rules that apply according to Regulation 37/2009.
-        * otherDefaultCosts: Determined fees, e.g. intermediate collection fee.
-        * defaultInterest: Contains information on how penalty interest is calculated.
-        * discount: Contains information about discount as constant or percent
-        * isPermitOutOfSequencePayment: Out of sequence payment allowed
-        * isPartialPaymentAllowed: Partial payment is allowed
-        * isPartialPaymentAllowed: Partial payment is allowed 
-        *   additionalInformation:
-          description: |
-            Will be diplayed to the payor of the claim
-      type: object
-      required:
-        - claimKey
-        - templateCode
-        - amount
-      properties:
-        claimKey:
-          $ref: "#/components/schemas/claimKey"
-        # details
-        expirationDate:
-          type: string
-          format: date
-          example: "2022-01-31"
-        templateCode:
-          $ref: "#/components/schemas/templateCode"
-        amount:
-          $ref: "#/components/schemas/amount"
-        reference:
-          $ref: "#/components/schemas/reference"
-        finalDueDate:
-          type: string
-          format: date
-          example: "2022-01-31"
-        billNumber:
-          type: string
-          maxLength: 7
-        customerNumber:
-          type: string
-          maxLength: 16
-        paymentFee:
-          $ref: "#/components/schemas/paymentFee"
-        otherCosts:
-          type: integer
-        otherDefaultCosts:
-          type: integer
-        # rules
-        defaultCharge:
-          $ref: "#/components/schemas/defaultCharge"
-        defaultInterest:
-          $ref: "#/components/schemas/defaultInterest"
-        discount:
-          $ref: "#/components/schemas/discount"
-        isPermitOutOfSequencePayment:
-          type: boolean
-        isPartialPaymentAllowed:
-          description: Partial payment is allowed
-          type: boolean
-        # other
-        currency:
-          type: string
-          pattern: '[A-Z]{3}'
-        referenceRate:
-          type: string
-          enum:
-            - "ExchangeRate"
-        additionalInformation:
-          type: string
-          maxLength: 200
-
     mergeClaimDetails:
       description: |
         Merge patch claim object
       type: object
       properties:
-        # details
+        claimKey:
+          $ref: "#/components/schemas/claimKey"
         expirationDate:
           type: string
           format: date
@@ -1607,7 +1435,6 @@ components:
           type: integer
         otherDefaultCosts:
           type: integer
-        # rules
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
         defaultInterest:
@@ -1619,7 +1446,6 @@ components:
         isPartialPaymentAllowed:
           description: Partial payment is allowed
           type: boolean
-        # other
         currency:
           type: string
           pattern: '[A-Z]{3}'
@@ -1630,6 +1456,10 @@ components:
         additionalInformation:
           type: string
           maxLength: 200
+        claimStatus:
+          $ref: "#/components/schemas/claimStatus"
+        collectionState:
+          $ref: "#/components/schemas/collectionState"
 
     createClaimDetails:
       description: |
@@ -1714,27 +1544,12 @@ components:
           type: string
           maxLength: 200
 
-
-    createClaimList:
+    mergeClaimList:
       description: |
         JSON request body for a claims update request message
       type: array
       items:
-        $ref: "#/components/schemas/createClaimDetails"
-
-    transferClaimList:
-      description: |
-        JSON request body for a claims update request message
-      type: array
-      items:
-        $ref: "#/components/schemas/transferClaimDetails"
-
-    alterClaimList:
-      description: |
-        JSON request body for a claims update request message
-      type: array
-      items:
-        $ref: "#/components/schemas/alterClaimDetails"
+        $ref: "#/components/schemas/mergeClaimDetails"
 
     # RESPONSES
 
@@ -1756,9 +1571,11 @@ components:
         actionType:
           type: string
           enum:
-            - "claimPost"
-            - "claimPut"
-            - "transferPut"
+            - "recreate"
+            - "cancel"
+            - "create"
+            - "alter"
+            - "transfer"
         actions:
           type: array
           items:
@@ -1817,16 +1634,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/claimOperationSuccess"
-        errors:
-          type: array
-          items:
-            $ref: "#/components/schemas/claimOperationError"
-
-    claimFailedOperation:
-      description: |
-        Failed claims when created in batch.
-      type: object
-      properties:
         errors:
           type: array
           items:
@@ -1911,6 +1718,19 @@ components:
           $ref: "#/components/schemas/kennitala"
         amount:
           $ref: "#/components/schemas/amountValue"
+        finalDueDate:
+          type: string
+          format: date
+        templateCode:
+          $ref: "#/components/schemas/templateCode"
+        reference:
+          $ref: "#/components/schemas/reference"
+        categoryCode:
+          type: string
+          pattern: '[0-9]{3}'
+        redeemingBank:
+          type: string
+          format: '[0-9]{4}'
         transactionTimestamp:
           description: Timestamp when the update of the claims is performed
           type: string
@@ -1944,6 +1764,13 @@ components:
           type: integer
         capitalGainsTax:
           description: Deducted capital gains tax.
+          type: integer
+        billNumber:
+          type: string
+        customerNumber:
+          type: string
+          maxLength: 12
+        noticeChargeAmount:
           type: integer
         defaultChargeAmount:
           type: integer
@@ -2158,8 +1985,6 @@ components:
                 $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode400"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
 
     Error401:
       description: |
@@ -2209,8 +2034,6 @@ components:
                 $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode401"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
 
     Error403:
       description: |
@@ -2260,8 +2083,6 @@ components:
                 $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode403"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
 
     Error404:
       description: |
@@ -2311,8 +2132,6 @@ components:
                 $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode404"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
 
     Error405:
       description: |
@@ -2362,8 +2181,6 @@ components:
                 $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode405"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
 
     Error403_NG:
       description: |
@@ -2374,8 +2191,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/message403"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
 
     Error404_NG:
       description: |
@@ -2386,8 +2201,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/message404"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
 
     Error405_NG:
       description: |
@@ -2398,8 +2211,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/message405"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
 
   parameters:
   #####################################################
@@ -2604,28 +2415,11 @@ components:
     batchInitiation:
       description: |
         JSON request body for a list of actions inition request message
-
-        There are the following batch action supported:
-        * claimPost
-        * claimPut
-        * collectionPut
-
       required: true
       content:
         application/json:
           schema:
-            oneOf:
-              - $ref: "#/components/schemas/createClaimList"
-              - $ref: "#/components/schemas/alterClaimList"
-              - $ref: "#/components/schemas/transferClaimList"
-            properties:
-              batchType:
-                type: string
-                enum:
-                  - claimPost
-                  - claimPut
-                  - collectionPut
-
+            $ref: "#/components/schemas/mergeClaimList"
 
     templateCode:
       description: |
@@ -2645,15 +2439,6 @@ components:
           schema:
             $ref: "#/components/schemas/claimDetails"
 
-    alterClaim:
-      description: |
-        JSON request body for a alter claim request message
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/alterClaimDetails"
-
     mergeClaim:
       description: |
         JSON request body for a create claim request message
@@ -2671,15 +2456,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/createClaimDetails"
-
-    patchClaim:
-      description: |
-        JSON request body for patching a claim
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/patchObjectList"
 
   headers:
   #####################################################
@@ -2719,6 +2495,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/batchStatus"
+          examples:
+            "Example":
+              $ref: "#/components/examples/patchBatch-200_Example"
 
     OK_200_BatchInitiation:
       description: Batch initiation created
@@ -2729,6 +2508,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/batchStatus"
+          examples:
+            "Example":
+              $ref: "#/components/examples/patchBatch-200_Example"
 
     OK_200_ClaimTransactionListInformation:
       description: |
@@ -2760,6 +2542,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimTransactionList"
+          examples:
+            "Example":
+              $ref: "#/components/examples/queryClaimPayments-200_Example"
 
     OK_200_ClaimHistoryListInformation:
       description: |
@@ -2791,18 +2576,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimHistoryList"
-
-    OK_200_ClaimResponseFailedInformation:
-      description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/claimFailedOperation"
-
+          examples:
+            "Example":
+              $ref: "#/components/examples/queryClaimHistory-200_Example"
 
     OK_200_ClaimDetailResponseInformation:
       description: |
@@ -2814,7 +2590,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimDetails"
-
+          examples:
+            "Example":
+              $ref: "#/components/examples/patchClaim-200_Example"
 
     OK_200_ClaimResponseInformation:
       description: |
@@ -2826,6 +2604,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimOperation"
+          examples:
+            "Example":
+              $ref: "#/components/examples/transferClaim-200_Example"
 
     OK_201_ClaimResponseInformation:
       description: |
@@ -2837,6 +2618,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimOperation"
+          examples:
+            "Example":
+              $ref: "#/components/examples/createClaims-201_Example"
 
     OK_200_QueryClaimInformation:
       description: |
@@ -2848,6 +2632,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimDetails"
+          examples:
+            "Example":
+              $ref: "#/components/examples/queryClaim-200_Example"
 
     OK_200_QueryClaimListInformation:
       description: |
@@ -2879,6 +2666,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimListDetails"
+          examples:
+            "Example":
+              $ref: "#/components/examples/queryClaims-200_Example"
 
     OK_200_ClaimListTemplate:
       description: |
@@ -2910,6 +2700,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimTemplateList"
+          examples:
+            "Example":
+              $ref: "#/components/examples/getClaimTemplateList-200_Example"
 
     OK_200_ClaimTemplate:
       description: |
@@ -2921,6 +2714,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/claimTemplateDetails"
+          examples:
+            "Example":
+              $ref: "#/components/examples/getClaimTemplate-200_Example"
 
     #####################################################
     # Negative Responses
@@ -3036,6 +2832,674 @@ components:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       #No Response body because there are no valid message codes for signing baskets in case of HTTP code 503
+
+  examples:
+  #####################################################
+  # Predefined Examples
+  #####################################################
+
+    getClaimTemplateList-200_Example:
+      description: Example of claim templates.
+      value:
+        [
+          {
+            "claimTemplateId": "string",
+            "claimantId": "string",
+            "bank": "0001",
+            "templateCode": "001",
+            "collectionType": "PrimaryCollection",
+            "category": {
+              "code": "st",
+              "name": "string"
+            },
+            "claimantStatementExtendedReferenceType": "ReferenceNumber",
+            "claimantStatementReferenceType": "DueDate",
+            "depositAccount": {
+              "id": "000126123456",
+              "ownerId": "0208715009"
+            },
+            "secondaryCollectionClaimTemplateCode": "MI1",
+            "withdrawalAccount": "000126123456",
+            "additionalDepositAccounts": [
+              {
+                "id": "000126123456",
+                "ownerId": "0208715009",
+                "type": "DefaultInterest",
+                "priority": 0,
+                "depositAmount": {
+                  "value": "5877.78",
+                  "valueType": "FixedAmount"
+                }
+              }
+            ],
+            "isActive": true,
+            "lastModified": "2022-01-31"
+          }
+        ]
+
+    getClaimTemplate-200_Example:
+      description: Example of claim template
+      value:
+        {
+          "claimTemplateId": "ABC123",
+          "claimantId": "0208715009",
+          "bank": "0001",
+          "templateCode": "001",
+          "collectionType": "PrimaryCollection",
+          "category": {
+            "code": "st",
+            "name": "string"
+          },
+          "claimantStatementExtendedReferenceType": "ReferenceNumber",
+          "claimantStatementReferenceType": "DueDate",
+          "depositAccount": {
+            "id": "000126123456",
+            "ownerId": "0208715009"
+          },
+          "secondaryCollectionClaimTemplateCode": "MI1",
+          "withdrawalAccount": "000126123456",
+          "additionalDepositAccounts": [
+            {
+              "id": "000126123456",
+              "ownerId": "0208715009",
+              "type": "DefaultInterest",
+              "priority": 0,
+              "depositAmount": {
+                "value": "5877.78",
+                "valueType": "FixedAmount"
+              }
+            }
+          ],
+          "isActive": true,
+          "lastModified": "2022-01-31"
+        }
+
+    queryClaim-200_Example:
+      description: Example of claims from query
+      value:
+        {
+          "claimKey": {
+            "claimantId": "0208715009",
+            "account": "000126123456",
+            "dueDate": "2022-01-31"
+          },
+          "payorId": "0208715009",
+          "claimStatus": "Unpaid",
+          "collectionState": "PrimaryCollection",
+          "expirationDate": "2022-01-31",
+          "closingDate": "2022-01-31",
+          "templateCode": "001",
+          "claimTemplateId": "string",
+          "amount": {
+            "currency": "ISK",
+            "amount": "123"
+          },
+          "reference": "0208715009",
+          "finalDueDate": "2022-01-31",
+          "billNumber": "12345",
+          "customerNumber": "12345",
+          "paymentFee": {
+            "paymentFee": 0,
+            "directDebitFee": 0
+          },
+          "otherCosts": 150,
+          "otherDefaultCosts": 0,
+          "defaultCharge": {
+            "referenceDate": "FinalDueDate",
+            "isPostRefDate": true,
+            "first": {
+              "day": 0,
+              "amount": 0
+            },
+            "second": {
+              "day": 0,
+              "amount": 0
+            }
+          },
+          "defaultInterest": {
+            "rule": "NoDefaultInterest",
+            "percentage": "5877",
+            "specialCode": ""
+          },
+          "discount": {
+            "referenceDate": "FinalDueDate",
+            "first": {
+              "day": 0,
+              "amount": 0
+            },
+            "second": {
+              "day": 0,
+              "amount": 0
+            }
+          },
+          "isPermitOutOfSequencePayment": true,
+          "isPartialPaymentAllowed": true,
+          "currency": "ISK",
+          "referenceRate": "ExchangeRate",
+          "additionalInformation": "string",
+          "lastChanged": "2022-01-31"
+        }
+
+    patchClaim-200_Example:
+      description: Example of patching claim
+      value:
+        {
+          "claimKey": {
+            "claimantId": "0208715009",
+            "account": "000126123456",
+            "dueDate": "2022-01-31"
+          },
+          "expirationDate": "2022-01-31",
+          "templateCode": "001",
+          "amount": {
+            "currency": "EUR",
+            "amount": "123"
+          },
+          "reference": "string",
+          "finalDueDate": "2022-01-31",
+          "billNumber": "string",
+          "customerNumber": "string",
+          "paymentFee": {
+            "paymentFee": 0,
+            "directDebitFee": 0
+          },
+          "otherCosts": 0,
+          "otherDefaultCosts": 0,
+          "defaultCharge": {
+            "referenceDate": "FinalDueDate",
+            "isPostRefDate": true,
+            "first": {
+              "day": 0,
+              "amount": 0
+            },
+            "second": {
+              "day": 0,
+              "amount": 0
+            }
+          },
+          "defaultInterest": {
+            "rule": "NoDefaultInterest",
+            "percentage": "5877.7801",
+            "specialCode": ""
+          },
+          "discount": {
+            "referenceDate": "FinalDueDate",
+            "first": {
+              "day": 0,
+              "amount": 0
+            },
+            "second": {
+              "day": 0,
+              "amount": 0
+            }
+          },
+          "isPermitOutOfSequencePayment": true,
+          "isPartialPaymentAllowed": true,
+          "currency": "string",
+          "referenceRate": "ExchangeRate",
+          "additionalInformation": "string",
+          "claimStatus": "Unpaid",
+          "collectionState": "PrimaryCollection"
+        }
+
+    queryClaimPayments-200_Example:
+      description: Example of claim payment / transaction
+      value:
+        [
+          {
+            "claimId": "string",
+            "claimKey": {
+              "claimantId": "0208715009",
+              "account": "000126123456",
+              "dueDate": "2022-01-31"
+            },
+            "payorId": "0208715009",
+            "amount": "5877.78",
+            "finalDueDate": "2022-01-20",
+            "templateCode": "001",
+            "reference": "string",
+            "categoryCode": "string",
+            "redeemingBank": "string",
+            "transactionTimestamp": "2022-01-20T23:10:30.237Z",
+            "bookingDate": "2022-01-31",
+            "valueDate": "2022-01-31",
+            "paymentType": "Complete",
+            "depositedAmount": 0,
+            "totalAmount": 0,
+            "capitalGainsTax": 0,
+            "billNumber": "string",
+            "customerNumber": "string",
+            "noticeChargeAmount": 0,
+            "defaultChargeAmount": 0,
+            "otherCostsAmount": 0,
+            "otherDefaultCostsAmount": 0,
+            "defaultInterestAmount": 0,
+            "discountAmount": 0,
+            "currency": "string",
+            "referenceRate": "ExchangeRate"
+          }
+        ]
+
+    queryClaimHistory-200_Example:
+      description: Example of claim history
+      value:
+        [
+          {
+            "claim": {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000126123456",
+                "dueDate": "2022-01-31"
+              },
+              "payorId": "0208715009",
+              "claimStatus": "Unpaid",
+              "collectionState": "PrimaryCollection",
+              "expirationDate": "2022-01-31",
+              "closingDate": "2022-01-31",
+              "templateCode": "001",
+              "claimTemplateId": "string",
+              "amount": {
+                "currency": "EUR",
+                "amount": "123"
+              },
+              "reference": "string",
+              "finalDueDate": "2022-01-31",
+              "billNumber": "string",
+              "customerNumber": "string",
+              "paymentFee": {
+                "paymentFee": 0,
+                "directDebitFee": 0
+              },
+              "otherCosts": 0,
+              "otherDefaultCosts": 0,
+              "defaultCharge": {
+                "referenceDate": "FinalDueDate",
+                "isPostRefDate": true,
+                "first": {
+                  "day": 0,
+                  "amount": 0
+                },
+                "second": {
+                  "day": 0,
+                  "amount": 0
+                }
+              },
+              "defaultInterest": {
+                "rule": "NoDefaultInterest",
+                "percentage": "5877.7801",
+                "specialCode": ""
+              },
+              "discount": {
+                "referenceDate": "FinalDueDate",
+                "first": {
+                  "day": 0,
+                  "amount": 0
+                },
+                "second": {
+                  "day": 0,
+                  "amount": 0
+                }
+              },
+              "isPermitOutOfSequencePayment": true,
+              "isPartialPaymentAllowed": true,
+              "currency": "string",
+              "referenceRate": "ExchangeRate",
+              "additionalInformation": "string",
+              "directPaymentClaim": true,
+              "lastChanged": "2022-01-31"
+            },
+            "payment": {
+              "claimId": "string",
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000126123456",
+                "dueDate": "2022-01-31"
+              },
+              "payorId": "0208715009",
+              "amount": "5877.78",
+              "finalDueDate": "2022-01-20",
+              "templateCode": "001",
+              "reference": "string",
+              "categoryCode": "string",
+              "redeemingBank": "string",
+              "transactionTimestamp": "2022-01-20T23:12:36.097Z",
+              "bookingDate": "2022-01-31",
+              "valueDate": "2022-01-31",
+              "paymentType": "Complete",
+              "depositedAmount": 0,
+              "totalAmount": 0,
+              "capitalGainsTax": 0,
+              "billNumber": "string",
+              "customerNumber": "string",
+              "noticeChargeAmount": 0,
+              "defaultChargeAmount": 0,
+              "otherCostsAmount": 0,
+              "otherDefaultCostsAmount": 0,
+              "defaultInterestAmount": 0,
+              "discountAmount": 0,
+              "currency": "string",
+              "referenceRate": "ExchangeRate"
+            },
+            "transactionType": "Creation"
+          }
+        ]
+
+    transferClaim-200_Example:
+      description: Example of transfer claim
+      value:
+        {
+          "id": "stringstringstringstringstringstring",
+          "status": "InProgress",
+          "success": [
+            {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000126123456",
+                "dueDate": "2022-01-31"
+              },
+              "print": true
+            }
+          ],
+          "errors": [
+            {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000126123456",
+                "dueDate": "2022-01-31"
+              },
+              "error": {
+                "code": "string",
+                "message": "string"
+              }
+            }
+          ]
+        }
+
+    queryClaims-200_Example:
+      description: Example of claims
+      value:
+        [
+          {
+            "claimKey": {
+              "claimantId": "0208715009",
+              "account": "000126123456",
+              "dueDate": "2022-01-31"
+            },
+            "payorId": "0208715009",
+            "claimStatus": "Unpaid",
+            "collectionState": "PrimaryCollection",
+            "expirationDate": "2022-01-31",
+            "closingDate": "2022-01-31",
+            "templateCode": "001",
+            "claimTemplateId": "string",
+            "amount": {
+              "currency": "EUR",
+              "amount": "123"
+            },
+            "reference": "string",
+            "finalDueDate": "2022-01-31",
+            "billNumber": "string",
+            "customerNumber": "string",
+            "paymentFee": {
+              "paymentFee": 0,
+              "directDebitFee": 0
+            },
+            "otherCosts": 0,
+            "otherDefaultCosts": 0,
+            "defaultCharge": {
+              "referenceDate": "FinalDueDate",
+              "isPostRefDate": true,
+              "first": {
+                "day": 0,
+                "amount": 0
+              },
+              "second": {
+                "day": 0,
+                "amount": 0
+              }
+            },
+            "defaultInterest": {
+              "rule": "NoDefaultInterest",
+              "percentage": "5877.7801",
+              "specialCode": ""
+            },
+            "discount": {
+              "referenceDate": "FinalDueDate",
+              "first": {
+                "day": 0,
+                "amount": 0
+              },
+              "second": {
+                "day": 0,
+                "amount": 0
+              }
+            },
+            "isPermitOutOfSequencePayment": true,
+            "isPartialPaymentAllowed": true,
+            "currency": "string",
+            "referenceRate": "ExchangeRate",
+            "additionalInformation": "string",
+            "directPaymentClaim": true,
+            "lastChanged": "2022-01-31"
+          }
+        ]
+
+    createClaims-201_Example:
+      description: Example of claim create
+      value:
+        {
+          "claimKey": {
+            "claimantId": "0208715009",
+            "account": "000126123456",
+            "dueDate": "2022-01-31"
+          },
+          "payorId": "0208715009",
+          "expirationDate": "2022-01-31",
+          "templateCode": "001",
+          "amount": {
+            "currency": "EUR",
+            "amount": "123"
+          },
+          "reference": "string",
+          "finalDueDate": "2022-01-31",
+          "billNumber": "string",
+          "customerNumber": "string",
+          "paymentFee": {
+            "paymentFee": 0,
+            "directDebitFee": 0
+          },
+          "otherCosts": 0,
+          "otherDefaultCosts": 0,
+          "defaultCharge": {
+            "referenceDate": "FinalDueDate",
+            "isPostRefDate": true,
+            "first": {
+              "day": 0,
+              "amount": 0
+            },
+            "second": {
+              "day": 0,
+              "amount": 0
+            }
+          },
+          "defaultInterest": {
+            "rule": "NoDefaultInterest",
+            "percentage": "5877.7801",
+            "specialCode": ""
+          },
+          "discount": {
+            "referenceDate": "FinalDueDate",
+            "first": {
+              "day": 0,
+              "amount": 0
+            },
+            "second": {
+              "day": 0,
+              "amount": 0
+            }
+          },
+          "isPermitOutOfSequencePayment": true,
+          "isPartialPaymentAllowed": true,
+          "currency": "string",
+          "referenceRate": "ExchangeRate",
+          "additionalInformation": "string"
+        }
+
+    patchBatch-200_Example:
+      description: Example of patch >
+      value:
+        {
+          "batchId": "stringstringstringstringstringstring",
+          "success": 0,
+          "failed": 0,
+          "pending": 0,
+          "actionType": "recreate",
+          "actions": [
+            {
+              "action": {
+                "claimKey": {
+                  "claimantId": "0208715009",
+                  "account": "000126123456",
+                  "dueDate": "2022-01-31"
+                },
+                "payorId": "0208715009",
+                "claimStatus": "Unpaid",
+                "collectionState": "PrimaryCollection",
+                "expirationDate": "2022-01-31",
+                "closingDate": "2022-01-31",
+                "templateCode": "001",
+                "claimTemplateId": "string",
+                "amount": {
+                  "currency": "EUR",
+                  "amount": "123"
+                },
+                "reference": "string",
+                "finalDueDate": "2022-01-31",
+                "billNumber": "string",
+                "customerNumber": "string",
+                "paymentFee": {
+                  "paymentFee": 0,
+                  "directDebitFee": 0
+                },
+                "otherCosts": 0,
+                "otherDefaultCosts": 0,
+                "defaultCharge": {
+                  "referenceDate": "FinalDueDate",
+                  "isPostRefDate": true,
+                  "first": {
+                    "day": 0,
+                    "amount": 0
+                  },
+                  "second": {
+                    "day": 0,
+                    "amount": 0
+                  }
+                },
+                "defaultInterest": {
+                  "rule": "NoDefaultInterest",
+                  "percentage": "5877.7801",
+                  "specialCode": ""
+                },
+                "discount": {
+                  "referenceDate": "FinalDueDate",
+                  "first": {
+                    "day": 0,
+                    "amount": 0
+                  },
+                  "second": {
+                    "day": 0,
+                    "amount": 0
+                  }
+                },
+                "isPermitOutOfSequencePayment": true,
+                "isPartialPaymentAllowed": true,
+                "currency": "string",
+                "referenceRate": "ExchangeRate",
+                "additionalInformation": "string",
+                "directPaymentClaim": true,
+                "lastChanged": "2022-01-31"
+              },
+              "batchType": "recreate",
+              "statusCode": 0
+            }
+          ]
+        }
+
+    getBatchStatus-200_Example:
+      description: Example of get batch
+      value:
+        [
+          {
+            "claimId": "string",
+            "claimKey": {
+              "claimantId": "0208715009",
+              "account": "000126123456",
+              "dueDate": "2022-01-31"
+            },
+            "payorId": "0208715009",
+            "amount": "5877.78",
+            "finalDueDate": "2022-01-20",
+            "templateCode": "001",
+            "reference": "string",
+            "categoryCode": "string",
+            "redeemingBank": "string",
+            "transactionTimestamp": "2022-01-20T23:28:22.749Z",
+            "bookingDate": "2022-01-31",
+            "valueDate": "2022-01-31",
+            "paymentType": "Complete",
+            "depositedAmount": 0,
+            "totalAmount": 0,
+            "capitalGainsTax": 0,
+            "billNumber": "string",
+            "customerNumber": "string",
+            "noticeChargeAmount": 0,
+            "defaultChargeAmount": 0,
+            "otherCostsAmount": 0,
+            "otherDefaultCostsAmount": 0,
+            "defaultInterestAmount": 0,
+            "discountAmount": 0,
+            "currency": "string",
+            "referenceRate": "ExchangeRate"
+          }
+        ]
+
+    getClaimTransactions-200_Example:
+      description: Example of get transactions
+      value:
+        [
+          {
+            "claimId": "string",
+            "claimKey": {
+              "claimantId": "0208715009",
+              "account": "000126123456",
+              "dueDate": "2022-01-31"
+            },
+            "payorId": "0208715009",
+            "amount": "5877.78",
+            "finalDueDate": "2022-01-20",
+            "templateCode": "001",
+            "reference": "string",
+            "categoryCode": "string",
+            "redeemingBank": "string",
+            "transactionTimestamp": "2022-01-20T23:30:30.072Z",
+            "bookingDate": "2022-01-31",
+            "valueDate": "2022-01-31",
+            "paymentType": "Complete",
+            "depositedAmount": 0,
+            "totalAmount": 0,
+            "capitalGainsTax": 0,
+            "billNumber": "string",
+            "customerNumber": "string",
+            "noticeChargeAmount": 0,
+            "defaultChargeAmount": 0,
+            "otherCostsAmount": 0,
+            "otherDefaultCostsAmount": 0,
+            "defaultInterestAmount": 0,
+            "discountAmount": 0,
+            "currency": "string",
+            "referenceRate": "ExchangeRate"
+          }
+        ]
 
 security:
   #####################################################

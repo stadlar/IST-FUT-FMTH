@@ -63,7 +63,6 @@ paths:
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       responses:
@@ -119,7 +118,6 @@ paths:
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       responses:
@@ -180,67 +178,11 @@ paths:
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_QueryClaimInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-    delete:
-      summary: Cancel a single claim
-      description: |
-        Change the claim status to "Cancelled". Claim can be recreated by setting the claim status to "Unpaid". When  
-        a claim is cancelled, it is not deleted.
-      operationId: cancelClaim
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      responses:
-        '204':
-          $ref: "#/components/responses/NO_CONTENT_204_Cancel"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -298,7 +240,6 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       requestBody:
@@ -360,7 +301,6 @@ paths:
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       responses:
@@ -419,7 +359,6 @@ paths:
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       responses:
@@ -478,7 +417,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/X-Idempotency-Key"
-        - $ref: "#/components/parameters/Authorization"
         #REQUEST BODY
       requestBody:
         $ref: "#/components/requestBodies/templateCode"
@@ -567,7 +505,6 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
 
       responses:
         '200':
@@ -625,7 +562,6 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       requestBody:
@@ -659,7 +595,6 @@ paths:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
         Creates a list of action defined by the request body object. Actions can be one of: 
-        - recreateClaimList: List of claims to be re-created
         - createClaimList: List of claims to be created
         - cancelClaimList: List of claims to be cancelled
         - alterClaimList: List of claims to be changed
@@ -689,7 +624,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/X-Idempotency-Key"
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       requestBody:
@@ -751,7 +685,6 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
 
       responses:
         '200':
@@ -813,7 +746,6 @@ paths:
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       responses:
@@ -858,9 +790,7 @@ components:
   # your system environments and security policies.
   #####################################################
     BearerAuthOAuth:
-      description: |
-        Bearer Token.
-        Is contained only, if an OAuth2 based authentication was performed in a pre-step.
+      description: Bearer Token.
       type: http
       scheme: bearer
 
@@ -907,11 +837,6 @@ components:
           $ref: "#/components/schemas/hrefType"
         download:
           $ref: "#/components/schemas/hrefType"
-
-    authorization:
-      description: |
-        Authorization by OAuth2 based Protocol.
-      type: string
 
     # SIMPLE
     uuid:
@@ -1082,7 +1007,6 @@ components:
         There are the following batch action supported:
         * claimPost
         * claimPut
-        * claimDelete
         * collectionPut
       properties:
         action:
@@ -1091,7 +1015,6 @@ components:
           type: string
           enum:
             - create
-            - cancel
             - alter
             - transfer
         statusCode:
@@ -1787,15 +1710,6 @@ components:
           type: string
           maxLength: 200
 
-    cancelClaimDetails:
-      description: |
-        OK
-      type: object
-      required:
-        - claimKey
-      properties:
-        claimKey:
-          $ref: "#/components/schemas/claimKey"
 
     createClaimList:
       description: |
@@ -1803,13 +1717,6 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/createClaimDetails"
-
-    #recreateClaimList:
-    #  description: |
-    #    JSON request body for a claims update request message
-    #  type: array
-    #  items:
-    #    $ref: "#/components/schemas/createClaimDetails"
 
     transferClaimList:
       description: |
@@ -1824,13 +1731,6 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/alterClaimDetails"
-
-    cancelClaimList:
-      description: |
-        JSON request body for a claims update request message
-      type: array
-      items:
-        $ref: "#/components/schemas/cancelClaimDetails"
 
     # RESPONSES
 
@@ -1854,14 +1754,11 @@ components:
           enum:
             - "claimPost"
             - "claimPut"
-            - "claimDelete"
             - "transferPut"
         actions:
           type: array
           items:
             $ref: "#/components/schemas/batchStatusInitiation"
-
-
 
     claimError:
       description: Error code and description for the claim error
@@ -1937,7 +1834,6 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/claimHistoryEvent"
-
 
     claimHistoryEvent:
       description: |
@@ -2531,15 +2427,6 @@ components:
       schema:
         $ref: "#/components/schemas/claimId"
 
-    Authorization:
-      name: Authorization
-      in: header
-      description: |
-        The bearer token
-      required: True
-      schema:
-        $ref: "#/components/schemas/authorization"
-
     X-Request-ID:
       name: X-Request-ID
       in: header
@@ -2717,7 +2604,6 @@ components:
         There are the following batch action supported:
         * claimPost
         * claimPut
-        * claimDelete
         * collectionPut
 
       required: true
@@ -2725,19 +2611,15 @@ components:
         application/json:
           schema:
             oneOf:
-              #- $ref: "#/components/schemas/recreateClaimList"
               - $ref: "#/components/schemas/createClaimList"
-              - $ref: "#/components/schemas/cancelClaimList"
               - $ref: "#/components/schemas/alterClaimList"
               - $ref: "#/components/schemas/transferClaimList"
             properties:
               batchType:
                 type: string
                 enum:
-                  #- recreate
                   - claimPost
                   - claimPut
-                  - claimDelete
                   - collectionPut
 
 
@@ -2823,14 +2705,6 @@ components:
     #####################################################
     # Positive Responses
     #####################################################
-
-    NO_CONTENT_204_Cancel:
-      description:  No Content
-
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      #NO RESPONSE BODY
 
     OK_201_BatchInitiation:
       description: Batch initiation created
@@ -3163,7 +3037,7 @@ security:
   #####################################################
   # Global security options
   #####################################################
-  - {}
+  - BearerAuthOAuth: []
 
 tags:
   #####################################################
@@ -3171,13 +3045,4 @@ tags:
   #####################################################
 
   - name: Claim Service
-    description: |
-      The component for Claims offers the following services:
-      * Alter claims
-      * Cancel claims
-      * Create claims
-      * Re create claims
-      * Send to secondary collection
-      * Get operation results
-      * Get payments
-      * Get transactions
+    description: The claim service

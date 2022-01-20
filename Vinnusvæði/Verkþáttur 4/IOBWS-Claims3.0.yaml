@@ -518,9 +518,8 @@ paths:
                                       applies to. Possible valibles are:
                                       - DueDate: The claim's due date
                                       - FinalDueDate: The claim's final due date
-                                      - ExpirationDate: has a condition
-                                        - Before cancellation: The claim cancellation date
-                                        - Cancelled claims: The real claim cancellation date as shown in the history
+                                      - ExpirationDate: The claim cancellation date
+                                      - ClosingDate:  Date when the claim was paid, canceled or transferred.
                                       - CreationDate: When the claim was created
                                       - LastChanged: Last claim change event date
         - claimantIdQuery: The claim claimant
@@ -1061,19 +1060,19 @@ components:
 
     dateSpanReferenceDate:
       description: |
-        Types of dates are as follows:
-        - DueDate: In the period (from, to) dates, we are referencing the due date
-        - FinalDueDate: In the period (from, to) dates, we are referencing the final due date
-        - ExpirationDate: Conditional
-            - Before cancellation: Cancellation date from claim details
-            - Cancelled claims: Date of cancellation
-        - CreationDate:
-        - LastChanged: In the period (from, to) dates, we are referencing the changed date of the claim
+        Types of dates are as follows::
+          - DueDate: The claim's due date
+          - FinalDueDate: The claim's final due date
+          - ExpirationDate: The claim cancellation date
+          - ClosingDate:  Date when the claim was paid, canceled or transferred.
+          - CreationDate: When the claim was created
+          - LastChanged: Last claim change event date
       type: string
       enum:
         - "DueDate"
         - "FinalDueDate"
         - "ExpirationDate"
+        - "ClosingDate"
         - "CreationDate"
         - "LastChanged"
 
@@ -1493,6 +1492,11 @@ components:
           $ref: "#/components/schemas/collectionState"
         # details
         expirationDate:
+          type: string
+          format: date
+          example: "2022-01-31"
+        closingDate:
+          description: Date when the claim was paid, canceled or transferred.
           type: string
           format: date
           example: "2022-01-31"

@@ -499,6 +499,7 @@ paths:
         - $ref: "#/components/parameters/statusQuery"
         - $ref: "#/components/parameters/stateQuery"
         - $ref: "#/components/parameters/templateCodeQuery"
+        - $ref: "#/components/parameters/claimTemplateId"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
       #header
@@ -1424,6 +1425,9 @@ components:
           example: "2022-01-31"
         templateCode:
           $ref: "#/components/schemas/templateCode"
+        claimTemplateId:
+          description: Id which is unique for each claimTemplate. This is specific to each bank.
+          type: string
         amount:
           $ref: "#/components/schemas/amount"
         reference:

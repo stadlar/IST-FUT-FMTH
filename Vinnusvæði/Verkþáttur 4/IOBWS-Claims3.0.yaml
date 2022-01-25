@@ -470,7 +470,7 @@ paths:
         - templateCodeQuery: Bank claim identifier
         The QueryClaims function returns a list of claims. The maximum return is set with the page number and 
         number per page.
-      operationId: queryClaims
+      operationId: getClaims
       tags:
         - Claim Service
       security:
@@ -595,11 +595,8 @@ paths:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
         Creates a list of action defined by the request body object. Actions can be one of: 
-        - Recreate a list of claims
         - Create a list of claims
-        - Cancel a list of claims
         - Alter a list of claims
-        - Transfer a list of claims to be moved from one template code to another
       operationId: patchBatch
       tags:
         - Claim Service
@@ -929,8 +926,6 @@ components:
         Indicates the percentage of penalty interest, may not be higher than the Central Bank's maximum permitted
         penalty interest rate. If the penalty interest rule specifies that penalty interest is to be calculated
         and this value is not specified, the Central Bank's maximum penalty interest rate is used automatically.
-
-        Up to 14 significant figures. The decimal separator is a dot.
 
         **Example:**
         Valid representations for rate with up to four decimals are:

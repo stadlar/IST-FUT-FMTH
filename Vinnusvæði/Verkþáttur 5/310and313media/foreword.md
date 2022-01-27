@@ -1,0 +1,17 @@
+# Foreword {.unnumbered}
+This ÍST Technical Specification was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnustofusamþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The TS (Technical specification) was prepared by the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardisation) following a public call for participation within TN-FMÞ. The final draft was sent to the TN-FMÞ on the {{finaldraft_date}} and approved by correspondence on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
+ 
+The accompanying OpenAPI 3.0.1 definition "IOBWS3.0.yaml" located at [https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables](https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables), should be viewed as an integral part of ÍST {{spec_id}}. 
+
+The document "{{fulldoc_name}}", is the source of this rendition, and versions of that document will be used for future errata and clarifications in accordance with the guidelines to be laid out in WA-316. Those rule are outlined in the README.md accompanying the Github Git repository and are accepted by the participants in TN-FMÞ alongside this specification. These guidelines establish the workgroup TN-FMÞ-VH-7 as in charge of ongoing monitoring of submitted issues or pull requests made to the repository, which fall outside the permit of other regular workgroups. TN-FMÞ-VH-7 will evaluate if changes ready to be accepted into the repository, and when or if, they warrant patches or minor releases to the specification. Versioning will be adheres to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html) scheme but each minor release will require a Workgroup agreement in accordance with the "ÍST reglur" referenced above.
+
+{{funding_paragraph}}
+
+ÍST {{spec_id}} is not subject to any patent rights. The underlying OpenAPI specification is derived from version 1.3.8 of the 
+[Berlin Group's NextGenPSD2 Framework](https://www.berlin-group.org/nextgenpsd2-downloads)
+, and therefore also distributed under a 
+[Creative Commons Attribution 4.0 International Public License (CC BY)](https://creativecommons.org/licenses/by/4.0/#).
+
+This means the YAML Specification for ÍST {{spec_id}} can be copied and redistributed in any medium or format for any purpose, even commercially, but when shared appropriate credit must be given, a link to the license must be provided, and an indication given if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. In addition, if you remix, transform, or build upon the specification, you may not distribute the modified specification.
+
+The Technical Committee's participants have made every effort to ensure the reliability and accuracy of the technical and non-technical content of ÍST {{spec_id}}, but this does not guarantee, either explicitly or implicitly, its correctness. Users of ÍST {{spec_id}} should be aware that neither the TN-FMÞ, nor ÍST can be held liable for damages or losses of any kind whatsoever which may arise from its application. Users of ÍST {{spec_id}} do so on their own responsibility and at their own risk.

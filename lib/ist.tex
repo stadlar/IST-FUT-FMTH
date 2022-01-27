@@ -835,9 +835,9 @@ $else$
   \ihead[$if(header-right)$$header-right$$endif$]{$if(header-left)$$header-left$$else${\huge \textbf{\textsf{$title$}}}$endif$}
   \chead[$if(header-center)$$header-center$$else$$endif$]{$if(header-center)$$header-center$$else$$endif$}
   \ohead[$if(header-left)$$header-left$$else${\huge \textbf{\textsf{$title$}}}$endif$]{$if(header-right)$$header-right$$endif$}
-  \ifoot[$if(footer-right)$$footer-right$$else$\thepage$endif$]{$if(footer-left)$$footer-left$$else$$for(author)$$author$$sep$, $endfor$$endif$}
+  \ifoot[$if(footer-right)$$footer-right$$else$\thepage$endif$]{$if(footer-left)$$footer-left$$endif$}
   \cfoot[$if(footer-center)$$footer-center$$else$$endif$]{$if(footer-center)$$footer-center$$else$$endif$}
-  \ofoot[$if(footer-left)$$footer-left$$else$$for(author)$$author$$sep$, $endfor$$endif$]{$if(footer-right)$$footer-right$$else$\thepage$endif$}
+  \ofoot[$if(footer-left)$$footer-left$$endif$]{$if(footer-right)$$footer-right$$else$\thepage$endif$}
   \addtokomafont{pageheadfoot}{\upshape}
 }
 \pagestyle{eisvogel-header-footer}

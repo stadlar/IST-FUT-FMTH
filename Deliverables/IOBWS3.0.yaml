@@ -115,11 +115,11 @@ paths:
         There are the following **payment products**:
         
           - Payment products with payment information in *JSON* format:
-            - ***sepa-credit-transfers***
+            - ***sepa-crecdit-transfers***
             - ***cross-border-credit-transfers***
             - ***credit-transfers***
             - ***claim-payments***
-            - ***credit-card-deposits***
+            - ***payment-card-deposits***
 
         Furthermore the request body depends on the **payment-service**:
           * ***payments***: A single payment initiation request.
@@ -4927,8 +4927,8 @@ components:
           $ref: "#/components/schemas/debtorId"
         ultimateDebtorId:
           $ref: "#/components/schemas/ultimateDebtorId"
-        icelandicPurpose:
-          $ref: "#/components/schemas/icelandicPurpose"
+        icelandicPurposeCode:
+          $ref: "#/components/schemas/icelandicPurposeCode"
 
     cardTransaction:
       description: Card transaction information.
@@ -6298,8 +6298,8 @@ components:
 #        requestedExecutionTime: # N.A. for all, but can be used by ASPSP if needed
 #          type: string
 #          format: date-time
-        centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurpose"
+        centralBankPurposeCode:
+          $ref: "#/components/schemas/centralBankPurposeCode"
 
     paymentInitiationBulkElement_json:
       description: |
@@ -6420,8 +6420,8 @@ components:
           $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-        centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurpose"
+        centralBankPurposeCode:
+          $ref: "#/components/schemas/centralBankPurposeCode"
 
 
     periodicPaymentInitiation_json: 
@@ -6734,7 +6734,7 @@ components:
         Payments types:
           * credit-transfers
           * claim-payments
-          * credit-card-deposits
+          * payment-card-deposits
           * foreign-payment
 
       type: object
@@ -6777,10 +6777,10 @@ components:
           $ref: "#/components/schemas/ultimateCreditor"
         ultimateCreditorId:
           $ref: "#/components/schemas/ultimateCreditorId"
-        centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurpose"
-        icelandicPurpose:
-          $ref: "#/components/schemas/icelandicPurpose"
+        centralBankPurposeCode:
+          $ref: "#/components/schemas/centralBankPurposeCode"
+        icelandicPurposeCode:
+          $ref: "#/components/schemas/icelandicPurposeCode"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
         remittanceInformationStructured: 
@@ -6801,7 +6801,7 @@ components:
 
         Possible values:
           * credit-transfers
-          * credit-card-deposit
+          * payment-card-deposit
 
       type: object
       required:
@@ -6823,8 +6823,8 @@ components:
           maxLength: 35
         instructedAmount:
           $ref: "#/components/schemas/amount"
-        icelandicPurpose:
-          $ref: "#/components/schemas/icelandicPurpose"
+        icelandicPurposeCode:
+          $ref: "#/components/schemas/icelandicPurposeCode"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
         remittanceInformationStructured: 
@@ -6850,7 +6850,7 @@ components:
         Payments types:
           * credit-transfers
           * claim-payments
-          * credit-card-deposits
+          * payment-card-deposits
 
       type: object
       properties:
@@ -6892,7 +6892,7 @@ components:
         
           * credit-transfers
           * claim-payments
-          * credit-card-deposits
+          * payment-card-deposits
         
         For the convenience of the implementer additional which are already predefinded in the Implementation Guidelines 
         are included (but commented in source code), such that an ASPSP may add them easily.
@@ -6931,10 +6931,10 @@ components:
           $ref: "#/components/schemas/ultimateCreditor"
         ultimateCreditorId:
           $ref: "#/components/schemas/ultimateCreditorId"
-        icelandicPurpose:
-          $ref: "#/components/schemas/icelandicPurpose"
-        centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurpose"
+        icelandicPurposeCode:
+          $ref: "#/components/schemas/icelandicPurposeCode"
+        centralBankPurposeCode:
+          $ref: "#/components/schemas/centralBankPurposeCode"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
         remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
@@ -7223,8 +7223,8 @@ components:
           $ref: "#/components/schemas/transactionStatus"
         transactionFeesDetails:
           $ref: "#/components/schemas/transactionFeesList"
-        icelandicPurpose:
-          $ref: "#/components/schemas/icelandicPurpose"
+        icelandicPurposeCode:
+          $ref: "#/components/schemas/icelandicPurposeCode"
         chargesAccount:
           $ref: "#/components/schemas/accountReference"
 
@@ -11028,13 +11028,13 @@ components:
         }]
 
 
-    icelandicPurpose:
+    icelandicPurposeCode:
       description: |
         Standardised definition of transaction used in the Iceland market to define the purpose of the transaction.
       type: string
-      maxLength: 3
+      maxLength: 2
 
-    centralBankPurpose:
+    centralBankPurposeCode:
       description: |
         Standardised definition of purpose code required by the Icelandic Central Bank.
       type: string
@@ -11075,7 +11075,7 @@ components:
         The following payment products are supported:
           - credit-transfers
           - claim-payments
-          - credit-card-deposits
+          - payment-card-deposits
           - sepa-credit-transfers
           - cross-border-credit-transfers
         
@@ -11093,7 +11093,7 @@ components:
         enum:
           - "credit-transfers"
           - "claim-payments"
-          - "credit-card-deposits"
+          - "payment-card-deposits"
           - "sepa-credit-transfers"
           - "cross-border-credit-transfers"
 
@@ -11699,7 +11699,7 @@ components:
         There are the following payment-products supported:
           * "credit-transfers with JSON-Body"
           * "claim-payments with JSON-Body"
-          * "credit-card-deposits with JSON-Body"
+          * "payment-card-deposits with JSON-Body"
           * "sepa-credit-transfers" with JSON-Body
           * "cross-border-credit-transfers" with JSON-Body
 
@@ -11733,16 +11733,16 @@ components:
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-payments_json"
             "Example 5: 'payments' - 'claim-payments'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-claim-payments_json"
-            "Example 6: 'payments' - 'credit-card-deposits'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-credit-card-payments_json"
+            "Example 6: 'payments' - 'payment-card-deposits'":
+              $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-payment-card-payments_json"
             "Example 7: 'payments' - 'foreign-payment-sepa'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-foreign-sepa-payments_json"
             "Example 8: 'payments' - 'foreign-payment-cross-border'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-foreign-cross-border-payments_json"            
             "Example 9: 'periodic-payments' - 'credit-transfers'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-periodic-payments_json"
-            "Example 10: 'periodic-payments' - 'credit-card-deposits'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_creditCardTopUp-periodic-payments_json"
+            "Example 10: 'periodic-payments' - 'payment-card-deposits'":
+              $ref: "#/components/examples/paymentInitiationDomesticBody_paymentCardTopUp-periodic-payments_json"
             "Example 11: 'bulk-payments' - 'credit-transfers'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_json"
     signingBasket:
@@ -14195,7 +14195,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": "03",
+          "icelandicPurposeCode": "03",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14220,11 +14220,11 @@ components:
           "ultimateCreditorId": "0109722329",
           "ultimateCreditor": "Páll Pálsson (Real receiver)",
           "partialPayment": true,
-          "icelandicPurpose": "03",
+          "icelandicPurposeCode": "03",
           "remittanceInformationUnstructured": "My description"
         }
 
-    paymentInitiationDomesticBody_creditTransfer-credit-card-payments_json:
+    paymentInitiationDomesticBody_creditTransfer-payment-card-payments_json:
       value:
         {
           "endToEndIdentification": "Short description",
@@ -14241,7 +14241,7 @@ components:
             "amount": "1235"
           },
           "partialPayment": true,
-          "icelandicPurpose": "87",
+          "icelandicPurposeCode": "87",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14269,7 +14269,7 @@ components:
             "postCode": "101",
             "country": "IS"
           },
-          "centralBankPurpose": "099",
+          "centralBankPurposeCode": "099",
           "remittanceInformationUnstructured": "My description"
         }
     
@@ -14306,7 +14306,7 @@ components:
             "country": "DK"
           },
           "serviceLevel": "PRPT",
-          "centralBankPurpose": "099",
+          "centralBankPurposeCode": "099",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14326,7 +14326,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": "87",
+          "icelandicPurposeCode": "87",
           "remittanceInformationUnstructured": "My description",
           "startDate": "2020-03-01",
           "executionRule": "preceding",
@@ -14334,7 +14334,7 @@ components:
           "dayOfExecution": "1"
         }
 
-    paymentInitiationDomesticBody_creditCardTopUp-periodic-payments_json:
+    paymentInitiationDomesticBody_paymentCardTopUp-periodic-payments_json:
       value:
         {
           "endToEndIdentification": "Short description",
@@ -14350,7 +14350,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": "87",
+          "icelandicPurposeCode": "87",
           "remittanceInformationUnstructured": "My description",
           "startDate": "2020-03-01",
           "executionRule": "preceding",
@@ -14398,7 +14398,7 @@ components:
                 "currency": "ISK",
                 "amount": "1235"
               },
-              "icelandicPurpose": {
+              "icelandicPurposeCode": {
                 "code": "87"
               },
               "remittanceInformationUnstructured": "My description"

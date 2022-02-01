@@ -115,7 +115,7 @@ paths:
         There are the following **payment products**:
         
           - Payment products with payment information in *JSON* format:
-            - ***sepa-credit-transfers***
+            - ***sepa-crecdit-transfers***
             - ***cross-border-credit-transfers***
             - ***credit-transfers***
             - ***claim-payments***
@@ -4926,8 +4926,8 @@ components:
           $ref: "#/components/schemas/debtorId"
         ultimateDebtorId:
           $ref: "#/components/schemas/ultimateDebtorId"
-        icelandicPurpose:
-          $ref: "#/components/schemas/icelandicPurpose"
+        icelandicPurposeCode:
+          $ref: "#/components/schemas/icelandicPurposeCode"
 
     cardTransaction:
       description: Card transaction information.
@@ -11880,7 +11880,7 @@ components:
         There are the following payment-products supported:
           * "credit-transfers with JSON-Body"
           * "claim-payments with JSON-Body"
-          * "credit-card-deposits with JSON-Body"
+          * "payment-card-deposits with JSON-Body"
           * "sepa-credit-transfers" with JSON-Body
           * "cross-border-credit-transfers" with JSON-Body
 

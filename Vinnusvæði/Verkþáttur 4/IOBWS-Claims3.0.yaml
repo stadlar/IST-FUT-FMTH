@@ -382,66 +382,6 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claims/{claimId}/collection:
-
-    put:
-      summary: Move claim from one claim template to another.
-      description: |
-        The action transfers the claim between template code. When claim is moved between template codes
-        it might change who can see the claim. Claims in primary collection are only visible to the claimant.
-      operationId: transferClaim
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-      #query
-        - $ref: "#/components/parameters/templateCodeQuery"
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/X-Idempotency-Key"
-        #REQUEST BODY
-      requestBody:
-        $ref: "#/components/requestBodies/templateCode"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_201_ActionSingleResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
   /v1/claims:
 
     get:
@@ -2410,7 +2350,7 @@ components:
       in: query
       description: |
         ClaimantId is the Icelandic kennitala for the claimant
-      required: true
+      required: false
       schema:
         $ref: "#/components/schemas/kennitala"
 
@@ -2657,7 +2597,7 @@ components:
             $ref: "#/components/schemas/claimTransactionList"
           examples:
             "Example":
-              $ref: "#/components/examples/queryClaimPayments-200_Example"
+              $ref: "#/components/examples/getClaimPayments-200_Example"
 
     OK_200_ClaimHistoryListInformation:
       description: |
@@ -2691,7 +2631,7 @@ components:
             $ref: "#/components/schemas/claimHistoryList"
           examples:
             "Example":
-              $ref: "#/components/examples/queryClaimHistory-200_Example"
+              $ref: "#/components/examples/getClaimHistory-200_Example"
 
     OK_201_ClaimResponseInformation:
       description: |
@@ -2719,7 +2659,7 @@ components:
             $ref: "#/components/schemas/claimDetails"
           examples:
             "Example":
-              $ref: "#/components/examples/queryClaim-200_Example"
+              $ref: "#/components/examples/getClaim-200_Example"
 
     OK_200_QueryClaimListInformation:
       description: |
@@ -2753,7 +2693,7 @@ components:
             $ref: "#/components/schemas/claimListDetails"
           examples:
             "Example":
-              $ref: "#/components/examples/queryClaims-200_Example"
+              $ref: "#/components/examples/getClaims-200_Example"
 
     OK_200_ClaimListTemplate:
       description: |
@@ -2945,18 +2885,6 @@ components:
             },
             "secondaryCollectionClaimTemplateCode": "MI1",
             "withdrawalAccount": "000126123456",
-            "additionalDepositAccounts": [
-              {
-                "id": "000126123456",
-                "ownerId": "0208715009",
-                "type": "DefaultInterest",
-                "priority": 0,
-                "depositAmount": {
-                  "value": "5877.78",
-                  "valueType": "FixedAmount"
-                }
-              }
-            ],
             "isActive": true,
             "lastModified": "2022-01-31"
           }
@@ -2999,7 +2927,7 @@ components:
           "lastModified": "2022-01-31"
         }
 
-    queryClaim-200_Example:
+    getClaim-200_Example:
       description: Example of claims from query
       value:
         {
@@ -3015,52 +2943,94 @@ components:
           "closingDate": "2022-01-31",
           "templateCode": "001",
           "claimTemplateId": "string",
-          "amount": {
-            "currency": "ISK",
-            "amount": "123"
-          },
-          "reference": "0208715009",
+          "secondaryCollectionTemplateCode": "001",
+          "secondaryCollectionClaimTemplateId": "string",
+          "categoryCode": "string",
+          "amount": 0,
+          "defaultChargeAmount": 0,
+          "defaultInterestAmount": 0,
+          "discountAmount": 0,
+          "noticeChargeAmount": 0,
+          "otherCostsAmount": 0,
+          "otherDefaultCostsAmount": 0,
+          "totalAmountDue": 0,
+          "reference": "string",
           "finalDueDate": "2022-01-31",
-          "billNumber": "12345",
-          "customerNumber": "12345",
+          "billNumber": "string",
+          "customerNumber": "string",
           "paymentFee": {
             "paymentFee": 0,
             "directDebitFee": 0
           },
-          "otherCosts": 150,
+          "otherCosts": 0,
           "otherDefaultCosts": 0,
           "defaultCharge": {
             "referenceDate": "FinalDueDate",
             "first": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             },
             "second": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             }
           },
           "defaultInterest": {
             "rule": "NoDefaultInterest",
-            "percentage": "5877",
+            "percentage": 0,
             "specialCode": ""
           },
           "discount": {
             "referenceDate": "FinalDueDate",
             "first": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             },
             "second": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             }
           },
           "isPermitOutOfSequencePayment": true,
           "isPartialPaymentAllowed": true,
-          "currency": "ISK",
+          "isPartiallyPaid": true,
+          "currency": "string",
           "referenceRate": "ExchangeRate",
           "additionalInformation": "string",
+          "printing": {
+            "claimantAddress": {
+              "name": "string",
+              "addressLine1": "string",
+              "addressLine2": "string",
+              "postalCode": "string",
+              "city": "string",
+              "region": "string",
+              "country": "string"
+            },
+            "payorAddress": {
+              "name": "string",
+              "addressLine1": "string",
+              "addressLine2": "string",
+              "postalCode": "string",
+              "city": "string",
+              "region": "string",
+              "country": "string"
+            },
+            "itemRows": [
+              {
+                "text": "string",
+                "amount": 0
+              }
+            ],
+            "comments": [
+              "string"
+            ]
+          },
+          "directPaymentClaim": true,
           "lastChanged": "2022-01-31"
         }
 
@@ -3075,10 +3045,7 @@ components:
           },
           "expirationDate": "2022-01-31",
           "templateCode": "001",
-          "amount": {
-            "currency": "EUR",
-            "amount": "123"
-          },
+          "amount": 0,
           "reference": "string",
           "finalDueDate": "2022-01-31",
           "billNumber": "string",
@@ -3092,26 +3059,30 @@ components:
           "defaultCharge": {
             "referenceDate": "FinalDueDate",
             "first": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             },
             "second": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             }
           },
           "defaultInterest": {
             "rule": "NoDefaultInterest",
-            "percentage": "5877.7801",
+            "percentage": 0,
             "specialCode": ""
           },
           "discount": {
             "referenceDate": "FinalDueDate",
             "first": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             },
             "second": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             }
@@ -3122,10 +3093,39 @@ components:
           "referenceRate": "ExchangeRate",
           "additionalInformation": "string",
           "claimStatus": "Unpaid",
-          "collectionState": "PrimaryCollection"
+          "collectionState": "PrimaryCollection",
+          "printing": {
+            "claimantAddress": {
+              "name": "string",
+              "addressLine1": "string",
+              "addressLine2": "string",
+              "postalCode": "string",
+              "city": "string",
+              "region": "string",
+              "country": "string"
+            },
+            "payorAddress": {
+              "name": "string",
+              "addressLine1": "string",
+              "addressLine2": "string",
+              "postalCode": "string",
+              "city": "string",
+              "region": "string",
+              "country": "string"
+            },
+            "itemRows": [
+              {
+                "text": "string",
+                "amount": 0
+              }
+            ],
+            "comments": [
+              "string"
+            ]
+          }
         }
 
-    queryClaimPayments-200_Example:
+    getClaimPayments-200_Example:
       description: Example of claim payment / transaction
       value:
         [
@@ -3137,13 +3137,16 @@ components:
               "dueDate": "2022-01-31"
             },
             "payorId": "0208715009",
-            "amount": "5877.78",
-            "finalDueDate": "2022-01-20",
+            "amount": 0,
+            "finalDueDate": "2022-02-02",
             "templateCode": "001",
+            "claimTemplateId": "string",
+            "secondaryCollectionTemplateCode": "001",
+            "secondaryCollectionClaimTemplateId": "string",
             "reference": "string",
             "categoryCode": "string",
             "redeemingBank": "string",
-            "transactionTimestamp": "2022-01-20T23:10:30.237Z",
+            "transactionTimestamp": "2022-02-02T22:09:08.070Z",
             "bookingDate": "2022-01-31",
             "valueDate": "2022-01-31",
             "paymentType": "Complete",
@@ -3159,11 +3162,15 @@ components:
             "defaultInterestAmount": 0,
             "discountAmount": 0,
             "currency": "string",
-            "referenceRate": "ExchangeRate"
+            "currencyExchange": {
+              "currency": "string",
+              "rate": 0
+            },
+            "batchId": "447dbf7b-4f99-44ce-9469-e794b250fa4e"
           }
         ]
 
-    queryClaimHistory-200_Example:
+    getClaimHistory-200_Example:
       description: Example of claim history
       value:
         [
@@ -3181,10 +3188,17 @@ components:
               "closingDate": "2022-01-31",
               "templateCode": "001",
               "claimTemplateId": "string",
-              "amount": {
-                "currency": "EUR",
-                "amount": "123"
-              },
+              "secondaryCollectionTemplateCode": "001",
+              "secondaryCollectionClaimTemplateId": "string",
+              "categoryCode": "string",
+              "amount": 0,
+              "defaultChargeAmount": 0,
+              "defaultInterestAmount": 0,
+              "discountAmount": 0,
+              "noticeChargeAmount": 0,
+              "otherCostsAmount": 0,
+              "otherDefaultCostsAmount": 0,
+              "totalAmountDue": 0,
               "reference": "string",
               "finalDueDate": "2022-01-31",
               "billNumber": "string",
@@ -3198,35 +3212,69 @@ components:
               "defaultCharge": {
                 "referenceDate": "FinalDueDate",
                 "first": {
+                  "chargeType": "Percentage",
                   "day": 0,
                   "amount": 0
                 },
                 "second": {
+                  "chargeType": "Percentage",
                   "day": 0,
                   "amount": 0
                 }
               },
               "defaultInterest": {
                 "rule": "NoDefaultInterest",
-                "percentage": "5877.7801",
+                "percentage": 0,
                 "specialCode": ""
               },
               "discount": {
                 "referenceDate": "FinalDueDate",
                 "first": {
+                  "chargeType": "Percentage",
                   "day": 0,
                   "amount": 0
                 },
                 "second": {
+                  "chargeType": "Percentage",
                   "day": 0,
                   "amount": 0
                 }
               },
               "isPermitOutOfSequencePayment": true,
               "isPartialPaymentAllowed": true,
+              "isPartiallyPaid": true,
               "currency": "string",
               "referenceRate": "ExchangeRate",
               "additionalInformation": "string",
+              "printing": {
+                "claimantAddress": {
+                  "name": "string",
+                  "addressLine1": "string",
+                  "addressLine2": "string",
+                  "postalCode": "string",
+                  "city": "string",
+                  "region": "string",
+                  "country": "string"
+                },
+                "payorAddress": {
+                  "name": "string",
+                  "addressLine1": "string",
+                  "addressLine2": "string",
+                  "postalCode": "string",
+                  "city": "string",
+                  "region": "string",
+                  "country": "string"
+                },
+                "itemRows": [
+                  {
+                    "text": "string",
+                    "amount": 0
+                  }
+                ],
+                "comments": [
+                  "string"
+                ]
+              },
               "directPaymentClaim": true,
               "lastChanged": "2022-01-31"
             },
@@ -3238,13 +3286,16 @@ components:
                 "dueDate": "2022-01-31"
               },
               "payorId": "0208715009",
-              "amount": "5877.78",
-              "finalDueDate": "2022-01-20",
+              "amount": 0,
+              "finalDueDate": "2022-02-02",
               "templateCode": "001",
+              "claimTemplateId": "string",
+              "secondaryCollectionTemplateCode": "001",
+              "secondaryCollectionClaimTemplateId": "string",
               "reference": "string",
               "categoryCode": "string",
               "redeemingBank": "string",
-              "transactionTimestamp": "2022-01-20T23:12:36.097Z",
+              "transactionTimestamp": "2022-02-02T22:09:41.914Z",
               "bookingDate": "2022-01-31",
               "valueDate": "2022-01-31",
               "paymentType": "Complete",
@@ -3260,44 +3311,18 @@ components:
               "defaultInterestAmount": 0,
               "discountAmount": 0,
               "currency": "string",
-              "referenceRate": "ExchangeRate"
+              "currencyExchange": {
+                "currency": "string",
+                "rate": 0
+              },
+              "batchId": "447dbf7b-4f99-44ce-9469-e794b250fa4e"
             },
+            "transactionDate": "2022-01-31",
             "transactionType": "Creation"
           }
         ]
 
-    transferClaim-200_Example:
-      description: Example of transfer claim
-      value:
-        {
-          "id": "stringstringstringstringstringstring",
-          "status": "InProgress",
-          "success": [
-            {
-              "claimKey": {
-                "claimantId": "0208715009",
-                "account": "000126123456",
-                "dueDate": "2022-01-31"
-              },
-              "print": true
-            }
-          ],
-          "errors": [
-            {
-              "claimKey": {
-                "claimantId": "0208715009",
-                "account": "000126123456",
-                "dueDate": "2022-01-31"
-              },
-              "error": {
-                "code": "string",
-                "message": "string"
-              }
-            }
-          ]
-        }
-
-    queryClaims-200_Example:
+    getClaims-200_Example:
       description: Example of claims
       value:
         [
@@ -3314,10 +3339,17 @@ components:
             "closingDate": "2022-01-31",
             "templateCode": "001",
             "claimTemplateId": "string",
-            "amount": {
-              "currency": "EUR",
-              "amount": "123"
-            },
+            "secondaryCollectionTemplateCode": "001",
+            "secondaryCollectionClaimTemplateId": "string",
+            "categoryCode": "string",
+            "amount": 0,
+            "defaultChargeAmount": 0,
+            "defaultInterestAmount": 0,
+            "discountAmount": 0,
+            "noticeChargeAmount": 0,
+            "otherCostsAmount": 0,
+            "otherDefaultCostsAmount": 0,
+            "totalAmountDue": 0,
             "reference": "string",
             "finalDueDate": "2022-01-31",
             "billNumber": "string",
@@ -3331,35 +3363,69 @@ components:
             "defaultCharge": {
               "referenceDate": "FinalDueDate",
               "first": {
+                "chargeType": "Percentage",
                 "day": 0,
                 "amount": 0
               },
               "second": {
+                "chargeType": "Percentage",
                 "day": 0,
                 "amount": 0
               }
             },
             "defaultInterest": {
               "rule": "NoDefaultInterest",
-              "percentage": "5877.7801",
+              "percentage": 0,
               "specialCode": ""
             },
             "discount": {
               "referenceDate": "FinalDueDate",
               "first": {
+                "chargeType": "Percentage",
                 "day": 0,
                 "amount": 0
               },
               "second": {
+                "chargeType": "Percentage",
                 "day": 0,
                 "amount": 0
               }
             },
             "isPermitOutOfSequencePayment": true,
             "isPartialPaymentAllowed": true,
+            "isPartiallyPaid": true,
             "currency": "string",
             "referenceRate": "ExchangeRate",
             "additionalInformation": "string",
+            "printing": {
+              "claimantAddress": {
+                "name": "string",
+                "addressLine1": "string",
+                "addressLine2": "string",
+                "postalCode": "string",
+                "city": "string",
+                "region": "string",
+                "country": "string"
+              },
+              "payorAddress": {
+                "name": "string",
+                "addressLine1": "string",
+                "addressLine2": "string",
+                "postalCode": "string",
+                "city": "string",
+                "region": "string",
+                "country": "string"
+              },
+              "itemRows": [
+                {
+                  "text": "string",
+                  "amount": 0
+                }
+              ],
+              "comments": [
+                "string"
+              ]
+            },
             "directPaymentClaim": true,
             "lastChanged": "2022-01-31"
           }
@@ -3377,10 +3443,7 @@ components:
           "payorId": "0208715009",
           "expirationDate": "2022-01-31",
           "templateCode": "001",
-          "amount": {
-            "currency": "EUR",
-            "amount": "123"
-          },
+          "amount": 0,
           "reference": "string",
           "finalDueDate": "2022-01-31",
           "billNumber": "string",
@@ -3394,26 +3457,30 @@ components:
           "defaultCharge": {
             "referenceDate": "FinalDueDate",
             "first": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             },
             "second": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             }
           },
           "defaultInterest": {
             "rule": "NoDefaultInterest",
-            "percentage": "5877.7801",
+            "percentage": 0,
             "specialCode": ""
           },
           "discount": {
             "referenceDate": "FinalDueDate",
             "first": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             },
             "second": {
+              "chargeType": "Percentage",
               "day": 0,
               "amount": 0
             }
@@ -3422,16 +3489,45 @@ components:
           "isPartialPaymentAllowed": true,
           "currency": "string",
           "referenceRate": "ExchangeRate",
-          "additionalInformation": "string"
+          "additionalInformation": "string",
+          "printing": {
+            "claimantAddress": {
+              "name": "string",
+              "addressLine1": "string",
+              "addressLine2": "string",
+              "postalCode": "string",
+              "city": "string",
+              "region": "string",
+              "country": "string"
+            },
+            "payorAddress": {
+              "name": "string",
+              "addressLine1": "string",
+              "addressLine2": "string",
+              "postalCode": "string",
+              "city": "string",
+              "region": "string",
+              "country": "string"
+            },
+            "itemRows": [
+              {
+                "text": "string",
+                "amount": 0
+              }
+            ],
+            "comments": [
+              "string"
+            ]
+          }
         }
 
     patchBatch-200_Example:
       description: Example of patch >
       value:
         {
-          "batchId": "c4d8a04f-7f71-4a5f-b1c2-f8b69d817edc",
-          "success": 1,
-          "failed": 1,
+          "batchId": "447dbf7b-4f99-44ce-9469-e794b250fa4e",
+          "success": 0,
+          "failed": 0,
           "pending": 0,
           "actionType": "create",
           "actions": {
@@ -3449,11 +3545,11 @@ components:
               {
                 "claimKey": {
                   "claimantId": "0208715009",
-                  "account": "000126123457",
+                  "account": "000126123456",
                   "dueDate": "2022-01-31"
                 },
-                "errorCode": "500",
-                "errorMessage": "Error"
+                "errorCode": "string",
+                "errorMessage": "string"
               }
             ]
           }
@@ -3471,13 +3567,16 @@ components:
               "dueDate": "2022-01-31"
             },
             "payorId": "0208715009",
-            "amount": "5877.78",
-            "finalDueDate": "2022-01-20",
+            "amount": 0,
+            "finalDueDate": "2022-02-02",
             "templateCode": "001",
+            "claimTemplateId": "string",
+            "secondaryCollectionTemplateCode": "001",
+            "secondaryCollectionClaimTemplateId": "string",
             "reference": "string",
             "categoryCode": "string",
             "redeemingBank": "string",
-            "transactionTimestamp": "2022-01-20T23:30:30.072Z",
+            "transactionTimestamp": "2022-02-02T22:16:20.970Z",
             "bookingDate": "2022-01-31",
             "valueDate": "2022-01-31",
             "paymentType": "Complete",
@@ -3493,7 +3592,11 @@ components:
             "defaultInterestAmount": 0,
             "discountAmount": 0,
             "currency": "string",
-            "referenceRate": "ExchangeRate"
+            "currencyExchange": {
+              "currency": "string",
+              "rate": 0
+            },
+            "batchId": "stringstringstringstringstringstring"
           }
         ]
 

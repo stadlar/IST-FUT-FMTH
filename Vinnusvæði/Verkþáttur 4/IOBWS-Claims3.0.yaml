@@ -749,11 +749,6 @@ components:
       type: string
       pattern: '[0-9]{10}'
 
-    claimNo:
-      description: Claim no usually 66
-      type: string
-      pattern: "[0-9]{2}"
-
     dueDate:
       description: Due date
       type: string
@@ -2353,15 +2348,6 @@ components:
       required: false
       schema:
         $ref: "#/components/schemas/kennitala"
-
-    claimNo:
-      name: claimNo
-      in: path
-      description: |
-        Claim no usually 66
-      required: true
-      schema:
-        $ref: "#/components/schemas/claimNo"
 
     dueDate:
       name: dueDate

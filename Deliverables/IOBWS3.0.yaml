@@ -4926,8 +4926,8 @@ components:
           $ref: "#/components/schemas/debtorId"
         ultimateDebtorId:
           $ref: "#/components/schemas/ultimateDebtorId"
-        icelandicPurposeCode:
-          $ref: "#/components/schemas/icelandicPurposeCode"
+        icelandicPurpose:
+          $ref: "#/components/schemas/icelandicPurpose"
 
     cardTransaction:
       description: Card transaction information.
@@ -11220,6 +11220,18 @@ components:
           "code": "ACCESS_EXCEEDED",
           "text": "additional text information of the ASPSP up to 500 characters"
         }]
+        
+    icelandicPurpose:
+      description: |
+        Standardised definition of icelandic purpose code and description used in transactions
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 2
+        description:
+          type: string
+          maxLength: 150        
 
 
   parameters:

@@ -120,7 +120,7 @@ The [table @tbl:tbl_svcsupport] below list the implications for the OpenAPI YAML
 
 The {{context_short}} products supported by ÍST {{spec_id}} are as shown in [table @tbl:tbl_svcsupport] below. All those are defined as JSON objects, and other payment types are not supported by the specification.
 
-As instant credit transfers are the only available type in Iceland for account to account transfers, the name is simply Credit Transfers. That does not preclude additional business rules applying for e.g. high-value payments within each bank, or there being different stages in payment flows within e.g. 'end-of-business-day' periods. This could result in service consumers being exposed to transaction status codes reflecting intermediary steps in payment execution, some of which have not previously been visible or mapped in IOBWS return codes. Later changes in CB systems and CMS might also affect the scope of statuses returned so consumers, so all of the available by the specification should be expected.
+Instant credit transfers are the only available type in Iceland for account to account transfers between domestic banks. The reference to 'instant' does not preclude additional business rules applying for e.g. high-value payment processing within each bank, or variations in the payment lifecycle within e.g. 'end-of-business-day' periods. This could result in consumers of the IOBWS ÍST {{spec_id}} services being exposed to intermediary transaction status codes in the payment execution, some of which have not previously been visible or mapped in IOBWS return codes. Later changes in CB systems and CMS might also affect the full scope of statuses returned so consumers, so all of the available by the specification should be expected.
 
 |                          |                                                                                                             |
 |--------------------------|-------------------------------------------------------------------------------------------------------------|
@@ -164,7 +164,7 @@ The following elements are used in the domestic payment products under scope for
 
   creditorAgent                            n.a              n.a          n.a
 
-  creditorAgentAddress                     n.a              n.a          na.
+  creditorAgentAddress                     n.a              n.a          n.a
 
   creditorName                             n.a              n.a          n.a
 
@@ -190,11 +190,11 @@ The following elements are used in the domestic payment products under scope for
 
   serviceLevel                             n.a              n.a          n.a
 
-  centralBankPurpose                      n.a              n.a          n.a
+  centralBankPurposeCode                   n.a              n.a          n.a
   --------------------------------------------------------------------------------------
   :Data Elements for Domestic payments. {#tbl:tbl_data_domestic}
 
-To elaborate on the use of each attribute the following [table @tbl:proper_domestic] contains additional information on top of the schema defenitions. Notes on individual data elements or usage patterns follow in the subsections. 
+To elaborate on the use of particular attributes the following [table @tbl:proper_domestic] contains additional information on top of the schema defenitions. Notes on individual data elements or usage patterns follow in the subsections. 
 
   -------------------------------------------------------------------------------------------
   Field                                   Description
@@ -286,16 +286,16 @@ To elaborate on the use of each attribute the following [table @tbl:proper_domes
                                           towards an existing claim. The claim needs
                                           to allow partial payment, else an error occurs. 
   ------------------------------------------------------------------------------------------
-  :Description of domestic payments properties. {#tbl:proper_domestic}
+  :Detailed description of ÍST {{spec_id}} payments properties. {#tbl:proper_domestic}
 
 ## Bulk Payments
 
-Bulk payments are supported for all the domestic payment types. Only a single payment type is supported in each bulk payment initiation, consistent with the approach of the NextGenPSD2 framework.
+Bulk payments are supported for all ÍST {{spec_id}} payment types. For a bulk payment all collected payments shall be based on the same payment product and initiated from the same debtor account, consistent with the approach of the NextGenPSD2 framework.
 
   ---------------------------------------------------------------------------------------
   **Data Element**         **Type**      **Condition**   **Description**
   ------------------------ ------------- --------------- --------------------------------
-  batchBookingPreferred    Boolean       optional        When the element is true, the
+  batchBookingPreferred    Boolean       Optional        When the element is true, the
                                                          debtor prefers only one booking
                                                          entry. If this element equals
                                                          false, the debtor prefers
@@ -306,7 +306,7 @@ Bulk payments are supported for all the domestic payment types. Only a single pa
                                                          to contracts agreed on with the
                                                          debtor.
 
-  debtorAccount (incl.     Account       mandatory       
+  debtorAccount (incl.     Account       Optional        If batch booking is        preferred, this needs to be supplied and excludes individual payments containing the element debtorAccount
   type)                    Reference                     
 
   paymentInformationId     Max35Text     Optional        Unique identification assigned 
@@ -320,31 +320,23 @@ Bulk payments are supported for all the domestic payment types. Only a single pa
                                                          considered mandatory in future
                                                          versions of the specification.
 
-  requestedExecutionDate   ISODate       optional        Determines if the payments
+  requestedExecutionDate   ISODate       Optional        Determines if the payments
                                                          contained in the bulk will be
                                                          executed at a later date.
                                                          This field may not be used
                                                          together with the field
                                                          requestedExecutionTime.
 
-  requestedExecutionTime   ISODateTime   optional        Determines if the payments
-                                                         contained in the bulk will be
-                                                         executed at the addressed
-                                                         date and time. This field 
-                                                         cannot be together in 
-                                                         combination with
-                                                         *requestedExecutionDate*.
-
-  payments                 Bulk Entry    mandatory       The Bulk Entry is a JSON Type
+  payments                 Bulk Entry    Mandatory       The Bulk Entry is a JSON Type
                                                          which mirrors the supported
                                                          domest payment products for
                                                          single payments, excluding the
-                                                         data elements: debtorAccount,
-                                                         and requestedExecutionDate. 
+                                                         data element requestedExecutionDate. DebtorAccount should also be excluded if batch booking is preferred. 
   ---------------------------------------------------------------------------------------
   :Description of domestic bulk payment main body. {#tbl:bulk_domestic}
 
 # Accounts
+
 
 
   ------------------------------------------------------------------------------------

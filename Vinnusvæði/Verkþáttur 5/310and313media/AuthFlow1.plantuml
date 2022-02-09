@@ -1,0 +1,16 @@
+@startuml
+
+actor User
+participant "ERP\nSystem" as ERP
+
+User -> ERP: Initiates payments
+ERP -> IOBWS: POST: Initiates a\nsingle payment\nor bulk payments
+note right: Validate \n 1. eIDAS certificate \n 2. Request syntax \n 3. Credentials \n 4. Semantics
+IOBWS -> IOBWS: Validation successful
+ERP <- IOBWS: Payment initiation response\n(IOBWS approach)\nwith authorisation URL
+note right: scaMethods:  [\nhttps://iobws.test.com/v1/{payment-service}/{payment-product}/\n{paymentId}/authorisations\nconfirmation"]
+ERP -> IOBWS: PUT: Invoke authorization
+ERP -> IOBWS: Payment status request
+ERP <- IOBWS: Payment status response
+
+@enduml

@@ -204,9 +204,9 @@ paths:
         - $ref: "#/components/parameters/PSU-Http-Method"
         - $ref: "#/components/parameters/PSU-Device-ID"
         - $ref: "#/components/parameters/PSU-Geo-Location"
-		  #optional additional idempotency value of operation in header		
+      #optional additional idempotency value of operation in header    
         - $ref: "#/components/parameters/Idempotency-Key"
-		
+    
 
         
 
@@ -4927,8 +4927,8 @@ components:
           $ref: "#/components/schemas/debtorId"
         ultimateDebtorId:
           $ref: "#/components/schemas/ultimateDebtorId"
-        icelandicPurposeCode:
-          $ref: "#/components/schemas/icelandicPurposeCode"
+        icelandicPurpose:
+          $ref: "#/components/schemas/icelandicPurpose"
 
     cardTransaction:
       description: Card transaction information.
@@ -5084,13 +5084,13 @@ components:
       type: string
       pattern: '[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}'
       example: "AAAADEBBXXX"
-	  
-	  
+    
+    
     bicfiOrIdentification: 
       description: |
         BICFI or other organization identification
       type: string
-      example: "AAAADEBBXXX or //FW123456789 or other"	  
+      example: "AAAADEBBXXX or //FW123456789 or other"    
 
 
     pan:
@@ -11026,6 +11026,18 @@ components:
           "code": "ACCESS_EXCEEDED",
           "text": "additional text information of the ASPSP up to 500 characters"
         }]
+        
+    icelandicPurpose:
+      description: |
+        Standardised definition of icelandic purpose code and description used in transactions
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 2
+        description:
+          type: string
+          maxLength: 150        
 
 
     icelandicPurposeCode:
@@ -11033,7 +11045,8 @@ components:
         Standardised definition of transaction used in the Iceland market to define the purpose of the transaction.
       type: string
       maxLength: 2
-
+      
+      
     centralBankPurposeCode:
       description: |
         Standardised definition of purpose code required by the Icelandic Central Bank.

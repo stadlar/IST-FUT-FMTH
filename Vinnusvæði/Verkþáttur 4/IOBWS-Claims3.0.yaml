@@ -153,7 +153,7 @@ paths:
       description: |
         Returns single claim if exists or if the user has access. The single claim function returns the existing 
         claim requested based on the claim id.
-      operationId: queryClaim
+      operationId: getClaim
       tags:
         - Claim Service
       security:
@@ -273,7 +273,7 @@ paths:
       summary: Get payments for a single claim
       description: |
         Returns all claim payments. When claim is paid by debtor the claim paymentis visible is near real-time.
-      operationId: queryClaimPayments
+      operationId: getClaimTransactions
       tags:
         - Claim Service
       security:
@@ -331,7 +331,7 @@ paths:
       description: |
         Claim history contains every event for the claim from the beginning, i.e. all changes that
         have been made to the claim together with information about the claim itself.
-      operationId: queryClaimHistory
+      operationId: getClaimHistory
       tags:
         - Claim Service
       security:
@@ -477,7 +477,7 @@ paths:
         - Completed: Claim has been created in the banks system without error
         - CompletedWithErrors: One or more errors have prevented the claim to be created
         - NotConfirmed: Not confirmed
-      operationId: createClaims
+      operationId: createClaim
       tags:
         - Claim Service
       security:
@@ -534,9 +534,7 @@ paths:
     patch:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
-        Creates a list of action defined by the request body object. Actions can be one of: 
-        - Create a list of claims
-        - Alter a list of claims
+        Creates a list of action defined by the request body object.
       operationId: patchBatch
       tags:
         - Claim Service
@@ -566,6 +564,62 @@ paths:
 
       requestBody:
         $ref: "#/components/requestBodies/batchInitiation"
+
+      responses:
+        '201':
+          $ref: "#/components/responses/OK_20x_ActionResponse"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+    post:
+      summary: Creates a batch. Batch is a list of actions defined in the body
+      description: |
+        Creates a list of claims defined by the request body object to be created.
+      operationId: postBatch
+      tags:
+        - Claim Service
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        #path # NO PATH PARAMETER
+        #query
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        - $ref: "#/components/parameters/X-Idempotency-Key"
+        #NO REQUEST BODY
+
+      requestBody:
+        $ref: "#/components/requestBodies/createClaimList"
 
       responses:
         '201':
@@ -653,7 +707,7 @@ paths:
       description: |
         Returns all payments for multiple claims. When claim is paid by debtor the claim payments visible 
         is near real-time.
-      operationId: getClaimTransactions
+      operationId: getClaimsTransactions
       tags:
         - Claim Service
       security:
@@ -773,10 +827,10 @@ components:
 
     account:
       description: |
-        Icelandic Bank Account Number Identifier.
+        Banknumber, ledger (66) and claim number.
       type: string
-      pattern: "[0-9]{12}"
-      example: "000126123456"
+      pattern: "[0-9]{4}66[0-9]{6}"
+      example: "000166123456"
 
     templateCode:
       description: |
@@ -1008,14 +1062,6 @@ components:
           example: "MI1"
         withdrawalAccount:
           $ref: "#/components/schemas/account"
-        isActive:
-          type: boolean
-        lastModified:
-          description: |
-            This data element might be used to indicate e.g. last time when changed.
-          type: string
-          format: date
-          example: "2022-01-31"
 
     claimTemplateDetails:
       description: |
@@ -1084,12 +1130,6 @@ components:
             $ref: "#/components/schemas/depositAccountWithDetails"
         isActive:
           type: boolean
-        lastModified:
-          description: |
-            This data element might be used to indicate e.g. last time when changed.
-          type: string
-          format: date
-          example: "2022-01-31"
 
     paymentFee:
       description: |
@@ -1107,8 +1147,7 @@ components:
 
     claimKey:
       description: |
-        Claim key is a composit key of kennitala, account no and due date. Account is defined as
-        <bank code>66<claim number>
+        Claim key is a composit key of kennitala, account and due date.
       type: object
       required:
         - claimantId
@@ -1140,6 +1179,12 @@ components:
       description: |
         Contains detail information about claim discount
       properties:
+        isPostRefDate:
+          description: |
+            Indicates whether the declared number of days is before or after the reference day. 
+            - True: The number of days is after reference date
+            - False: The number of days is before reference date
+          type: boolean
         referenceDate:
           type: string
           enum:
@@ -1243,41 +1288,66 @@ components:
         penalty interest rate. If the penalty interest rule specifies that penalty interest is to be calculated and 
         this value is not specified, the Central Bank's maximum penalty interest rate is used automatically.
       properties:
-        rule:
+        dateReference:
           description: |
-            Indicates whether penalty interest should be calculated after the reference date and, if so, how.
+            Calculation reference date. Indicates the date on which penalty interest is calculated. 
+            - DueDate: Due date is the reference date.
+            - FinalDueDate: The deadline is the reference date.
           type: string
           enum:
-            - "NoDefaultInterest"
-            - "DefaultInterestAmount"
-            - "DefaultInterestAmountAndDefaultCharge"
+            - "DueDate"
+            - "FinalDueDate"
+        calculationPeriod:
+          description: |
+            Calculation reference time. 
+            - 24-24: The day is based on the period from 24:00 - 24:00.
+          type: string
+          enum:
+            - "24-24"
+        calculationDayRule:
+          description: |
+            Indicates which day is used for calculations if payments do not arrive on banking days.
+            - PaymentDay: The claim is calculated from the date on which the payment is made.
+          type: string
+          enum:
+            - "PaymentDay"
+        defaultInterestException:
+          description: |
+            Exemptions from penalty interest if the due date and/or due date does not fall on banking days.
+            - NoException: No exemption. If the due date is on a closed banking day, payment must be made before the 
+                         due date or the last banking day before the due date, depending on the banking day setting.
+          type: string
+          enum:
+            - "NoException"
+        baseAmountType:
+          description: |
+            Indicates the amount by which the penalty interest is calculated.
+            - Amount: Penalty interest is calculated on the basis of the amount of the claim.
+            - AmountAndDefaultCharge: Penalty interest is calculated on the basis of the amount 
+            and arrears of the claim.
+          type: string
+          enum:
+            - "Amount"
+            - "AmountAndDefaultCharge"
+        baseTimeType:
+          description: |
+            Indicates at what time the basis of penalty interest is calculated. Time = (number of days/time basis)
+            - Daily: Daily interest. Time is used = (number of days / 1), Only for the state.
+            - 360: Annual interest rate where the year is calculated as 360 days. Time is used = (number of days / 360).
+            - Calendar: Annual interest where the year is calculated with calendar days. Time = is 
+              used (number of days / calendar days).
+          type: string
+          enum:
+          - "Daily"
+          - "360"
+          - "Calendar"
         percentage:
+          description: |
+              Segir til um prósentu dráttarvaxta. Ef þetta svæði er ekki tilgreint/skilað, eru hæstu leyfilegu dráttarvextir Seðlabankans notaðir.
+              (Optional type ct:Percentage4 [xs:decimal, fractionDigits: 4, totalDigits: 7, minInclusive: 0, maxExclusive: 100.0000]) -
+              Prósent er 0 - 100
           type: number
           format: double
-        specialCode:
-          description: |
-            To set certain values on a claim, you must submit values that are in accordance with the penalty interest
-            rules of RB.
-              "-":  360/360 (Due date) If penalty interest is calculated on the claim, it is always calculated 
-                    from the due date to the payment date.
-              "1":  No penalty interest is calculated.
-              "2":  360/360 (Final due date) If penalty interest is calculated on the claim, it is always calculated 
-                    from the final due date to the payment date.
-              "3":  360/360 (Final due date) 1% penalty interest is calculated per day. - Government requirements.            
-              "5":  Real/360 (Due date) If penalty interest is calculated on the claim, it is always calculated 
-                    from the due date to the payment date.
-              "6":  Real/360 (Final due date) If penalty interest is calculated on the claim, it is always calculated 
-                    from the final due date to the payment date.            
-              "C":  5% penalty interest is calculated per day. - Government requirements TIF.
-          type: string
-          enum:
-            - ""
-            - "1"
-            - "2"
-            - "3"
-            - "5"
-            - "6"
-            - "C"
 
     claimStatus:
       description: Claim status
@@ -1322,6 +1392,7 @@ components:
         - templateCode
         - amount
         - finalDueDate
+        - expirationDate
       properties:
         claimKey:
           $ref: "#/components/schemas/claimKey"
@@ -1508,6 +1579,14 @@ components:
         printing:
           $ref: "#/components/schemas/printing"
 
+
+    createClaimDetailList:
+      description: |
+        List of claim to be created
+      type: array
+      items:
+        $ref: "#/components/schemas/createClaimDetails"
+
     createClaimDetails:
       description: |
         Create claim object
@@ -1583,13 +1662,11 @@ components:
         currency:
           type: string
           pattern: '[A-Z]{3}'
-        referenceRate:
+        currencyPaymentRate:
           type: string
           enum:
-            - "ExchangeRate"
-            - "NoteRate"
-            - "CentralBankMidRate"
-            - "CentralBankStatutoryRate"
+            - "DueDateRate"
+            - "PaymentDateRate"
         additionalInformation:
           type: string
           maxLength: 200
@@ -1699,29 +1776,6 @@ components:
         but the daily account of the Claim Pot's expense items is not shown. The Claim class contains the appearance
         of the claim as it was after the movement. If payment information is related to the movement, it is returned
         in the Payment class.
-
-        Transaction type:
-        - "Creation" Stofnun Stofnun kröfu.
-        - "Cancellation" Niðurfelling kröfu af kröfuhafa eða eftir gildandi reglu.
-        - "Update" Breyting á kröfu.
-        - "Payment" Greiðsla á kröfu. Innborgun eða fullnaðargreiðsla.
-        - "RefundClaimCreation" Stofnun á endurgreiðslukröfu. Endurgreiðslukröfur eru kröfur þar sem upphæð kröfunnar
-          er lögð inn á reikning greiðanda og tekin út af reikningi kröfuhafa. Þessar kröfur er eingöngu hægt að stofna
-          ef greiðandi er skráður með beingreiðslubeiðni. Þessar kröfur eru notaðar þegar kröfuhafi þarf að endurgreiða
-          viðskiptavini sínum.
-        - "ReAdjustment" Bakfærð greiðsla. Við bakfærslu á fullnaðargreiðslu er greiðslufærslan merkt með ReAdjustment
-          í færslugerð, en sjálf bakfærslan fær þessa merkingu.
-        - "PaymentReAdjustment" Bakfærð greiðsla. Við bakfærslu á fullnaðargreiðslu er greiðslufærslan merkt með
-          ReAdjustment í færslugerð, en sjálf bakfærslan fær þessa merkingu.
-        - "PartialPaymentReAdjustment" Bakfærð innborgun. Við bakfærslu á innborgun er greiðslufærslan merkt með
-          ReAdjustment í færslugerð, en sjálf bakfærslan fær þessa merkingu.
-        - "TransferFromOldBank" Sameining banka. Krafa hefur verið flutt úr einum banka í annan.
-        - "TransferToNewBank" Sameining banka. Krafa hefur verið flutt úr einum banka í annan.
-        - "OptionalClaimCancellationByPayor" Niðurfelling kröfugreiðanda á valgreiðslu kröfu.
-        - "RefundPayment" Greiðsla endurgreiðslukröfu.
-        - "CollectionReminderSentByBank" Innheimtuviðvörun var send út frá banka. Er eingöngu til upplýsingar í þeim
-          tilvikum þar sem bankastofnun er tilbúin að láta þessar upplýsingar í té og endurspeglar ekki neinar
-          útsendingar sem kunna að hafa gerst í kerfum viðskiptamanna né innheimtufyrirtækja.
       required:
         - claim
       properties:
@@ -1734,21 +1788,34 @@ components:
           format: date
           example: "2022-01-31"
         transactionType:
+          description: |
+            One of:
+            - Creation: Creation of a claim.
+            - Update: Change of claim.
+            - Cancellation: Cancellation of a claim by a creditor or according to the applicable rule.
+            - CancellationByPayor: Cancellation by the creditor of the optional payment.
+            - Payment: Full payment of a claim.
+            - PartialPayment: Deposit on demand.
+            - RefundPayment: Payment of repayment claim.
+            - ReversedPayment: Reversed payment. When reversing a full payment, the payment entry is marked as ReAdjustment in the transaction type, but the reversal itself is given this meaning.
+            - ReversedPartialPayment: Reversed deposit. When reversing a deposit, the payment entry is marked as ReAdjustment in the transaction type, but the reversal itself is given this meaning.
+            - ReversedClaim: A reversal of a claim due to a reversal of a payment.
+            - TransferFromBank: Transfer of a claim from one bank (see ClaimId) to another bank.
+            - TransferToBank: Transfer of a claim to a bank (see ClaimId) from another bank.
           type: string
           enum:
             - "Creation"
-            - "Cancellation"
             - "Update"
+            - "Cancellation"
+            - "CancellationByPayor"
             - "Payment"
-            - "RefundClaimCreation"
-            - "ReAdjustment"
-            - "PaymentReAdjustment"
-            - "PartialPaymentReAdjustment"
-            - "TransferFromOldBank"
-            - "TransferToNewBank"
-            - "OptionalClaimCancellationByPayor"
+            - "PartialPayment"
             - "RefundPayment"
-            - "CollectionReminderSentByBank"
+            - "ReversedPayment"
+            - "ReversedPartialPayment"
+            - "ReversedClaim"
+            - "TransferFromBank"
+            - "TransferToBank"
 
     claimTransactionList:
       description: |
@@ -1761,13 +1828,13 @@ components:
       description: |
         Contains individual claim transaction information.
       properties:
-        claimId:
-          $ref: "#/components/schemas/claimId"
         claimKey:
           $ref: "#/components/schemas/claimKey"
         payorId:
           $ref: "#/components/schemas/kennitala"
         amount:
+          description: |
+            Principal amount
           type: number
           format: double
         finalDueDate:
@@ -2498,6 +2565,15 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/createClaimDetails"
+
+    createClaimList:
+      description: |
+        JSON request body for a create claim request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/createClaimDetailList"
 
   headers:
   #####################################################

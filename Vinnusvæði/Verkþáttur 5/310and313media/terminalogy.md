@@ -5,7 +5,7 @@
 - **Core Banking Systems** (**CBS**) is the umbrella term for those systems handling payments and transaction accounts in relation to this specification.
 - **Electronic IDentification, Authentication and trust Services** (**eIDAS**) refers to regulation 910/2014 of the European Parliament and of the Council, which replaced previous directive 1999/93/EC.
 - **ISO 20022** is an ISO standard for electronic data interchange between financial institutions.
-- **Kennitala** (often abbreviated as **KT**) is the unique national identification number issued by the Registers Iceland (is. Þjóðskrá Íslands) and used by governmental bodies and enterprises to identify individuals, and through a comparable schema under the Iceland Revenue and Customs (is. ríkisskattsjótir), legal entities in Iceland.
+- **Kennitala** (often abbreviated as **KT**) is the unique national identification number issued by the Registers Iceland (ic. Þjóðskrá Íslands) and used by governmental bodies and enterprises to identify individuals, and through a comparable schema under the Iceland Revenue and Customs (ic. ríkisskattstjóri), legal entities in Iceland.
 - **The OpenAPI Specification** (**OAS**) defines a programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic.
 - **Payment Services Directive 2** (**PSD2**) was instituted by the European Parliament as EU 2015/2366, meant to further open up payment services on the internal EEA market. PSD2 contains regulations of new services to be operated by so-called Third-Party Payment Service Providers on behalf of a Payment Service User, by leveraging Strong Customer Authentication. Due to the linage connecting PSD2 with IOBWS v3.0, the main terms are described:
   - **Account Information Service Provider** (**AISP**) are *TPPs* with permission to connect to a transaction account and use the information to provide a **Account Information Services** (**AIS**) as defined in article 67 of \[PSD2\].
@@ -20,7 +20,7 @@
 
 ## Data definitions
 
-- **The Icelandic IBAN** data elements should follow specification set forth in ISO 13616:2020 as shown in the [table @tbl:ice_iban] below.  
+**The Icelandic IBAN** data elements should follow specification set forth in ISO 13616:2020 as shown in the [table @tbl:ice_iban] below.  
 
 -----------------------------------------------------------------------------------------------
               Country   Check      National    Branch     Account    Account     Account    

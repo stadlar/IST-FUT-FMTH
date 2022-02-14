@@ -37,7 +37,7 @@ The latest official version of the technical standards is as of now available fr
 * [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2021)
 * [Technical specification - Documents](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-314-2021)
 
-WA 310 is based on the Berlin Group NextGenPSD2 standard, with appropriate attribution according to the Creative Commons Attribution 4.0 International Public License. Some of the other standards might align with types and data formats from 310, as deemed necessary.
+ÍST TS-310 and TS-313 are based on the Berlin Group NextGenPSD2 framework, with appropriate attribution given according to the Creative Commons Attribution 4.0 International Public License. Other IOBWS specifications might derive individual data types or elements from the ÍST TS-310 and ÍST TS-313, and attribution applies to these instances, as applicable.
 
 Parties wishing to participate in the work of TN FMÞ are expected to know and understand the above standards and should consider participating in the regular work of the technical committee as allowed by the charter of the standards institute.
 

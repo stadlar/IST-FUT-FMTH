@@ -5090,6 +5090,13 @@ components:
       type: string
       pattern: '[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}'
       example: "AAAADEBBXXX"
+    
+    
+    bicfiOrIdentification: 
+      description: |
+        BICFI or other organization identification
+      type: string
+      example: "AAAADEBBXXX or //FW123456789 or other"    
 
 
     pan:
@@ -6299,7 +6306,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfi"
+          $ref: "#/components/schemas/bicfiOrIdentification"
         creditorAgentName:
           $ref: "#/components/schemas/creditorAgentName"
         creditorName:
@@ -6332,8 +6339,8 @@ components:
 #        requestedExecutionTime: # N.A. for all, but can be used by ASPSP if needed
 #          type: string
 #          format: date-time
-        centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurpose"
+        centralBankPurposeCode:
+          $ref: "#/components/schemas/centralBankPurposeCode"
 
     paymentInitiationBulkElement_json:
       description: |
@@ -6456,8 +6463,8 @@ components:
 #          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-        centralBankPurpose:
-          $ref: "#/components/schemas/centralBankPurpose"
+        centralBankPurposeCode:
+          $ref: "#/components/schemas/centralBankPurposeCode"
 
 
     periodicPaymentInitiation_json: 
@@ -6558,7 +6565,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfi"
+          $ref: "#/components/schemas/bicfiOrIdentification"
 #        creditorId: # N.A. for all, but can be used by ASPSP if needed
 #          description: Identification of Creditors, e.g. a SEPA Creditor ID.
 #          type: string
@@ -7319,7 +7326,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfi"
+          $ref: "#/components/schemas/bicfiOrIdentification"
         creditorName:
           $ref: "#/components/schemas/creditorName"
         creditorAddress:
@@ -7385,7 +7392,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfi"
+          $ref: "#/components/schemas/bicfiOrIdentification"
 #        creditorId: # N.A. for all, but can be used by ASPSP if needed
 #          description: Identification of Creditors, e.g. a SEPA Creditor ID.
 #          type: string
@@ -14701,7 +14708,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": "03",
+          "icelandicPurposeCode": "03",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14726,11 +14733,11 @@ components:
           "ultimateCreditorId": "0109722329",
           "ultimateCreditor": "Páll Pálsson (Real receiver)",
           "partialPayment": true,
-          "icelandicPurpose": "03",
+          "icelandicPurposeCode": "03",
           "remittanceInformationUnstructured": "My description"
         }
 
-    paymentInitiationDomesticBody_creditTransfer-credit-card-payments_json:
+    paymentInitiationDomesticBody_creditTransfer-payment-card-payments_json:
       value:
         {
           "endToEndIdentification": "Short description",
@@ -14747,7 +14754,7 @@ components:
             "amount": "1235"
           },
           "partialPayment": true,
-          "icelandicPurpose": "87",
+          "icelandicPurposeCode": "87",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14775,7 +14782,7 @@ components:
             "postCode": "101",
             "country": "IS"
           },
-          "centralBankPurpose": "099",
+          "centralBankPurposeCode": "099",
           "remittanceInformationUnstructured": "My description"
         }
     
@@ -14812,7 +14819,7 @@ components:
             "country": "DK"
           },
           "serviceLevel": "PRPT",
-          "centralBankPurpose": "099",
+          "centralBankPurposeCode": "099",
           "remittanceInformationUnstructured": "My description"
         }
 
@@ -14832,7 +14839,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": "87",
+          "icelandicPurposeCode": "87",
           "remittanceInformationUnstructured": "My description",
           "startDate": "2020-03-01",
           "executionRule": "preceding",
@@ -14840,7 +14847,7 @@ components:
           "dayOfExecution": "1"
         }
 
-    paymentInitiationDomesticBody_creditCardTopUp-periodic-payments_json:
+    paymentInitiationDomesticBody_paymentCardTopUp-periodic-payments_json:
       value:
         {
           "endToEndIdentification": "Short description",
@@ -14856,7 +14863,7 @@ components:
             "currency": "ISK",
             "amount": "1235"
           },
-          "icelandicPurpose": "87",
+          "icelandicPurposeCode": "87",
           "remittanceInformationUnstructured": "My description",
           "startDate": "2020-03-01",
           "executionRule": "preceding",
@@ -14904,7 +14911,7 @@ components:
                 "currency": "ISK",
                 "amount": "1235"
               },
-              "icelandicPurpose": {
+              "icelandicPurposeCode": {
                 "code": "87"
               },
               "remittanceInformationUnstructured": "My description"

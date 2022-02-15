@@ -213,6 +213,10 @@ paths:
         
         Claim is cancelled by changing the claim status to "Cancelled".
         
+        Claim is moved between collection status by changing collectionState to
+        - SecondaryCollection (for secondary)
+        - PrimaryCollection (for primary)        
+        
         Use the mergeClaimDetails object to understand all the fields awailable.
 
       operationId: patchClaim
@@ -438,7 +442,7 @@ paths:
         - $ref: "#/components/parameters/statusQuery"
         - $ref: "#/components/parameters/stateQuery"
         - $ref: "#/components/parameters/templateCodeQuery"
-        - $ref: "#/components/parameters/claimTemplateId"
+        - $ref: "#/components/parameters/claimTemplateIdQuery"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
       #header
@@ -531,66 +535,24 @@ paths:
 
   /v1/batches:
 
-    patch:
-      summary: Creates a batch. Batch is a list of actions defined in the body
-      description: |
-        Creates a list of action defined by the request body object.
-      operationId: patchBatch
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-        #path # NO PATH PARAMETER
-        #query
-        #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/X-Idempotency-Key"
-        #NO REQUEST BODY
-
-      requestBody:
-        $ref: "#/components/requestBodies/batchInitiation"
-
-      responses:
-        '201':
-          $ref: "#/components/responses/OK_20x_ActionResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
     post:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
-        Creates a list of claims defined by the request body object to be created.
+        Creates a list of claims defined by the request body object to be created and/or 
+        alters a list of claims defined by the same object.
+        
+        When claim is altered:
+          The patch claim method modifies a previously created claim. The patch is
+          then submitted and amended according to new information.
+         
+          Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
+          from cancelled the recreate is triggered. Recreating a claim keeps existing history.
+        
+          Claim is cancelled by changing the claim status to "Cancelled".
+        
+          Claim is moved between collection status by changing collectionState to
+          - SecondaryCollection (for secondary)
+          - PrimaryCollection (for primary)
       operationId: postBatch
       tags:
         - Claim Service
@@ -616,10 +578,9 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/X-Idempotency-Key"
-        #NO REQUEST BODY
-
+        #REQUEST BODY
       requestBody:
-        $ref: "#/components/requestBodies/createClaimList"
+        $ref: "#/components/requestBodies/batchInitiation"
 
       responses:
         '201':
@@ -1039,6 +1000,10 @@ components:
             - ClaimId
             - PayorId
             - DueDate
+        customerNumberTemplate:
+          description: Describes how the transaction number template is structured for the claim template.
+          type: string
+          maxLength: 16
         claimantStatementReferenceType:
           description: |
             Indicates which value appears in the reference area on the creditor's account statement.
@@ -1101,6 +1066,10 @@ components:
             - ClaimId
             - PayorId
             - DueDate
+        customerNumberTemplate:
+          description: Describes how the transaction number template is structured for the claim template.
+          type: string
+          maxLength: 16
         claimantStatementReferenceType:
           description: |
             Indicates which value appears in the reference area on the creditor's account statement.
@@ -1491,13 +1460,11 @@ components:
         currency:
           type: string
           pattern: '[A-Z]{3}'
-        referenceRate:
+        currencyPaymentRate:
           type: string
           enum:
-            - "ExchangeRate"
-            - "NoteRate"
-            - "CentralBankMidRate"
-            - "CentralBankStatutoryRate"
+            - "DueDateRate"
+            - "PaymentDateRate"
         additionalInformation:
           type: string
           maxLength: 200
@@ -1562,13 +1529,11 @@ components:
         currency:
           type: string
           pattern: '[A-Z]{3}'
-        referenceRate:
+        currencyPaymentRate:
           type: string
           enum:
-            - "ExchangeRate"
-            - "NoteRate"
-            - "CentralBankMidRate"
-            - "CentralBankStatutoryRate"
+            - "DueDateRate"
+            - "PaymentDateRate"
         additionalInformation:
           type: string
           maxLength: 200
@@ -1673,12 +1638,12 @@ components:
         printing:
           $ref: "#/components/schemas/printing"
 
-    mergeClaimList:
-      description: |
-        JSON request body for a claims update request message
-      type: array
-      items:
-        $ref: "#/components/schemas/mergeClaimDetails"
+    batchInitiation:
+      properties:
+        createList:
+          $ref: "#/components/schemas/createClaimDetailList"
+        mergeList:
+          $ref: "#/components/schemas/mergeClaimDetails"
 
     # RESPONSES
 
@@ -2434,6 +2399,15 @@ components:
       schema:
         type: string
 
+    claimTemplateIdQuery:
+      name: claimTemplateId
+      in: query
+      description: |
+        Unique template id defined by the banks.
+      required: false
+      schema:
+        type: string
+
     statusId:
       name: statusId
       in: path
@@ -2537,7 +2511,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/mergeClaimList"
+            $ref: "#/components/schemas/batchInitiation"
 
     templateCode:
       description: |
@@ -3192,7 +3166,6 @@ components:
       value:
         [
           {
-            "claimId": "string",
             "claimKey": {
               "claimantId": "0208715009",
               "account": "000126123456",

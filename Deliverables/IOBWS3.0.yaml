@@ -115,7 +115,7 @@ paths:
         There are the following **payment products**:
         
           - Payment products with payment information in *JSON* format:
-            - ***sepa-crecdit-transfers***
+            - ***sepa-credit-transfers***
             - ***cross-border-credit-transfers***
             - ***credit-transfers***
             - ***claim-payments***
@@ -190,7 +190,7 @@ paths:
         - $ref: "#/components/parameters/TPP-Nok-Redirect-URI"
         - $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
         - $ref: "#/components/parameters/TPP-Rejection-NoFunds-Preferred"
-        - $ref: "#/components/parameters/TPP-Brand-Logging-Information"        
+        - $ref: "#/components/parameters/TPP-Brand-Logging-Information"
           #conditional for extended service lean Push
         - $ref: "#/components/parameters/TPP-Notification-URI"
         - $ref: "#/components/parameters/TPP-Notification-Content-Preferred"
@@ -206,9 +206,6 @@ paths:
         - $ref: "#/components/parameters/PSU-Geo-Location"
       #optional additional idempotency value of operation in header    
         - $ref: "#/components/parameters/Idempotency-Key"
-    
-
-        
 
       requestBody:
         $ref: "#/components/requestBodies/paymentInitiation"
@@ -11026,7 +11023,8 @@ components:
           "code": "ACCESS_EXCEEDED",
           "text": "additional text information of the ASPSP up to 500 characters"
         }]
-        
+
+
     icelandicPurpose:
       description: |
         Standardised definition of icelandic purpose code and description used in transactions
@@ -11045,8 +11043,7 @@ components:
         Standardised definition of transaction used in the Iceland market to define the purpose of the transaction.
       type: string
       maxLength: 2
-      
-      
+
     centralBankPurposeCode:
       description: |
         Standardised definition of purpose code required by the Icelandic Central Bank.
@@ -11698,7 +11695,7 @@ components:
       required: false
       example: "paym-init-001"
       schema:
-        type: string        
+        type: string
 
   requestBodies:
   #####################################################

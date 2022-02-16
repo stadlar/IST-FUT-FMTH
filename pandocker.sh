@@ -6,8 +6,9 @@ function ex()
   fullname=$1
   echo "$fullname"
   # artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker
-  docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) kristinn/pandocker:buster-full-latest "Vinnusvæði/Verkþáttur 5/${fullname}.md" -o "Vinnusvæði/Verkþáttur 5/${fullname}.pdf" --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter
+  docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) kristinn/pandocker:buster-full-latest "Vinnusvæði/Verkþáttur 5/${fullname}.md" -o "Vinnusvæði/Verkþáttur 5/${fullname}.pdf" --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --citeproc --top-level-division=chapter --pdf-engine=xelatex
 }
+export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)
 ex "ÍST TS 310_2020 Domestic payments and deposits"
 # docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md' -o 'Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.pdf' --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter
 # echo '313'

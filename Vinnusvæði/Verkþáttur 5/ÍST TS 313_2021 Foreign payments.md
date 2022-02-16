@@ -17,6 +17,7 @@ book: true
 classoption: oneside
 numbersections: true
 first-chapter: 1
+listings: true
 listings-no-page-break: true
 highlight: "zenburn"
 codeBlockCaptions: True
@@ -30,6 +31,8 @@ lotTitle: |
 tableTemplate: |
   *$$tableTitle$$ $$i$$*$$titleDelim$$ $$t$$
 autoSectionLabels: True
+bibliography: "Vinnusvæði/Verkþáttur 5/310and313media/bibliography.yaml"
+csl: "lib/apa.csl"
 
 ...
 

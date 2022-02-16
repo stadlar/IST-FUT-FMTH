@@ -2,6 +2,7 @@
 
 The following documents are referred to in ÍST {{spec_id} as some of their content constitutes requirements of this document. Only the edition cited applies, if newer editions exist.  
 
+
 ::: {#refs}
 :::
 
@@ -31,7 +32,7 @@ As the ÍST {{spec_id}} owes much of its core to the NextGenPSD2 framework, the 
 
 ## Data definitions
 
-- **The International Bank Account Number** (**IBAN**) format for Icelandic accounts should follow the specification set forth in ISO 13616-1:2020 [@ISO13616-1] as shown in the [table @tbl:ice_iban] below.  
+**The International Bank Account Number** (**IBAN**) format for Icelandic accounts should follow the specification set forth in ISO 13616-1:2020 [@ISO13616-1] as shown in the [table @tbl:ice_iban] below.  
 
   -----------------------------------------------------------------------------------------------
                 Country   Check      National    Branch     Account    Account     Account    

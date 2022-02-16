@@ -1480,6 +1480,13 @@ components:
           format: date
           example: "2022-01-31"
 
+    mergeDetailList:
+      description: |
+        List of claim to be altered
+      type: array
+      items:
+        $ref: "#/components/schemas/mergeClaimDetails"
+
     mergeClaimDetails:
       description: |
         Merge patch claim object
@@ -1643,7 +1650,7 @@ components:
         createList:
           $ref: "#/components/schemas/createClaimDetailList"
         mergeList:
-          $ref: "#/components/schemas/mergeClaimDetails"
+          $ref: "#/components/schemas/mergeDetailList"
 
     # RESPONSES
 
@@ -2543,7 +2550,6 @@ components:
     createClaimList:
       description: |
         JSON request body for a create claim request message
-      required: true
       content:
         application/json:
           schema:

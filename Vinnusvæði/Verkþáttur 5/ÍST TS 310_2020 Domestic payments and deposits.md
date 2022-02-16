@@ -17,6 +17,7 @@ book: true
 classoption: oneside
 numbersections: true
 first-chapter: 1
+listings: true
 listings-no-page-break: true
 highlight: "zenburn"
 codeBlockCaptions: True
@@ -30,6 +31,8 @@ lotTitle: |
 tableTemplate: |
   *$$tableTitle$$ $$i$$*$$titleDelim$$ $$t$$
 autoSectionLabels: True
+bibliography: "Vinnusvæði/Verkþáttur 5/310and313media/bibliography.yaml"
+csl: "lib/apa.csl"
 
 ...
 
@@ -49,7 +52,7 @@ Iceland, with its homogeneous financial infrastructure based on the centralized 
 
 When initiating work on the previous versions, the participants in the TN-FMÞ reviewed existing and emerging specifications in the global or mostly European financial industry. None were deemed a good fit at the time for local adaptation, as they reflected inherent the legacy in inter-bank communications outside of Iceland, even in the case of the other Nordic countries. Therefore, v1 and v2 of IOBWS were somewhat specific to the current functionality available in the underlying RB systems.
 
-Meanwhile, the broader market especially in Europe has been catching up, and the Icelandic banks' have migrated to new core banking systems and with the Central Banki of Iceland, implemented a new clearing and settlement mechanisms (CSM). One of the goals of IOBWS v3, set forward by TN-FMÞ, was to move closer to the standards used by those systems such as ISO 20022, at least through application of a comparable dictionary and data elements. 
+Meanwhile, the broader market especially in Europe has been catching up, and the Icelandic banks' have migrated to new core banking systems and with the Central Bank of Iceland, implemented a new clearing and settlement mechanisms (CSM). One of the goals of IOBWS v3, set forward by TN-FMÞ, was to move closer to the standards used by those systems such as ISO 20022, at least through application of a comparable dictionary and data elements. 
 
 <!-- Start1 -->
 The Open Banking regulation in the UK and the PSD2 regulation issued by the European Parliament has triggered initiatives to standardize access to payment functionality and account information, on behalf of customers by third parties. One such effort, the NextGenPSD2 Framework developed by the Berlin Group, has met a broad acceptance in the EEA. The data model references ISO 20022, and is close enough to the direction of the Icelandic market to make it relatively straightforward to adapt it as the new base for the IOBWS, instead of continuing to maintain an independent linage of API specifications. 
@@ -63,7 +66,7 @@ Another goal of the IOBWS version 3 charter set forth by TN-FMÞ and achieved by
 ÍST {{spec_id}} defines web application programming interfaces implemented by Icelandic commercial and savings banks to expose shared functionality and information for {{context_short}}, under the auspices of the Icelandic Online Banking Web Services (IOBWS).
 <!-- ScopeDocContextEnd -->
 
-"<!-- ScopePaymentsDocsContextStart -->
+<!-- ScopePaymentsDocsContextStart -->
 Other ÍST Technical Specifications exist that address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST WA-316. As the consumption and implementation of each individual part of IOBWS are optional, the documents aim to be independent of each other.
 
 However, due to the origin of the underlying OpenAPI specification in the Berlin Group NextGenPSD2 Framework, ÍST TS-310 on Domestic Payments and Deposits, and ÍST TS-313 on Foreign Payments, overlap quite significantly. Both are based on the 
@@ -79,23 +82,23 @@ The previous IOBWS technical specifications did out of necessity, largely consis
 The expectation is that for ÍST {{spec_id}}, the technical service definitions and JSON data schemas in the accompanying OpenAPI specification can more readily be understood using one or more of the numerous utilities that are able to convert them into documentation or even navigatable UIs. 
 
 <!-- ScopeEndNoteStart -->
-Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetition of information found in the technical contract [IOBWS3.0.yaml](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/IOBWS3.0.yaml). Instead, the rest of the document focuses on the essential information needed to understand the domestic context of services, schema types and service flows in relation to the NextGenPSD2 framework, and what constitutes the common core required to implement the ÍST {{spec_id}}.
+Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetition of information found in the technical contract [IOBWS3.0.yaml](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/IOBWS3.0.yaml). Instead, the rest of the document focuses on the essential information needed to understand the domestic context of services, schema types and service flows in relation to the NextGenPSD2 framework, and what constitutes the common core required to implement ÍST {{spec_id}}.
 <!-- ScopeEndNoteEnd -->
 
-# Normative references, definitions and symbols 
+# Normative references, definitions and data elements 
 
 !include "Vinnusvæði/Verkþáttur 5/310and313media/terminalogy.md"
 
-**The Unique Claim Identifier** needed to initiate a payment to settle a claim or relate transaction information on such a payement, should be  [table @tbl:ice_claim] below.  
+**The Unique Claim Identifier** references the ID of a claim based on the collection solution Kröfupotturinn. To initiate a payment to settle a claim, or relate transaction information about a previous payement, the claim ID should be formatted as a BBAN, Basic Bank Account Number. The method is shown below in [table @tbl:ice_claim]. Claim Payments will therefore only include BBAN, not IBAN as a creditor account reference.
 
 ----------------------------------------------------------------------------------------------------
               Claimant      National    Branch     Fixed      Account     Delimiter   Due    
               Id            Bank        ID         ledger     Number                  Date    
               (kennitala)   Code                   Id                                 
 ------------- ------------- ----------- ---------- ---------- ----------- ----------- --------------
-Description   10 digits     2 digits    2 digits   2 digits   6 digits    Plus sign   YYYMMDD  
+Description   10 digits     2 digits    2 digits   2 digits   6 digits    Plus sign   DDMMYY  
 
-Example       5510730339    01          59         26         007654      +           311220 
+Example       5510730339    01          59         66         007654      +           311220 
 ----------------------------------------------------------------------------------------------------
 :Claim key transformed to BBAN with example {#tbl:ice_claim}
 
@@ -108,9 +111,9 @@ Example       5510730339    01          59         26         007654      +     
 <!-- PaymentSvcOverviewStart -->
 Part of the decision to adopt the NextGenPSD2 framework, agreed upon by TN-FMÞ-VH-1 on Technical Requirements and TN-FMÞ-VH-2 on Business Requirments, called for staying as true to the specification as possible.
 
-However, not unlike other existing domestic adaptations of NextGenPSD2, additional functionality was needed to support payment operations and account information expected by the Icelandic market. The original workgroup did so by extending existing schema types in the NextGenPSD2 OpenAPI contract while removing elements and services not directly applicable to IOBWS. The intention was to streamline the specification but turned out to be challenging to work with for developers with previous exposure to NextGenPSD2 while remaining opaque for those migrating from earlier IOBWS versions.
+However, not unlike other existing domestic adaptations of NextGenPSD2, additional functionality was needed to support payment operations and account information expected by the Icelandic market. The original workgroup did so by extending existing schema types in the NextGenPSD2 OpenAPI contract while removing elements and services not directly applicable to IOBWS. The intention was to streamline the specification but developers with previous exposure to NextGenPSD2 found it turned out challenging to understand the changes, while the overall implementation details still remained opaque for those looking to migrate from earlier IOBWS versions.
 
-Workgroup TN-FMÞ-VH-8 was therefore charged with revising the first 3.0 version of IOBWS. It addressed two primary concerns; Clarify how the {{context_short}} products fit into NextGenPSD2 as well as simplifying comparison against future releases by the Berlin Group. This should make it straightforward to weigh potential additions to, or replacements of, the current domestic adaptations included in the IOBWS.
+Workgroup TN-FMÞ-VH-8 was therefore charged with revising the 3.0 version of IOBWS. The group tried to address two primary concerns; Clarify how the {{context_short}} products fit into NextGenPSD2 as well as simplifying comparison against later releases by the Berlin Group. The result should make it straightforward to weigh potential additions to or replacements of the current domestic adaptations included in the IOBWS, in the future.
 
 The decision made by the TN-FMÞ-VH-8 was therefore to keep most of the original NextGenPSD2 OpenAPI definition intact, even those services and types that are not currently applicable to the Icelandic context or intended uses of the IOBWS. The {{context_short}} products (see [section @sec:pis_overview] and [table @tbl:tbl_pis_products] below) are defined separately with applicable JSON schema types, leaving the original e.g. SEPA message types intact. They share the generic data elements along with the 'native' payment types, reusing the services, and operations for payments that are at the core of the NextGenPSD2 specification.   
 
@@ -215,7 +218,7 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
   **endToEndIdentification**              Intended for ID, short message or description that
                                           will be communicated to the creditor,
                                           across different banks. Is replaces the bill number
-                                          (is. *seðilnúmer*, TNUM_I/TNUM_U). While
+                                          (ic. *seðilnúmer*, TNUM_I/TNUM_U). While
                                           supporting 35 characters, only the first 7 chars
                                           can reliably flow between all possible CB systems,
                                           reports, and even client systems, due to legacy 
@@ -268,18 +271,21 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
 
   **ultimateCreditorId**                  In the case of Payment Card Deposits using
                                           masked PAN the Ultimate Creditor ID contains kennitala
-                                          of the card owner.
+                                          of the card owner. [TODO: What is this]
 
   **icelandicPurposeCode**                The purpose is the equivalent of the category code 
-                                          (is. *textalykill*) used to classify the transaction. 
+                                          (ic. *textalykill*) used to classify the transaction. 
                                           Restricted to codes available in each originating bank.
 
-  **remittanceInformationStructured       The debtors's information about the payment. An array but
-  Array of Remittance**                   Currently only used for the equivalent of the IOBWS v2.0 
-                                          **Out.Reference** (is. *tilvísun*), that was mainly used 
-                                          for the kennitala of the creditor, now a separate 
-                                          parameter. Can convey other information and therefore 
-                                          included.
+  **remittanceInformationStructured**     The debtors's information about the payment. An array 
+                                          of remittance elements but currently only used for 
+                                          the equivalent of the IOBWS v2.0 
+                                          **Out.Reference** (ic. *tilvísun*). This single
+                                          array element must be of type 'TILV_U'
+                                          Previously the equivalent data element was
+                                          mainly used for the kennitala of the creditor, now
+                                          a separate parameter. It can however convey other 
+                                          information and therefore included.
 
   **remittanceInformationUnStructured**   Is used for payment description visible for both parties. 
                                           Only 16 characters can currently be expected
@@ -288,11 +294,11 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
 
   **requestedExecutionDate**              Execution date if in the future, fully equivalent to the 
                                           IOBWS v2.0 **requestedExecutionDate** for future payments
-                                          (is. *framvirk greiðsla*).
+                                          (ic. *framvirk greiðsla*).
 
   **executionDate**                       Execution date if in the future, equivalent to the 
                                           IOBWS v2.0 **requestedExecutionDate** for future payments
-                                          (is. *framvirk greiðsla*).
+                                          (ic. *framvirk greiðsla*).
 
   **partialPayment**                      Applies to Claim Payments when the deptor
                                           intends to only pay part of the amount owed,
@@ -300,6 +306,15 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
                                           to allow partial payment, else an error occurs. 
   ------------------------------------------------------------------------------------------
   :Detailed description of ÍST {{spec_id}} payments properties. {#tbl:proper_domestic}
+
+The remittanceInformationStructured mentioned in [table @tbl:proper_domestic] is only used currently to carry the deptor's payment reference. To identify this usage, the **type** 
+
+```{caption="Example of the *remittanceInformationStructured* data element." .YAML}
+ remittanceInformationStructured: {
+    reference: "Maximum 16 chars"
+    type: "TILV_U"
+  }
+```
 
 ## Bulk Payments
 
@@ -354,96 +369,121 @@ Bulk payments are supported for all ÍST {{spec_id}} payment types. For a bulk p
   ----------------------------------------------------------------------------------------------
   :Description of domestic bulk payment main body. {#tbl:bulk_domestic}
 
-# Accounts
+# Accounts Service
+
+When querying information about domestic accounts, there exists an option to additionally request information on the allowed credit limit (*withCreditLimitQuery* data element). This matches what Icelandic banks offer as "yfirdráttarheimild", or overdraft limit. The returned data element is called *creditLimit*, instead of the somwhat confusingly named "Overdraft" element used in previous IOBWS versions. 
+
+```{caption="Example of information about an account with credit limit. TODO: Provide Icelandic Example in YAML" .JSON}
+!include`startLine=13424, endLine=13440` "Deliverables/IOBWS3.0.yaml"
+```
 
 <!-- AccountsOverviewBegin -->
+The definition of the transaction details returned as a list, includes elements that are applicable to the relatively broad range of use cases the NextGenPSD2 covers. In [table @tbl:transaction_domestic] the elments that are either most applicable to the domestic context or might need further explanation are listed. 
 
   ----------------------------------------------------------------------------------------
   **Field**                               **Rule**   **Description**
   --------------------------------------- ---------- -------------------------------------
-  **transactionId**                       Mandatory  Unique identifier for this record
+  **transactionId**                       Mandatory  Unique identifier for this record.
 
-  **transactionTimestamp**                Mandatory  Execution datetime of the record
+  **entryReference**                      Mandatory  Payment Correlation ID.
 
-  **entryReference**                      Mandatory  Payment Correlation ID
+  **endToEndId**                          Optional   Short description.
 
-  **endToEndId**                          Optional   Short description
+  ~~**mandateId**~~                       ~~N/A~~   ~~Identification of Mandates.~~
 
-  **mandateId**                           N/A        Identification of Mandates
+  ~~**checkId**~~                         ~~N/A~~    ~~Not used.~~
 
-  **checkId**                             N/A        Not used
+  **currencyExchange**                    Optional   Returned when the transaction
+                                                     relates to any currency exchange.
 
-  **currencyExchange**                    Optional   List. If transaction caused by any
-                                                     foreign exchange
+  **bookingDate**                         Optional   The date when the entry was booked.
 
-  **bookingDate**                         Optional   The Date when an entry is booked
+  **valueDate**                           Mandatory  The date at which assets became
+                                                     available.
 
-  **valueDate**                           Mandatory  The Date at which assets become
-                                                     available
+  **transactionAmount**                   Mandatory  Amount and currency of this record.
 
-  **transactionAmount**                   Mandatory  Amount and currency of this record
+  **creditorId**                          Optional   Creditor ID, or kennitala.
 
-  **creditorId**                          Optional   Creditor id
+  **creditorName**                        Optional   Creditor name.
 
-  **creditorName**                        Optional   Creditor name
+  **creditorAccount**                     Optional   Creditor account.
 
-  **creditorAccount**                     Optional   Creditor account
+  **creditorAgent**                       Optional   The BICFI, Business Identifier Code 
+                                                     of the financial institution, or
+                                                     other organization identification.
 
-  **creditorAgent**                       Optional   BICFI
+  **ultimateCreditor**                    Optional   Ultimate creditor.
 
-  **ultimateCreditor**                    Optional   Ultimate creditor
+  **debtorName**                          Optional   Debtor name.
 
-  **ultimateCreditorId**                  Optional   Ultimate creditor id
+  **debtorAccount**                       Optional   Debtor account.
 
-  **debtorId**                            Optional   Debtor Id
+  **debtorAgent**                         Optional   The BICFI, Business Identifier Code 
+                                                     of the financial institution.
 
-  **debtorName**                          Optional   Debtor name
+  **ultimateDebtor**                      Optional   Ultimate debtor.
 
-  **debtorAccount**                       Optional   Debtor account
+  **remittanceInformationUnstructured**   Optional   Payment description visible for 
+                                                     both parties. Only 16 characters
+                                                     can reliably be expected to flow
+                                                     between banks.
 
-  **debtorAgent**                         Optional   BICFI
-
-  **ultimateDebtor**                      Optional   Ultimate debtor
-
-  **ultimateDebtorId**                    Optional   Ultimate debtor Id
-
-  **remittanceInformationUnstructured**   Optional   My description
-
-  **remittanceInformationStructured**     Optional   Reference field 16 characters
+  **remittanceInformationStructured**     Optional   Array of remittance, though only
+                                                     used currently for the 16 character
+                                                     debtor reference.
 
   **additionalInformation**               Optional   Additional transaction related
-                                                     information
+                                                     information.
 
-  **purposeCode**                         N/A        Not used
+  **purposeCode**                         N/A        Not returned as these codes
+                                                     have currently not been adapted 
+                                                     to the uses
+                                                     that the Icelandic purpose code
+                                                     covers. Future Core
+                                                     Banking or Clearing changes might
+                                                     affect this.
 
-  **icelandicPurposeCode**                Optional   Text code used as simple transaction
-                                                     categorization
+  **bankTransactionCode**                 N/A        Not used currently for similar
+                                                     reasons as purposeCode.
 
-  **bankTransactionCode**                 N/A        Not used
-
-  **proprietaryBankTransactionCode**      N/A        Not used
+  **proprietaryBankTransactionCode**      N/A        Not used currently, similar to
+                                                     the previous purposeCode and
+                                                     bankTransactionCode.
 
   **balanceAfterTransaction**             Optional   Balance after the transaction has
                                                      been performed
 
   **\_links**                             Optional   Link to transaction details
+
+  **transactionTimestamp**                Mandatory  Execution datetime of the record.
+
+  **ultimateCreditorId**                  Optional   Ultimate creditor ID, or kennitala
+                                                     when available.
+
+  **debtorId**                            Optional   Debtor kennitala.
+
+  **ultimateDebtorId**                    Optional   Ultimate debtor kennitala.
+
+  **icelandicPurpose**                    Optional   Returns the text codes used as simple 
+                                                     transaction
+                                                     categorization, (ic. *textalykill*),
+                                                     with description.
   ----------------------------------------------------------------------------------------
-  :Description of transaction details. {#tbl:transaction_payments_domestic}
+  :Description of transaction details. {#tbl:transaction_domestic}  
 <!-- AccountsOverviewEnd -->
 
-Field rules
+An example of how this would look for a Icelandic account is provided below. 
 
--   M = Mandatory
+```{caption="Example result of a transaction detail query. TODO: Provide Icelandic Example in YAML" .JSON}
+!include`startLine=14134, endLine=14167` "Deliverables/IOBWS3.0.yaml"
+```
 
--   O = Optional
+# Confirmation of Funds
 
--   C = Conditional
-
--   NA = Not applicable / Not used
-
--   IS = Icelandic
-
--  **Credit Limit Query supported**: It is possible to query account information to get information on the allowed credit limit (withCreditLimitQuery).
+The service adds the possibility for IOBWS consumers to query if funds up to a certain amount are available on a payment account, should a payment be initiated. 
+The answer is only valid at the particular point in time it is given and does not imply or include any reservation of said amount. 
+ÍST {{spec_id}} only supports the confirmation of funds request for payment accounts. Card accounts are currently not supported and only included in the OpenAPI schema for compatability with the source framework.
 
 # Appendix
 
@@ -451,7 +491,7 @@ Field rules
 
 ## Mapping from older implementations
 
-Those familiar with previous versions of IOBWS might want to 
+Those familiar with previous versions of IOBWS might want to be able to visualise the mapping from the previous fields, over to the new.
 
 ## Domestic adaptations of the NextGenAPI framework
 

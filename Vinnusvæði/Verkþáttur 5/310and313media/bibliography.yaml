@@ -1,0 +1,89 @@
+references:
+  - type: book
+    id: ISO13616-1
+    ISBN: '978-0-539-13886-3'
+    language: English
+    number-of-pages: 18
+    author:
+    - family: International Organization for Standardization
+      given: 
+      suffix: 
+    issued:
+      date-parts:
+      - - 2020
+        - 9
+        - 25
+    title: 'ISO 13616-1:2020. Financial services - International bank account number (IBAN). Part 1: Structure of the IBAN.'
+    title-short: ISO 13616-1:2020
+  - type: book
+    id: EU2015/2366
+    language: English
+    number-of-pages: 98
+    author:
+    - family: The European Parliament
+      given: 
+      suffix: 
+    issued:
+      date-parts:
+      - - 2015
+        - 11
+        - 25
+    title: 'Directive (EU) 2015/2366 of the European Parliament and of the Council of 25 November 2015 on payment services in the internal market, amending Directives 2002/65/EC, 2009/110/EC and 2013/36/EU and Regulation (EU) No 1093/2010, and repealing Directive 2007/64/EC'
+    title-short: EU 2015/2366
+  - type: book
+    id: EU910/2014
+    language: English
+    number-of-pages: 42
+    author:
+    - family: The European Parliament
+      given: 
+      suffix: 
+    issued:
+      date-parts:
+      - - 2014
+        - 07
+        - 23
+    title: 'Regulation (EU) No 910/2014 of the European Parliament and of the Council of 23 July 2014 on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC'
+    title-short: EU 910/2014
+  - type: book
+    id: IS2019/55
+    language: Icelandic
+    author:
+    - family: Alþingi
+      given: 
+      suffix: 
+    issued:
+      date-parts:
+      - - 2019
+        - 06
+        - 21
+    title: 'Lög um rafræna auðkenningu og traustþjónustu fyrir rafræn viðskipti nr. 55 21. júní 2019'
+    title-short: Lög 2019 nr. 55 21. júní
+  - type: book
+    id: IS2021/114
+    language: Icelandic
+    author:
+    - family: Alþingi
+      given: 
+      suffix: 
+    issued:
+      date-parts:
+      - - 2021
+        - 06
+        - 25
+    title: 'Lög um greiðsluþjónustu nr. 114 25. júní 2021'
+    title-short: Lög 2021 nr. 114 25. júní
+  - type: bill
+    id: IS2021/114_2
+    number: 2021/114
+    chapter-number: 151
+    language: Icelandic
+    authority: Alþingi Íslendinga
+    issued:
+      date-parts:
+      - - 2021
+        - 06
+        - 25
+    url: https://www.althingi.is/altext/151/s/1813.html
+    title: 'Lög um greiðsluþjónustu'
+    title-short: Lög 2021 nr. 114 25. júní

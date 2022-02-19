@@ -5080,14 +5080,7 @@ components:
         BICFI
       type: string
       pattern: '[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}'
-      example: "AAAADEBBXXX"
-    
-    
-    bicfiOrIdentification: 
-      description: |
-        BICFI or other organization identification
-      type: string
-      example: "AAAADEBBXXX or //FW123456789 or other"    
+      example: "AAAADEBBXXX"  
 
 
     pan:
@@ -6076,6 +6069,36 @@ components:
         Payment used to pay claim (Icelandic)
       type: boolean
       example: false
+
+    bicfiOrIdentification: 
+      description: |
+        BICFI or other organization identification
+      type: string
+      example: "AAAADEBBXXX or //FW123456789 or other"  
+
+    icelandicPurpose:
+      description: |
+        Standardised definition of icelandic purpose code and description used in transactions
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 2
+        description:
+          type: string
+          maxLength: 150        
+
+    icelandicPurposeCode:
+      description: |
+        Standardised definition of transaction used in the Iceland market to define the purpose of the transaction.
+      type: string
+      maxLength: 2
+
+    centralBankPurposeCode:
+      description: |
+        Standardised definition of purpose code required by the Icelandic Central Bank.
+      type: string
+      maxLength: 3
     
     posEntryMode:
       description: |
@@ -6765,7 +6788,7 @@ components:
         creditorAddress:
           $ref: "#/components/schemas/address"
         creditorAgent:
-          $ref: "#/components/schemas/bicfi"
+          $ref: "#/components/schemas/bicfiOrIdentification"
         creditorAgentName:
           $ref: "#/components/schemas/creditorAgentName"
         creditorAgentAddress:
@@ -6854,6 +6877,8 @@ components:
         endToEndIdentification:
           type: string
           maxLength: 35
+        debtorAccount: 
+            $ref: "#/components/schemas/accountReference"
         paymentInformationId:
           type: string
           maxLength: 35
@@ -6862,9 +6887,6 @@ components:
         requestedExecutionDate:
           type: string
           format: date
-        requestedExecutionTime:
-          type: string
-          format: date-time
         payments:
           description: |
             A list of generic JSON bodies domestic payment initations for bulk payments via JSON.
@@ -7692,6 +7714,43 @@ components:
         Data MT942 format in a text structure.
       type: string
 
+    #####################################################
+    # Content of Response Bodies - Domestic
+    #####################################################
+
+    bulkPaymentInitiationDomesticWithStatusResponse: 
+      description: |
+        Generic JSON response body consistion of the corresponding bulk payment initation JSON body together with an optional transaction status field.
+      type: object
+      required:
+        - payments
+      properties:
+        batchBookingPreferred:
+          $ref: "#/components/schemas/batchBookingPreferred"
+        requestedExecutionDate:
+          type: string
+          format: date
+        debtorAccount:
+          $ref: "#/components/schemas/accountReference"
+        paymentInformationId:
+          type: string
+          maxLength: 35
+        payments:
+          description: |
+            A list of generic JSON bodies payment initations for bulk payments via JSON.
+            
+            Note: Some fields from single payments do not occcur in a bulk payment element
+          type: array
+          items:
+            $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
+        transactionStatus:
+          $ref: "#/components/schemas/transactionStatus"
+        chargesAccount:
+          $ref: "#/components/schemas/accountReference"
+        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/paymentExchangeRate"
+        transactionFeesDetails:
+          $ref: "#/components/schemas/transactionFeesList"
 
 #####################################################
 # _links
@@ -11025,32 +11084,6 @@ components:
         }]
 
 
-    icelandicPurpose:
-      description: |
-        Standardised definition of icelandic purpose code and description used in transactions
-      type: object
-      properties:
-        code:
-          type: string
-          maxLength: 2
-        description:
-          type: string
-          maxLength: 150        
-
-
-    icelandicPurposeCode:
-      description: |
-        Standardised definition of transaction used in the Iceland market to define the purpose of the transaction.
-      type: string
-      maxLength: 2
-
-    centralBankPurposeCode:
-      description: |
-        Standardised definition of purpose code required by the Icelandic Central Bank.
-      type: string
-      maxLength: 3
-
-
   parameters:
   #####################################################
   # Predefined Parameters
@@ -11895,6 +11928,7 @@ components:
               - $ref: "#/components/schemas/paymentInitiationWithStatusResponse"
               - $ref: "#/components/schemas/periodicPaymentInitiationWithStatusResponse"
               - $ref: "#/components/schemas/bulkPaymentInitiationWithStatusResponse"
+              - $ref: "#/components/schemas/bulkPaymentInitiationDomesticWithStatusResponse"
               
         application/xml:
           schema:
@@ -12435,18 +12469,6 @@ components:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       #NO RESPONSE BODY
-
-    #####################################################
-    # Positive Responses Domestic
-    #####################################################
-
-    OK_200_PaymentId:
-      description: |
-        The payment id
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/paymentId"
 
     #####################################################
     # Negative Responses

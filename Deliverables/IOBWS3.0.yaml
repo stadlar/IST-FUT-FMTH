@@ -6069,11 +6069,19 @@ components:
         Payment used to pay claim (Icelandic)
       type: boolean
       example: false
+  
+    organizationIdentification: 
+      description: |
+        Organization identification
+      type: string
+      example: "//FW123456789 or other"     
 
     bicfiOrIdentification: 
       description: |
         BICFI or other organization identification
-      type: string
+      oneOf:
+        - $ref: "#/components/schemas/bicfi"
+        - $ref: "#/components/schemas/organizationIdentification"
       example: "AAAADEBBXXX or //FW123456789 or other"  
 
     icelandicPurpose:

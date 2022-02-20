@@ -6883,9 +6883,7 @@ components:
       type: object
       required:
         - payments
-        - debtorAccount
         - paymentInformationId
-        - batchBookingPreferred
       properties:
         batchBookingPreferred:
           type: boolean
@@ -7738,14 +7736,14 @@ components:
       properties:
         batchBookingPreferred:
           $ref: "#/components/schemas/batchBookingPreferred"
-        requestedExecutionDate:
-          type: string
-          format: date
         debtorAccount:
           $ref: "#/components/schemas/accountReference"
         paymentInformationId:
           type: string
           maxLength: 35
+        requestedExecutionDate:
+          type: string
+          format: date
         payments:
           description: |
             A list of generic JSON bodies payment initations for bulk payments via JSON.

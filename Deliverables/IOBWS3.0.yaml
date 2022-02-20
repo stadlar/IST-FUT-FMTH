@@ -7732,6 +7732,8 @@ components:
         Generic JSON response body consistion of the corresponding bulk payment initation JSON body together with an optional transaction status field.
       type: object
       required:
+        - batchBookingPreferred
+        - paymentInformationId
         - payments
       properties:
         batchBookingPreferred:

@@ -6873,17 +6873,20 @@ components:
           * payment-card-deposits
 
       type: object
+      required:
+        - payments
+        - debtorAccount
+        - paymentInformationId
+        - batchBookingPreferred
       properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
+        batchBookingPreferred:
+          type: boolean
+
         debtorAccount: 
             $ref: "#/components/schemas/accountReference"
         paymentInformationId:
           type: string
           maxLength: 35
-        batchBookingPreferred:
-          type: boolean
         requestedExecutionDate:
           type: string
           format: date

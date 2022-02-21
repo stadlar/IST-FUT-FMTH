@@ -6269,6 +6269,7 @@ components:
         - instructedAmount
         - creditorAccount
         - creditorName
+        - centralBankPurposeCode
       properties:
         endToEndIdentification:
           type: string

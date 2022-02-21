@@ -7731,6 +7731,106 @@ components:
     # Content of Response Bodies - Domestic
     #####################################################
 
+    paymentInitiationDomesticWithStatusResponse: 
+      description: |
+        Generic JSON response body consistion of the corresponding payment initation JSON body together with an optional transaction status field.
+      type: object
+      required:
+        - debtorAccount
+        - instructedAmount
+        - creditorAccount
+        - creditorName
+      properties:
+        endToEndIdentification:
+          type: string
+          maxLength: 35
+        debtorName: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/debtorName"
+        debtorAccount: 
+          $ref: "#/components/schemas/accountReference"
+        debtorId: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/debtorId"
+        ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/ultimateDebtor"
+        instructedAmount:
+          $ref: "#/components/schemas/amount"
+        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/paymentExchangeRate"
+        creditorAccount: 
+          $ref: "#/components/schemas/accountReference"
+        creditorAgent:
+          $ref: "#/components/schemas/bicfiOrIdentification"
+        creditorName:
+          $ref: "#/components/schemas/creditorName"
+        creditorAddress:
+          $ref: "#/components/schemas/address"
+        creditorId: # N.A. for all, but can be used by ASPSP if needed
+          description: Identification of Creditors, e.g. a SEPA Creditor ID.
+          type: string
+          maxLength: 35
+        ultimateCreditor: # N.A.
+          $ref: "#/components/schemas/ultimateCreditor"
+        chargeBearer: #In some payment product N.A. in some Optional in some conditional
+          $ref: "#/components/schemas/chargeBearer"
+        remittanceInformationUnstructured:
+          $ref: "#/components/schemas/remittanceInformationUnstructured"
+        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
+        requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
+          type: string
+          format: date
+        transactionStatus:
+          $ref: "#/components/schemas/transactionStatus"
+        transactionFeesDetails:
+          $ref: "#/components/schemas/transactionFeesList"
+        icelandicPurposeCode:
+          $ref: "#/components/schemas/icelandicPurposeCode"
+        chargesAccount:
+          $ref: "#/components/schemas/accountReference"
+
+    periodicPaymentInitiationDomesticWithStatusResponse: 
+      description: |
+        Generic JSON response body consistion of the corresponding periodic payment initation JSON body together with an optional transaction status field.
+      type: object
+      required:
+        - debtorAccount
+        - instructedAmount
+        - creditorAccount
+        - creditorName
+        - startDate
+        - frequency
+      properties:
+        endToEndIdentification:
+          type: string
+          maxLength: 35
+        debtorAccount: 
+          $ref: "#/components/schemas/accountReference"
+        instructedAmount:
+          $ref: "#/components/schemas/amount"
+        creditorAccount: 
+          $ref: "#/components/schemas/accountReference"
+        creditorAgent:
+          $ref: "#/components/schemas/bicfiOrIdentification"
+        creditorName:
+          $ref: "#/components/schemas/creditorName"
+        creditorAddress:
+          $ref: "#/components/schemas/address"
+        remittanceInformationUnstructured:
+          $ref: "#/components/schemas/remittanceInformationUnstructured"
+        #Additional Information for periodic payments
+        startDate:
+          $ref: "#/components/schemas/startDate"
+        endDate:
+          $ref: "#/components/schemas/endDate"
+        executionRule:
+          $ref: "#/components/schemas/executionRule"
+        frequency:
+          $ref: "#/components/schemas/frequencyCode"
+        dayOfExecution:
+          $ref: "#/components/schemas/dayOfExecution"
+        transactionStatus:
+          $ref: "#/components/schemas/transactionStatus"
+
     bulkPaymentInitiationDomesticWithStatusResponse: 
       description: |
         Generic JSON response body consistion of the corresponding bulk payment initation JSON body together with an optional transaction status field.
@@ -7757,7 +7857,7 @@ components:
             Note: Some fields from single payments do not occcur in a bulk payment element
           type: array
           items:
-            $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
+            $ref: "#/components/schemas/bulkPaymentInitiationElementDomesticWithStatus"
         transactionStatus:
           $ref: "#/components/schemas/transactionStatus"
         chargesAccount:
@@ -7766,6 +7866,18 @@ components:
           $ref: "#/components/schemas/paymentExchangeRate"
         transactionFeesDetails:
           $ref: "#/components/schemas/transactionFeesList"
+
+    bulkPaymentInitiationElementDomesticWithStatus:
+      description: |
+        Bulk Element Response with status
+      allOf:
+        - $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
+        - type: object
+          properties:
+            status:
+              $ref: "#/components/schemas/tppMessage400_PIS"
+          
+
 
 #####################################################
 # _links
@@ -11943,6 +12055,8 @@ components:
               - $ref: "#/components/schemas/paymentInitiationWithStatusResponse"
               - $ref: "#/components/schemas/periodicPaymentInitiationWithStatusResponse"
               - $ref: "#/components/schemas/bulkPaymentInitiationWithStatusResponse"
+              - $ref: "#/components/schemas/paymentInitiationDomesticWithStatusResponse"
+              - $ref: "#/components/schemas/periodicPaymentInitiationDomesticWithStatusResponse"
               - $ref: "#/components/schemas/bulkPaymentInitiationDomesticWithStatusResponse"
               
         application/xml:

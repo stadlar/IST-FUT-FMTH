@@ -6069,11 +6069,19 @@ components:
         Payment used to pay claim (Icelandic)
       type: boolean
       example: false
+  
+    organizationIdentification: 
+      description: |
+        Organization identification
+      type: string
+      example: "//FW123456789 or other"     
 
     bicfiOrIdentification: 
       description: |
         BICFI or other organization identification
-      type: string
+      oneOf:
+        - $ref: "#/components/schemas/bicfi"
+        - $ref: "#/components/schemas/organizationIdentification"
       example: "AAAADEBBXXX or //FW123456789 or other"  
 
     icelandicPurpose:
@@ -6261,6 +6269,7 @@ components:
         - instructedAmount
         - creditorAccount
         - creditorName
+        - centralBankPurposeCode
       properties:
         endToEndIdentification:
           type: string
@@ -6873,17 +6882,18 @@ components:
           * payment-card-deposits
 
       type: object
+      required:
+        - payments
+        - paymentInformationId
       properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
+        batchBookingPreferred:
+          type: boolean
+
         debtorAccount: 
             $ref: "#/components/schemas/accountReference"
         paymentInformationId:
           type: string
           maxLength: 35
-        batchBookingPreferred:
-          type: boolean
         requestedExecutionDate:
           type: string
           format: date
@@ -6926,6 +6936,9 @@ components:
         - creditorAccount
       properties:
         endToEndIdentification:
+          type: string
+          maxLength: 35
+        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
           type: string
           maxLength: 35
         resourceId:
@@ -7723,18 +7736,20 @@ components:
         Generic JSON response body consistion of the corresponding bulk payment initation JSON body together with an optional transaction status field.
       type: object
       required:
+        - batchBookingPreferred
+        - paymentInformationId
         - payments
       properties:
         batchBookingPreferred:
           $ref: "#/components/schemas/batchBookingPreferred"
-        requestedExecutionDate:
-          type: string
-          format: date
         debtorAccount:
           $ref: "#/components/schemas/accountReference"
         paymentInformationId:
           type: string
           maxLength: 35
+        requestedExecutionDate:
+          type: string
+          format: date
         payments:
           description: |
             A list of generic JSON bodies payment initations for bulk payments via JSON.

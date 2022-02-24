@@ -10,7 +10,7 @@ info:
     claims, send claims to an intermediate debt collector and obtain a list of claims according to the given search
     criteria, and thus get a good overview of all their claims.
 
-    The Collection Service uses the same endpoints as the claimant endpoints. There is a restriction on the 
+    There is no Collection Service as it has been merged with the claimant endpoints. There is a restriction on the 
     collection company, it's not allowed to create claims. The claim service enables dept collectors to work 
     with the claims under their care. The service is mostly as structured as the service for claims, except 
     that it is not possible to create collection claims
@@ -2920,15 +2920,14 @@ components:
               "name": "string"
             },
             "claimantStatementExtendedReferenceType": "ReferenceNumber",
+            "customerNumberTemplate": "string",
             "claimantStatementReferenceType": "DueDate",
             "depositAccount": {
-              "id": "000126123456",
+              "id": "000166123456",
               "ownerId": "0208715009"
             },
             "secondaryCollectionClaimTemplateCode": "MI1",
-            "withdrawalAccount": "000126123456",
-            "isActive": true,
-            "lastModified": "2022-01-31"
+            "withdrawalAccount": "000166123456"
           }
         ]
 
@@ -2936,8 +2935,8 @@ components:
       description: Example of claim template
       value:
         {
-          "claimTemplateId": "ABC123",
-          "claimantId": "0208715009",
+          "claimTemplateId": "string",
+          "claimantId": "string",
           "bank": "0001",
           "templateCode": "001",
           "collectionType": "PrimaryCollection",
@@ -2946,27 +2945,27 @@ components:
             "name": "string"
           },
           "claimantStatementExtendedReferenceType": "ReferenceNumber",
+          "customerNumberTemplate": "string",
           "claimantStatementReferenceType": "DueDate",
           "depositAccount": {
-            "id": "000126123456",
+            "id": "000166123456",
             "ownerId": "0208715009"
           },
           "secondaryCollectionClaimTemplateCode": "MI1",
-          "withdrawalAccount": "000126123456",
+          "withdrawalAccount": "000166123456",
           "additionalDepositAccounts": [
             {
-              "id": "000126123456",
+              "id": "000166123456",
               "ownerId": "0208715009",
               "type": "DefaultInterest",
               "priority": 0,
               "depositAmount": {
-                "value": "5877.78",
+                "value": 0,
                 "valueType": "FixedAmount"
               }
             }
           ],
-          "isActive": true,
-          "lastModified": "2022-01-31"
+          "isActive": true
         }
 
     getClaim-200_Example:
@@ -2975,7 +2974,7 @@ components:
         {
           "claimKey": {
             "claimantId": "0208715009",
-            "account": "000126123456",
+            "account": "000166123456",
             "dueDate": "2022-01-31"
           },
           "payorId": "0208715009",
@@ -3020,11 +3019,16 @@ components:
             }
           },
           "defaultInterest": {
-            "rule": "NoDefaultInterest",
-            "percentage": 0,
-            "specialCode": ""
+            "dateReference": "DueDate",
+            "calculationPeriod": "24-24",
+            "calculationDayRule": "PaymentDay",
+            "defaultInterestException": "NoException",
+            "baseAmountType": "Amount",
+            "baseTimeType": "Daily",
+            "percentage": 0
           },
           "discount": {
+            "isPostRefDate": true,
             "referenceDate": "FinalDueDate",
             "first": {
               "chargeType": "Percentage",
@@ -3041,7 +3045,7 @@ components:
           "isPartialPaymentAllowed": true,
           "isPartiallyPaid": true,
           "currency": "string",
-          "referenceRate": "ExchangeRate",
+          "currencyPaymentRate": "DueDateRate",
           "additionalInformation": "string",
           "printing": {
             "claimantAddress": {
@@ -3174,12 +3178,12 @@ components:
           {
             "claimKey": {
               "claimantId": "0208715009",
-              "account": "000126123456",
+              "account": "000166123456",
               "dueDate": "2022-01-31"
             },
             "payorId": "0208715009",
             "amount": 0,
-            "finalDueDate": "2022-02-02",
+            "finalDueDate": "2022-02-24",
             "templateCode": "001",
             "claimTemplateId": "string",
             "secondaryCollectionTemplateCode": "001",
@@ -3187,7 +3191,7 @@ components:
             "reference": "string",
             "categoryCode": "string",
             "redeemingBank": "string",
-            "transactionTimestamp": "2022-02-02T22:09:08.070Z",
+            "transactionTimestamp": "2022-02-24T23:42:20.348Z",
             "bookingDate": "2022-01-31",
             "valueDate": "2022-01-31",
             "paymentType": "Complete",
@@ -3207,7 +3211,7 @@ components:
               "currency": "string",
               "rate": 0
             },
-            "batchId": "447dbf7b-4f99-44ce-9469-e794b250fa4e"
+            "batchId": "stringstringstringstringstringstring"
           }
         ]
 
@@ -3219,7 +3223,7 @@ components:
             "claim": {
               "claimKey": {
                 "claimantId": "0208715009",
-                "account": "000126123456",
+                "account": "000166123456",
                 "dueDate": "2022-01-31"
               },
               "payorId": "0208715009",
@@ -3264,11 +3268,16 @@ components:
                 }
               },
               "defaultInterest": {
-                "rule": "NoDefaultInterest",
-                "percentage": 0,
-                "specialCode": ""
+                "dateReference": "DueDate",
+                "calculationPeriod": "24-24",
+                "calculationDayRule": "PaymentDay",
+                "defaultInterestException": "NoException",
+                "baseAmountType": "Amount",
+                "baseTimeType": "Daily",
+                "percentage": 0
               },
               "discount": {
+                "isPostRefDate": true,
                 "referenceDate": "FinalDueDate",
                 "first": {
                   "chargeType": "Percentage",
@@ -3285,7 +3294,7 @@ components:
               "isPartialPaymentAllowed": true,
               "isPartiallyPaid": true,
               "currency": "string",
-              "referenceRate": "ExchangeRate",
+              "currencyPaymentRate": "DueDateRate",
               "additionalInformation": "string",
               "printing": {
                 "claimantAddress": {
@@ -3320,15 +3329,14 @@ components:
               "lastChanged": "2022-01-31"
             },
             "payment": {
-              "claimId": "string",
               "claimKey": {
                 "claimantId": "0208715009",
-                "account": "000126123456",
+                "account": "000166123456",
                 "dueDate": "2022-01-31"
               },
               "payorId": "0208715009",
               "amount": 0,
-              "finalDueDate": "2022-02-02",
+              "finalDueDate": "2022-02-24",
               "templateCode": "001",
               "claimTemplateId": "string",
               "secondaryCollectionTemplateCode": "001",
@@ -3336,7 +3344,7 @@ components:
               "reference": "string",
               "categoryCode": "string",
               "redeemingBank": "string",
-              "transactionTimestamp": "2022-02-02T22:09:41.914Z",
+              "transactionTimestamp": "2022-02-24T23:38:43.220Z",
               "bookingDate": "2022-01-31",
               "valueDate": "2022-01-31",
               "paymentType": "Complete",
@@ -3356,7 +3364,7 @@ components:
                 "currency": "string",
                 "rate": 0
               },
-              "batchId": "447dbf7b-4f99-44ce-9469-e794b250fa4e"
+              "batchId": "stringstringstringstringstringstring"
             },
             "transactionDate": "2022-01-31",
             "transactionType": "Creation"
@@ -3370,7 +3378,7 @@ components:
           {
             "claimKey": {
               "claimantId": "0208715009",
-              "account": "000126123456",
+              "account": "000166123456",
               "dueDate": "2022-01-31"
             },
             "payorId": "0208715009",
@@ -3415,11 +3423,16 @@ components:
               }
             },
             "defaultInterest": {
-              "rule": "NoDefaultInterest",
-              "percentage": 0,
-              "specialCode": ""
+              "dateReference": "DueDate",
+              "calculationPeriod": "24-24",
+              "calculationDayRule": "PaymentDay",
+              "defaultInterestException": "NoException",
+              "baseAmountType": "Amount",
+              "baseTimeType": "Daily",
+              "percentage": 0
             },
             "discount": {
+              "isPostRefDate": true,
               "referenceDate": "FinalDueDate",
               "first": {
                 "chargeType": "Percentage",
@@ -3436,7 +3449,7 @@ components:
             "isPartialPaymentAllowed": true,
             "isPartiallyPaid": true,
             "currency": "string",
-            "referenceRate": "ExchangeRate",
+            "currencyPaymentRate": "DueDateRate",
             "additionalInformation": "string",
             "printing": {
               "claimantAddress": {
@@ -3566,7 +3579,7 @@ components:
       description: Example of patch >
       value:
         {
-          "batchId": "447dbf7b-4f99-44ce-9469-e794b250fa4e",
+          "batchId": "stringstringstringstringstringstring",
           "success": 0,
           "failed": 0,
           "pending": 0,
@@ -3576,7 +3589,7 @@ components:
               {
                 "claimKey": {
                   "claimantId": "0208715009",
-                  "account": "000126123456",
+                  "account": "000166123456",
                   "dueDate": "2022-01-31"
                 },
                 "directPaymentClaim": true
@@ -3586,7 +3599,7 @@ components:
               {
                 "claimKey": {
                   "claimantId": "0208715009",
-                  "account": "000126123456",
+                  "account": "000166123456",
                   "dueDate": "2022-01-31"
                 },
                 "errorCode": "string",

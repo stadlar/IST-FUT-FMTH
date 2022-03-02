@@ -7874,7 +7874,8 @@ components:
         - $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
         - type: object
           properties:
-            status:
+            error:
+              nullable: true
               $ref: "#/components/schemas/tppMessage400_PIS"
           
 

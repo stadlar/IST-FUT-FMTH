@@ -8005,6 +8005,8 @@ components:
         * 'scaStatus': 
           The link to retrieve the scaStatus of the corresponding authorisation sub-resource. 
           This link is only contained, if an authorisation sub-resource has been already created.
+        * 'confirmAuthorisationWithTransactionAuthorisation':
+          The link
 
       type: object
       additionalProperties: 
@@ -8033,6 +8035,8 @@ components:
         status:
           $ref: "#/components/schemas/hrefType"
         scaStatus:
+          $ref: "#/components/schemas/hrefType"
+        confirmAuthorisationWithTransactionAuthorisation:
           $ref: "#/components/schemas/hrefType"
       example: 
         {

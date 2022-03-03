@@ -6892,9 +6892,9 @@ components:
         batchBookingPreferred:
           type: boolean
 
-        debtorAccount: 
-            $ref: "#/components/schemas/accountReference"
-            
+        # debtorAccount: 
+        #     $ref: "#/components/schemas/accountReference"
+
         paymentInformationId:
           type: string
           maxLength: 35

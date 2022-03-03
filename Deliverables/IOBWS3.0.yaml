@@ -6774,6 +6774,9 @@ components:
         endToEndIdentification:
           type: string
           maxLength: 35
+        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
+          type: string
+          maxLength: 35
         debtorId:
           type: string
           maxLength: 35
@@ -6891,6 +6894,7 @@ components:
 
         debtorAccount: 
             $ref: "#/components/schemas/accountReference"
+            
         paymentInformationId:
           type: string
           maxLength: 35

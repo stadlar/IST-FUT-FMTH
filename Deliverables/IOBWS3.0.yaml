@@ -5086,14 +5086,7 @@ components:
         BICFI
       type: string
       pattern: '[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}'
-      example: "AAAADEBBXXX"
-    
-    
-    bicfiOrIdentification: 
-      description: |
-        BICFI or other organization identification
-      type: string
-      example: "AAAADEBBXXX or //FW123456789 or other"    
+      example: "AAAADEBBXXX"  
 
 
     pan:
@@ -6403,6 +6396,7 @@ components:
         - instructedAmount
         - creditorAccount
         - creditorName
+        - centralBankPurposeCode
       properties:
         endToEndIdentification:
           type: string
@@ -12820,18 +12814,6 @@ components:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       #NO RESPONSE BODY
-
-    #####################################################
-    # Positive Responses Domestic
-    #####################################################
-
-    OK_200_PaymentId:
-      description: |
-        The payment id
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/paymentId"
 
     #####################################################
     # Negative Responses

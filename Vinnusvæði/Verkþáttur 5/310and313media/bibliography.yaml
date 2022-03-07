@@ -87,3 +87,51 @@ references:
     url: https://www.althingi.is/altext/151/s/1813.html
     title: 'Lög um greiðsluþjónustu'
     title-short: Lög 2021 nr. 114 25. júní
+  - type: article
+    id: semver2
+    number: 2021/114
+    abstract: "Given a version number MAJOR.MINOR.PATCH, increment the:\n\nMAJOR version when you make incompatible API changes,\nMINOR version when you add functionality in a backwards compatible manner, and\nPATCH version when you make backwards compatible bug fixes.\nAdditional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format."
+    chapter-number: 151
+    language: Icelandic
+    author:
+    - family: 
+      given: Preston-Werner,Tom
+      accessed:
+      date-parts:
+      - - 2022
+        - 02
+        - 20
+    url: https://semver.org/spec/v2.0.0.html
+    title: 'Semantic Versioning 2.0.'
+    title-short: Semver 2.0.0
+  - type: book
+    id: NextGenPSD2
+    language: English
+    author:
+    - family: The Berlin Group
+      given: 
+      suffix: A European Standards Initiative
+    issued:
+      date-parts:
+      - - 2020 
+        - 10
+        - 30
+    url: https://www.berlin-group.org/nextgenpsd2-downloads
+    title: 'NextGenPSD2 Access to Account Framework'
+    title-short: NextGenPSD2
+  - type: book
+    id: ISO20022
+    ISBN: '978-0-539-13886-3'
+    language: English
+    number-of-pages: 152
+    author:
+    - family: International Organization for Standardization
+      given: 
+      suffix: 
+    issued:
+      date-parts:
+      - - 2020
+        - 9
+        - 25
+    title: 'ISO 20022 Financial services - universal financial industry message scheme.'
+    title-short: ISO 20022

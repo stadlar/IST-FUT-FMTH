@@ -1,5 +1,5 @@
 ---
-title: "ÍST TS 313:2021"
+title: "ÍST TS 313:2022"
 author: ICS 03.060 and 35.240
 date: "Entry into force 15-03-2021"
 subject: "Icelandic Online Banking Webservices "
@@ -158,33 +158,28 @@ The following elements are used in the domestic payment products under scope for
 
 To elaborate on the use of particular attributes the following [table @tbl:proper_domestic] contains additional information on top of the schema defenitions. Notes on individual data elements or usage patterns follow in the subsections. 
 
-
   --------------------------------------------------------------------------------------------------------
   **Field**                               **Description**
   --------------------------------------- ----------------------------------------------------------------
-  **serviceLevel**                        Applies to SWIFT Payments using ISO ExternalServiceLevel1Code 
-                                          but only SDVA and URGP are suggested for use by domestic banks,
-                                          as described in [table @tbl:ext_svclvl_codes].
+  **centralBankPurposeCode**              An element mandated by the Central Bank of Iceland, using a
+                                          domestic coding schema that does not match any of
+                                          ISO 20022 references such as the ExternalPurpose1Code used
+                                          used by the purposeCode element available in the NextGenPSD2
+                                          framework, but not used by ÍST {{spec_id}}.
+
+  **serviceLevel**                        Applies to SWIFT Payments and is constrained by ISO 20022
+                                          ExternalServiceLevel1Code. However
+                                          only URGP is suggested for use by domestic banks, which means
+                                          payment will be executed as an
+                                          urgent transaction cleared through
+                                          a real-time gross settlement
+                                          system, which is typically
+                                          identified as a wire or high value
+                                          transaction. The use might be further constrained so consult
+                                          specific product documentation that applies to each banks
+                                          implementation of ÍST {{spec_id}}.
   --------------------------------------------------------------------------------------------------------
   :Detailed description of ÍST {{spec_id}} payments properties. {#tbl:proper_domestic}
-
-Below are the codes suggested for use in service level preferences for SWIFT (Cross-Border) credit-transfers. The use might be further constrained so consulting specific product documentation that applies to each banks implementation of ÍST {{spec_id}} is reccomended.
-
-  -----------------------------------------------------------------------
-  **Code**          **Name**          **Definition**
-  ----------------- ----------------- -----------------------------------
-  **SDVA**          SameDayValue      Payment must be executed with same
-                                      day value to the creditor.
-
-  **URGP**          Urgent Payment    Payment must be executed as an
-                                      urgent transaction cleared through
-                                      a real-time gross settlement
-                                      system, which is typically
-                                      identified as a wire or high value
-                                      transaction.
-  -----------------------------------------------------------------------
-  :Suggested external service level codes. {#tbl:ext_svclvl_codes}
-
 
 ## Bulk Payments
 
@@ -209,9 +204,7 @@ Bulk payments are supported for all ÍST {{spec_id}} payment types. For a bulk p
                                                             considered mandatory in future
                                                             versions of the specification.
 
-  **requestedExecutionDate**   ISODate       N/A       
-
-  **requestedExecutionTime**   ISODateTime   N/A        
+  **requestedExecutionDate**   ISODate       N/A        
 
   **payments**                 Bulk Entry    Mandatory      The Bulk Entry is a JSON Type
                                                             which mirrors the supported
@@ -222,7 +215,10 @@ Bulk payments are supported for all ÍST {{spec_id}} payment types. For a bulk p
   ---------------------------------------------------------------------------------------
   :Description of domestic bulk payment main body. {#tbl:bulk_domestic}
 
-# Accounts
+# Accounts Service
+
 
 
 !include`snippetStart="<!-- AccountsOverviewBegin -->", snippetEnd="<!-- AccountsOverviewEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+
+# Authentication and Authorization

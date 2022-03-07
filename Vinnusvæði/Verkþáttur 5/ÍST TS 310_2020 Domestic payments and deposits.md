@@ -1,5 +1,5 @@
 ---
-title: "ÍST TS 310:2020"
+title: "ÍST TS 310:2022"
 author: ICS 03.060 and 35.240
 date: "Entry into force: 22.02.2022"
 subject: "Icelandic Online Banking Webservices "
@@ -14,7 +14,7 @@ toc: true
 toc-title: Table of contents
 # toc-own-page: true
 book: true
-classoption: oneside
+classoption: twoside
 numbersections: true
 first-chapter: 1
 listings: true
@@ -33,7 +33,8 @@ tableTemplate: |
 autoSectionLabels: True
 bibliography: "Vinnusvæði/Verkþáttur 5/310and313media/bibliography.yaml"
 csl: "lib/apa.csl"
-
+fontsize: 9pt
+titlefont: Arial.ttf
 ...
 
 !include-header "Vinnusvæði/Verkþáttur 5/310media/participants.yaml"
@@ -71,7 +72,7 @@ Other ÍST Technical Specifications exist that address related but discrete unit
 
 However, due to the origin of the underlying OpenAPI specification in the Berlin Group NextGenPSD2 Framework, ÍST TS-310 on Domestic Payments and Deposits, and ÍST TS-313 on Foreign Payments, overlap quite significantly. Both are based on the 
 "[IOBWS3.0.yaml](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/IOBWS3.0.yaml)" 
-definition document, and share schema types and API resources. They will still be treated as separate entities but stakeholders are advised to reference the other document if more context is required.
+definition document, and share schema type and API service definitions. They will still be treated as separate entities but stakeholders are advised to reference the other document if more context is required.
 
 The approach in ÍST {{spec_id}} is to focus on the domestic adaptations to the relevant parts of the NextGenPSD2 framework, and the information needed to tie that to earlier IOBWS versions or other such implementations, and even the Core Banking systems involved. 
 
@@ -85,7 +86,7 @@ The expectation is that for ÍST {{spec_id}}, the technical service definitions 
 Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetition of information found in the technical contract [IOBWS3.0.yaml](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/IOBWS3.0.yaml). Instead, the rest of the document focuses on the essential information needed to understand the domestic context of services, schema types and service flows in relation to the NextGenPSD2 framework, and what constitutes the common core required to implement ÍST {{spec_id}}.
 <!-- ScopeEndNoteEnd -->
 
-# Normative references, definitions and data elements 
+# References, definitions and data elements 
 
 !include "Vinnusvæði/Verkþáttur 5/310and313media/terminalogy.md"
 
@@ -109,7 +110,7 @@ Example       5510730339    01          59         66         007654      +     
 ## Service Overview
 
 <!-- PaymentSvcOverviewStart -->
-Part of the decision to adopt the NextGenPSD2 framework, agreed upon by TN-FMÞ-VH-1 on Technical Requirements and TN-FMÞ-VH-2 on Business Requirments, called for staying as true to the specification as possible.
+Part of the decision to adopt the NextGenPSD2 framework, agreed upon by TN-FMÞ-VH-1 on Business Requirments and TN-FMÞ-VH-2 on Technical Requirements, called for staying as true to the specification as possible.
 
 However, not unlike other existing domestic adaptations of NextGenPSD2, additional functionality was needed to support payment operations and account information expected by the Icelandic market. The original workgroup did so by extending existing schema types in the NextGenPSD2 OpenAPI contract while removing elements and services not directly applicable to IOBWS. The intention was to streamline the specification but developers with previous exposure to NextGenPSD2 found it turned out challenging to understand the changes, while the overall implementation details still remained opaque for those looking to migrate from earlier IOBWS versions.
 
@@ -163,6 +164,8 @@ The following elements are used in the domestic payment products under scope for
                                            Transfers**       Payments**    Deposits**
   ---------------------------------------- ---------------- ------------ ---------------
   **endToEndIdentification**               Optional         Optional     Optional
+  
+  **instructionIdentification**            Optional         Optional     Optional
 
   **debtorAccount**                        Mandatory        Mandatory    Mandatory
 
@@ -217,13 +220,23 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
   --------------------------------------- ---------------------------------------------------
   **endToEndIdentification**              Intended for ID, short message or description that
                                           will be communicated to the creditor,
-                                          across different banks. Is replaces the bill number
+                                          across different banks. Is replaces the 
+                                          **BillNumber**
+                                          or bill number field in previous IOBWS version 
                                           (ic. *seðilnúmer*, TNUM_I/TNUM_U). While
                                           supporting 35 characters, only the first 7 chars
                                           can reliably flow between all possible CB systems,
                                           reports, and even client systems, due to legacy 
                                           expectations and implementations.
-
+                                          
+  **instructionIdentification**           Unique identification, assigned by the debtor
+                                          to unambiguously identify the instruction and
+                                          to be communicated for correlation 
+                                          in payment status information, though not
+                                          available in later transaction details. This
+                                          field therefore plays a similar role to 
+                                          **BookingID** in earlier IOBWS versions.
+                                        
   **debtorAccount**                       Debtor account is the account money is being
                                           transfer from.
 
@@ -269,9 +282,10 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
                                           using masked PAN, ultimate Creditor contains
                                           the owner of the card.
 
-  **ultimateCreditorId**                  In the case of Payment Card Deposits using
+  **ultimateCreditorId**                  Contains the kennitala of the intended beneficiary of
+                                          the payment. In the case of Payment Card Deposits using
                                           masked PAN the Ultimate Creditor ID contains kennitala
-                                          of the card owner. [TODO: What is this]
+                                          of the card owner.
 
   **icelandicPurposeCode**                The purpose is the equivalent of the category code 
                                           (ic. *textalykill*) used to classify the transaction. 
@@ -279,7 +293,7 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
 
   **remittanceInformationStructured**     The debtors's information about the payment. An array 
                                           of remittance elements but currently only used for 
-                                          the equivalent of the IOBWS v2.0 
+                                          the equivalent of the IOBWS 2.0 
                                           **Out.Reference** (ic. *tilvísun*). This single
                                           array element must be of type 'TILV_U'
                                           Previously the equivalent data element was
@@ -290,7 +304,8 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
   **remittanceInformationUnStructured**   Is used for payment description visible for both parties. 
                                           Only 16 characters can currently be expected
                                           to reliably flow between all systems, even if the 
-                                          field accepts 140 characters.
+                                          field accepts 140 characters. Replaces **Description**
+                                          in previous IOBWS SOAP schema.
 
   **requestedExecutionDate**              Execution date if in the future, fully equivalent to the 
                                           IOBWS v2.0 **requestedExecutionDate** for future payments
@@ -307,13 +322,15 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
   ------------------------------------------------------------------------------------------
   :Detailed description of ÍST {{spec_id}} payments properties. {#tbl:proper_domestic}
 
-The remittanceInformationStructured mentioned in [table @tbl:proper_domestic] is only used currently to carry the deptor's payment reference. To identify this usage, the **type** 
+The remittanceInformationStructured mentioned in [table @tbl:proper_domestic] is only used currently to carry the deptor's payment reference. For identification the **type** is set to TILV_U, which helps clearly identify this information.
 
 ```{caption="Example of the *remittanceInformationStructured* data element." .YAML}
- remittanceInformationStructured: {
+ remittanceInformationStructured: [
+   {
     reference: "Maximum 16 chars"
     type: "TILV_U"
   }
+ ]
 ```
 
 ## Bulk Payments
@@ -325,14 +342,13 @@ Bulk payments are supported for all ÍST {{spec_id}} payment types. For a bulk p
   --------------------------- ------------- --------------- ------------------------------------
   **batchBookingPreferred**   Boolean       Optional        When the element is true, the
                                                             debtor prefers only one booking
-                                                            entry. If this element equals
-                                                            false, the debtor prefers
-                                                            individual booking of all
-                                                            contained individual
-                                                            transactions. The bank will
-                                                            follow this preference according
-                                                            to contracts agreed on with the
-                                                            debtor.
+                                                            entry, and debtorAccount must
+                                                            be included as an element. 
+                                                            If this element equals
+                                                            false, or is not included,
+                                                            the debtor prefers
+                                                            individual booking of payments,
+                                                            and each must include debtorAccount.
 
   **debtorAccount (incl.      Account       Optional        If batch booking is preferred,
   type)**                     Reference                     the debtor account should be 
@@ -343,9 +359,9 @@ Bulk payments are supported for all ÍST {{spec_id}} payment types. For a bulk p
   **paymentInformationId**    Max35Text     Optional        Unique identification assigned 
                                                             by the sending party to
                                                             unambiguously identify this bulk. 
-                                                            Replaces 
-                                                            **NameOfBatch** in IOBWS v2.0 and
-                                                            **PaymentsID**, that was generated
+                                                            Replaces **NameOfBatch**
+                                                            in IOBWS 2.0 and 3.0, as well as
+                                                            **PaymentsID** that was generated
                                                             by the receiving bank.
                                                             Note: This attribute might be
                                                             considered mandatory in future
@@ -371,6 +387,8 @@ Bulk payments are supported for all ÍST {{spec_id}} payment types. For a bulk p
 
 # Accounts Service
 
+The way account transaction information is retrieved should offer few surprises to users of previous versions of IOBWS or Berlin Group NextGenPSD2 framework.
+
 When querying information about domestic accounts, there exists an option to additionally request information on the allowed credit limit (*withCreditLimitQuery* data element). This matches what Icelandic banks offer as "yfirdráttarheimild", or overdraft limit. The returned data element is called *creditLimit*, instead of the somwhat confusingly named "Overdraft" element used in previous IOBWS versions. 
 
 ```{caption="Example of information about an account with credit limit. TODO: Provide Icelandic Example in YAML" .JSON}
@@ -388,10 +406,6 @@ The definition of the transaction details returned as a list, includes elements 
   **entryReference**                      Mandatory  Payment Correlation ID.
 
   **endToEndId**                          Optional   Short description.
-
-  ~~**mandateId**~~                       ~~N/A~~   ~~Identification of Mandates.~~
-
-  ~~**checkId**~~                         ~~N/A~~    ~~Not used.~~
 
   **currencyExchange**                    Optional   Returned when the transaction
                                                      relates to any currency exchange.
@@ -425,9 +439,7 @@ The definition of the transaction details returned as a list, includes elements 
   **ultimateDebtor**                      Optional   Ultimate debtor.
 
   **remittanceInformationUnstructured**   Optional   Payment description visible for 
-                                                     both parties. Only 16 characters
-                                                     can reliably be expected to flow
-                                                     between banks.
+                                                     both parties. 
 
   **remittanceInformationStructured**     Optional   Array of remittance, though only
                                                      used currently for the 16 character
@@ -458,8 +470,8 @@ The definition of the transaction details returned as a list, includes elements 
 
   **transactionTimestamp**                Mandatory  Execution datetime of the record.
 
-  **ultimateCreditorId**                  Optional   Ultimate creditor ID, or kennitala
-                                                     when available.
+  **ultimateCreditorId**                  Optional   Ultimate creditor kennitala
+                                                     as applicable.
 
   **debtorId**                            Optional   Debtor kennitala.
 
@@ -481,13 +493,19 @@ An example of how this would look for a Icelandic account is provided below.
 
 # Confirmation of Funds
 
-The service adds the possibility for IOBWS consumers to query if funds up to a certain amount are available on a payment account, should a payment be initiated. 
-The answer is only valid at the particular point in time it is given and does not imply or include any reservation of said amount. 
+The service offers the functionality for IOBWS consumers to query if funds up to a certain amount are available on a payment account, without receiving any more details. This can be considered helpful to check if e.g. a payment or transfer between accounts can be initiated. 
+The answer is only valid at the particular point in time and does not imply or include any reservation of said amount. 
 ÍST {{spec_id}} only supports the confirmation of funds request for payment accounts. Card accounts are currently not supported and only included in the OpenAPI schema for compatability with the source framework.
+
+# Payment processing flow 
+
+The flows 
 
 # Appendix
 
 ## Errors
+
+The  
 
 ## Mapping from older implementations
 

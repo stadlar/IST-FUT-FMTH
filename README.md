@@ -11,12 +11,14 @@ The repository encompasses the work and resulting technical standards of the *TÃ
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
-* [About the Project](#about-the-project)
-* [Getting Started](#getting-started)
-* [Technical Guidelines](#technical-details)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
+- [Icelandic Online Banking Web Service](#icelandic-online-banking-web-service)
+  - [Table of Contents](#table-of-contents)
+  - [About The Project](#about-the-project)
+  - [Getting Started](#getting-started)
+  - [Technical Guidelines](#technical-guidelines)
+  - [Contributing](#contributing)
+  - [License and Attribution](#license-and-attribution)
+  - [Contact](#contact)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project

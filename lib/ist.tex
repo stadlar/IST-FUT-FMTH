@@ -164,7 +164,7 @@ $else$
   \usepackage{unicode-math}
 $endif$
   \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\ttfamily]{Ligatures=TeX,Scale=1}
+  \defaultfontfeatures[\ttfamily]{Ligatures=Common,Scale=1}
 $if(mainfont)$
   \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
 $else$
@@ -728,8 +728,8 @@ $if(listings-disable-line-numbers)$
   framexleftmargin = 0.4em,
 $else$
   numbers          = left,
-  xleftmargin      = 2.7em,
-  framexleftmargin = 2.5em,
+  xleftmargin      = 0.7em,
+  framexleftmargin = 0.5em,
 $endif$
   backgroundcolor  = \color{listing-background},
   basicstyle       = \color{listing-text-color}\linespread{1.0}%
@@ -737,11 +737,13 @@ $endif$
                       $if(code-block-font-size)$$code-block-font-size$$else$\small$endif$%
                       \fi\ttfamily{},
   breaklines       = true,
+  resetmargins     = true,
+  upquote          = true,
   frame            = single,
   framesep         = 0.19em,
   rulecolor        = \color{listing-rule},
   frameround       = ffff,
-  tabsize          = 4,
+  tabsize          = 2,
   numberstyle      = \color{listing-numbers},
   aboveskip        = 1.0em,
   belowskip        = 0.1em,
@@ -770,7 +772,7 @@ $endif$
   {€}{{\EUR}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
   {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
   {…}{{\ldots}}1 {≥}{{>=}}1 {≤}{{<=}}1 {„}{{\glqq}}1 {“}{{\grqq}}1
-  {”}{{''}}1
+  {”}{{''}}1 {"}{{``}}1 
 }
 \lstset{style=eisvogel_listing_style}
 
@@ -839,7 +841,7 @@ $else$
   \clearpairofpagestyles
   \setheadtopline[\textwidth/2]{5pt}
   \setheadsepline{0pt}
-  \setlength{\headsep}{1cm}
+  \setlength{\headsep}{0.3cm}
   \ihead[$if(header-right)$$header-right$$endif$]{$if(header-left)$$header-left$$else${\newline\noindent \Huge \textbf{$title$}}$endif$}
   \chead[$if(header-center)$$header-center$$else$$endif$]{$if(header-center)$$header-center$$else$$endif$}
   \ohead[$if(header-left)$$header-left$$else${\Huge \textbf{$title$}}$endif$]{$if(header-right)$$header-right$$endif$}

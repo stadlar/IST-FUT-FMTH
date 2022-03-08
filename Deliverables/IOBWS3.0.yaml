@@ -11938,7 +11938,8 @@ components:
             "Example 11: 'bulk-payments' - 'credit-transfers'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_json"
     signingBasket:
-      description: |
+      description: |        
+              $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_json"
         Request body for a confirmation of an establishing signing basket request.
       content:
         application/json:
@@ -14441,8 +14442,8 @@ components:
             "currency": "EUR",
             "amount": "123.5"
           },
-          "creditorAccount": {
-            "iban": "IS40100100103307118608"
+          "creditorAccount": {            
+			"iban": "DK01234567890123456789"
           },
           "creditorName": "Jón Jónsson",
           "creditorAddress": {
@@ -14470,7 +14471,7 @@ components:
             "amount": "123.5"
           },
           "creditorAccount": {
-            "iban": "IS40100100103307118608"
+            "iban": "DK01234567890123456789"
           },
           "creditorName": "Jón Jónsson",
           "creditorAddress": {
@@ -14488,7 +14489,7 @@ components:
             "postCode": "4600",
             "country": "DK"
           },
-          "serviceLevel": "PRPT",
+          "serviceLevel": "URGP",
           "centralBankPurposeCode": "099",
           "remittanceInformationUnstructured": "My description"
         }
@@ -14550,6 +14551,7 @@ components:
           "payments": [
             {
               "endToEndIdentification": "Short description",
+			  "instructionIdentification": "my_payment_1",
               "debtorId": "0208714669",
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
@@ -14569,6 +14571,7 @@ components:
             },
             {
               "endToEndIdentification": "Short description",
+			  "instructionIdentification": "my_payment_2",
               "debtorId": "0208714669",
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
@@ -14589,6 +14592,62 @@ components:
           ]
         }
     
+    paymentInitiationDomesticBody_bulk-payments_with_status_json:
+      value:
+        {
+          "paymentInformationId": "75BA1A88418445C0BE88AABFBEEEE230",
+          "batchBookingPreferred": "true",
+          "requestedExecutionDate": "2020-08-01",
+          "payments": [
+            {
+              "endToEndIdentification": "Short description",
+			  "instructionIdentification": "my_payment_1",
+              "debtorId": "0208714669",
+              "debtorAccount": {
+                "iban": "IS40100100103307118608"
+              },
+              "creditorId": "0208714669",
+              "creditorAccount": {
+                "bban": "030013000001"
+              },
+              "instructedAmount": {
+                "currency": "ISK",
+                "amount": "1235"
+              },
+              "icelandicPurpose": {
+                "code": "87"
+              },
+              "remittanceInformationUnstructured": "My description"
+            },
+            {
+              "endToEndIdentification": "Short description",
+			  "instructionIdentification": "my_payment_2",
+              "debtorId": "0208714669",
+              "debtorAccount": {
+                "iban": "IS40100100103307118608"
+              },
+              "creditorId": "0208714669",
+              "creditorAccount": {
+                "bban": "045126123456"
+              },
+              "instructedAmount": {
+                "currency": "ISK",
+                "amount": "1235"
+              },
+              "icelandicPurposeCode": {
+                "code": "87"
+              },
+              "remittanceInformationUnstructured": "My description",
+			  "error": {
+				"category": "ERROR",
+				"code": "SERVICE_INVALID",
+				"path": "somePath",
+				"tppMessageText": "This payment had an error as the creditor account was invalid"
+			  }
+            }
+          ],
+		  "transactionsStatus": "ACTC"
+        }	
 
 
 security:

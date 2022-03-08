@@ -10873,7 +10873,7 @@ components:
           ],
           "_links": {
             "self": {
-              "href": "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
+              "href": "/v1/payments/credit-transfers/1234-wertiq-983"
             }
           }
         }

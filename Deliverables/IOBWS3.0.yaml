@@ -8618,6 +8618,12 @@ components:
         - "CONSENT_UNKNOWN"           #gen
         - "PAYMENT_FAILED"            #PIS
         - "EXECUTION_DATE_INVALID"    #PIS
+        - "DEBTOR_ACCOUNT_NOT_FOUND"    	#IOBWS
+        - "CREDITOR_ACCOUNT_NOT_FOUND"  	#IOBWS
+        - "CLAIM_NOT_FOUND"             	#IOBWS
+        - "CLAIM_ALREADY_PAID"          	#IOBWS
+        - "UNSUFFICIENT_FUNDS"          	#IOBWS
+
 
 
     MessageCode400_PIIS: 
@@ -10849,6 +10855,28 @@ components:
             $ref: "#/components/schemas/tppMessage400_PIS"
         _links:
           $ref: "#/components/schemas/_linksAll"
+      example:
+        {
+          "tppMessages": [
+            {
+              "category": "ERROR",
+              "code": "DEBTOR_ACCOUNT_NOT_FOUND",
+              "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+              "text": "Úttektarreikningur ekki til"
+            },
+            {
+              "category": "ERROR",
+              "code": "FORMAT_ERROR",
+              "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+              "text": "Eigin villa banka"
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
+            }
+          }
+        }
 
 
     Error400_NG_AIS: 
@@ -12643,7 +12671,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error400_NG_PIS" 
+            $ref: "#/components/schemas/Error400_NG_PIS"
 
         application/problem+json:
           schema:

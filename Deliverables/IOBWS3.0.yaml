@@ -12154,8 +12154,8 @@ components:
               $ref: "#/components/examples/accountListExample1"
             "Example 2":
               $ref: "#/components/examples/accountListExample2"
-            "Example 3":
-              $ref: "#/components/examples/accountListExample3"
+            # "Example 3":
+            #   $ref: "#/components/examples/accountListExample3"
 
 
     OK_200_CardAccountList:
@@ -12193,8 +12193,12 @@ components:
           examples:
             "Regular Account": 
               $ref: "#/components/examples/accountDetailsRegularAccount"
-            "Multicurrency Account":
-              $ref: "#/components/examples/accountDetailsMulticurrencyAccount"
+            "accountDetailsCurrencyAccount":
+              $ref: "#/components/examples/accountDetailsCurrencyAccount"
+            "AccountWithBalancesAndCreditlimit":
+              $ref: "#/components/examples/accountDetailsRegularAccountWithBalancesAndCreditlimit"
+            # "Multicurrency Account":
+            #   $ref: "#/components/examples/accountDetailsMulticurrencyAccount"
 
 
     OK_200_CardAccountDetails:
@@ -12254,8 +12258,8 @@ components:
             "Example 1: Regular Account":
               $ref: "#/components/examples/balancesExample1_RegularAccount"
             "Example 2: Multicurrency Account":
-              $ref: "#/components/examples/balancesExample2_MulticurrencyAcount"
-            "Example 3:":
+              $ref: "#/components/examples/balancesExample2_CurrencyAcount"
+            "Example 2:":
               $ref: "#/components/examples/balancesExample3_RegularAccount"
 
     OK_200_CardAccountBalances:
@@ -12288,9 +12292,7 @@ components:
             "Example 1":
               $ref: "#/components/examples/transactionsExample1_RegularAccount_json"
             "Example 2":
-              $ref: "#/components/examples/transactionsExample2_Download_json"
-            "Example 3":
-              $ref: "#/components/examples/transactionsExample3_MulticurrencyAccount_json"
+              $ref: "#/components/examples/transactionsExample2_CurrencyAccount_json"
         
         application/xml:
           schema:
@@ -13539,6 +13541,29 @@ components:
             }
         }
 
+
+    # accountDetailsMulticurrencyAccount:
+    #   description: Account details for a multicurrency account.
+    #   value:
+    #     {
+    #       "account":
+    #         {
+    #           "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+    #           "iban": "FR7612345987650123456789014", 
+    #           "currency": "XXX",
+    #           "ownerName": "Heike Mustermann",
+    #           "product": "Multicurrency Account",
+    #           "cashAccountType": "CACC",
+    #           "name": "Aggregation Account",
+    #           "_links": 
+    #             {
+    #               "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+    #               "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+    #             }
+    #         }
+    #     }
+
+
     accountDetailsRegularAccountWithBalancesAndCreditlimit:
       description: Account details for a regular Account.
       value:
@@ -13653,6 +13678,36 @@ components:
                 }
             }
         ]}
+        
+
+    # accountListExample2:
+    #   summary: Account list Example 2
+    #   description: |
+    #     Response in case of an example where consent on transactions and balances has been given to a multicurrency account which has two sub-accounts with currencies EUR and USD, and where the ASPSP is giving the data access only on sub-account level.
+    #   value:
+    #     {"accounts":
+    #        [
+    #           {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+    #            "iban": "DE2310010010123456788", 
+    #            "currency": "EUR",
+    #            "product": "Girokonto",
+    #            "cashAccountType": "CACC",
+    #            "name": "Main Account",
+    #            "_links": {
+    #         "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+    #         "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
+    #           },
+    #           {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81g",
+    #            "iban": "DE2310010010123456788",
+    #            "currency": "USD",
+    #            "product": "Fremdwährungskonto",
+    #            "cashAccountType": "CACC",
+    #            "name": "US Dollar Account",
+    #            "_links": {
+    #              "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/balances"},
+    #              "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/transactions"} }
+    #            } 
+    #     ]}
 
 
     accountListExample2:
@@ -14246,7 +14301,31 @@ components:
         }
 
 
-
+    # balancesExample2_MulticurrencyAcount:
+    #   description: |
+    #     Response in case of a multicurrency account with one account in EUR, 
+    #     one in USD, where the ASPSP has delivered a link to the balance endpoint relative to the aggregated 
+    #     multicurrency account (aggregation level).
+    #   value: 
+    #     {
+    #       "balances":
+    #           [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
+    #             "balanceType": "closingBooked",
+    #             "referenceDate": "2017-10-25"
+    #                },
+    #           {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
+    #           "balanceType": "expected",
+    #           "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
+    #           },
+    #        {"balanceAmount": {"currency": "USD", "amount": "350.00"},
+    #        "balanceType": "closingBooked", 
+    #             "referenceDate": "2017-10-25"
+    #                },
+    #           {"balanceAmount": {"currency": "USD", "amount": "350.00"},
+    #           "balanceType": "expected",
+    #            "lastChangeDateTime": "2017-10-24T14:30:21Z"
+    #                }]
+    #     }
 
 
     balancesExample2_CurrencyAcount:
@@ -14315,7 +14394,58 @@ components:
           ]
         }
 
+    # transactionsExample2_Download_json:
+    #   description: Response in case of huge data amount as a download.
+    #   value:
+    #     { 
+    #       "_links": {"download": {"href": "www.test-api.com/xs2a/v1/accounts/12345678999/transactions/download/"}}
+    #     }
 
+
+    # transactionsExample3_MulticurrencyAccount_json:
+    #   description: Response in JSON format for an access on a multicurrency account on aggregation level
+    #   value:
+    #     {
+    #     "account": {"iban": "DE40100100103307118608"},
+    #      "transactions":
+    #        {"booked": 
+    #          [{
+    #            "transactionId": "1234567",
+    #            "creditorName": "John Miles",
+    #            "creditorAccount": {"iban": "DE67100100101306118605"},
+    #            "transactionAmount": {"currency": "EUR", "amount": "-256.67"},
+    #            "bookingDate": "2017-10-25",
+    #            "valueDate": "2017-10-26", 
+    #            "remittanceInformationUnstructured": "Example 1"
+    #           },{
+    #            "transactionId": "1234568",
+    #            "debtorName": "Paul Simpson",
+    #            "debtorAccount": {"iban": "NL76RABO0359400371"},
+    #            "transactionAmount": {"currency": "EUR", "amount": "343.01"},
+    #            "bookingDate": "2017-10-25",
+    #            "valueDate": "2017-10-26", 
+    #            "remittanceInformationUnstructured": "Example 2"
+    #           },{
+    #            "transactionId": "1234569",
+    #            "debtorName": "Pepe Martin",
+    #            "debtorAccount": {"iban": "SE9412309876543211234567"},
+    #            "transactionAmount": {"currency": "USD", "amount": "100"},
+    #            "bookingDate": "2017-10-25",
+    #            "valueDate": "2017-10-26", 
+    #            "remittanceInformationUnstructured": "Example 3"
+    #           }],
+    #        "pending":
+    #          [{
+    #            "transactionId": "1234570",
+    #            "creditorName": "Claude Renault",
+    #            "creditorAccount": {"iban": "FR7612345987650123456789014"},
+    #            "transactionAmount": {"currency": "EUR", "amount": "-100.03"},
+    #            "valueDate": "2017-10-26", 
+    #            "remittanceInformationUnstructured": "Example 4"
+    #           }],
+    #        "_links": {"account": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
+    #        }
+    #     }
 
     transactionsExample1_RegularAccount_json:
       description: Response in JSON format for an access on a regular account.
@@ -14356,7 +14486,7 @@ components:
         }
 
 
-    transactionsExample3_CurrencyAccount_json:
+    transactionsExample2_CurrencyAccount_json:
       description: Response in JSON format for an access on a multicurrency account on aggregation level
       value:
         {

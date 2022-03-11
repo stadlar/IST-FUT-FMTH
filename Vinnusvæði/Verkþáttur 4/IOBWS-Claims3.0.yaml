@@ -151,8 +151,8 @@ paths:
     get:
       summary: Get single claim
       description: |
-        Returns single claim if exists or if the user has access. The single claim function returns the existing 
-        claim requested based on the claim id.
+        Fetch detail information for a single claim by claimID. Detailed information on fields in claimDetails.
+
       operationId: getClaim
       tags:
         - Claim Service
@@ -211,9 +211,9 @@ paths:
         Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
         from cancelled the recreate is triggered. Recreating a claim keeps existing history.
         
-        Claim is cancelled by changing the claim status to "Cancelled".
+        To cancel a claim change status to Cancelled
         
-        Claim is moved between collection status by changing collectionState to
+        To move to different collection change collectionState
         - SecondaryCollection (for secondary)
         - PrimaryCollection (for primary)        
         
@@ -758,6 +758,14 @@ components:
       minLength: 36
       maxLength: 36
 
+    batchId:
+      description: |
+        Batch id for a list of claim
+      type: string
+      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+      minLength: 36
+      maxLength: 36
+
     claimantId:
       description: |
         ClaimantId is the Icelandic kennitala for the claimant
@@ -777,21 +785,24 @@ components:
 
     claimId:
       description: |
-        Combined string
+        ClaimID is a composit string key for claim made of kennitala, account and due date
           - ClaimantId
-          - Bank
+          - Branch number
           - 66
           - Claim no
-          - +
+          - /+
           - Date in the form of YYYYMMDD
       type: string
+      example: "0101010101000166000001+20221231"
 
     account:
       description: |
-        Banknumber, ledger (66) and claim number.
+        Banknumber, ledger and number.
+        for claims ledger is 66 followed by claim number
       type: string
-      pattern: "[0-9]{4}66[0-9]{6}"
+      pattern: "[0-9]{12}"
       example: "000166123456"
+
 
     templateCode:
       description: |
@@ -802,7 +813,7 @@ components:
 
     bank:
       description: |
-        Icelandic Bank number.
+        Icelandic branch number.
       type: string
       pattern: "[0-9]{4}"
       example: "0001"
@@ -866,19 +877,23 @@ components:
 
     claimStatusSuccess:
       description: |
-        Batch status item.
+        Batch success status item.
       properties:
         claimKey:
           $ref: "#/components/schemas/claimKey"
+        claimId:
+          $ref: "#/components/schemas/claimId"
         directPaymentClaim:
           type: boolean
 
     claimStatusError:
       description: |
-        Batch status item.
+        Batch error status item.
       properties:
         claimKey:
           $ref: "#/components/schemas/claimKey"
+        claimId:
+          $ref: "#/components/schemas/claimId"
         errorCode:
           type: string
         errorMessage:
@@ -968,7 +983,7 @@ components:
       type: object
       properties:
         claimTemplateId:
-          description: Id which is unique for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each claimTemplate. This is specific to each bank.
           type: string
         claimantId:
           $ref: "#/components/schemas/claimantId"
@@ -990,7 +1005,7 @@ components:
             This can be one of the following values:
               - ReferenceNumber - The first 12 letters of the reference number.
               - CustomerNumber - The first 12 letters of the transaction number.
-              - ClaimId - Bank, ledger and claim number.
+              - ClaimId - Branch number, ledger and claim number.
               - PayorId - Id (kennitala) of the payor
               - DueDate - Due date of the claim in the format (yyyymmdd)
           type: string
@@ -1034,7 +1049,7 @@ components:
       type: object
       properties:
         claimTemplateId:
-          description: Id which is unique for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each claimTemplate. This is specific to each bank.
           type: string
         claimantId:
           $ref: "#/components/schemas/claimantId"
@@ -1056,7 +1071,7 @@ components:
             This can be one of the following values:
               - ReferenceNumber - The first 12 letters of the reference number.
               - CustomerNumber - The first 12 letters of the transaction number.
-              - ClaimId - Bank, ledger and claim number.
+              - ClaimId - Branch number, ledger and claim number.
               - PayorId - Id (kennitala) of the payor
               - DueDate - Due date of the claim in the format (yyyymmdd)
           type: string
@@ -1102,17 +1117,21 @@ components:
 
     paymentFee:
       description: |
-        Contains information on the fee for calculating and printing payment slips as well as sending it to the payor.
+        Additional fee that adds to the claim amount.
 
         NoticeAndPaymentFee has been renamed from previous standard to PaymentFee
           - Printing (Payment Fee) (is. Greiðslugjald)
           - Paperless (Direct Debit Fee) (is. Beingreiðslugjald)
+        Both field accept number with 3 decimal places.
       type: object
+      required:
+        - paymentFee
+        - directDebitFee
       properties:
         paymentFee:
-          type: integer
+          type: number
         directDebitFee:
-          type: integer
+          type: number
 
     claimKey:
       description: |
@@ -1132,7 +1151,7 @@ components:
 
     dayAmountItem:
       description: |
-        Number of days from reference day the discount is valid for. Discount can be in percentage or amount.
+        For whether to use fix amount or calculate by percentage from claimAmount when calculating discount or charge.
       properties:
         chargeType:
           type: string
@@ -1141,6 +1160,8 @@ components:
             - "Amount"
         day:
           type: integer
+          minimum: 0
+          maximum: 99
         amount:
           type: integer
 
@@ -1173,13 +1194,9 @@ components:
           type: string
         addressLine1:
           type: string
-        addressLine2:
-          type: string
         postalCode:
           type: string
         city:
-          type: string
-        region:
           type: string
         country:
           type: string
@@ -1229,7 +1246,10 @@ components:
 
     defaultCharge:
       description: |
-        OK
+        Default charges configuration.
+        Set number of days from refrence day and set if amount should be calculate by percent or be fixed Amount. 
+        In case of discount caluculations the discount amount is calculated from totalAmount.
+        In case of defaultCharge charge amount is calculated from claimAmount.
       properties:
         referenceDate:
           type: string
@@ -1237,7 +1257,7 @@ components:
             - "FinalDueDate"
             - "DueDate"
           description: |
-            Indicates whether the declared number of days is before or after the reference day.
+            Indicates whether to use FinalDueDate or DueDate as refrence for calucation of default charge.
         first:
           $ref: "#/components/schemas/dayAmountItem"
         second:
@@ -1275,8 +1295,7 @@ components:
             - "24-24"
         calculationDayRule:
           description: |
-            Indicates which day is used for calculations if payments do not arrive on banking days.
-            - PaymentDay: The claim is calculated from the date on which the payment is made.
+            Payment list for a single claim. All payments returned for requested claim id.
           type: string
           enum:
             - "PaymentDay"
@@ -1312,9 +1331,9 @@ components:
           - "Calendar"
         percentage:
           description: |
-              Segir til um prósentu dráttarvaxta. Ef þetta svæði er ekki tilgreint/skilað, eru hæstu leyfilegu dráttarvextir Seðlabankans notaðir.
-              (Optional type ct:Percentage4 [xs:decimal, fractionDigits: 4, totalDigits: 7, minInclusive: 0, maxExclusive: 100.0000]) -
-              Prósent er 0 - 100
+            Indicates the percentage of penalty interest. If this area is not specified / returned, the 
+            Central Bank's maximum penalty interest rate is used.
+            Percentage range is between 0 - 100
           type: number
           format: double
 
@@ -1327,7 +1346,7 @@ components:
         - "Cancelled"
 
     collectionState:
-      description: Claim process status
+      description: Claim billing process status
       type: string
       enum:
       - "PrimaryCollection"
@@ -1351,9 +1370,9 @@ components:
 
     claimDetails:
       description: |
-        Claim object can contains information about discount as constant or percent in the case of discount when payment
-        is done early. A claim contains detail information about the bill. If payment has been done the "Amount" 
-        can not be changed amoung other attribtues.
+        Detail information for a single Claim object can contains information about discount as constant or percent 
+        in the case of discount when payment is done early. A claim contains detail information about the bill. If 
+        payment has been done the "Amount" can not be changed amoung other attribtues.
       type: object
       required:
         - claimKey
@@ -1383,12 +1402,12 @@ components:
         templateCode:
           $ref: "#/components/schemas/templateCode"
         claimTemplateId:
-          description: Id which is unique for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each claimTemplate. This is specific to each bank.
           type: string
         secondaryCollectionTemplateCode:
           $ref: "#/components/schemas/templateCode"
         secondaryCollectionClaimTemplateId:
-          description: Id which is unique for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each claimTemplate. This is specific to each bank.
           type: string
         categoryCode:
           description: Creditors' text key, explanation of payment. Optional attribute on claim
@@ -1432,17 +1451,23 @@ components:
           format: date
           example: "2022-01-31"
         billNumber:
-          description: Banknote number, optional. Information provided by creditors.
+          description: |
+            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
           type: string
           maxLength: 7
         customerNumber:
+          description: |
+            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
         paymentFee:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
+          description: Other costs, including determined fees paid by the payer of a collection claim.
           type: integer
         otherDefaultCosts:
+          description: Determined fees, e.g. intermediate collection fee.
           type: integer
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
@@ -1451,6 +1476,7 @@ components:
         discount:
           $ref: "#/components/schemas/discount"
         isPermitOutOfSequencePayment:
+          description: Payment rule, is it allowed to pay the last payment if previous has not been paid
           type: boolean
         isPartialPaymentAllowed:
           type: boolean
@@ -1466,6 +1492,7 @@ components:
             - "DueDateRate"
             - "PaymentDateRate"
         additionalInformation:
+          description: Free text that will be displayed on the claim
           type: string
           maxLength: 200
         printing:
@@ -1511,16 +1538,23 @@ components:
           format: date
           example: "2022-01-31"
         billNumber:
+          description: |
+            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
           type: string
           maxLength: 7
         customerNumber:
+          description: |
+            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
         paymentFee:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
+          description: Other costs, including determined fees paid by the payer of a collection claim.
           type: integer
         otherDefaultCosts:
+          description: Determined fees, e.g. intermediate collection fee.
           type: integer
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
@@ -1529,6 +1563,7 @@ components:
         discount:
           $ref: "#/components/schemas/discount"
         isPermitOutOfSequencePayment:
+          description: Payment rule, is it allowed to pay the last payment if previous has not been paid
           type: boolean
         isPartialPaymentAllowed:
           description: Partial payment is allowed
@@ -1542,6 +1577,7 @@ components:
             - "DueDateRate"
             - "PaymentDateRate"
         additionalInformation:
+          description: Free text that will be displayed on the claim
           type: string
           maxLength: 200
         claimStatus:
@@ -1564,22 +1600,15 @@ components:
         Create claim object
 
         Description:
-        * billNumber: Banknote number, optional. Information provided by creditors.        
+       
         * discount: Contains information about discount as constant or percent
-        * customerNumber: Customer billing. Unique key of the payor of the claim with the creditor. Necessary if a 
-                          direct payment agreement related to a collection claim is to be established.
-        * otherCosts: Other costs, including determined fees paid by the payor of a collection claim.
         * defaultCharge: Contains information on the default fee, either in a fixed amount or in percentages. Note that 
                          the amount must be within the rules that apply according to Regulation 37/2009.
-        * otherDefaultCosts: Determined fees, e.g. intermediate collection fee.
         * defaultInterest: Contains information on how penalty interest is calculated.
         * discount: Contains information about discount as constant or percent
         * isPermitOutOfSequencePayment: Out of sequence payment allowed
         * isPartialPaymentAllowed: Partial payment is allowed
-        * isPartialPaymentAllowed: Partial payment is allowed 
-        *   additionalInformation:
-          description: |
-            Will be diplayed to the payor of the claim
+        * isPartialPaymentAllowed: Partial payment is allowed
       type: object
       required:
         - claimKey
@@ -1609,16 +1638,23 @@ components:
           format: date
           example: "2022-01-31"
         billNumber:
+          description: |
+            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
           type: string
           maxLength: 7
         customerNumber:
+          description: |
+            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
         paymentFee:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
+          description: Other costs, including determined fees paid by the payer of a collection claim.
           type: integer
         otherDefaultCosts:
+          description: Determined fees, e.g. intermediate collection fee.
           type: integer
         # rules
         defaultCharge:
@@ -1628,6 +1664,7 @@ components:
         discount:
           $ref: "#/components/schemas/discount"
         isPermitOutOfSequencePayment:
+          description: Payment rule, is it allowed to pay the last payment if previous has not been paid
           type: boolean
         isPartialPaymentAllowed:
           type: boolean
@@ -1640,6 +1677,7 @@ components:
             - "DueDateRate"
             - "PaymentDateRate"
         additionalInformation:
+          description: Free text that will be displayed on the claim
           type: string
           maxLength: 200
         printing:
@@ -1659,7 +1697,7 @@ components:
         Status of an batch initiation
       properties:
         batchId:
-          $ref: "#/components/schemas/uuid"
+          $ref: "#/components/schemas/batchId"
         success:
           type: integer
           description: Number of successful items processed
@@ -1815,27 +1853,28 @@ components:
         templateCode:
           $ref: "#/components/schemas/templateCode"
         claimTemplateId:
-          description: Id which is unique for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each claimTemplate. This is specific to each bank.
           type: string
         secondaryCollectionTemplateCode:
           $ref: "#/components/schemas/templateCode"
         secondaryCollectionClaimTemplateId:
-          description: Id which is unique for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each claimTemplate. This is specific to each bank.
           type: string
         reference:
           $ref: "#/components/schemas/reference"
         categoryCode:
           type: string
+          maxLength: 2
           pattern: '[0-9]{3}'
         redeemingBank:
           type: string
           format: '[0-9]{4}'
         transactionTimestamp:
-          description: Timestamp when the update of the claims is performed
+          description: Timestamp when payment is performed.
           type: string
           format: date-time
         bookingDate:
-          description: Date when the booked at RB
+          description: Date of settlement.
           type: string
           format: date
           example: "2022-01-31"
@@ -1865,15 +1904,22 @@ components:
           description: Deducted capital gains tax.
           type: integer
         billNumber:
+          description: |
+            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
           type: string
+          maxLength: 7
         customerNumber:
+          description: |
+            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
-          maxLength: 12
+          maxLength: 16
         noticeChargeAmount:
           type: integer
         defaultChargeAmount:
           type: integer
         otherCostsAmount:
+          description: Otherwise cost to pay.
           type: integer
         otherDefaultCostsAmount:
           description: Other default paid.
@@ -1890,7 +1936,7 @@ components:
         currencyExchange:
           $ref: "#/components/schemas/currencyExchangeRate"
         batchId:
-          $ref: "#/components/schemas/uuid"
+          $ref: "#/components/schemas/batchId"
 
     #####################################################
     # Standard messages
@@ -2344,7 +2390,9 @@ components:
     X-Request-ID:
       name: X-Request-ID
       in: header
-      description: ID of the request, unique to the call, as determined by the initiating party.
+      description: |
+        Unique value generated by the client which the resource server uses to recognize subsequent 
+        retries of the same request.
       required: true
       example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
       schema:
@@ -2437,7 +2485,7 @@ components:
       name: bank
       in: query
       description: |
-        Bank code
+        Branch number
       schema:
         $ref: "#/components/schemas/bank"
 
@@ -2504,7 +2552,7 @@ components:
       description: |
         Unique identifier for a batch of claims
       schema:
-        $ref: "#/components/schemas/uuid"
+        $ref: "#/components/schemas/batchId"
 
   requestBodies:
   #####################################################
@@ -2609,7 +2657,7 @@ components:
 
     OK_200_ClaimTransactionListInformation:
       description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+        Claim transaction list information.
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
@@ -2643,7 +2691,7 @@ components:
 
     OK_200_ClaimHistoryListInformation:
       description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+        Claim history list information response.
       headers:
         X-Paging-CurrentPage:
           description: |
@@ -2677,7 +2725,7 @@ components:
 
     OK_201_ClaimResponseInformation:
       description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+        Claim response information.
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
@@ -2691,7 +2739,7 @@ components:
 
     OK_200_QueryClaimInformation:
       description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+        Query claim information.
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
@@ -2705,7 +2753,7 @@ components:
 
     OK_200_QueryClaimListInformation:
       description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+        Query claim list information.
       headers:
         X-Paging-CurrentPage:
           description: |
@@ -2739,7 +2787,7 @@ components:
 
     OK_200_ClaimListTemplate:
       description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+        Claim list template.
       headers:
         X-Paging-CurrentPage:
           description: |
@@ -2773,7 +2821,7 @@ components:
 
     OK_200_ClaimTemplate:
       description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
+        Claim template.
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
@@ -3078,97 +3126,6 @@ components:
           },
           "directPaymentClaim": true,
           "lastChanged": "2022-01-31"
-        }
-
-    patchClaim-200_Example:
-      description: Example of patching claim
-      value:
-        {
-          "claimKey": {
-            "claimantId": "0208715009",
-            "account": "000126123456",
-            "dueDate": "2022-01-31"
-          },
-          "expirationDate": "2022-01-31",
-          "templateCode": "001",
-          "amount": 0,
-          "reference": "string",
-          "finalDueDate": "2022-01-31",
-          "billNumber": "string",
-          "customerNumber": "string",
-          "paymentFee": {
-            "paymentFee": 0,
-            "directDebitFee": 0
-          },
-          "otherCosts": 0,
-          "otherDefaultCosts": 0,
-          "defaultCharge": {
-            "referenceDate": "FinalDueDate",
-            "first": {
-              "chargeType": "Percentage",
-              "day": 0,
-              "amount": 0
-            },
-            "second": {
-              "chargeType": "Percentage",
-              "day": 0,
-              "amount": 0
-            }
-          },
-          "defaultInterest": {
-            "rule": "NoDefaultInterest",
-            "percentage": 0,
-            "specialCode": ""
-          },
-          "discount": {
-            "referenceDate": "FinalDueDate",
-            "first": {
-              "chargeType": "Percentage",
-              "day": 0,
-              "amount": 0
-            },
-            "second": {
-              "chargeType": "Percentage",
-              "day": 0,
-              "amount": 0
-            }
-          },
-          "isPermitOutOfSequencePayment": true,
-          "isPartialPaymentAllowed": true,
-          "currency": "string",
-          "referenceRate": "ExchangeRate",
-          "additionalInformation": "string",
-          "claimStatus": "Unpaid",
-          "collectionState": "PrimaryCollection",
-          "printing": {
-            "claimantAddress": {
-              "name": "string",
-              "addressLine1": "string",
-              "addressLine2": "string",
-              "postalCode": "string",
-              "city": "string",
-              "region": "string",
-              "country": "string"
-            },
-            "payorAddress": {
-              "name": "string",
-              "addressLine1": "string",
-              "addressLine2": "string",
-              "postalCode": "string",
-              "city": "string",
-              "region": "string",
-              "country": "string"
-            },
-            "itemRows": [
-              {
-                "text": "string",
-                "amount": 0
-              }
-            ],
-            "comments": [
-              "string"
-            ]
-          }
         }
 
     getClaimPayments-200_Example:
@@ -3609,51 +3566,6 @@ components:
           }
         }
 
-    getClaimTransactions-200_Example:
-      description: Example of get transactions
-      value:
-        [
-          {
-            "claimId": "string",
-            "claimKey": {
-              "claimantId": "0208715009",
-              "account": "000126123456",
-              "dueDate": "2022-01-31"
-            },
-            "payorId": "0208715009",
-            "amount": 0,
-            "finalDueDate": "2022-02-02",
-            "templateCode": "001",
-            "claimTemplateId": "string",
-            "secondaryCollectionTemplateCode": "001",
-            "secondaryCollectionClaimTemplateId": "string",
-            "reference": "string",
-            "categoryCode": "string",
-            "redeemingBank": "string",
-            "transactionTimestamp": "2022-02-02T22:16:20.970Z",
-            "bookingDate": "2022-01-31",
-            "valueDate": "2022-01-31",
-            "paymentType": "Complete",
-            "depositedAmount": 0,
-            "totalAmount": 0,
-            "capitalGainsTax": 0,
-            "billNumber": "string",
-            "customerNumber": "string",
-            "noticeChargeAmount": 0,
-            "defaultChargeAmount": 0,
-            "otherCostsAmount": 0,
-            "otherDefaultCostsAmount": 0,
-            "defaultInterestAmount": 0,
-            "discountAmount": 0,
-            "currency": "string",
-            "currencyExchange": {
-              "currency": "string",
-              "rate": 0
-            },
-            "batchId": "stringstringstringstringstringstring"
-          }
-        ]
-
 security:
   #####################################################
   # Global security options
@@ -3666,4 +3578,4 @@ tags:
   #####################################################
 
   - name: Claim Service
-    description: The claim service
+    description: Common Claim operations for icelandic banks

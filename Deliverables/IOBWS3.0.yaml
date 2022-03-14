@@ -887,6 +887,7 @@ paths:
                 - $ref: "#/components/schemas/selectPsuAuthenticationMethod"
                 - $ref: "#/components/schemas/transactionAuthorisation" 
                 - $ref: "#/components/schemas/authorisationConfirmation" 
+                - $ref: "#/components/schemas/iobwsAuthorisationConfirmation"
             examples:
               "Update PSU identification (Decoupled Approach)":
                 value: {}
@@ -1028,7 +1029,6 @@ paths:
                 - $ref: "#/components/schemas/updatePsuAuthentication"
                 - $ref: "#/components/schemas/selectPsuAuthenticationMethod"
                 - $ref: "#/components/schemas/transactionAuthorisation"
-                - $ref: "#/components/schemas/straightThroughAuthorisationConfirmation"
 
       responses:
         '201':
@@ -1323,6 +1323,7 @@ paths:
                 - $ref: "#/components/schemas/selectPsuAuthenticationMethod"
                 - $ref: "#/components/schemas/transactionAuthorisation" 
                 - $ref: "#/components/schemas/authorisationConfirmation"
+                - $ref: "#/components/schemas/iobwsAuthorisationConfirmation"
             examples:
               "Update PSU Identification (Embedded Approach)":
                 value: {}
@@ -6753,13 +6754,13 @@ components:
           description: Confirmation Code as retrieved by the TPP from the redirect based SCA process.
           type: string
 
-    straightThroughAuthorisationConfirmation:
+    iobwsAuthorisationConfirmation:
       description: |
-        Content of the body of an authorisation confirmation request when initiating straight through processing.
+        Content of the body of an authorisation confirmation request when initiating e.g. straight through processing or cancelling a previous initiation in a IOBWS scenario.
       type: object
       properties:
         description:
-          description: Confirmation Code as retrieved by the TPP from the redirect based SCA process.
+          description: Optional description supplied by the IOBWS consumer that might be used for auditing purposes and traceability.
           type: string
 
     #####################################################
@@ -12025,7 +12026,7 @@ components:
           * EMBEDDED
           * DECOUPLED
           * REDIRECT
-          * STRAIGHTTHROUGH
+          * IOWBS
         The OAuth SCA approach will be subsumed by REDIRECT.
       schema:
         type: string
@@ -12033,7 +12034,7 @@ components:
           - "EMBEDDED"
           - "DECOUPLED"
           - "REDIRECT"
-          - "STRAIGHTTHROUGH"
+          - "IOWBS"
         example: "EMBEDDED"
       required: false
 

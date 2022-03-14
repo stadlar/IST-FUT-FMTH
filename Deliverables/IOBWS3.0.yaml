@@ -1323,7 +1323,6 @@ paths:
                 - $ref: "#/components/schemas/selectPsuAuthenticationMethod"
                 - $ref: "#/components/schemas/transactionAuthorisation" 
                 - $ref: "#/components/schemas/authorisationConfirmation"
-                - $ref: "#/components/schemas/iobwsAuthorisationConfirmation"
             examples:
               "Update PSU Identification (Embedded Approach)":
                 value: {}
@@ -6759,7 +6758,7 @@ components:
         Content of the body of an authorisation confirmation request when initiating e.g. straight through processing or cancelling a previous initiation in a IOBWS scenario.
       type: object
       properties:
-        description:
+        confirmationMessage:
           description: Optional description supplied by the IOBWS consumer that might be used for auditing purposes and traceability.
           type: string
 
@@ -8053,7 +8052,7 @@ components:
           $ref: "#/components/schemas/hrefType"
         scaStatus:
           $ref: "#/components/schemas/hrefType"
-        confirmAuthorisationWithTransactionAuthorisation:
+        confirmStraightThroughProcessingAuthorisation:
           $ref: "#/components/schemas/hrefType"
       example: 
         {

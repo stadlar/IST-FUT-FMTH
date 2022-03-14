@@ -474,13 +474,9 @@ paths:
 
     post:
       summary: Create a single claim
-      description: |
-        When claim is create operation is returned with more information about the claim create status. When claim is 
-        created the possible operation statuses are:
-        - InProgress: Claim has been accepted and is in the process of being created
-        - Completed: Claim has been created in the banks system without error
-        - CompletedWithErrors: One or more errors have prevented the claim to be created
-        - NotConfirmed: Not confirmed
+      description: |        
+        Creating one claim is performed with out delay and success or error returns with out having to ask for 
+        the status. If claim is created with out error then claimKey, claimId and directPaymentClaim is returned.
       operationId: createClaim
       tags:
         - Claim Service

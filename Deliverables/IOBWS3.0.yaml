@@ -413,7 +413,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503_PIS"
 
- 
+
   /v1/{payment-service}/{payment-product}/{paymentId}/status:
   
     get:
@@ -887,6 +887,7 @@ paths:
                 - $ref: "#/components/schemas/selectPsuAuthenticationMethod"
                 - $ref: "#/components/schemas/transactionAuthorisation" 
                 - $ref: "#/components/schemas/authorisationConfirmation" 
+                - $ref: "#/components/schemas/iobwsAuthorisationConfirmation"
             examples:
               "Update PSU identification (Decoupled Approach)":
                 value: {}
@@ -1796,11 +1797,11 @@ paths:
         - $ref: "#/components/parameters/PSU-Device-ID"
         - $ref: "#/components/parameters/PSU-Geo-Location"
       #NO REQUEST BODY
-
+      
       responses:
         '200':
           $ref: "#/components/responses/OK_200_TransactionDetails"
-
+        
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_AIS"
         '401':
@@ -1955,11 +1956,11 @@ paths:
         - $ref: "#/components/parameters/Digest"
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
-        #method specific header elements
+          #method specific header elements
         - $ref: "#/components/parameters/consentId_HEADER_optional"
-        #conditional elemention for AIS
+          #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
-        #optional additional PSU Information in header
+          #optional additional PSU Information in header
         - $ref: "#/components/parameters/PSU-IP-Port"
         - $ref: "#/components/parameters/PSU-Accept"
         - $ref: "#/components/parameters/PSU-Accept-Charset"
@@ -3822,12 +3823,12 @@ components:
   # Predefined Security Schemes:
   #
   # In this file only the basic security element to transport
-  # the bearer token of an OAuth2 process, which has to
+  # the bearer token of an OAuth2 process, which has to 
   # be included in the HTTP header is described.
   #
   # WARNING:
-  # If you want to use this file for a productive implementation,
-  # it is recommended to adjust the security schemes according to
+  # If you want to use this file for a productive implementation, 
+  # it is recommended to adjust the security schemes according to 
   # your system environments and security policies.
   #####################################################
     BearerAuthOAuth:
@@ -4233,7 +4234,7 @@ components:
           type: string
           example: Detailed information about the SCA method for the PSU.
 
-    
+
     signingBasket:
       description: |
         JSON Body of a establish signing basket request.
@@ -4830,7 +4831,7 @@ components:
       properties:
         transactionDetails:
           $ref: "#/components/schemas/transactions"
-
+      
     transactions:
       description: Transaction details.
       type: object
@@ -5409,7 +5410,7 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/EntryDetailsElement"
-
+        
 
 
 
@@ -6212,7 +6213,7 @@ components:
         
         For the convenience of the implementer additional which are already predefinded in the Implementation Guidelines 
         are included (but commented in source code), such that an ASPSP may add them easily.
-
+        
         Take care: Since the format is intended to fit for all payment products 
         there are additional conditions which are NOT covered by this specification.
         Please check the Implementation Guidelines for detailes.
@@ -6354,8 +6355,8 @@ components:
         there are additional conditions which are NOT covered by this specification.
         Please check the Implementation Guidelines for detailes.
 
-
-         The following data element are depending on the actual payment product available (in source code):
+        
+        The following data element are depending on the actual payment product available (in source code):
                   
          <table style="width:100%">
          <tr><th>Data Element</th><th>SCT EU Core</th><th>SCT INST EU Core</th><th>Target2 Paym. Core</th><th>Cross Border CT Core</th></tr>
@@ -6627,7 +6628,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/paymentInitiationBulkElement_json"
-  
+
 
     confirmationOfFunds:
       description: |
@@ -6750,6 +6751,15 @@ components:
       properties:
         confirmationCode:
           description: Confirmation Code as retrieved by the TPP from the redirect based SCA process.
+          type: string
+
+    iobwsAuthorisationConfirmation:
+      description: |
+        Content of the body of an authorisation confirmation request when initiating e.g. straight through processing or cancelling a previous initiation in a IOBWS scenario.
+      type: object
+      properties:
+        confirmationMessage:
+          description: Optional description supplied by the IOBWS consumer that might be used for auditing purposes and traceability.
           type: string
 
     #####################################################
@@ -7518,7 +7528,7 @@ components:
           $ref: "#/components/schemas/scaStatus"
         psuMessage:
           $ref: "#/components/schemas/psuMessageText"
-    
+
 
     signingBasketResponse-200:
       description: |
@@ -8403,7 +8413,7 @@ components:
         card-account:
           $ref: "#/components/schemas/hrefType"
 
-    
+
     _linksSigningBasket:
       description: |
         A list of hyperlinks to be recognised by the TPP. The actual hyperlinks used in the 
@@ -8618,6 +8628,19 @@ components:
         - "CONSENT_UNKNOWN"           #gen
         - "PAYMENT_FAILED"            #PIS
         - "EXECUTION_DATE_INVALID"    #PIS
+        - "DEBTOR_ACCOUNT_NOT_FOUND"    	#IOBWS
+        - "CREDITOR_ACCOUNT_NOT_FOUND"  	#IOBWS
+        - "CLAIM_NOT_FOUND"             	#IOBWS
+        - "CLAIM_ALREADY_PAID"          	#IOBWS
+        - "INSUFFICIENT_FUNDS"          	#IOBWS
+        - "CARD_NOT_FOUND"          	    #IOBWS
+        - "INSUFFICIENT_RECIPIENT_INFO"   #IOBWS
+        - "RECIPIENT_BANK_NOT_FOUND"      #IOBWS
+        - "COUNTRY_DOES_NOT_SUPPORT_SEPA" #IOBWS
+        - "MARKETS_CLOSED"                #IOBWS
+        - "RECIPIENT_COUNTRY_IS_IBAN_ONLY"#IOBWS
+        
+
 
 
     MessageCode400_PIIS: 
@@ -10849,6 +10872,28 @@ components:
             $ref: "#/components/schemas/tppMessage400_PIS"
         _links:
           $ref: "#/components/schemas/_linksAll"
+      example:
+        {
+          "tppMessages": [
+            {
+              "category": "ERROR",
+              "code": "DEBTOR_ACCOUNT_NOT_FOUND",
+              "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+              "text": "Úttektarreikningur ekki til"
+            },
+            {
+              "category": "ERROR",
+              "code": "FORMAT_ERROR",
+              "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+              "text": "Eigin villa banka"
+            }
+          ],
+          "_links": {
+            "self": {
+              "href": "/v1/payments/credit-transfers/1234-wertiq-983"
+            }
+          }
+        }
 
 
     Error400_NG_AIS: 
@@ -11938,8 +11983,7 @@ components:
             "Example 11: 'bulk-payments' - 'credit-transfers'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_json"
     signingBasket:
-      description: |        
-              $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_json"
+      description: |
         Request body for a confirmation of an establishing signing basket request.
       content:
         application/json:
@@ -11998,6 +12042,7 @@ components:
           * EMBEDDED
           * DECOUPLED
           * REDIRECT
+          * IOWBS
         The OAuth SCA approach will be subsumed by REDIRECT.
       schema:
         type: string
@@ -12005,6 +12050,7 @@ components:
           - "EMBEDDED"
           - "DECOUPLED"
           - "REDIRECT"
+          - "IOWBS"
         example: "EMBEDDED"
       required: false
 
@@ -12015,8 +12061,8 @@ components:
         type: string
         format: url
       required: false
-
-
+      
+      
     #conditional for extended service multiple Consent
     ASPSP-Multiple-Consent-Support:
       description: |
@@ -12027,7 +12073,7 @@ components:
         If not provided, this also implies that the ASPSP does not support the Multiple Consent Service.
       schema:
         type: boolean       
-      required: false      
+      required: false
 
 
     #conditional for extended service lean push
@@ -12348,8 +12394,8 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/cardAccountsTransactionsResponse200"
-
-
+          
+          
     OK_200_ConsentInformation:
       description: OK
       
@@ -12607,7 +12653,7 @@ components:
 
     NO_CONTENT_204_Consents:
       description: No Content
-
+      
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
@@ -14162,8 +14208,8 @@ components:
                 "referenceDate": "2017-10-25"
                    },
                {
-                "balanceAmount": {"currency": "EUR","amount": "900.00"},
-                "balanceType": "expected", 
+               "balanceAmount": {"currency": "EUR","amount": "900.00"},
+               "balanceType": "expected", 
                 "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
                }]
         }
@@ -14181,20 +14227,20 @@ components:
         {
           "balances":
               [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
-                "balanceType": "closingBooked",
+            "balanceType": "closingBooked",        
                 "referenceDate": "2017-10-25"
-                   },
-              {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
-              "balanceType": "expected",
-              "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
-              },
+               },
+               {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
+            "balanceType": "expected",      
+                "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
+               },
            {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-           "balanceType": "closingBooked", 
+                "balanceType": "closingBooked", 
                 "referenceDate": "2017-10-25"
-                   },
-              {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-              "balanceType": "expected",
-               "lastChangeDateTime": "2017-10-24T14:30:21Z"
+               },
+               {"balanceAmount": {"currency": "USD", "amount": "350.00"},
+                "balanceType": "expected",
+                "lastChangeDateTime": "2017-10-24T14:30:21Z"
                    }]
         }
 
@@ -14442,8 +14488,8 @@ components:
             "currency": "EUR",
             "amount": "123.5"
           },
-          "creditorAccount": {            
-			"iban": "DK01234567890123456789"
+          "creditorAccount": {
+            "iban": "DK01234567890123456"
           },
           "creditorName": "Jón Jónsson",
           "creditorAddress": {
@@ -14471,7 +14517,7 @@ components:
             "amount": "123.5"
           },
           "creditorAccount": {
-            "iban": "DK01234567890123456789"
+            "iban": "DK01234567890123456"
           },
           "creditorName": "Jón Jónsson",
           "creditorAddress": {
@@ -14551,7 +14597,7 @@ components:
           "payments": [
             {
               "endToEndIdentification": "Short description",
-			  "instructionIdentification": "my_payment_1",
+              "instructionIdentification": "my_payment_1",
               "debtorId": "0208714669",
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
@@ -14571,7 +14617,7 @@ components:
             },
             {
               "endToEndIdentification": "Short description",
-			  "instructionIdentification": "my_payment_2",
+              "instructionIdentification": "my_payment_2",
               "debtorId": "0208714669",
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
@@ -14591,7 +14637,7 @@ components:
             }
           ]
         }
-    
+        
     paymentInitiationDomesticBody_bulk-payments_with_status_json:
       value:
         {
@@ -14601,7 +14647,7 @@ components:
           "payments": [
             {
               "endToEndIdentification": "Short description",
-			  "instructionIdentification": "my_payment_1",
+			        "instructionIdentification": "my_payment_1",
               "debtorId": "0208714669",
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
@@ -14639,15 +14685,18 @@ components:
               },
               "remittanceInformationUnstructured": "My description",
 			  "error": {
-				"category": "ERROR",
-				"code": "SERVICE_INVALID",
-				"path": "somePath",
-				"tppMessageText": "This payment had an error as the creditor account was invalid"
-			  }
-            }
+			    "tppMessages": [
+    				"category": "ERROR",
+    				"code": "CREDITOR_ACCOUNT_NOT_FOUND",
+    				"path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+    				"text": "This payment had an error as the creditor account was invalid"
+			      ]
+			      },
+            },
           ],
 		  "transactionsStatus": "ACTC"
-        }	
+        }	        
+    
 
 
 security:
@@ -14682,9 +14731,9 @@ tags:
       Signing basket methods are used for authorising several transactions and resp. or consents with one SCA operation. 
   - name: Consent Service
     description: |
-      Processes on starting authorisations, update PSU identification or PSU authentication data and explicit
-      authorisation of transactions by using SCA are very similar in PIS and AIS and signing baskets services.
-      The API calls supporting these processes are described in the following independently from the service/endpoint.
+      Processes on starting authorisations, update PSU identification or PSU authentication data and explicit 
+      authorisation of transactions by using SCA are very similar in PIS and AIS and signing baskets services. 
+      The API calls supporting these processes are described in the following independently from the service/endpoint. 
       For reasons of clarity, the endpoints are defined always for the Payment Initiation Service, the payment cancellation, 
-      the Account Information Service (Consents), and Signing Baskets separately.
-      These processes usually are used following a hyperlink of the ASPSP.
+      the Account Information Service (Consents), and Signing Baskets separately. 
+      These processes usually are used following a hyperlink of the ASPSP. 

@@ -8630,12 +8630,12 @@ components:
         - "CONSENT_UNKNOWN"           #gen
         - "PAYMENT_FAILED"            #PIS
         - "EXECUTION_DATE_INVALID"    #PIS
-        - "DEBTOR_ACCOUNT_NOT_FOUND"    	#IOBWS
-        - "CREDITOR_ACCOUNT_NOT_FOUND"  	#IOBWS
-        - "CLAIM_NOT_FOUND"             	#IOBWS
-        - "CLAIM_ALREADY_PAID"          	#IOBWS
-        - "INSUFFICIENT_FUNDS"          	#IOBWS
-        - "CARD_NOT_FOUND"          	    #IOBWS
+        - "DEBTOR_ACCOUNT_NOT_FOUND"      #IOBWS
+        - "CREDITOR_ACCOUNT_NOT_FOUND"    #IOBWS
+        - "CLAIM_NOT_FOUND"               #IOBWS
+        - "CLAIM_ALREADY_PAID"            #IOBWS
+        - "INSUFFICIENT_FUNDS"            #IOBWS
+        - "CARD_NOT_FOUND"                #IOBWS
         - "INSUFFICIENT_RECIPIENT_INFO"   #IOBWS
         - "RECIPIENT_BANK_NOT_FOUND"      #IOBWS
         - "COUNTRY_DOES_NOT_SUPPORT_SEPA" #IOBWS
@@ -11971,7 +11971,7 @@ components:
               $ref: "#/components/examples/paymentInitiationDomesticBody_paymentCardTopUp-periodic-payments_json"
             "Example 11: 'bulk-payments' - 'credit-transfers'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_json"
-	    "Example 12: 'bulk-payments' - 'credit-transfers with status'":
+            "Example 12: 'bulk-payments' - 'credit-transfers with status'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_with_status_json"
     signingBasket:
       description: |
@@ -14850,7 +14850,7 @@ components:
           "payments": [
             {
               "endToEndIdentification": "Short description",
-			        "instructionIdentification": "my_payment_1",
+              "instructionIdentification": "my_payment_1",
               "debtorId": "0208714669",
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
@@ -14870,7 +14870,7 @@ components:
             },
             {
               "endToEndIdentification": "Short description",
-			  "instructionIdentification": "my_payment_2",
+              "instructionIdentification": "my_payment_2",
               "debtorId": "0208714669",
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
@@ -14887,18 +14887,18 @@ components:
                 "code": "87"
               },
               "remittanceInformationUnstructured": "My description",
-			  "error": {
-			    "tppMessages": [
-    				"category": "ERROR",
-    				"code": "CREDITOR_ACCOUNT_NOT_FOUND",
-    				"path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-    				"text": "This payment had an error as the creditor account was invalid"
-			      ]
-			      },
+        "error": {
+          "tppMessages": [
+            "category": "ERROR",
+            "code": "CREDITOR_ACCOUNT_NOT_FOUND",
+            "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+            "text": "This payment had an error as the creditor account was invalid"
+            ]
+            },
             },
           ],
-		  "transactionsStatus": "ACTC"
-        }	        
+          "transactionsStatus": "ACTC"
+        }          
     
 
 

@@ -14887,10 +14887,12 @@ components:
               "remittanceInformationUnstructured": "My description",
         "error": {
           "tppMessages": [
-            "category": "ERROR",
-            "code": "CREDITOR_ACCOUNT_NOT_FOUND",
-            "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-            "text": "This payment had an error as the creditor account was invalid"
+              {
+                "category": "ERROR",
+                "code": "CREDITOR_ACCOUNT_NOT_FOUND",
+                "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+                "text": "This payment had an error as the creditor account was invalid"
+              }
             ]
             },
             },

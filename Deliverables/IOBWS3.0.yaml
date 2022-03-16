@@ -8636,9 +8636,7 @@ components:
         - "CLAIM_ALREADY_PAID"            #IOBWS
         - "INSUFFICIENT_FUNDS"            #IOBWS
         - "CARD_NOT_FOUND"                #IOBWS
-        - "INSUFFICIENT_RECIPIENT_INFO"   #IOBWS
-        - "RECIPIENT_BANK_NOT_FOUND"      #IOBWS
-        - "COUNTRY_DOES_NOT_SUPPORT_SEPA" #IOBWS
+        - "RECIPIENT_INFO_INSUFFICIENT"   #IOBWS
         - "MARKETS_CLOSED"                #IOBWS
         - "RECIPIENT_COUNTRY_IS_IBAN_ONLY"#IOBWS
         

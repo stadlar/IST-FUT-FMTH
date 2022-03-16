@@ -12025,7 +12025,7 @@ components:
           * EMBEDDED
           * DECOUPLED
           * REDIRECT
-          * IOWBS
+          * IOBWS
         The OAuth SCA approach will be subsumed by REDIRECT.
       schema:
         type: string
@@ -12033,7 +12033,7 @@ components:
           - "EMBEDDED"
           - "DECOUPLED"
           - "REDIRECT"
-          - "IOWBS"
+          - "IOBWS"
         example: "EMBEDDED"
       required: false
 

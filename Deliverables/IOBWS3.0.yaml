@@ -6909,8 +6909,6 @@ components:
         requestedExecutionDate:
           type: string
           format: date
-        chargesAccount:
-          $ref: "#/components/schemas/accountReference"
         payments:
           description: |
             A list of generic JSON bodies domestic payment initations for bulk payments via JSON.
@@ -6919,6 +6917,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
+        chargesAccount:
+          $ref: "#/components/schemas/accountReference"
 
     paymentInitiationBulkElementDomestic_json:
       description: |

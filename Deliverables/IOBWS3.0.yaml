@@ -6209,6 +6209,8 @@ components:
         which where defined in the Implementation Guidelines:
         
           * sepa-credit-transfers
+          * instant-sepa-credit-transfers
+          * target-2-payments
           * cross-border-credit-transfers
         
         For the convenience of the implementer additional which are already predefinded in the Implementation Guidelines 
@@ -6270,7 +6272,6 @@ components:
         - instructedAmount
         - creditorAccount
         - creditorName
-        - centralBankPurposeCode
       properties:
         endToEndIdentification:
           type: string
@@ -6282,10 +6283,10 @@ components:
 #          $ref: "#/components/schemas/debtorName"
         debtorAccount: 
           $ref: "#/components/schemas/accountReference"
-        debtorId: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/debtorId"
-        ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/ultimateDebtor"
+#        debtorId: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/debtorId"
+#        ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/ultimateDebtor"
         instructedAmount:
           $ref: "#/components/schemas/amount"
 #        transactionCurrency: # N.A. for all, but can be used by ASPSP if needed
@@ -6295,41 +6296,40 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
+          $ref: "#/components/schemas/bicfi"
         creditorAgentName:
           $ref: "#/components/schemas/creditorAgentName"
         creditorName:
           $ref: "#/components/schemas/creditorName"
         creditorAddress:
           $ref: "#/components/schemas/address"
-        creditorId: # N.A. for all, but can be used by ASPSP if needed
-          description: Identification of Creditors, e.g. a SEPA Creditor ID.
-          type: string
-          maxLength: 35
+#        creditorId: # N.A. for all, but can be used by ASPSP if needed
+#          description: Identification of Creditors, e.g. a SEPA Creditor ID.
+#          type: string
+#          maxLength: 35
 #        creditorNameAndAddress: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/creditorNameAndAddress"
-        ultimateCreditor: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/ultimateCreditor"
+#        ultimateCreditor: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/ultimateCreditor"
 #        purposeCode: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/purposeCode"
-        chargeBearer: #In some payment product N.A. in some Optional in some conditional
-          $ref: "#/components/schemas/chargeBearer"
+#        chargeBearer: #In some payment product N.A. in some Optional in some conditional
+#          $ref: "#/components/schemas/chargeBearer"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
 #          $ref: "#/components/schemas/remittanceInformationUnstructuredArray"
-        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
+#        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-        requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
-          type: string
-          format: date
+#        requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
+#          type: string
+#          format: date
 #        requestedExecutionTime: # N.A. for all, but can be used by ASPSP if needed
 #          type: string
 #          format: date-time
-        centralBankPurposeCode:
-          $ref: "#/components/schemas/centralBankPurposeCode"
+
 
     paymentInitiationBulkElement_json:
       description: |
@@ -6346,6 +6346,8 @@ components:
         which where defined in the Implementation Guidelines:
         
           * sepa-credit-transfers
+          * instant-sepa-credit-transfers
+          * target-2-payments
           * cross-border-credit-transfers
         
         For the convenience of the implementer additional which are already predefinded in the Implementation Guidelines 
@@ -6424,20 +6426,20 @@ components:
 #          $ref: "#/components/schemas/paymentExchangeRate"
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
-#        creditorAgent:
-#          $ref: "#/components/schemas/bicfiOrIdentification"
-#        creditorAgentName:
-#          $ref: "#/components/schemas/creditorAgentName"
-#        creditorName:
-#          $ref: "#/components/schemas/creditorName"
-#        creditorAddress:
-#          $ref: "#/components/schemas/address"
+        creditorAgent:
+          $ref: "#/components/schemas/bicfi"
+        creditorAgentName:
+          $ref: "#/components/schemas/creditorAgentName"
+        creditorName:
+          $ref: "#/components/schemas/creditorName"
+        creditorAddress:
+          $ref: "#/components/schemas/address"
 #        creditorId:  # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/creditorId"
 #        creditorNameAndAddress: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/creditorNameAndAddress"
-        ultimateCreditor: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/ultimateCreditor"
+#        ultimateCreditor: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/ultimateCreditor"
 #        purposeCode: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/purposeCode"
 #        chargeBearer: #In some payment product N.A. in some Optional in some conditional
@@ -6446,12 +6448,10 @@ components:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
 #          $ref: "#/components/schemas/remittanceInformationUnstructuredArray"
-        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
+#        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-        centralBankPurposeCode:
-          $ref: "#/components/schemas/centralBankPurposeCode"
 
 
     periodicPaymentInitiation_json: 
@@ -6541,36 +6541,36 @@ components:
 #          maxLength: 35
 #        debtorName: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/debtorName"
-        debtorId: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/debtorId"
+#        debtorId: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/debtorId"
         debtorAccount: 
           $ref: "#/components/schemas/accountReference"
-        ultimateDebtor:  # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/ultimateDebtor"
+#        ultimateDebtor:  # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/ultimateDebtor"
         instructedAmount:
           $ref: "#/components/schemas/amount"
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
+          $ref: "#/components/schemas/bicfi"
 #        creditorId: # N.A. for all, but can be used by ASPSP if needed
 #          description: Identification of Creditors, e.g. a SEPA Creditor ID.
 #          type: string
 #          maxLength: 35
-#        creditorName:
-#          $ref: "#/components/schemas/creditorName"
-#        creditorAddress:
-#          $ref: "#/components/schemas/address"
-        ultimateCreditor:
-          $ref: "#/components/schemas/ultimateCreditor"
+        creditorName:
+          $ref: "#/components/schemas/creditorName"
+        creditorAddress:
+          $ref: "#/components/schemas/address"
+#        ultimateCreditor:  # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/ultimateCreditor"
 #        purposeCode:  # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/purposeCode"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
 #          $ref: "#/components/schemas/remittanceInformationUnstructuredArray"
-        remittanceInformationStructured:   # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
+#        remittanceInformationStructured:   # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
 #        requestedExecutionDate:  # N.A. for all, but can be used by ASPSP if needed
@@ -6605,21 +6605,21 @@ components:
         - debtorAccount
         #- paymentInformationId
       properties:
-#       batchBookingPreferred:
-#         $ref: "#/components/schemas/batchBookingPreferred"
+        batchBookingPreferred:
+          $ref: "#/components/schemas/batchBookingPreferred"
         debtorAccount:
           $ref: "#/components/schemas/accountReference"
-        paymentInformationId:
-          description: |
-            Unique identification as assigned by the sending party to unambiguously identify this bulk payment.
-          type: string
-          maxLength: 35
+#        paymentInformationId:
+#          description: |
+#            Unique identification as assigned by the sending party to unambiguously identify this bulk payment.
+#          type: string
+#          maxLength: 35
         requestedExecutionDate:
           type: string
           format: date
-#       requestedExecutionTime:
-#         type: string
-#         format: date-time
+        requestedExecutionTime:
+          type: string
+          format: date-time
         payments:
           description: |
             A list of generic JSON bodies payment initations for bulk payments via JSON.
@@ -6751,15 +6751,6 @@ components:
       properties:
         confirmationCode:
           description: Confirmation Code as retrieved by the TPP from the redirect based SCA process.
-          type: string
-
-    iobwsAuthorisationConfirmation:
-      description: |
-        Content of the body of an authorisation confirmation request when initiating e.g. straight through processing or cancelling a previous initiation in a IOBWS scenario.
-      type: object
-      properties:
-        confirmationMessage:
-          description: Optional description supplied by the IOBWS consumer that might be used for auditing purposes and traceability.
           type: string
 
     #####################################################
@@ -6987,6 +6978,15 @@ components:
         remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
           $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 
+    iobwsAuthorisationConfirmation:
+      description: |
+        Content of the body of an authorisation confirmation request when initiating e.g. straight through processing or cancelling a previous initiation in a IOBWS scenario.
+      type: object
+      properties:
+        confirmationMessage:
+          description: Optional description supplied by the IOBWS consumer that might be used for auditing purposes and traceability.
+          type: string
+
     #####################################################
     # Content of Request Bodies - XML
     #####################################################
@@ -7114,14 +7114,6 @@ components:
         psuMessage:
           $ref: "#/components/schemas/psuMessageText"
 
-    paymentInitiationPaymentIdResponse-200_json:
-      description: Body of the response for a paymentid request.
-      type: object
-      required:
-        - paymentId
-      properties:
-        paymentId:
-          $ref: "#/components/schemas/paymentId"
 
     paymentInitiationStatusResponse-200_xml:
       description: |
@@ -7218,62 +7210,57 @@ components:
 #        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
 #          type: string
 #          maxLength: 35
-        debtorName: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/debtorName"
+#        debtorName: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/debtorName"
         debtorAccount: 
           $ref: "#/components/schemas/accountReference"
-        debtorId: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/debtorId"
-        ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/ultimateDebtor"
+#        debtorId: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/debtorId"
+#        ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/ultimateDebtor"
         instructedAmount:
           $ref: "#/components/schemas/amount"
 #        transactionCurrency: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/currencyCode"
-        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/paymentExchangeRate"
+#        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/paymentExchangeRate"
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
+          $ref: "#/components/schemas/bicfi"
         creditorName:
           $ref: "#/components/schemas/creditorName"
         creditorAddress:
           $ref: "#/components/schemas/address"
-        creditorId: # N.A. for all, but can be used by ASPSP if needed
-          description: Identification of Creditors, e.g. a SEPA Creditor ID.
-          type: string
-          maxLength: 35
+#        creditorId: # N.A. for all, but can be used by ASPSP if needed
+#          description: Identification of Creditors, e.g. a SEPA Creditor ID.
+#          type: string
+#          maxLength: 35
 #        creditorNameAndAddress: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/creditorNameAndAddress"
-        ultimateCreditor: # N.A.
-          $ref: "#/components/schemas/ultimateCreditor"
+#        ultimateCreditor: # N.A.
+#          $ref: "#/components/schemas/ultimateCreditor"
 #        purposeCode: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/purposeCode"
-        chargeBearer: #In some payment product N.A. in some Optional in some conditional
-          $ref: "#/components/schemas/chargeBearer"
+#        chargeBearer: #In some payment product N.A. in some Optional in some conditional
+#          $ref: "#/components/schemas/chargeBearer"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
 #          $ref: "#/components/schemas/remittanceInformationUnstructuredArray"
-        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
+#        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-        requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
-          type: string
-          format: date
+#        requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
+#          type: string
+#          format: date
 #        requestedExecutionTime: # N.A. for all, but can be used by ASPSP if needed
 #          type: string
 #          format: date-time
         transactionStatus:
           $ref: "#/components/schemas/transactionStatus"
-        transactionFeesDetails:
-          $ref: "#/components/schemas/transactionFeesList"
-        icelandicPurposeCode:
-          $ref: "#/components/schemas/icelandicPurposeCode"
-        chargesAccount:
-          $ref: "#/components/schemas/accountReference"
+
 
     periodicPaymentInitiationWithStatusResponse: 
       description: |
@@ -7306,7 +7293,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
+          $ref: "#/components/schemas/bicfi"
 #        creditorId: # N.A. for all, but can be used by ASPSP if needed
 #          description: Identification of Creditors, e.g. a SEPA Creditor ID.
 #          type: string
@@ -7377,12 +7364,7 @@ components:
             $ref: "#/components/schemas/paymentInitiationBulkElement_json"
         transactionStatus:
           $ref: "#/components/schemas/transactionStatus"
-        chargesAccount:
-          $ref: "#/components/schemas/accountReference"
-        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/paymentExchangeRate"
-        transactionFeesDetails:
-          $ref: "#/components/schemas/transactionFeesList"
+
 
     scaStatusResponse:
       description: Body of the JSON response with SCA Status.

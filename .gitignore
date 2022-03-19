@@ -1,1 +1,3 @@
+*.docx
 *.tex
+.vscode/settings.json

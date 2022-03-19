@@ -6901,10 +6901,8 @@ components:
       properties:
         batchBookingPreferred:
           type: boolean
-
-        # debtorAccount: 
-        #     $ref: "#/components/schemas/accountReference"
-
+        debtorAccount: 
+          $ref: "#/components/schemas/accountReference"
         paymentInformationId:
           type: string
           maxLength: 35
@@ -6914,7 +6912,8 @@ components:
         payments:
           description: |
             A list of generic JSON bodies domestic payment initations for bulk payments via JSON.
-
+            
+            Note: Some fields from single payments do not occcur in a bulk payment element
           type: array
           items:
             $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"

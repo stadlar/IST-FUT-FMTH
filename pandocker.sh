@@ -18,13 +18,14 @@ function ex()
   echo "$fullname"
   # artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker
 
-  doc "pdf"
   doc "tex"
+  doc "pdf"
 }
+cp "out/Vinnusvæði/Verkþáttur 5/310and313media/AuthFlow1/AuthFlow1.eps" "lib/media/authtflow1.eps"
 export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)
 ex "ÍST TS 310_2020 Domestic payments and deposits"
 # docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md' -o 'Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.pdf' --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter
 # echo '313'
-ex "ÍST TS 313_2021 Foreign payments"
+# ex "ÍST TS 313_2021 Foreign payments"
 # docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'Vinnusvæði/Verkþáttur 5/ÍST TS 313_2021 Foreign payments.md' -o 'Vinnusvæði/Verkþáttur 5/ÍST TS 313_2021 Foreign payments.pdf' --from markdown --template 'lib/ist.tex' --listings --filter pandoc-include --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter
 echo 'done'

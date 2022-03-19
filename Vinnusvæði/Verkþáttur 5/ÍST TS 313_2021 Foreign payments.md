@@ -1,7 +1,7 @@
 ---
 title: "ÍST TS 313:2022"
 author: ICS 03.060 and 35.240
-date: "Entry into force 15-03-2021"
+date: "Entry into force 25-03-2022"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 313]
 subtitle: ["Tækniforskrift - Erlendar greiðslur", "Technical Specification - Foreign payments"]
@@ -14,12 +14,12 @@ toc: true
 toc-title: Table of contents
 # toc-own-page: true
 book: true
-classoption: oneside
+classoption: twoside
 numbersections: true
 first-chapter: 1
 listings: true
 listings-no-page-break: true
-highlight: "zenburn"
+highlight: "kate"
 codeBlockCaptions: True
 mustache: "Vinnusvæði/Verkþáttur 5/313media/docvariables.yml"
 figureTitle: |
@@ -31,9 +31,10 @@ lotTitle: |
 tableTemplate: |
   *$$tableTitle$$ $$i$$*$$titleDelim$$ $$t$$
 autoSectionLabels: True
-bibliography: "Vinnusvæði/Verkþáttur 5/310and313media/bibliography.yaml"
-csl: "lib/apa.csl"
-
+bibliography: "lib/bibliography.yaml"
+csl: "lib/iso690.csl"
+fontsize: 9pt
+titlefont: Arial.ttf
 ...
 
 !include-header "Vinnusvæði/Verkþáttur 5/310media/participants.yaml"

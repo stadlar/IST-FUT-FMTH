@@ -1,16 +1,67 @@
 @startuml
 
+skinparam monochrome true
+
+<style>
+note {
+    fontsize 7
+    backgroundcolor white
+    shadowing 0
+    linecolor transparent
+}
+</style>
+skinparam sequence {
+
+ParticipantFontName Arial
+ParticipantFontSize 8
+ArrowFontName Arial
+ArrowFontSize 8
+SequenceDividerFontName Arial
+SequenceDividerFontSize 8
+SequenceBoxFontName Arial
+SequenceBoxFontSize 8
+SequenceGroupFontName Arial
+SequenceGroupFontSize 8
+
+ActorFontSize 9
+ActorFontName Arial
+NoteFontName Arial
+}
+autonumber
+
 actor User
-participant "ERP\nSystem" as ERP
+participant "Accounting\nSystem" as ERP
 
 User -> ERP: Initiates payments
-ERP -> IOBWS: POST: Initiates a\nsingle payment\nor bulk payments
-note right: Validate \n 1. eIDAS certificate \n 2. Request syntax \n 3. Credentials \n 4. Semantics
-IOBWS -> IOBWS: Validation successful
-ERP <- IOBWS: Payment initiation response\n(IOBWS approach)\nwith authorisation URL
-note right: scaMethods:  [\nhttps://iobws.test.com/v1/{payment-service}/{payment-product}/\n{paymentId}/authorisations\nconfirmation"]
-ERP -> IOBWS: PUT: Invoke authorization
-ERP -> IOBWS: Payment status request
-ERP <- IOBWS: Payment status response
-
+ERP -> IOBWS ++ : POST: Payment-Initiation Request
+note right: Validate \n 1. eIDAS certificate \n 2. Request syntax \n 3. Client role \n 4. Semantics
+alt failure
+  ERP <- IOBWS : Payment-Initiation Response (NOK)
+  note right of ERP: http Codes: 400, 401, 403
+  note over ERP: END
+else success
+  ERP <- IOBWS -- : Payment-Initiation Response
+  note right of ERP
+    ASPSP-SCA-Approach: IOBWS
+    http Codes: 201 (Created)
+  endnote
+ERP -> IOBWS ++: PUT: Start Authorization Resource (with Confirmation)
+note right: Validate \n 1. eIDAS certificate \n 2. Request syntax \n 3. Client role \n 4. Semantics
+  note right of ERP
+    Body: confirmationCode
+  endnote
+ERP <- IOBWS --: Authorisation Response
+  note right of ERP
+    http Codes: 200
+    Transaction Status Payment initiated.
+  endnote
+end
+alt optional status check
+ERP -> IOBWS ++: GET: Payment-Status Request
+note right: Validate \n 1. eIDAS certificate \n 2. Request syntax \n 3. Semantics
+ERP <- IOBWS --: Payment-Status Response
+  note right of ERP
+    http Statuscode: 200 (OK) – ACCC
+  endnote
+end
 @enduml

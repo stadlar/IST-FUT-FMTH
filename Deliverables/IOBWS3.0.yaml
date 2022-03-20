@@ -6924,10 +6924,12 @@ components:
         
         The bulk entry type is a type which follows the JSON formats for the supported products for single payments
         excluding the data elements (if supported):
+          * requestedExecutionDate.
+        These data elements may not be contained in any bulk entry. Foreign (sepa and cross-border) payments must skip exclude the data elements:
           * debtorAccount
-          * requestedExecutionDate,
-          * requestedExecutionTime.
-        These data elements may not be contained in any bulk entry.
+          * requestedExecutionDate
+          
+          The should only be present on the parent bulkPaymentInitiationDomestic_json bulk initation entity.
 
         This data object can be used to represent valid bulk payment initiations entry for the following JSON based payment product, 
         which where defined in the Implementation Guidelines:
@@ -6935,6 +6937,8 @@ components:
           * credit-transfers
           * claim-payments
           * payment-card-deposits
+          * sepa-credit-transfers
+          * cross-border-credit-transfers
         
         For the convenience of the implementer additional which are already predefinded in the Implementation Guidelines 
         are included (but commented in source code), such that an ASPSP may add them easily.
@@ -6947,6 +6951,7 @@ components:
       required:
         - instructedAmount
         - creditorAccount
+      additionalProperties: true
       properties:
         endToEndIdentification:
           type: string
@@ -7873,17 +7878,19 @@ components:
           
     bulkPaymentInitiationElementDomesticError:
       type: object
+      additionalProperties: true
       properties:
-        error:
-          $ref: "#/components/schemas/Error400_NG_PIS"
-      description: |
-        One or more errors for individual bulk payments or missing if successful.
+        tppMessages:
+          nullable: true
+          type: array
+          items:
+            $ref: "#/components/schemas/tppMessage400_PIS"
 
     bulkPaymentInitiationElementDomesticWithStatus:
-      description: |
-        Bulk Element Response with status
+      additionalProperties: true
       allOf:
         - $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
+        - $ref: "#/components/schemas/bulkPaymentInitiationElementDomesticError"
           
 
 
@@ -14910,13 +14917,13 @@ components:
           "debtorAccount": {
             "iban": "IS40100100103307118608"
           },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "bban": "030013000001"
-          },
           "instructedAmount": {
             "currency": "ISK",
             "amount": "1235"
+          },
+          "creditorId": "0208714669",
+          "creditorAccount": {
+            "bban": "030013000001"
           },
           "icelandicPurposeCode": "87",
           "remittanceInformationUnstructured": "My description",
@@ -15017,9 +15024,28 @@ components:
                 "bban": "045126123456"
               },
               "icelandicPurposeCode": "87",
-              "remittanceInformationUnstructured": "My description"
-                    },
-                  ],
+              "remittanceInformationUnstructured": "My description",
+              "tppMessages": [
+                {
+                  "category": "ERROR",
+                  "code": "DEBTOR_ACCOUNT_NOT_FOUND",
+                  "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+                  "text": "Úttektarreikningur ekki til"
+                },
+                {
+                  "category": "ERROR",
+                  "code": "FORMAT_ERROR",
+                  "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+                  "text": "Eigin villa banka"
+                }
+              ],
+              "_links": {
+                "self": {
+                  "href": "/v1/payments/credit-transfers/1234-wertiq-983"
+                }
+              }
+            }
+          ],
           "transactionStatus": "ACTC"
         }
     

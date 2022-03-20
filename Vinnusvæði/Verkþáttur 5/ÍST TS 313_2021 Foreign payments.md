@@ -4,7 +4,7 @@ author: ICS 03.060 and 35.240
 date: "Entry into force 25-03-2022"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 313]
-subtitle: ["Tækniforskrift - Erlendar greiðslur", "Technical Specification - Foreign payments"]
+subtitle: ["Tækniforskrift - Erlendar greiðslur  ", "Technical Specification - Foreign payments"]
 lang: "en"
 titlepage: true,
 # titlepage-rule-color: "360049"
@@ -19,7 +19,7 @@ numbersections: true
 first-chapter: 1
 listings: true
 listings-no-page-break: true
-highlight: "kate"
+highlight: "zenburn"
 codeBlockCaptions: True
 mustache: "Vinnusvæði/Verkþáttur 5/313media/docvariables.yml"
 figureTitle: |
@@ -31,27 +31,27 @@ lotTitle: |
 tableTemplate: |
   *$$tableTitle$$ $$i$$*$$titleDelim$$ $$t$$
 autoSectionLabels: True
+link-citations: true
 bibliography: "lib/bibliography.yaml"
-csl: "lib/iso690.csl"
+csl: "lib/iso690-numeric-en.csl"
 fontsize: 9pt
 titlefont: Arial.ttf
 ...
 
-!include-header "Vinnusvæði/Verkþáttur 5/310media/participants.yaml"
+!include-header "Vinnusvæði/Verkþáttur 5/313media/participants.yaml"
 
 \newpage
 
-!include "Vinnusvæði/Verkþáttur 5/310and313media/foreword.md"
+# Foreword {.unnumbered}
+!include`snippetStart="<!-- ForewordStart -->", snippetEnd="<!-- ForewordEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
 
 # Introduction {.unnumbered}
 
-This Technical Specification (TS) presents version 3.0 of the Icelandic Online Banking Web Services (IOBWS), for {{context_short}}.
+!include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
 
-Previous versions of IOBWS, released in 2007 and 2013 respectively, defined common web service interfaces for the Icelandic commercial and savings banks. This enabled the integration of external accounting, payment, and information systems with the bank's services, to act on behalf of the customers and with full access to their data, e.g. for domestic accounts and payments. 
+Most of the banks offered comparable web services for foreign payments and associated transactions but until the work on the IOBWS version 3.0 started, a common specification had not been in scope for the IOBWS work. As the underlying cross-border payment mechanisms are quite similar, the TN-FMÞ decided this time around to include payment functionality and the associated account and transaction information retrieval in the form of this shared specification.
 
-All the banks have offered comparable services for foreign payments and associated transaction but until the work on the IOBWS version 3.0 started, they had not been under scope for the common specifications. This time around it was decided by the TN-FMÞ that it was time to open up initiation of, and information on foreign payments in the form of access to account statements.
-
-The participants in the TN-FMÞ reviewed existing and emerging specifications in the global or mostly European financial industry to look for ways to merge the various domestic schemas with a more widely adpoted framework.
+The participants in the TN-FMÞ reviewed existing and emerging specifications in the global or mostly European financial industry to look for ways to merge the various domestic schemas with a more widely adopted framework.
 
 !include`snippetStart="<!-- Start1 -->", snippetEnd="<!-- End1 -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
 
@@ -67,7 +67,7 @@ The participants in the TN-FMÞ reviewed existing and emerging specifications in
 
 # Normative references, definitions, and symbols 
 
-!include "Vinnusvæði/Verkþáttur 5/310and313media/terminalogy.md"
+!include`snippetStart="<!-- TerminalogyStart -->", snippetEnd="<!-- TerminalogyEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
 
 \newpage
 
@@ -102,7 +102,7 @@ For each of the payment products, the support for payment services is given in [
 
 ### Domestic Payment Product Data Elements 
 
-The following elements are used in the domestic payment products under scope for ÍST {{spec_id}}:
+The elements listed in [table @tbl:tbl_data_domestic] are used in the domestic payment products under scope for ÍST {{spec_id}}. The schema type *paymentInitiationDomestic_json* should be used to define JSON data instances.
 
   -------------------------------------------------------------------------
   **Data Element**                        **SEPA -        **Cross-Border - 
@@ -110,6 +110,8 @@ The following elements are used in the domestic payment products under scope for
                                           Transfers**     Transfers**      
   --------------------------------------- --------------- -----------------
   **endToEndIdentification**              N/A             N/A
+
+  **instructionIdentification**           Optional        Optional
 
   **debtorAccount**                       Mandatory       Mandatory
 
@@ -157,7 +159,8 @@ The following elements are used in the domestic payment products under scope for
   -------------------------------------------------------------------------
   :Data elements for foreign payments. {#tbl:tbl_data_domestic}
 
-To elaborate on the use of particular attributes the following [table @tbl:proper_domestic] contains additional information on top of the schema defenitions. Notes on individual data elements or usage patterns follow in the subsections. 
+To elaborate on the use of particular attributes the following [table @tbl:proper_domestic] contains additional information on top of the schema definitions. Notes on individual data elements or usage patterns follow in the subsections.
+Should further information be required, consult the matching section in the ÍST TS-310 on Domestic Payments specification.
 
   --------------------------------------------------------------------------------------------------------
   **Field**                               **Description**
@@ -176,50 +179,131 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
                                           a real-time gross settlement
                                           system, which is typically
                                           identified as a wire or high value
-                                          transaction. The use might be further constrained so consult
-                                          specific product documentation that applies to each banks
+                                          transaction. The use might be further constrained and
+                                          it is therefore reccomended to consult the
+                                          product documentation specific to each bank and its
                                           implementation of ÍST {{spec_id}}.
   --------------------------------------------------------------------------------------------------------
   :Detailed description of ÍST {{spec_id}} payments properties. {#tbl:proper_domestic}
 
 ## Bulk Payments
 
-Bulk payments are supported for all ÍST {{spec_id}} payment types. For a bulk payment all collected payments shall be based on the same payment product and initiated from the same debtor account, consistent with the approach of the NextGenPSD2 framework.
+Bulk payments are supported for all ÍST {{spec_id}} payment types. For a bulk payment all collected payments shall be based on the same payment product and initiated from the same debtor account, consistent with the approach of the NextGenPSD2 framework for native bulk types. The *bulkPaymentInitiationDomestic_json* schema type should be used for the top level bulk initiation according to ÍST {{spec_id}} and the *paymentInitiationBulkElementDomestic_json* type for the child payments contained in an array on the parent.
+
+No debtor or charge accounts should be specified on child bulk payment elements, as batch booking applies to all cross-border payment bulks with the implication that there is only one withdraval on the deptor side.
 
   ------------------------------------------------------------------------------------------
   **Data Element**            **Type**      **Condition**   **Description**
   --------------------------- ------------- --------------- --------------------------------
-  **batchBookingPreferred**    Boolean       N/A        
+  **batchBookingPreferred**    Boolean       N/A            All foreign payments are
+                                                            implicitly processed as 
+                                                            bulk payments, so this element
+                                                            should no be included or set to
+                                                            true.
 
-  **debtorAccount (incl.       Account       Mandatory       
-  type)**                      Reference                     
+  **debtorAccount**            Account       Mandatory      No child payments may contain 
+                               Reference                    a debtor account, only this top
+                                                            parent bulk element.
 
-  **paymentInformationId**     Max35Text     Optional       Unique identification assigned 
+  **paymentInformationId**    Max35Text     Optional        Unique identification assigned 
                                                             by the sending party to
-                                                            unambiguously identify this bulk
-                                                            payment. Replaces 
-                                                            **NameOfBatch** in IOBWS v2.0 and
-                                                            **PaymentsID**, that was generated
+                                                            unambiguously identify this bulk. 
+                                                            Replaces **NameOfBatch**
+                                                            in IOBWS 2.0 and 3.0, as well as
+                                                            **PaymentsID** that was generated
                                                             by the receiving bank.
                                                             Note: This attribute might be
                                                             considered mandatory in future
                                                             versions of the specification.
 
-  **requestedExecutionDate**   ISODate       N/A        
+  **requestedExecutionDate**   ISODate       N/A            Not applicable to foreign
+                                                            payments.
 
   **payments**                 Bulk Entry    Mandatory      The Bulk Entry is a JSON Type
                                                             which mirrors the supported
                                                             domest payment products for
                                                             single payments, excluding the
                                                             data elements: debtorAccount,
-                                                            and requestedExecutionDate. 
+                                                            requestedExecutionDate and
+                                                            chargesAccount.
+
+  **chargesAccount**          Account       Optional        Set if fees applicable to 
+                              Reference                     foreign payments should be
+                                                            debited to another account
+                                                            than the debtorAccount. 
   ---------------------------------------------------------------------------------------
   :Description of domestic bulk payment main body. {#tbl:bulk_domestic}
 
 # Accounts Service
 
+The way account transaction information is retrieved bears strong similarities to the previous versions of IOBWS while adapted from the Berlin Group NextGenPSD2 framework.
 
+When querying information about domestic accounts, there exists an option to additionally request information on the allowed credit limit (*withCreditLimitQuery* data element). This matches what Icelandic banks offer as "yfirdráttarheimild", which refers to an applied overdraft limit. The returned data element is named *creditLimit*, to avoid confusion associtated the simply named "Overdraft" used in previous IOBWS versions. 
+
+<!-- balancesDomesticExample5_CurrencyAccount -->
+```{.json caption="Example of information about a currency account." #lst:accexample5}
+!include`startLine=14680, endLine=14690, dedent=7` "Deliverables/IOBWS3.0.yaml"
+```
 
 !include`snippetStart="<!-- AccountsOverviewBegin -->", snippetEnd="<!-- AccountsOverviewEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
 
-# Authentication and Authorization
+An example of how this would look for a domestic currency account is provided in [listing @lst:transexample]. For other examples please refer to the IOBWS YAML schema.
+
+<!-- transactionsExampleDomestic5_CurrencyAccount_json -->
+``` {.json caption="Example result of a transaction detail query." #lst:transexample}
+!include`startLine=14775, endLine=14815, dedent=7` "Deliverables/IOBWS3.0.yaml"
+```
+
+# Payment processing flow 
+
+![IOBWS authorisation flow with confirmation](lib/media/authtflow1.eps){.calloutright #fig:auth_flow1 width="60%"}
+
+!include`snippetStart="<!-- PaymentsProcessingBegin -->", snippetEnd="<!-- PaymentsProcessingEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+``` {.json caption="Example of a response containing a link to the confirmation resource."}    
+  { 
+    "transactionStatus": "RCVD",
+    "paymentId": "1234-b2b-983",
+    "_links": 
+      {
+        "self": {"href": "/v1/payments/cross-border-credit-transfers/1234-b2b-983"},
+        "status": {"href": "/v1/payments/1234-b2b-983/status"},
+        "scaStatus":": {"href": "/v1/payments/1234-b2b-983/authorisations/123auth456"},  
+        "confirmStraightThroughProcessingAuthorisation": {"href": "/v1/payments/1234-b2b-983/authorisations/123auth456"}
+      }
+  }
+```
+
+The confirmation of the payment initiation takes the form a PUT update to the authorisation resource, using the "iobwsAuthorisationConfirmation" type. The confirmation message is an optional description that might potentially be used by service implementors for display in a UI available to users e.g. for decoupled authorisations, to communicate the method used to approve these payments. 
+
+``` {.json caption="Example of an IOBWS authorisation confirmation,"}    
+  { 
+    "confirmationMessage": "Confirmed by the automatic ERP system."
+  }
+```
+
+The response to the confirmation is shown below:
+
+``` {.json caption="Example of authorisation confirmation return."}    
+  { 
+    "scaStatus": "finalised",
+    "_links":{
+      "status":  {"href":"/v1/payments/cross-border-credit-transfers/1234-b2b-983/status"}
+    }
+  }
+```
+
+Optionally the links given can be used to check the status of payments As foreign payments are unilateral or one-sided credit transfers, the transaction status expected is "ACSC", which stands for "AcceptedSettlementCompleted", indicating the debtors accounts has been settled. However, as mentioned before the full range of codes are available and could potentially apply.
+
+``` {.json caption="Example of a payment status query response."}    
+  {
+  "transactionStatus": "ACSC"
+  }
+```
+# Error reporting and handling
+
+!include`snippetStart="<!-- ErrorHandlingStart -->", snippetEnd="<!-- ErrorHandlingEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+
+
+# Bibliography {.unnumbered}
+\ 
+\ 

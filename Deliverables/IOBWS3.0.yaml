@@ -12323,12 +12323,10 @@ components:
             #   $ref: "#/components/examples/balancesExample3_RegularAccount"
             "Example 4: Regular Domestic Account":
               $ref: "#/components/examples/balancesDomesticExample4_RegularAccount"
-            "Example 5: Multicurrency Domestic Account":
-              $ref: "#/components/examples/balancesDomesticExample5_MulticurrencyAcount"
+            "Example 5: Currency Domestic Account":
+              $ref: "#/components/examples/balancesDomesticExample5_CurrencyAcount"
             "Example 6:":
               $ref: "#/components/examples/balancesDomesticExample6_RegularAccount"
-            "Example 7: Multicurrency Domestic Account":
-              $ref: "#/components/examples/balancesDomesticExample7_CurrencyAccount"
 
     OK_200_CardAccountBalances:
       description: OK
@@ -14434,7 +14432,7 @@ components:
               "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
               "iban": "IS060537260002062306671449", 
               "currency": "ISK",
-              "ownerName": "ÃžÃ³roddur ÃžÃ Stancikas",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
               "status": "enabled",
               "product": "Gullvild einstaklinga",
               "cashAccountType": "CACC",
@@ -14507,7 +14505,7 @@ components:
               "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
               "iban": "IS950528293004010101759689", 
               "currency": "USD",
-              "ownerName": "ÃžÃ³roddur ÃžÃ Stancikas",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
               "status": "enabled",
               "product": "Veltureikningur",
               "cashAccountType": "CACC",
@@ -14522,7 +14520,7 @@ components:
         }
     
     accountListDomesticExample4:
-      summary: Account list Example 1
+      summary: Account list Example 4
       description: Response in case of an example, where the consent has been given on two different IBANs.
       value:
         {"accounts":
@@ -14562,9 +14560,9 @@ components:
         ]}
 
     accountListDomesticExample5:
-      summary: Account list Example 2
+      summary: Account list Example 5
       description: |
-        Response in case of an example, where the withBalance and with creditLimit query parameters are set
+        Response in case of an example, where the withBalance and with creditLimit query parameters are set.
       value:
         {"accounts":
            [
@@ -14674,56 +14672,21 @@ components:
                 }]
         }
 
-    balancesDomesticExample5_MulticurrencyAcount:
+    balancesDomesticExample5_CurrencyAcount:
       description: |
-        Response in case of a multicurrency account with one account in EUR, 
-        one in USD, where the ASPSP has delivered a link to the balance endpoint relative to the aggregated 
-        multicurrency account (aggregation level).
+        Response in case of a currency account in EUR,
+        where the ASPSP has delivered a link to the balance endpoint.
       value: 
         {
           "balances":
               [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
                 "balanceType": "closingBooked",
                 "referenceDate": "2017-10-25"
-                    },
+                   },
               {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
               "balanceType": "expected",
               "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
-              },
-            {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-            "balanceType": "closingBooked", 
-                "referenceDate": "2017-10-25"
-                    },
-              {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-              "balanceType": "expected",
-                "lastChangeDateTime": "2017-10-24T14:30:21Z"
-                    }]
-        }
-
-    balancesDomesticExample7_CurrencyAccount:
-      description: |
-        Response in case of a multicurrency account with one account in EUR, 
-        one in USD, where the ASPSP has delivered a link to the balance endpoint relative to the aggregated 
-        multicurrency account (aggregation level).
-      value: 
-        {
-          "balances":
-              [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
-            "balanceType": "closingBooked",        
-                "referenceDate": "2017-10-25"
-                },
-                {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
-            "balanceType": "expected",      
-                "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
-                },
-            {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-                "balanceType": "closingBooked", 
-                "referenceDate": "2017-10-25"
-                },
-                {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-                "balanceType": "expected",
-                "lastChangeDateTime": "2017-10-24T14:30:21Z"
-                    }]
+              }]
         }
 
     balancesDomesticExample6_RegularAccount:

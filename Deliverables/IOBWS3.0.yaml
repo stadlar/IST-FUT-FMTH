@@ -7870,17 +7870,20 @@ components:
           $ref: "#/components/schemas/paymentExchangeRate"
         transactionFeesDetails:
           $ref: "#/components/schemas/transactionFeesList"
+          
+    bulkPaymentInitiationElementDomesticError:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/Error400_NG_PIS"
+      description: |
+        One or more errors for individual bulk payments or missing if successful.
 
     bulkPaymentInitiationElementDomesticWithStatus:
       description: |
         Bulk Element Response with status
       allOf:
         - $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
-        - type: object
-          properties:
-            error:
-              nullable: true
-              $ref: "#/components/schemas/tppMessage400_PIS"
           
 
 
@@ -12096,7 +12099,7 @@ components:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
-           schema:
+          schema:
             oneOf:  #Different Payment Products with status
               # - $ref: "#/components/schemas/paymentInitiationWithStatusResponse"
               # - $ref: "#/components/schemas/periodicPaymentInitiationWithStatusResponse"
@@ -12104,6 +12107,9 @@ components:
               - $ref: "#/components/schemas/paymentInitiationDomesticWithStatusResponse"
               - $ref: "#/components/schemas/periodicPaymentInitiationDomesticWithStatusResponse"
               - $ref: "#/components/schemas/bulkPaymentInitiationDomesticWithStatusResponse"
+          examples:
+            "Example 2: 'bulk-payments' - 'credit-transfers with status'":
+              $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_with_status_json"
               
         application/xml:
           schema:
@@ -12113,10 +12119,8 @@ components:
               - $ref: "#/components/schemas/paymentInitiationTarget2_pain.001"
               - $ref: "#/components/schemas/paymentInitiationCrossBorder_pain.001"
           examples:
-            # "Example 1: 'payments' - 'pain.001-sepa-credit-transfers'":
-            #   $ref: "#/components/examples/pain.001.001_SCT_singleTransaction"
-            "Example 2: 'bulk-payments' - 'credit-transfers with status'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_with_status_json"
+            "Example 1: 'payments' - 'pain.001-sepa-credit-transfers'":
+              $ref: "#/components/examples/pain.001.001_SCT_singleTransaction"
         
         multipart/form-data: #For periodic-payments with pain.001
           schema:
@@ -14975,23 +14979,24 @@ components:
       value:
         {
           "batchBookingPreferred": false,
-          "requestedExecutionDate": "2020-08-01",
           "paymentInformationId": "75BA1A88418445C0BE88AABFBEEEE230",
+          "requestedExecutionDate": "2020-08-01",
           "payments": [
             {
               "endToEndIdentification": "Short description",
               "instructionIdentification": "my_payment_1",
+              "resourceId": "my_payment_1_uid",
               "debtorId": "0208714669",
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
               },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "030013000001"
-              },
               "instructedAmount": {
                 "currency": "ISK",
                 "amount": "1235"
+              },
+              "creditorId": "0208714669",
+              "creditorAccount": {
+                "bban": "030013000001"
               },
               "icelandicPurposeCode": "87",
               "remittanceInformationUnstructured": "My description"
@@ -15012,24 +15017,12 @@ components:
                 "bban": "045126123456"
               },
               "icelandicPurposeCode": "87",
-              "remittanceInformationUnstructured": "My description",
-              "error": {
-                "tppMessages": [
-                    {
-                      "category": "ERROR",
-                      "code": "CREDITOR_ACCOUNT_NOT_FOUND",
-                      "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-                      "text": "This payment had an error as the creditor account was invalid"
-                    }
-                  ]
-                  },
-                  },
-                ],
-          "transactionsStatus": "ACTC"
-        }          
+              "remittanceInformationUnstructured": "My description"
+                    },
+                  ],
+          "transactionStatus": "ACTC"
+        }
     
-
-
 security:
   #####################################################
   # Global security options

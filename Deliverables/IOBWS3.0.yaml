@@ -12324,7 +12324,7 @@ components:
             "Example 4: Regular Domestic Account":
               $ref: "#/components/examples/balancesDomesticExample4_RegularAccount"
             "Example 5: Currency Domestic Account":
-              $ref: "#/components/examples/balancesDomesticExample5_CurrencyAcount"
+              $ref: "#/components/examples/balancesDomesticExample5_CurrencyAccount"
             "Example 6:":
               $ref: "#/components/examples/balancesDomesticExample6_RegularAccount"
 
@@ -14672,7 +14672,7 @@ components:
                 }]
         }
 
-    balancesDomesticExample5_CurrencyAcount:
+    balancesDomesticExample5_CurrencyAccount:
       description: |
         Response in case of a currency account in EUR,
         where the ASPSP has delivered a link to the balance endpoint.

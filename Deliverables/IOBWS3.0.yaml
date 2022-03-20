@@ -6925,9 +6925,11 @@ components:
         The bulk entry type is a type which follows the JSON formats for the supported products for single payments
         excluding the data elements (if supported):
           * requestedExecutionDate.
+          
         These data elements may not be contained in any bulk entry. Foreign (sepa and cross-border) payments must skip exclude the data elements:
           * debtorAccount
           * requestedExecutionDate
+          * chargesAccount
           
           The should only be present on the parent bulkPaymentInitiationDomestic_json bulk initation entity.
 

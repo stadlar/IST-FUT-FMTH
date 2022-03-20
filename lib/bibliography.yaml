@@ -31,6 +31,7 @@ references:
         - 25
     title: EU 2015/2366
     title-short: 'Directive of the European Parliament and of the Counci on payment services in the internal market, amending Directives 2002/65/EC, 2009/110/EC and 2013/36/EU and Regulation (EU) No 1093/2010, and repealing Directive 2007/64/EC'
+    url: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32015L2366
   - type: legislation
     id: EU910/2014
     language: English
@@ -46,6 +47,7 @@ references:
         - 23
     title-short: 'Regulation of the European Parliament and of the Council of on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC'
     title: EU 910/2014
+    url: https://eur-lex.europa.eu/legal-content/EN/LSU/?uri=uriserv:OJ.L_.2014.257.01.0073.01.ENG
   - type: legislation
     id: IS2019/55
     language: Icelandic
@@ -60,6 +62,7 @@ references:
         - 21
     title-short: 'Lög um rafræna auðkenningu og traustþjónustu fyrir rafræn viðskipti'
     title: Lög 55/2019
+    url: https://www.althingi.is/lagas/149c/2019055.html
   - type: legislation
     id: IS2021/114
     language: Icelandic
@@ -74,6 +77,7 @@ references:
         - 25
     title-short: 'Lög um greiðsluþjónustu'
     title: Lög 114/2021
+    url: https://www.althingi.is/lagas/151c/2021114.html
   - type: legislation
     id: semver2
     number: 2021/114
@@ -128,3 +132,18 @@ references:
     title-short: 'Financial services - universal financial industry message scheme.'
     title: ISO 20022
     institution: International Organization for Standardization
+  - type: bill
+    id: OpenAPISpecification
+    language: English
+    author:
+    - family:  OpenAPI Initiative
+      given: 
+      suffix: Linux Foundation
+    issued:
+      date-parts:
+      - - 2017
+        - 12
+        - 06
+    url: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md
+    title-short: 'The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Linux Foundation Collaborative Project.'
+    title: OpenAPI v3.0.1

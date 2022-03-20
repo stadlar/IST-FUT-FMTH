@@ -12245,14 +12245,16 @@ components:
               account:
                 $ref: "#/components/schemas/accountDetails"
           examples:
-            "Regular Account": 
-              $ref: "#/components/examples/accountDetailsRegularAccount"
-            "accountDetailsCurrencyAccount":
-              $ref: "#/components/examples/accountDetailsCurrencyAccount"
-            "AccountWithBalancesAndCreditlimit":
-              $ref: "#/components/examples/accountDetailsRegularAccountWithBalancesAndCreditlimit"
+            # "Regular Account": 
+            #   $ref: "#/components/examples/accountDetailsRegularAccount"
             # "Multicurrency Account":
             #   $ref: "#/components/examples/accountDetailsMulticurrencyAccount"
+            "Regular Domestic Account": 
+              $ref: "#/components/examples/accountDetailsDomesticRegularAccount"
+            "Domestic Currency Account":
+              $ref: "#/components/examples/accountDetailsDomesticCurrencyAccount"
+            "Regular Domestic Account with Balances and Creditlimit":
+              $ref: "#/components/examples/accountDetailsDomesticRegularAccountWithBalancesAndCreditlimit"
 
 
     OK_200_CardAccountDetails:
@@ -12311,14 +12313,20 @@ components:
           schema:
             $ref: "#/components/schemas/readAccountBalanceResponse-200"
           examples:
-            "Example 1: Regular Account":
-              $ref: "#/components/examples/balancesExample1_RegularAccount"
+            # "Example 1: Regular Account":
+            #   $ref: "#/components/examples/balancesExample1_RegularAccount"
             # "Example 2: Multicurrency Account":
             #   $ref: "#/components/examples/balancesExample2_MulticurrencyAcount"
-            "Example 3:":
-              $ref: "#/components/examples/balancesExample3_RegularAccount"
-            "Example 4: Multicurrency Account":
-              $ref: "#/components/examples/balancesExample4_CurrencyAccount"
+            # "Example 3:":
+            #   $ref: "#/components/examples/balancesExample3_RegularAccount"
+            "Example 4: Regular Domestic Account":
+              $ref: "#/components/examples/balancesDomesticExample4_RegularAccount"
+            "Example 5: Multicurrency Domestic Account":
+              $ref: "#/components/examples/balancesDomesticExample5_MulticurrencyAcount"
+            "Example 6:":
+              $ref: "#/components/examples/balancesDomesticExample6_RegularAccount"
+            "Example 7: Multicurrency Domestic Account":
+              $ref: "#/components/examples/balancesDomesticExample7_CurrencyAccount"
 
     OK_200_CardAccountBalances:
       description: OK
@@ -13589,19 +13597,17 @@ components:
           "account":
             {
               "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS060537260002062306671449", 
-              "currency": "ISK",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Gullvild einstaklinga",
+              "iban": "FR7612345987650123456789014", 
+              "currency": "EUR",
+              "ownerName": "Heike Mustermann",
+              "product": "Girokonto",
               "cashAccountType": "CACC",
-              "displayName": "My Main Account",
-              "bic": "GLITISRE",              
+              "name": "Main Account",
               "_links": 
                 {
                   "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
                   "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
+                 }
             }
         }
 
@@ -14208,49 +14214,25 @@ components:
       description: Response for a read balance request in case of a regular account.
       value: 
         {
-          "account": {"iban": "IS060537260002062306671449"},
+          "account": {"iban": "FR7612345987650123456789014"},
           "balances":
               [{
-                "balanceAmount": {"currency": "ISK", "amount": "500.00"},
+                "balanceAmount": {"currency": "EUR", "amount": "500.00"},
                 "balanceType": "closingBooked",
                 "referenceDate": "2017-10-25"
                    },
                {
-                "balanceAmount": {"currency": "ISK","amount": "900.00"},
-                "balanceType": "expected", 
+               "balanceAmount": {"currency": "EUR","amount": "900.00"},
+               "balanceType": "expected", 
                 "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
                }]
         }
 
 
+
+
+
     balancesExample2_MulticurrencyAcount:
-      description: |
-        Response in case of a multicurrency account with one account in EUR, 
-        one in USD, where the ASPSP has delivered a link to the balance endpoint relative to the aggregated 
-        multicurrency account (aggregation level).
-      value: 
-        {
-          "balances":
-              [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
-                "balanceType": "closingBooked",
-                "referenceDate": "2017-10-25"
-                   },
-              {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
-              "balanceType": "expected",
-              "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
-              },
-           {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-           "balanceType": "closingBooked", 
-                "referenceDate": "2017-10-25"
-                   },
-              {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-              "balanceType": "expected",
-               "lastChangeDateTime": "2017-10-24T14:30:21Z"
-                   }]
-        }
-
-
-    balancesExample4_CurrencyAccount:
       description: |
         Response in case of a multicurrency account with one account in EUR, 
         one in USD, where the ASPSP has delivered a link to the balance endpoint relative to the aggregated 
@@ -14283,15 +14265,15 @@ components:
         {
            "balances":[      
               {
-               "balanceAmount":{"currency":"ISK", "amount": "1000.00"},
+               "balanceAmount":{"currency":"EUR", "amount": "1000.00"},
                "balanceType":"interimBooked"
                  },     
               {
-                 "balanceAmount":{"currency": "ISK", "amount": "300.00"},
+                 "balanceAmount":{"currency": "EUR", "amount": "300.00"},
                  "balanceType":"interimAvailable"
               },
               {
-                 "balanceAmount":{"currency":"ISK", "amount": "5300.00"},
+                 "balanceAmount":{"currency":"EUR", "amount": "5300.00"},
                  "balanceType": "interimAvailable",
                  "creditLimitIncluded": true
               }
@@ -14441,7 +14423,7 @@ components:
 # Predefined Examples Domestic
 #####################################################
 
-    accountDetailsRegularAccountWithBalancesAndCreditlimit:
+    accountDetailsDomesticRegularAccountWithBalancesAndCreditlimit:
       description: Account details for a regular Account.
       value:
         {
@@ -14490,8 +14472,31 @@ components:
                 }
             }
         }
+    
+    accountDetailsDomesticRegularAccount:
+      description: Account details for a regular Account.
+      value:
+        {
+          "account":
+            {
+              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+              "iban": "IS060537260002062306671449", 
+              "currency": "ISK",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
+              "status": "enabled",
+              "product": "Gullvild einstaklinga",
+              "cashAccountType": "CACC",
+              "displayName": "My Main Account",
+              "bic": "GLITISRE",              
+              "_links": 
+                {
+                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                }
+            }
+        }
 
-    accountDetailsCurrencyAccount:
+    accountDetailsDomesticCurrencyAccount:
       description: Account details for a multicurrency account.
       value:
         {
@@ -14648,7 +14653,98 @@ components:
                 }
             }
         ]}
-    
+
+    balancesDomesticExample4_RegularAccount:
+      description: Response for a read balance request in case of a regular account.
+      value: 
+        {
+          "account": {"iban": "IS060537260002062306671449"},
+          "balances":
+              [{
+                "balanceAmount": {"currency": "ISK", "amount": "500.00"},
+                "balanceType": "closingBooked",
+                "referenceDate": "2017-10-25"
+                    },
+                {
+                "balanceAmount": {"currency": "ISK","amount": "900.00"},
+                "balanceType": "expected", 
+                "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
+                }]
+        }
+
+    balancesDomesticExample5_MulticurrencyAcount:
+      description: |
+        Response in case of a multicurrency account with one account in EUR, 
+        one in USD, where the ASPSP has delivered a link to the balance endpoint relative to the aggregated 
+        multicurrency account (aggregation level).
+      value: 
+        {
+          "balances":
+              [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
+                "balanceType": "closingBooked",
+                "referenceDate": "2017-10-25"
+                    },
+              {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
+              "balanceType": "expected",
+              "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
+              },
+            {"balanceAmount": {"currency": "USD", "amount": "350.00"},
+            "balanceType": "closingBooked", 
+                "referenceDate": "2017-10-25"
+                    },
+              {"balanceAmount": {"currency": "USD", "amount": "350.00"},
+              "balanceType": "expected",
+                "lastChangeDateTime": "2017-10-24T14:30:21Z"
+                    }]
+        }
+
+    balancesDomesticExample7_CurrencyAccount:
+      description: |
+        Response in case of a multicurrency account with one account in EUR, 
+        one in USD, where the ASPSP has delivered a link to the balance endpoint relative to the aggregated 
+        multicurrency account (aggregation level).
+      value: 
+        {
+          "balances":
+              [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
+            "balanceType": "closingBooked",        
+                "referenceDate": "2017-10-25"
+                },
+                {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
+            "balanceType": "expected",      
+                "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
+                },
+            {"balanceAmount": {"currency": "USD", "amount": "350.00"},
+                "balanceType": "closingBooked", 
+                "referenceDate": "2017-10-25"
+                },
+                {"balanceAmount": {"currency": "USD", "amount": "350.00"},
+                "balanceType": "expected",
+                "lastChangeDateTime": "2017-10-24T14:30:21Z"
+                    }]
+        }
+
+    balancesDomesticExample6_RegularAccount:
+      description: Response in case of a regular account where the corresponding balances in the online channel is reported independently from account statements with fixed dates, i.e. always displaying running balance for current time.
+      value: 
+        {
+            "balances":[      
+              {
+                "balanceAmount":{"currency":"ISK", "amount": "1000.00"},
+                "balanceType":"interimBooked"
+                  },     
+              {
+                  "balanceAmount":{"currency": "ISK", "amount": "300.00"},
+                  "balanceType":"interimAvailable"
+              },
+              {
+                  "balanceAmount":{"currency":"ISK", "amount": "5300.00"},
+                  "balanceType": "interimAvailable",
+                  "creditLimitIncluded": true
+              }
+            ]
+        }
+        
     transactionDetailsDomesticExample:
         description: Example for transaction details.
         value:

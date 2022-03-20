@@ -12343,7 +12343,7 @@ components:
             # "Example 3":
             #   $ref: "#/components/examples/transactionsExample3_MulticurrencyAccount_json"
             "Example 4":
-              $ref: "#/components/examples/transactionsExampleDomestic1_RegularAccount_json"
+              $ref: "#/components/examples/transactionsExampleDomestic4_RegularAccount_json"
             "Example 5":
               $ref: "#/components/examples/transactionsExampleDomestic5_CurrencyAccount_json"
         
@@ -14658,7 +14658,7 @@ components:
               }
           }   
 
-    transactionsExampleDomestic1_RegularAccount_json:
+    transactionsExampleDomestic4_RegularAccount_json:
       description: Response in JSON format for an access on a regular account.
       value:
         {

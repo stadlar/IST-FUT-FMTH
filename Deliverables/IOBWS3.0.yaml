@@ -7881,15 +7881,12 @@ components:
     bulkPaymentInitiationElementDomesticError:
       type: object
       additionalProperties: true
+      nullable: true
       properties:
-        tppMessages:
-          nullable: true
-          type: array
-          items:
-            $ref: "#/components/schemas/tppMessage400_PIS"
+        errors:
+          $ref: "#/components/schemas/Error400_NG_PIS"
 
     bulkPaymentInitiationElementDomesticWithStatus:
-      additionalProperties: true
       allOf:
         - $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
         - $ref: "#/components/schemas/bulkPaymentInitiationElementDomesticError"
@@ -8632,15 +8629,15 @@ components:
         - "CONSENT_UNKNOWN"           #gen
         - "PAYMENT_FAILED"            #PIS
         - "EXECUTION_DATE_INVALID"    #PIS
-        - "DEBTOR_ACCOUNT_NOT_FOUND"      #IOBWS
-        - "CREDITOR_ACCOUNT_NOT_FOUND"    #IOBWS
-        - "CLAIM_NOT_FOUND"               #IOBWS
-        - "CLAIM_ALREADY_PAID"            #IOBWS
-        - "INSUFFICIENT_FUNDS"            #IOBWS
-        - "CARD_NOT_FOUND"                #IOBWS
-        - "RECIPIENT_INFO_INSUFFICIENT"   #IOBWS
-        - "MARKETS_CLOSED"                #IOBWS
-        - "RECIPIENT_COUNTRY_IS_IBAN_ONLY"#IOBWS
+        - "DEBTOR_ACCOUNT_NOT_FOUND"        #IOBWS
+        - "CREDITOR_ACCOUNT_NOT_FOUND"      #IOBWS
+        - "CLAIM_NOT_FOUND"                 #IOBWS
+        - "CLAIM_ALREADY_PAID"              #IOBWS
+        - "INSUFFICIENT_FUNDS"              #IOBWS
+        - "CARD_NOT_FOUND"                  #IOBWS
+        - "RECIPIENT_INFO_INSUFFICIENT"     #IOBWS
+        - "MARKETS_CLOSED"                  #IOBWS
+        - "RECIPIENT_COUNTRY_IS_IBAN_ONLY"  #IOBWS
         
 
 
@@ -14770,7 +14767,7 @@ components:
 
 
     transactionsExampleDomestic5_CurrencyAccount_json:
-      description: Response in JSON format for an access on a multicurrency account on aggregation level
+      description: Response in JSON format for an access on a domestic currency account.
       value:
         {
         "account": {"iban": "IS060537260002062306671449"},
@@ -15086,23 +15083,25 @@ components:
               },
               "icelandicPurposeCode": "87",
               "remittanceInformationUnstructured": "My description",
-              "tppMessages": [
-                {
-                  "category": "ERROR",
-                  "code": "DEBTOR_ACCOUNT_NOT_FOUND",
-                  "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-                  "text": "Úttektarreikningur ekki til"
-                },
-                {
-                  "category": "ERROR",
-                  "code": "FORMAT_ERROR",
-                  "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-                  "text": "Eigin villa banka"
-                }
-              ],
-              "_links": {
-                "self": {
-                  "href": "/v1/payments/credit-transfers/1234-wertiq-983"
+              "errors": {
+                "tppMessages": [
+                  {
+                    "category": "ERROR",
+                    "code": "DEBTOR_ACCOUNT_NOT_FOUND",
+                    "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+                    "text": "Úttektarreikningur ekki til"
+                  },
+                  {
+                    "category": "ERROR",
+                    "code": "FORMAT_ERROR",
+                    "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+                    "text": "Eigin villa banka"
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "/v1/payments/credit-transfers/1234-wertiq-983"
+                  }
                 }
               }
             }

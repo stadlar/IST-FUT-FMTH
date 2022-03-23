@@ -6275,7 +6275,6 @@ components:
         - instructedAmount
         - creditorAccount
         - creditorName
-        - centralBankPurposeCode
       properties:
         endToEndIdentification:
           type: string
@@ -6300,7 +6299,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
+          $ref: "#/components/schemas/bicfi"
         creditorAgentName:
           $ref: "#/components/schemas/creditorAgentName"
         creditorName:
@@ -6333,8 +6332,7 @@ components:
 #        requestedExecutionTime: # N.A. for all, but can be used by ASPSP if needed
 #          type: string
 #          format: date-time
-        centralBankPurposeCode:
-          $ref: "#/components/schemas/centralBankPurposeCode"
+
 
     paymentInitiationBulkElement_json:
       description: |
@@ -6457,8 +6455,6 @@ components:
 #          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 #        remittanceInformationStructuredArray: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-        centralBankPurposeCode:
-          $ref: "#/components/schemas/centralBankPurposeCode"
 
 
     periodicPaymentInitiation_json: 
@@ -6559,7 +6555,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
+          $ref: "#/components/schemas/bicfi"
 #        creditorId: # N.A. for all, but can be used by ASPSP if needed
 #          description: Identification of Creditors, e.g. a SEPA Creditor ID.
 #          type: string
@@ -6838,15 +6834,6 @@ components:
           description: Confirmation Code as retrieved by the TPP from the redirect based SCA process.
           type: string
 
-    iobwsAuthorisationConfirmation:
-      description: |
-        Content of the body of an authorisation confirmation request when initiating e.g. straight through processing or cancelling a previous initiation in a IOBWS scenario.
-      type: object
-      properties:
-        confirmationMessage:
-          description: Optional description supplied by the IOBWS consumer that might be used for auditing purposes and traceability.
-          type: string
-
     #####################################################
     # Content of Request Bodies - JSON - Domestic
     #####################################################
@@ -7078,6 +7065,15 @@ components:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
         remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
           $ref: "#/components/schemas/remittanceInformationStructuredArray"
+
+    iobwsAuthorisationConfirmation:
+      description: |
+        Content of the body of an authorisation confirmation request when initiating e.g. straight through processing or cancelling a previous initiation in a IOBWS scenario.
+      type: object
+      properties:
+        confirmationMessage:
+          description: Optional description supplied by the IOBWS consumer that might be used for auditing purposes and traceability.
+          type: string
 
     iobwsAuthorisationConfirmation:
       description: |
@@ -7329,7 +7325,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
+          $ref: "#/components/schemas/bicfi"
         creditorName:
           $ref: "#/components/schemas/creditorName"
         creditorAddress:
@@ -7395,7 +7391,7 @@ components:
         creditorAccount: 
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
+          $ref: "#/components/schemas/bicfi"
 #        creditorId: # N.A. for all, but can be used by ASPSP if needed
 #          description: Identification of Creditors, e.g. a SEPA Creditor ID.
 #          type: string
@@ -12186,8 +12182,6 @@ components:
               $ref: "#/components/examples/paymentInitiationDomesticBody_paymentCardTopUp-periodic-payments_json"
             "Example 11: 'bulk-payments' - 'credit-transfers'":
               $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_json"
-            "Example 12: 'bulk-payments' - 'credit-transfers with status'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_with_status_json"
     signingBasket:
       description: |
         Request body for a confirmation of an establishing signing basket request.
@@ -13859,111 +13853,34 @@ components:
           "account":
             {
               "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS060537260002062306671449", 
-              "currency": "ISK",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Gullvild einstaklinga",
+              "iban": "FR7612345987650123456789014", 
+              "currency": "EUR",
+              "ownerName": "Heike Mustermann",
+              "product": "Girokonto",
               "cashAccountType": "CACC",
-              "displayname": "My Main Account",
-              "bic": "GLITISRE",              
+              "name": "Main Account",
               "_links": 
                 {
                   "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
                   "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
+                 }
             }
         }
 
 
-    # accountDetailsMulticurrencyAccount:
-    #   description: Account details for a multicurrency account.
-    #   value:
-    #     {
-    #       "account":
-    #         {
-    #           "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-    #           "iban": "FR7612345987650123456789014", 
-    #           "currency": "XXX",
-    #           "ownerName": "Heike Mustermann",
-    #           "product": "Multicurrency Account",
-    #           "cashAccountType": "CACC",
-    #           "name": "Aggregation Account",
-    #           "_links": 
-    #             {
-    #               "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-    #               "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-    #             }
-    #         }
-    #     }
-
-
-    accountDetailsRegularAccountWithBalancesAndCreditlimit:
-      description: Account details for a regular Account.
-      value:
-        {
-          "account":
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS060537260002062306671449", 
-              "currency": "ISK",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Gullvild einstaklinga",
-              "cashAccountType": "CACC",
-              "displayname": "My Main Account",
-              "bic": "GLITISRE",
-              "creditLimit": 
-              {
-                "currency": "ISK",
-                "amount": "200000"
-              },
-              "balances": [
-                {
-                  "balanceAmount": {
-                    "currency": "ISK",
-                    "amount": "100000"
-                  },
-                  "balanceType": "interimBooked",
-                  "creditLimitIncluded": false,
-                  "lastChangeDateTime": "0001-01-01T00:00:00",
-                  "referenceDate": "0001-01-01T00:00:00"
-                },
-                {
-                  "balanceAmount": {
-                    "currency": "ISK",
-                    "amount": "300000"
-                  },
-                  "balanceType": "expected",
-                  "creditLimitIncluded": true,
-                  "lastChangeDateTime": "0001-01-01T00:00:00",
-                  "referenceDate": "0001-01-01T00:00:00"
-                }
-              ],             
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            }
-        }
-
-
-    accountDetailsCurrencyAccount:
+    accountDetailsMulticurrencyAccount:
       description: Account details for a multicurrency account.
       value:
         {
           "account":
             {
               "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS950528293004010101759689", 
-              "currency": "USD",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Veltureikningur",
+              "iban": "FR7612345987650123456789014", 
+              "currency": "XXX",
+              "ownerName": "Heike Mustermann",
+              "product": "Multicurrency Account",
               "cashAccountType": "CACC",
-              "displayname": "My USD Account",
-              "bic": "GLITISRE",
+              "name": "Aggregation Account",
               "_links": 
                 {
                   "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
@@ -13979,164 +13896,97 @@ components:
       value:
         {"accounts":
            [
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS060537260002062306671449", 
-              "currency": "ISK",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Gullvild einstaklinga",
-              "cashAccountType": "CACC",
-              "displayname": "My Main Account",
-              "bic": "GLITISRE",
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            },
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS950528293004010101759689", 
-              "currency": "USD",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Veltureikningur",
-              "cashAccountType": "CACC",
-              "displayname": "My USD Account",
-              "bic": "GLITISRE",
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            }
+              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+               "iban": "DE2310010010123456789", 
+               "currency": "EUR",
+               "product": "Girokonto",
+               "cashAccountType": "CACC",
+               "name": "Main Account",
+               "_links": {
+            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
+              },
+              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81g",
+               "iban": "DE2310010010123456788",
+               "currency": "USD",
+               "product": "Fremdwährungskonto",
+               "cashAccountType": "CACC",
+               "name": "US Dollar Account",
+               "_links": {
+            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/balances" }}
+               } 
         ]}
-        
-
-    # accountListExample2:
-    #   summary: Account list Example 2
-    #   description: |
-    #     Response in case of an example where consent on transactions and balances has been given to a multicurrency account which has two sub-accounts with currencies EUR and USD, and where the ASPSP is giving the data access only on sub-account level.
-    #   value:
-    #     {"accounts":
-    #        [
-    #           {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-    #            "iban": "DE2310010010123456788", 
-    #            "currency": "EUR",
-    #            "product": "Girokonto",
-    #            "cashAccountType": "CACC",
-    #            "name": "Main Account",
-    #            "_links": {
-    #         "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-    #         "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
-    #           },
-    #           {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81g",
-    #            "iban": "DE2310010010123456788",
-    #            "currency": "USD",
-    #            "product": "Fremdwährungskonto",
-    #            "cashAccountType": "CACC",
-    #            "name": "US Dollar Account",
-    #            "_links": {
-    #              "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/balances"},
-    #              "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/transactions"} }
-    #            } 
-    #     ]}
 
 
     accountListExample2:
       summary: Account list Example 2
       description: |
-        Response in case of an example, where the withBalance and with creditLimit query parameters are set
+        Response in case of an example where consent on transactions and balances has been given to a multicurrency account which has two sub-accounts with currencies EUR and USD, and where the ASPSP is giving the data access only on sub-account level.
       value:
         {"accounts":
            [
-              {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS060537260002062306671449", 
-              "currency": "ISK",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Gullvild einstaklinga",
-              "cashAccountType": "CACC",
-              "displayname": "My Main Account",
-              "bic": "GLITISRE",
-              "creditLimit": 
-              {
-                "currency": "ISK",
-                "amount": "200000"
+              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+               "iban": "DE2310010010123456788", 
+               "currency": "EUR",
+               "product": "Girokonto",
+               "cashAccountType": "CACC",
+               "name": "Main Account",
+               "_links": {
+            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
               },
-              "balances": [
-                {
-                  "balanceAmount": {
-                    "currency": "ISK",
-                    "amount": "100000"
-                  },
-                  "balanceType": "interimBooked",
-                  "creditLimitIncluded": false,
-                  "lastChangeDateTime": "2022-28-02T00:00:00",
-                  "referenceDate": "2022-28-02T00:00:00"
-                },
-                {
-                  "balanceAmount": {
-                    "currency": "ISK",
-                    "amount": "300000"
-                  },
-                  "balanceType": "expected",
-                  "creditLimitIncluded": true,
-                  "lastChangeDateTime": "2022-28-02T00:00:00",
-                  "referenceDate": "2022-28-02T00:00:00"
-                }
-              ],             
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            },
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS950528293004010101759689", 
-              "currency": "USD",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Veltureikningur",
-              "cashAccountType": "CACC",
-              "displayname": "My USD Account",
-              "bic": "GLITISRE",
-              "creditLimit": 
-              {
-                "currency": "USD",
-                "amount": "1000"
+              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81g",
+               "iban": "DE2310010010123456788",
+               "currency": "USD",
+               "product": "Fremdwährungskonto",
+               "cashAccountType": "CACC",
+               "name": "US Dollar Account",
+               "_links": {
+                 "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/balances"},
+                 "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/transactions"} }
+               } 
+        ]}
+
+
+    accountListExample3:
+      summary: Account list Example 3
+      description: |
+        Account list response in case of an example where consent on balances and transactions has been given to 
+        a multicurrency account which has two sub-accounts with currencies EUR and USD and where the ASPSP is giving 
+        the data access on aggregation level and on sub-account level.
+      value:
+        {"accounts":
+           [
+              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+               "iban": "DE2310010010123456788", 
+               "currency": "XXX",
+               "product": "Multi currency account",
+               "cashAccountType": "CACC",
+               "name": "Aggregation Account",
+               "_links": {
+            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e333/balances"},
+            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e333/transactions"}}
               },
-              "balances": [
-                {
-                  "balanceAmount": {
-                    "currency": "USD",
-                    "amount": "1000"
-                  },
-                  "balanceType": "interimBooked",
-                  "creditLimitIncluded": false,
-                  "lastChangeDateTime": "2022-28-02T00:00:00",
-                  "referenceDate": "2022-28-02T00:00:00"
-                },
-                {
-                  "balanceAmount": {
-                    "currency": "USD",
-                    "amount": "20000"
-                  },
-                  "balanceType": "expected",
-                  "creditLimitIncluded": true,
-                  "lastChangeDateTime": "2022-28-02T00:00:00",
-                  "referenceDate": "2022-28-02T00:00:00"
-                }
-              ],
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            }
+        {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+               "iban": "DE2310010010123456788", 
+               "currency": "EUR",
+               "product": "Girokonto",
+               "cashAccountType": "CACC",
+               "name": "Main Account",
+               "_links": {
+            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
+              },
+              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81g",
+               "iban": "DE2310010010123456788",
+               "currency": "USD",
+               "product": "Fremdwährungskonto",
+               "cashAccountType": "CACC",
+               "name": "US Dollar Account",
+               "_links": {
+            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/balances"},
+            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/transactions"} }
+               } 
         ]}
 
 
@@ -14620,10 +14470,10 @@ components:
       description: Response for a read balance request in case of a regular account.
       value: 
         {
-          "account": {"iban": "IS060537260002062306671449"},
+          "account": {"iban": "FR7612345987650123456789014"},
           "balances":
               [{
-                "balanceAmount": {"currency": "ISK", "amount": "500.00"},
+                "balanceAmount": {"currency": "EUR", "amount": "500.00"},
                 "balanceType": "closingBooked",
                 "referenceDate": "2017-10-25"
                    },
@@ -14635,34 +14485,10 @@ components:
         }
 
 
-    # balancesExample2_MulticurrencyAcount:
-    #   description: |
-    #     Response in case of a multicurrency account with one account in EUR, 
-    #     one in USD, where the ASPSP has delivered a link to the balance endpoint relative to the aggregated 
-    #     multicurrency account (aggregation level).
-    #   value: 
-    #     {
-    #       "balances":
-    #           [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
-    #             "balanceType": "closingBooked",
-    #             "referenceDate": "2017-10-25"
-    #                },
-    #           {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
-    #           "balanceType": "expected",
-    #           "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
-    #           },
-    #        {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-    #        "balanceType": "closingBooked", 
-    #             "referenceDate": "2017-10-25"
-    #                },
-    #           {"balanceAmount": {"currency": "USD", "amount": "350.00"},
-    #           "balanceType": "expected",
-    #            "lastChangeDateTime": "2017-10-24T14:30:21Z"
-    #                }]
-    #     }
 
 
-    balancesExample2_CurrencyAcount:
+
+    balancesExample2_MulticurrencyAcount:
       description: |
         Response in case of a multicurrency account with one account in EUR, 
         one in USD, where the ASPSP has delivered a link to the balance endpoint relative to the aggregated 
@@ -14695,15 +14521,15 @@ components:
         {
            "balances":[      
               {
-               "balanceAmount":{"currency":"ISK", "amount": "1000.00"},
+               "balanceAmount":{"currency":"EUR", "amount": "1000.00"},
                "balanceType":"interimBooked"
                  },     
               {
-                 "balanceAmount":{"currency": "ISK", "amount": "300.00"},
+                 "balanceAmount":{"currency": "EUR", "amount": "300.00"},
                  "balanceType":"interimAvailable"
               },
               {
-                 "balanceAmount":{"currency":"ISK", "amount": "5300.00"},
+                 "balanceAmount":{"currency":"EUR", "amount": "5300.00"},
                  "balanceType": "interimAvailable",
                  "creditLimitIncluded": true
               }
@@ -14728,60 +14554,439 @@ components:
           ]
         }
 
-    # transactionsExample2_Download_json:
-    #   description: Response in case of huge data amount as a download.
-    #   value:
-    #     { 
-    #       "_links": {"download": {"href": "www.test-api.com/xs2a/v1/accounts/12345678999/transactions/download/"}}
-    #     }
 
-
-    # transactionsExample3_MulticurrencyAccount_json:
-    #   description: Response in JSON format for an access on a multicurrency account on aggregation level
-    #   value:
-    #     {
-    #     "account": {"iban": "DE40100100103307118608"},
-    #      "transactions":
-    #        {"booked": 
-    #          [{
-    #            "transactionId": "1234567",
-    #            "creditorName": "John Miles",
-    #            "creditorAccount": {"iban": "DE67100100101306118605"},
-    #            "transactionAmount": {"currency": "EUR", "amount": "-256.67"},
-    #            "bookingDate": "2017-10-25",
-    #            "valueDate": "2017-10-26", 
-    #            "remittanceInformationUnstructured": "Example 1"
-    #           },{
-    #            "transactionId": "1234568",
-    #            "debtorName": "Paul Simpson",
-    #            "debtorAccount": {"iban": "NL76RABO0359400371"},
-    #            "transactionAmount": {"currency": "EUR", "amount": "343.01"},
-    #            "bookingDate": "2017-10-25",
-    #            "valueDate": "2017-10-26", 
-    #            "remittanceInformationUnstructured": "Example 2"
-    #           },{
-    #            "transactionId": "1234569",
-    #            "debtorName": "Pepe Martin",
-    #            "debtorAccount": {"iban": "SE9412309876543211234567"},
-    #            "transactionAmount": {"currency": "USD", "amount": "100"},
-    #            "bookingDate": "2017-10-25",
-    #            "valueDate": "2017-10-26", 
-    #            "remittanceInformationUnstructured": "Example 3"
-    #           }],
-    #        "pending":
-    #          [{
-    #            "transactionId": "1234570",
-    #            "creditorName": "Claude Renault",
-    #            "creditorAccount": {"iban": "FR7612345987650123456789014"},
-    #            "transactionAmount": {"currency": "EUR", "amount": "-100.03"},
-    #            "valueDate": "2017-10-26", 
-    #            "remittanceInformationUnstructured": "Example 4"
-    #           }],
-    #        "_links": {"account": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
-    #        }
-    #     }
 
     transactionsExample1_RegularAccount_json:
+      description: Response in JSON format for an access on a regular account.
+      value:
+        {
+          "account": {"iban": "DE2310010010123456788" },
+          "transactions":
+            {
+            "booked":
+              [{
+              "transactionId": "1234567",
+              "creditorName": "John Miles",
+              "creditorAccount": {"iban": "DE67100100101306118605"},
+              "transactionAmount": {"currency": "EUR", "amount": "256.67"},
+              "bookingDate": "2017-10-25",
+              "valueDate": "2017-10-26", 
+              "remittanceInformationUnstructured": "Example 1" 
+                },{
+                 "transactionId": "1234568",
+                 "debtorName": "Paul Simpson",
+                 "debtorAccount": {"iban": "NL76RABO0359400371"},
+                 "transactionAmount": {"currency": "EUR", "amount": "343.01"},
+                 "bookingDate": "2017-10-25",
+                 "valueDate": "2017-10-26", 
+                 "remittanceInformationUnstructured": "Example 2"
+                }],
+            "pending":
+              [{
+                 "transactionId": "1234569",
+                 "creditorName": "Claude Renault",
+                 "creditorAccount": {"iban": "FR7612345987650123456789014"},
+                 "transactionAmount": {"currency": "EUR", "amount": "-100.03"},
+                 "valueDate": "2017-10-26", 
+                 "remittanceInformationUnstructured": "Example 3"
+                }],
+            "_links": {"account": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
+             }
+        }
+
+
+    transactionsExample2_Download_json:
+      description: Response in case of huge data amount as a download.
+      value:
+        { 
+          "_links": {"download": {"href": "www.test-api.com/xs2a/v1/accounts/12345678999/transactions/download/"}}
+        }
+
+
+    transactionsExample3_MulticurrencyAccount_json:
+      description: Response in JSON format for an access on a multicurrency account on aggregation level
+      value:
+        {
+        "account": {"iban": "DE40100100103307118608"},
+         "transactions":
+           {"booked": 
+             [{
+               "transactionId": "1234567",
+               "creditorName": "John Miles",
+               "creditorAccount": {"iban": "DE67100100101306118605"},
+               "transactionAmount": {"currency": "EUR", "amount": "-256.67"},
+               "bookingDate": "2017-10-25",
+               "valueDate": "2017-10-26", 
+               "remittanceInformationUnstructured": "Example 1"
+              },{
+               "transactionId": "1234568",
+               "debtorName": "Paul Simpson",
+               "debtorAccount": {"iban": "NL76RABO0359400371"},
+               "transactionAmount": {"currency": "EUR", "amount": "343.01"},
+               "bookingDate": "2017-10-25",
+               "valueDate": "2017-10-26", 
+               "remittanceInformationUnstructured": "Example 2"
+              },{
+               "transactionId": "1234569",
+               "debtorName": "Pepe Martin",
+               "debtorAccount": {"iban": "SE9412309876543211234567"},
+               "transactionAmount": {"currency": "USD", "amount": "100"},
+               "bookingDate": "2017-10-25",
+               "valueDate": "2017-10-26", 
+               "remittanceInformationUnstructured": "Example 3"
+              }],
+           "pending":
+             [{
+               "transactionId": "1234570",
+               "creditorName": "Claude Renault",
+               "creditorAccount": {"iban": "FR7612345987650123456789014"},
+               "transactionAmount": {"currency": "EUR", "amount": "-100.03"},
+               "valueDate": "2017-10-26", 
+               "remittanceInformationUnstructured": "Example 4"
+              }],
+           "_links": {"account": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
+           }
+        }
+
+
+    transactionDetailsExample:
+      description: Example for transaction details.
+      value:
+        {
+          "transactionsDetails":
+             {
+               "transactionId": "1234567",
+               "creditorName": "John Miles",
+               "creditorAccount": {"iban": "DE67100100101306118605"},
+               "mandateId": "Mandate-2018-04-20-1234",
+               "transactionAmount": {"currency": "EUR", "amount": "-256.67"},
+               "bookingDate": "2017-10-25",
+               "valueDate": "2017-10-26",
+               "remittanceInformationUnstructured": "Example 1",
+               "bankTransactionCode": "PMNT-RDDT-ESDD",
+             }
+        }
+        
+
+
+    authorisationListExample:
+      value:
+        { 
+          "authorisationIds": ["123auth456"]
+        }
+
+#####################################################
+# Predefined Examples Domestic
+#####################################################
+
+    accountDetailsDomesticRegularAccountWithBalancesAndCreditlimit:
+      description: Account details for a regular Account.
+      value:
+        {
+          "account":
+            {
+              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+              "iban": "IS060537260002062306671449", 
+              "currency": "ISK",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
+              "status": "enabled",
+              "product": "Gullvild einstaklinga",
+              "cashAccountType": "CACC",
+              "displayName": "My Main Account",
+              "bic": "GLITISRE",
+              "creditLimit": 
+              {
+                "currency": "ISK",
+                "amount": "200000"
+              },
+              "balances": [
+                {
+                  "balanceAmount": {
+                    "currency": "ISK",
+                    "amount": "100000"
+                  },
+                  "balanceType": "interimBooked",
+                  "creditLimitIncluded": false,
+                  "lastChangeDateTime": "0001-01-01T00:00:00",
+                  "referenceDate": "0001-01-01T00:00:00"
+                },
+                {
+                  "balanceAmount": {
+                    "currency": "ISK",
+                    "amount": "300000"
+                  },
+                  "balanceType": "expected",
+                  "creditLimitIncluded": true,
+                  "lastChangeDateTime": "0001-01-01T00:00:00",
+                  "referenceDate": "0001-01-01T00:00:00"
+                }
+              ],             
+              "_links": 
+                {
+                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                }
+            }
+        }
+    
+    accountDetailsDomesticRegularAccount:
+      description: Account details for a regular Account.
+      value:
+        {
+          "account":
+            {
+              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+              "iban": "IS060537260002062306671449", 
+              "currency": "ISK",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
+              "status": "enabled",
+              "product": "Gullvild einstaklinga",
+              "cashAccountType": "CACC",
+              "displayName": "My Main Account",
+              "bic": "GLITISRE",              
+              "_links": 
+                {
+                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                }
+            }
+        }
+
+    accountDetailsDomesticCurrencyAccount:
+      description: Account details for a multicurrency account.
+      value:
+        {
+          "account":
+            {
+              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+              "iban": "IS950528293004010101759689", 
+              "currency": "USD",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
+              "status": "enabled",
+              "product": "Veltureikningur",
+              "cashAccountType": "CACC",
+              "displayName": "My USD Account",
+              "bic": "GLITISRE",
+              "_links": 
+                {
+                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                }
+            }
+        }
+    
+    accountListDomesticExample4:
+      summary: Account list Example 4
+      description: Response in case of an example, where the consent has been given on two different IBANs.
+      value:
+        {"accounts":
+            [
+            {
+              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+              "iban": "IS060537260002062306671449", 
+              "currency": "ISK",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
+              "status": "enabled",
+              "product": "Gullvild einstaklinga",
+              "cashAccountType": "CACC",
+              "displayName": "My Main Account",
+              "bic": "GLITISRE",
+              "_links": 
+                {
+                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                }
+            },
+            {
+              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+              "iban": "IS950528293004010101759689", 
+              "currency": "USD",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
+              "status": "enabled",
+              "product": "Veltureikningur",
+              "cashAccountType": "CACC",
+              "displayName": "My USD Account",
+              "bic": "GLITISRE",
+              "_links": 
+                {
+                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                }
+            }
+        ]}
+
+    accountListDomesticExample5:
+      summary: Account list Example 5
+      description: |
+        Response in case of an example, where the withBalance and with creditLimit query parameters are set.
+      value:
+        {"accounts":
+           [
+              {
+              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+              "iban": "IS060537260002062306671449", 
+              "currency": "ISK",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
+              "status": "enabled",
+              "product": "Gullvild einstaklinga",
+              "cashAccountType": "CACC",
+              "displayName": "My Main Account",
+              "bic": "GLITISRE",
+              "creditLimit": 
+              {
+                "currency": "ISK",
+                "amount": "200000"
+              },
+              "balances": [
+                {
+                  "balanceAmount": {
+                    "currency": "ISK",
+                    "amount": "100000"
+                  },
+                  "balanceType": "interimBooked",
+                  "creditLimitIncluded": false,
+                  "lastChangeDateTime": "2022-28-02T00:00:00",
+                  "referenceDate": "2022-28-02T00:00:00"
+                },
+                {
+                  "balanceAmount": {
+                    "currency": "ISK",
+                    "amount": "300000"
+                  },
+                  "balanceType": "expected",
+                  "creditLimitIncluded": true,
+                  "lastChangeDateTime": "2022-28-02T00:00:00",
+                  "referenceDate": "2022-28-02T00:00:00"
+                }
+              ],             
+              "_links": 
+                {
+                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                }
+            },
+            {
+              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+              "iban": "IS950528293004010101759689", 
+              "currency": "USD",
+              "ownerName": "Þóroddur ÞÍ Stancikas",
+              "status": "enabled",
+              "product": "Veltureikningur",
+              "cashAccountType": "CACC",
+              "displayName": "My USD Account",
+              "bic": "GLITISRE",
+              "creditLimit": 
+              {
+                "currency": "USD",
+                "amount": "1000"
+              },
+              "balances": [
+                {
+                  "balanceAmount": {
+                    "currency": "USD",
+                    "amount": "1000"
+                  },
+                  "balanceType": "interimBooked",
+                  "creditLimitIncluded": false,
+                  "lastChangeDateTime": "2022-28-02T00:00:00",
+                  "referenceDate": "2022-28-02T00:00:00"
+                },
+                {
+                  "balanceAmount": {
+                    "currency": "USD",
+                    "amount": "20000"
+                  },
+                  "balanceType": "expected",
+                  "creditLimitIncluded": true,
+                  "lastChangeDateTime": "2022-28-02T00:00:00",
+                  "referenceDate": "2022-28-02T00:00:00"
+                }
+              ],
+              "_links": 
+                {
+                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                }
+            }
+        ]}
+
+    balancesDomesticExample4_RegularAccount:
+      description: Response for a read balance request in case of a regular account.
+      value: 
+        {
+          "account": {"iban": "IS060537260002062306671449"},
+          "balances":
+              [{
+                "balanceAmount": {"currency": "ISK", "amount": "500.00"},
+                "balanceType": "closingBooked",
+                "referenceDate": "2017-10-25"
+                    },
+                {
+                "balanceAmount": {"currency": "ISK","amount": "900.00"},
+                "balanceType": "expected", 
+                "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
+                }]
+        }
+
+    balancesDomesticExample5_CurrencyAccount:
+      description: |
+        Response in case of a currency account in EUR,
+        where the ASPSP has delivered a link to the balance endpoint.
+      value: 
+        {
+          "balances":
+              [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
+                "balanceType": "closingBooked",
+                "referenceDate": "2017-10-25"
+                   },
+              {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
+              "balanceType": "expected",
+              "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
+              }]
+        }
+
+    balancesDomesticExample6_RegularAccount:
+      description: Response in case of a regular account where the corresponding balances in the online channel is reported independently from account statements with fixed dates, i.e. always displaying running balance for current time.
+      value: 
+        {
+            "balances":[      
+              {
+                "balanceAmount":{"currency":"ISK", "amount": "1000.00"},
+                "balanceType":"interimBooked"
+                  },     
+              {
+                  "balanceAmount":{"currency": "ISK", "amount": "300.00"},
+                  "balanceType":"interimAvailable"
+              },
+              {
+                  "balanceAmount":{"currency":"ISK", "amount": "5300.00"},
+                  "balanceType": "interimAvailable",
+                  "creditLimitIncluded": true
+              }
+            ]
+        }
+        
+    transactionDetailsDomesticExample:
+        description: Example for transaction details.
+        value:
+          {
+            "transactionsDetails": {
+              "transactionDetails":
+                {
+                  "transactionId": "1234567",
+                  "creditorName": "John Miles",
+                  "creditorAccount": {"iban": "IS450500000000900101759689"},
+                  "mandateId": "Mandate-2018-04-20-1234",
+                  "transactionAmount": {"currency": "ISK", "amount": "25000"},
+                  "bookingDate": "2017-10-25",
+                  "valueDate": "2017-10-26",
+                  "remittanceInformationUnstructured": "Example 1",
+                  "bankTransactionCode": "PMNT-RDDT-ESDD" 
+                }
+              }
+          }   
+
+    transactionsExampleDomestic4_RegularAccount_json:
       description: Response in JSON format for an access on a regular account.
       value:
         {
@@ -14820,8 +15025,8 @@ components:
         }
 
 
-    transactionsExample2_CurrencyAccount_json:
-      description: Response in JSON format for an access on a multicurrency account on aggregation level
+    transactionsExampleDomestic5_CurrencyAccount_json:
+      description: Response in JSON format for an access on a domestic currency account.
       value:
         {
         "account": {"iban": "IS060537260002062306671449"},
@@ -14864,53 +15069,24 @@ components:
            "_links": {"account": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
            }
         }
-
-
-    transactionDetailsExample:
-      description: Example for transaction details.
-      value:
-        {
-          "transactionsDetails":
-             {
-               "transactionId": "1234567",
-               "creditorName": "John Miles",
-               "creditorAccount": {"iban": "IS450500000000900101759689"},
-               "mandateId": "Mandate-2018-04-20-1234",
-               "transactionAmount": {"currency": "ISK", "amount": "25000"},
-               "bookingDate": "2017-10-25",
-               "valueDate": "2017-10-26",
-               "remittanceInformationUnstructured": "Example 1",
-               "bankTransactionCode": "PMNT-RDDT-ESDD",
-             }
-        }        
-
-
-    authorisationListExample:
-      value:
-        { 
-          "authorisationIds": ["123auth456"]
-        }
-
-#####################################################
-# Predefined Examples Domestic
-#####################################################
-
+    
     paymentInitiationDomesticBody_creditTransfer-payments_json:
       value:
         {
           "endToEndIdentification": "Short description",
+          "instructionIdentification": "UID233",
           "debtorId": "0208714669",
           "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
             "iban": "IS40100100103307118608"
           },
           "instructedAmount": {
             "currency": "ISK",
             "amount": "1235"
           },
+          "creditorAccount": {
+            "iban": "IS40100100103307118608"
+          },
+          "creditorId": "0208714669",
           "icelandicPurposeCode": "03",
           "remittanceInformationUnstructured": "My description"
         }
@@ -15013,11 +15189,11 @@ components:
             "postCode": "101",
             "country": "IS"
           },
-          "creditorAgent": "DABADKKK",
+          "creditorAgent": {"finInstId": "DABADKKK"},
           "creditorAgentAddress": {
             "streetName": "BROGADE",
             "buildingNumber": "3",
-            "townName": " KØGE",
+            "townName": "KØGE",
             "postCode": "4600",
             "country": "DK"
           },
@@ -15058,13 +15234,13 @@ components:
           "debtorAccount": {
             "iban": "IS40100100103307118608"
           },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "bban": "030013000001"
-          },
           "instructedAmount": {
             "currency": "ISK",
             "amount": "1235"
+          },
+          "creditorId": "0208714669",
+          "creditorAccount": {
+            "bban": "030013000001"
           },
           "icelandicPurposeCode": "87",
           "remittanceInformationUnstructured": "My description",
@@ -15077,8 +15253,11 @@ components:
     paymentInitiationDomesticBody_bulk-payments_json:
       value:
         {
+          "batchBookingPreferred": true,
+          "debtorAccount": {
+            "iban": "IS40100100103307118608"
+            },
           "paymentInformationId": "75BA1A88418445C0BE88AABFBEEEE230",
-          "batchBookingPreferred": "true",
           "requestedExecutionDate": "2020-08-01",
           "payments": [
             {
@@ -15088,17 +15267,15 @@ components:
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
               },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "030013000001"
-              },
               "instructedAmount": {
                 "currency": "ISK",
                 "amount": "1235"
               },
-              "icelandicPurpose": {
-                "code": "87"
+              "creditorId": "0208714669",
+              "creditorAccount": {
+                "bban": "030013000001"
               },
+              "icelandicPurposeCode": "87",
               "remittanceInformationUnstructured": "My description"
             },
             {
@@ -15108,17 +15285,15 @@ components:
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
               },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "030013000001"
-              },
               "instructedAmount": {
                 "currency": "ISK",
                 "amount": "1235"
               },
-              "icelandicPurposeCode": {
-                "code": "87"
+              "creditorId": "0208714669",
+              "creditorAccount": {
+                "bban": "030013000001"
               },
+              "icelandicPurposeCode": "87",
               "remittanceInformationUnstructured": "My description"
             }
           ]
@@ -15127,28 +15302,27 @@ components:
     paymentInitiationDomesticBody_bulk-payments_with_status_json:
       value:
         {
+          "batchBookingPreferred": false,
           "paymentInformationId": "75BA1A88418445C0BE88AABFBEEEE230",
-          "batchBookingPreferred": "true",
           "requestedExecutionDate": "2020-08-01",
           "payments": [
             {
               "endToEndIdentification": "Short description",
               "instructionIdentification": "my_payment_1",
+              "resourceId": "my_payment_1_uid",
               "debtorId": "0208714669",
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
-              },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "030013000001"
               },
               "instructedAmount": {
                 "currency": "ISK",
                 "amount": "1235"
               },
-              "icelandicPurpose": {
-                "code": "87"
+              "creditorId": "0208714669",
+              "creditorAccount": {
+                "bban": "030013000001"
               },
+              "icelandicPurposeCode": "87",
               "remittanceInformationUnstructured": "My description"
             },
             {
@@ -15158,32 +15332,41 @@ components:
               "debtorAccount": {
                 "iban": "IS40100100103307118608"
               },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "045126123456"
-              },
               "instructedAmount": {
                 "currency": "ISK",
                 "amount": "1235"
               },
-              "icelandicPurposeCode": {
-                "code": "87"
+              "creditorId": "0208714669",
+              "creditorAccount": {
+                "bban": "045126123456"
               },
+              "icelandicPurposeCode": "87",
               "remittanceInformationUnstructured": "My description",
-        "error": {
-          "tppMessages": [
-              {
-                "category": "ERROR",
-                "code": "CREDITOR_ACCOUNT_NOT_FOUND",
-                "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-                "text": "This payment had an error as the creditor account was invalid"
+              "errors": {
+                "tppMessages": [
+                  {
+                    "category": "ERROR",
+                    "code": "DEBTOR_ACCOUNT_NOT_FOUND",
+                    "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+                    "text": "Úttektarreikningur ekki til"
+                  },
+                  {
+                    "category": "ERROR",
+                    "code": "FORMAT_ERROR",
+                    "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
+                    "text": "Eigin villa banka"
+                  }
+                ],
+                "_links": {
+                  "self": {
+                    "href": "/v1/payments/credit-transfers/1234-wertiq-983"
+                  }
+                }
               }
-            ]
-            },
-            },
+            }
           ],
-          "transactionsStatus": "ACTC"
-        }          
+          "transactionStatus": "ACTC"
+        }
     
 
 #####################################################

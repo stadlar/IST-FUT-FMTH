@@ -147,3 +147,21 @@ references:
     url: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md
     title-short: 'The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Linux Foundation Collaborative Project.'
     title: OpenAPI v3.0.1
+  - type: document
+    id: centralBankCodes
+    language: Icelandic
+    author:
+    - family:  Seðlabanki Íslands
+    issued:
+      date-parts:
+      - - 2016
+        - 10
+        - 25
+    accessed:
+      date-parts:
+      - - 2022
+        - 03
+        - 23
+    url: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md
+    title-short: 'Flokkunarlyklar Seðlabankans'
+    title: Flokkunarlyklar Seðlabankans um tilefni gjaldeyrisviðskipta

@@ -1,6 +1,6 @@
 ---
 title: "ÍST TS 313:2022"
-author: ICS 03.060 and 35.240
+author: ICS 35.240
 date: "Entry into force 25-03-2022"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 313]
@@ -135,7 +135,7 @@ The elements listed in [table @tbl:tbl_data_domestic] are used in the domestic p
 
   **creditorId**                          N/A             N/A
 
-  **creditorAddress**                     Optional        Mandatory
+  **creditorAddress**                     Mandatory       Mandatory
 
   **ultimateCreditor**                    N/A             N/A
 
@@ -143,7 +143,7 @@ The elements listed in [table @tbl:tbl_data_domestic] are used in the domestic p
 
   **icelandicPurposeCode**                N/A             N/A
 
-  **chargeBearer**                        Optional        Optional
+  **chargeBearer**                        Mandatory       Optional
 
   **remittanceInformationUnstructured**   Optional        Optional
 
@@ -166,7 +166,7 @@ Should further information be required, consult the matching section in the ÍST
   **Field**                               **Description**
   --------------------------------------- ----------------------------------------------------------------
   **centralBankPurposeCode**              An element mandated by the Central Bank of Iceland, using a
-                                          domestic coding schema that does not match any of
+                                          domestic coding schema [see @centralBankCodes] that does not match any of
                                           ISO 20022 references such as the ExternalPurpose1Code used
                                           used by the purposeCode element available in the NextGenPSD2
                                           framework, but not used by ÍST {{spec_id}}.
@@ -234,24 +234,28 @@ No debtor or charge accounts should be specified on child bulk payment elements,
   ---------------------------------------------------------------------------------------
   :Description of domestic bulk payment main body. {#tbl:bulk_domestic}
 
+## Payment Bulk Errors
+
+!include`snippetStart="<!-- ErrorHandlingStart -->", snippetEnd="<!-- ErrorHandlingEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"  
+
+ÍST 310 should be referenced as to further information on how errors are displayed.
+
 # Accounts Service
 
-The way account transaction information is retrieved bears strong similarities to the previous versions of IOBWS while adapted from the Berlin Group NextGenPSD2 framework.
-
-When querying information about domestic accounts, there exists an option to additionally request information on the allowed credit limit (*withCreditLimitQuery* data element). This matches what Icelandic banks offer as "yfirdráttarheimild", which refers to an applied overdraft limit. The returned data element is named *creditLimit*, to avoid confusion associtated the simply named "Overdraft" used in previous IOBWS versions. 
+The way account transaction information is retrieved bears strong similarities to the previous versions of IOBWS while adapted from the Berlin Group NextGenPSD2 framework. The canonical source for the Account Service is ÍST 310. The list of elements returned for domestic transaction details in [table @tbl:transaction_domestic] is only included for information. An example of balances returned for a domestic currency account is shown in [listing @lst:accexample5].
 
 <!-- balancesDomesticExample5_CurrencyAccount -->
 ```{.json caption="Example of information about a currency account." #lst:accexample5}
-!include`startLine=14680, endLine=14690, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14682, endLine=14692, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
 !include`snippetStart="<!-- AccountsOverviewBegin -->", snippetEnd="<!-- AccountsOverviewEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
 
-An example of how this would look for a domestic currency account is provided in [listing @lst:transexample]. For other examples please refer to the IOBWS YAML schema.
+An example of how information on account containing foreign currency is provided in [listing @lst:transexample]. For other examples please refer to the IOBWS YAML schema, and ÍST 310.
 
 <!-- transactionsExampleDomestic5_CurrencyAccount_json -->
 ``` {.json caption="Example result of a transaction detail query." #lst:transexample}
-!include`startLine=14775, endLine=14815, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14777, endLine=14817, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
 # Payment processing flow 
@@ -292,16 +296,13 @@ The response to the confirmation is shown below:
   }
 ```
 
-Optionally the links given can be used to check the status of payments As foreign payments are unilateral or one-sided credit transfers, the transaction status expected is "ACSC", which stands for "AcceptedSettlementCompleted", indicating the debtors accounts has been settled. However, as mentioned before the full range of codes are available and could potentially apply.
+Optionally the links given can be used to check the status of payments, resulting in the response below. The transaction status expected is "ACSC", which stands for "AcceptedSettlementCompleted" indicating the debtors accounts has been settled. However, as mentioned before the full range of codes are available and could potentially apply.
 
 ``` {.json caption="Example of a payment status query response."}    
   {
   "transactionStatus": "ACSC"
   }
 ```
-# Error reporting and handling
-
-!include`snippetStart="<!-- ErrorHandlingStart -->", snippetEnd="<!-- ErrorHandlingEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
 
 
 # Bibliography {.unnumbered}

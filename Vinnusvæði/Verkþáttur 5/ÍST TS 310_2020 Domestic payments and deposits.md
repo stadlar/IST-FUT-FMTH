@@ -48,7 +48,7 @@ This ÍST Technical Specification was developed in accordance with "ÍST Reglur 
  
 The accompanying OpenAPI 3.0.1 definition "IOBWS3.0.yaml" located at [https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables](https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables), should be viewed as an integral part of ÍST {{spec_id}}. 
 
-The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures to be laid out in the workshop agreement ÍST WA-316, IOBWS 3.0 Technical Guidelines. The  rules are outlined in the README.md accompanying the Github Git repository and are accepted by the participants in TN-FMÞ alongside this specification. These guidelines establish the workgroup TN-FMÞ-VH-7 as in charge of ongoing monitoring of submitted issues or pull requests made to the repository, which fall outside the permit of other regular workgroups. TN-FMÞ-VH-7 will evaluate if changes are ready to be accepted into the repository, and when or if, they warrant patches or minor releases to the specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme and each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above.
+The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures to be laid out in the workshop agreement ÍST WA-316, IOBWS 3.0 Technical Guidelines. The rules are outlined in the README.md accompanying the Github Git repository and are accepted by the participants in TN-FMÞ alongside this specification. These guidelines establish the workgroup TN-FMÞ-VH-7 as in charge of monitoring submitted issues and pull requests made to the repository when they fall outside the permit of other regular workgroups. TN-FMÞ-VH-7 will evaluate if changes are ready to be accepted into the repository, and when or if, they warrant patches or minor releases to the specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme and each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above.
 
 {{funding_paragraph}}
 
@@ -191,7 +191,7 @@ When the decision was made by TN-FMÞ-VH-1 on Business Requirments and TN-FMÞ-V
 
 However, not unlike other European adaptations of NextGenPSD2 for domestic use additional functionality was needed to support payment operations and account information expected by the Icelandic market. The original workgroup did so by extending existing schema types in the NextGenPSD2 OpenAPI contract while removing elements and services not directly applicable to IOBWS. The intention was to streamline the specification but developers with previous exposure to NextGenPSD2 found it challenging to understand the implications of the changes. Furthermore, the overall implementation details still remained opaque for those migrating from earlier IOBWS versions so more transparancy was needed.
 
-Workgroup TN-FMÞ-VH-8 was therefore charged with revising the 3.0 version of IOBWS. The group tried to address two primary concerns; Clarify how the {{context_short}} products fit into NextGenPSD2 as well as simplifying comparison against later releases by the Berlin Group. The result should additionally make it straightforward to adapt future updates and consider replacing current domestic adaptations in the IOBWS with newer NextGenPSD2 data elements.
+Workgroup TN-FMÞ-VH-8 was therefore charged with revising the 3.0 version of IOBWS. The group tried to address two primary concerns: Clarify how the {{context_short}} products fit into NextGenPSD2 as well as simplifying comparison against later releases by the Berlin Group. The result should additionally make it straightforward to adapt future updates and consider replacing current domestic adaptations in the IOBWS with newer NextGenPSD2 data elements.
 
 The decision made by the TN-FMÞ-VH-8 was therefore to keep most of the original NextGenPSD2 OpenAPI definition intact, even those services and types that are not currently applicable to the Icelandic context or intended uses of the IOBWS. The {{context_short}} products (see [section @sec:pis_overview] and [table @tbl:tbl_pis_products] below) are defined separately with applicable JSON schema types, leaving the original e.g. SEPA message types intact. They share the generic data elements along with the 'native' payment types, reusing the services, and operations for payments that are at the core of the NextGenPSD2 specification.   
 
@@ -214,11 +214,11 @@ The [table @tbl:tbl_svcsupport] below list the implications for the OpenAPI YAML
 
 The {{context_short}} products supported by ÍST {{spec_id}} are as shown in [table @tbl:tbl_pis_products] below. All those are defined as JSON objects, and other payment types are not supported by the specification.
 
-Instant credit transfers are the only available type in Iceland for an account to account transfer between domestic banks. The reference to 'instant' does not preclude additional business rules applying for e.g. high-value payment processing within each bank, or variations in the payment lifecycle within e.g. the 'end-of-business-day' window. This could result in consumers of the IOBWS ÍST {{spec_id}} services being exposed to intermediary transaction status codes during steps in the payment execution, some of which have not previously been visible or mapped in IOBWS return codes. Later changes in Core Banking Services and Clearing and Settlement Mechanisms might also affect statuses returned so consumers, so all of the available by the specification should be expected.
+What is usually classified as instant credit transfers are the only available payment type in Iceland for an account to account transfer between domestic banks. The reference to 'instant' does not preclude additional business rules applying within each bank for e.g. future payments or high-value payment processing, or variations in the payment lifecycle within e.g. the 'end-of-business-day' window. This could result in consumers of the IOBWS ÍST {{spec_id}} services being exposed to intermediary transaction status codes during steps in the payment execution, some of which have not previously been visible or mapped in IOBWS return codes. Later changes in Core Banking Services and Clearing and Settlement Mechanisms might also affect statuses returned so consumers, so all of the available by the specification should be expected.
 
 |                          |                                                                                                             |
 |--------------------------|-------------------------------------------------------------------------------------------------------------|
-| **Credit Transfers**     | Instant credit transfer of an amount between two accounts within the same bank or between two domestic banks.                         |
+| **Credit Transfers**     | Credit transfer of an amount between two accounts within the same bank or between two domestic banks.                         |
 | **Claim Payments**       | Make a withdrawal from an account to pay a claim (e.g. a bill). The claim can be created in any domestic bank. |
 | **Payment Card Deposits** | Make a withdrawal from an account to pay onto the account behind a payment card, within the same bank or between two domestic banks.  |
 :Domestic payment products. {#tbl:tbl_pis_products}
@@ -388,10 +388,6 @@ To elaborate on the use of particular attributes the following [table @tbl:prope
                                           IOBWS v2.0 **requestedExecutionDate** for future payments
                                           (ic. *framvirk greiðsla*).
 
-  **executionDate**                       Execution date if in the future, equivalent to the 
-                                          IOBWS v2.0 **requestedExecutionDate** for future payments
-                                          (ic. *framvirk greiðsla*).
-
   **partialPayment**                      Applies to Claim Payments when the deptor
                                           intends to only pay part of the amount owed,
                                           towards an existing claim. The claim needs
@@ -451,7 +447,7 @@ The domestic bulk types allow for specifying separate debtor accounts on child p
 
   **payments**                Bulk Entry    Mandatory       The Bulk Entry is a JSON Type
                                                             which mirrors the supported
-                                                            domest payment products for
+                                                            domestic payment products for
                                                             single payments, excluding the
                                                             data element 
                                                             requestedExecutionDate. 
@@ -467,11 +463,16 @@ The domestic bulk types allow for specifying separate debtor accounts on child p
   :Description of domestic bulk payment main body. {#tbl:bulk_domestic}
 
 
-## Payment Error reporting
+## Payment Bulk Errors
 
 <!-- ErrorHandlingStart -->
-The NextGenPSD2 framework [@NextGenPSD2] has a very structured approach to messages that convey information related to specific HTTP return codes, with specific types to handle different codes per each service. These should be largely transparent to consumer of ÍST {{spec_id}} services implementations. As these   
+The NextGenPSD2 framework [@NextGenPSD2] has a structured approach to messages that convey information related to specific HTTP return codes. These should be largely transparent to consumer of ÍST {{spec_id}} services implementations. The domestic adaptation, however, defines comparable message properties on the status response for bulk payment data elements in *bulkPaymentInitiationElementDomesticWithStatus*. The [listing in @lst:bulk_response] shows an example of such a response.
 <!-- ErrorHandlingEnd -->
+
+<!-- balancesDomesticExample5_CurrencyAccount -->
+```{.json caption="Example of bulk status response with errors on sub-elements." #lst:bulk_response}
+!include`startLine=15050, endLine=15115, dedent=7` "Deliverables/IOBWS3.0.yaml"
+```
 
 # Accounts Service
 
@@ -481,11 +482,11 @@ When querying information about domestic accounts, there exists an option to add
 
 <!-- balancesDomesticExample6_RegularAccount -->
 ```{.json caption="Example of information about an account with credit limit" #lst:accexample6}
-!include`startLine=14695, endLine=14711, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14697, endLine=14713, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
-<!-- AccountsOverviewBegin -->
 The definition of the transaction details returned as a list, includes elements that are applicable to the relatively broad range of use cases the NextGenPSD2 covers. In [table @tbl:transaction_domestic] the elements that are applicable to the domestic context and might need further explanation are given further description. 
+<!-- AccountsOverviewBegin -->
 
   ----------------------------------------------------------------------------------------
   **Field**                               **Rule**   **Description**
@@ -579,7 +580,7 @@ An example of how this would look for a domestic account is provided in [listing
 
 <!-- transactionsExampleDomestic4_RegularAccount_json -->
 ``` {.json caption="Example result of a transaction detail query." #lst:transexample}
-!include`startLine=14736, endLine=14769, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14738, endLine=14771, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
 # Confirmation of Funds
@@ -664,7 +665,7 @@ The response to the confirmation is shown below:
   }
 ```
 
-Optionally the links given can be used to check the status of payments As domestic payments are instant credit transfers, the transaction status expected is "ACCC", which stands for "AcceptedSettlementCompleted", indicating both debtor and creditor accounts have been settled. However, as mentioned before the full range of codes are available and could potentially apply.
+Optionally the links given can be used to check the status of payments, resulting in the response below. The transaction status "ACCC" stands for "AcceptedSettlementCompleted" in the case when both debtor and creditor accounts have been settled. However, as mentioned before the full range of codes are available and could potentially apply.
 
 ``` {.json caption="Example of a payment status query response."}    
   {

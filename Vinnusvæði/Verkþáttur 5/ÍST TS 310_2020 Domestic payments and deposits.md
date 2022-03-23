@@ -1,6 +1,6 @@
 ---
 title: "ÍST TS 310:2022"
-author: ICS 03.060 and 35.240
+author: ICS 35.240
 date: "Entry into force 25-03-2022"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 310]
@@ -48,7 +48,7 @@ This ÍST Technical Specification was developed in accordance with "ÍST Reglur 
  
 The accompanying OpenAPI 3.0.1 definition "IOBWS3.0.yaml" located at [https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables](https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables), should be viewed as an integral part of ÍST {{spec_id}}. 
 
-The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures to be laid out in the workshop agreement ÍST WA-316, IOBWS 3.0 Technical Guidelines.   rules are outlined in the README.md accompanying the Github Git repository and are accepted by the participants in TN-FMÞ alongside this specification. These guidelines establish the workgroup TN-FMÞ-VH-7 as in charge of ongoing monitoring of submitted issues or pull requests made to the repository, which fall outside the permit of other regular workgroups. TN-FMÞ-VH-7 will evaluate if changes are ready to be accepted into the repository, and when or if, they warrant patches or minor releases to the specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme and each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above.
+The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures to be laid out in the workshop agreement ÍST WA-316, IOBWS 3.0 Technical Guidelines. The  rules are outlined in the README.md accompanying the Github Git repository and are accepted by the participants in TN-FMÞ alongside this specification. These guidelines establish the workgroup TN-FMÞ-VH-7 as in charge of ongoing monitoring of submitted issues or pull requests made to the repository, which fall outside the permit of other regular workgroups. TN-FMÞ-VH-7 will evaluate if changes are ready to be accepted into the repository, and when or if, they warrant patches or minor releases to the specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme and each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above.
 
 {{funding_paragraph}}
 
@@ -150,7 +150,7 @@ As the ÍST {{spec_id}} owes much of its core to the NextGenPSD2 framework, the 
     1) Inherence, something the user is or has e.g. a fingerprint or iris pattern.
   - **Third Party Provider** (**TPP**) is referenced in the OpenAPI specification reflecting the PSD2 background when the client system is initiating operations or requesting information on behalf of the end-consumer.
 
-## Data elements
+## Data elements {#sec:claim_identifier}
 
 **The International Bank Account Number** (**IBAN**) format for Icelandic accounts should follow the specification set forth in ISO 13616-1:2020 [@ISO13616-1] as shown in the [table @tbl:ice_iban] below. 
 Description of the implementation of the checksum calculation is outside the scope of this document but should be discernable from the ISO standard and examples available online.
@@ -466,6 +466,13 @@ The domestic bulk types allow for specifying separate debtor accounts on child p
   ----------------------------------------------------------------------------------------------
   :Description of domestic bulk payment main body. {#tbl:bulk_domestic}
 
+
+## Payment Error reporting
+
+<!-- ErrorHandlingStart -->
+The NextGenPSD2 framework [@NextGenPSD2] has a very structured approach to messages that convey information related to specific HTTP return codes, with specific types to handle different codes per each service. These should be largely transparent to consumer of ÍST {{spec_id}} services implementations. As these   
+<!-- ErrorHandlingEnd -->
+
 # Accounts Service
 
 The way account transaction information is retrieved bears strong similarities to the previous versions of IOBWS while adapted from the Berlin Group NextGenPSD2 framework.
@@ -665,17 +672,186 @@ Optionally the links given can be used to check the status of payments As domest
   }
 ```
 
-# Error reporting and handling
-
-<!-- ErrorHandlingStart -->
-The NextGenPSD2 framework [@NextGenPSD2] has an opinionated approach to error 
-<!-- ErrorHandlingEnd -->
-
 # Appendix
 
 ## Mapping from older implementations
 
-Those familiar with previous versions of IOBWS might want to be able to visualise the mapping from the previous fields, over to the new.
+The ISO 20022 data model uses  guide the conversion from previous versions of IOBWS an overview of the mapping from the previous entities and data elements, over to the new implementation. In most regards everything is a straightforward 1:1 translation, b
+### Payments
+
+*Payments* is the IOBWS 2.0 bulk entity, containing the same child *Payment* data entities that can be used to issue individual payments.
+
+  ---------------------------------------------------------------------------------------
+  **Entity/Element**          **Equivalent data element**   **Comment**                  
+  --------------------------- ----------------------------- -----------------------------
+  RollbackOnError             *No equivalent.*              Bulks are executed as a whole
+                                                            ad not rolled back, but 
+                                                            individual errors reported on
+                                                            each payment in the results.
+
+  IsOneToMany                 batchBookingPreferred         
+
+  DateOfForwardPayment        requestedExecutionDate        
+
+  NameOfBatch                 paymentInformationId          
+  ---------------------------------------------------------------------------------------
+
+### Payments Out
+
+Encpsulates the debtor side of the payment transfer, for a single payment
+or child-payment in a bulk.
+
+  -----------------------------------------------------------------------------------
+  **Entity/Element**   **Equivalent data element**       **Comment**
+  -------------------- --------------------------------- ----------------------------
+  Account              debtorAccount \> iban             The withdrawal should
+                                                         reference the iban number of
+                                                         the debtor account owner.
+
+  AccountOwnerID       debtorId                          
+
+  CategoryCode         icelandicPurposeCode              
+
+  Reference            remittanceInformationStructured   
+
+  BillNumber           endToEndIdentification            
+
+  Receipt              *No equivalent.*                  
+
+  SecurityCode         *No equivalent.*                  Strong authentication
+                                                         replaces this as a security
+                                                         mechanism.
+  -----------------------------------------------------------------------------------
+
+### Payments In
+
+Encapsulates the credit side of the payment transfer.
+
+  -----------------------------------------------------------------------------------
+  **Entity/Element**   **Equivalent data element**         **Comment**
+  -------------------- ----------------------------------- --------------------------
+  ABGiro                                                   See [subsection
+                                                           @sec:abgiro].
+
+  CGiro                                                    See [subsection
+                                                           @sec:cgiro].
+
+  Claim                                                    See [subsection
+                                                           @sec:claim].
+
+  Transfer                                                 See [subsection
+                                                           @sec:transfer].
+
+  Amount               instructedAmount                    
+
+  Receipt              *No equivalent*                     
+
+  Description (sic)    remittanceInformationUnStructured   
+
+  BookingID            instructionIdentification           
+  -----------------------------------------------------------------------------------
+
+### ABGiro {#sec:abgiro}
+
+When paying an AB Giró use the following pattern.
+
+  ---------------------------------------------------------------------------------
+  **Entity/Element**   **Equivalent data        **Comment**
+                       element**                
+  -------------------- ------------------------ -----------------------------------
+  Account              creditorAccount \> bban  As in the older schemas, AB Giro is
+                                                identified with a bban number.
+
+  Reference            *No equivalent*          Usually used for debtorId, which
+                                                now is a separate field.
+
+  BillNumber           endToEndIdentification   
+
+  CategoryCode         icelandicPurposeCode     
+  ---------------------------------------------------------------------------------
+
+### CGiro {#sec:cgiro}
+
+When paying C-Giro, use the following pattern.
+
+  ---------------------------------------------------------------------------------
+  **Entity/Element**   **Equivalent data        **Comment**
+                       element**                
+  -------------------- ------------------------ -----------------------------------
+  Account              creditorAccount \> bban  As in the older schemas, AB Giro is
+                                                identified with a bban compliant
+                                                number.
+
+  AccountOwnerID       creditorId               
+
+  BillNumber           endToEndIdentification   
+
+  CategoryCode         icelandicPurposeCode     
+  ---------------------------------------------------------------------------------
+
+### Claim {#sec:claim}
+
+The format for claim is *Claim* inniheldur upplýsingar um
+innheimtukröfu.
+
+  ----------------------------------------------------------------------------------
+  **Entity/Element**   **Equivalent data    **Comment**
+                       element**            
+  -------------------- -------------------- ----------------------------------------
+  Account                                   See data element [table @tbl:ice_claim].
+
+  Claimant                                  [table @tbl:ice_claim]
+
+  PayorID              ultimateCreditorId   The creditor could potentially be
+                                            another party than the *kröfugreiðandi*
+                                            entity whose *kennitala* is sometimes
+                                            used as part of the claim key.
+
+  DueDate                                   [table @tbl:ice_claim]
+
+  IsDeposit            partialPayment       
+  ----------------------------------------------------------------------------------
+
+### Bond {#sec:bond}
+
+Klasinn *Bond* inniheldur upplýsingar um skuldabréf/víxil.
+
+  -------------------------------------------------------------------------------
+  **Entity/Element**   **Equivalent data    **Comment**
+                       element**            
+  -------------------- -------------------- -------------------------------------
+  Account              creditorAccount \>   As in the older schemas, bonds are
+                       bban                 identified with a bban compliant
+                                            number.
+
+  PayorID              ultimateCreditorId   The creditor could potentially be
+                                            another party than the *kennitala*
+                                            set as the payee of the bond.
+
+  DueDate              *No equivalent.*     
+  -------------------------------------------------------------------------------
+
+### Transfer
+
+Klasinn *Transfer* inniheldur upplýsingar um millifærslu.
+
+  ---------------------------------------------------------------------------------
+  **Entity/Element**   **Equivalent data        **Comment**
+                       element**                
+  -------------------- ------------------------ -----------------------------------
+  Account              creditorAccount \> bban  The target account can be
+                                                identified with a bban compliant
+                                                number or full iban.
+
+  AccountOwnerID       creditorId               
+
+  CategoryCode         icelandicPurposeCode     
+
+  Reference            *No equivalent*          Usually used for debtorId, which
+                                                now is a separate field
+
+  BillNumber           endToEndIdentification   
+  ---------------------------------------------------------------------------------
 
 ## Domestic adaptations of the NextGenAPI framework
 

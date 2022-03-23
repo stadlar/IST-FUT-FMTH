@@ -466,8 +466,9 @@ The domestic bulk types allow for specifying separate debtor accounts on child p
 ## Payment Bulk Errors
 
 <!-- ErrorHandlingStart -->
-The NextGenPSD2 framework [@NextGenPSD2] has a structured approach to messages that convey information related to specific HTTP return codes. These should be largely transparent to consumer of ÍST {{spec_id}} services implementations. The domestic adaptation, however, defines comparable message properties on the status response for bulk payment data elements in *bulkPaymentInitiationElementDomesticWithStatus*. The [listing in @lst:bulk_response] shows an example of such a response.
+The NextGenPSD2 framework [@NextGenPSD2] has a structured approach to messages that convey information related to specific HTTP return codes. These should be largely transparent to consumer of ÍST {{spec_id}} services implementations. The domestic adaptation, however, defines comparable message properties on the status response for bulk payment data elements in *bulkPaymentInitiationElementDomesticWithStatus*.
 <!-- ErrorHandlingEnd -->
+The [listing in @lst:bulk_response] shows an example of such a response.
 
 <!-- balancesDomesticExample5_CurrencyAccount -->
 ```{.json caption="Example of bulk status response with errors on sub-elements." #lst:bulk_response}

@@ -74,6 +74,11 @@ info:
     
     Space
 
+    The domestic Icelandic adaptations additionally must support the following characters
+    
+    å ä ö æ ø á ð é í ó ú ý	þ	æ	ö @
+    
+    Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö @
 
   license:
     name: Creative Commons Attribution 4.0 International Public License

@@ -678,7 +678,8 @@ Optionally the links given can be used to check the status of payments, resultin
 
 ## Mapping from older implementations
 
-The ISO 20022 data model uses  guide the conversion from previous versions of IOBWS an overview of the mapping from the previous entities and data elements, over to the new implementation. In most regards everything is a straightforward 1:1 translation, b
+The ISO 20022 data model uses different terms than the previous versions of IOBWS. Included here is a non-authoritive guide to mapping older implementations over the version 3.0. An overview of the mapping from the previous entities and data elements, over to the new implementation
+
 ### Payments
 
 *Payments* is the IOBWS 2.0 bulk entity, containing the same child *Payment* data entities that can be used to issue individual payments.

@@ -18,7 +18,7 @@ function ex()
   echo "$fullname"
   # artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker
 
-  doc "tex"
+  # doc "tex"
   doc "pdf"
 }
 if [ -f "out/Vinnusvæði/Verkþáttur 5/310and313media/AuthFlow1/AuthFlow1.eps" ] 

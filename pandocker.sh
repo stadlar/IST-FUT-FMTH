@@ -4,7 +4,7 @@
 function doc()
 {
   outext=$1
-  docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) kristinn/pandocker:buster-full-latest "Vinnusvæði/Verkþáttur 5/${fullname}.md" -o "Vinnusvæði/Verkþáttur 5/${fullname}.${outext}" \
+  docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) kristinn/pandocker:buster-full-latest "docs/${fullname}.md" -o "Deliverables/${fullname}.${outext}" \
     --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache \
     --citeproc --top-level-division=chapter --pdf-engine=xelatex \
     --variable 'mainfont:Arial' --variable 'mainfontoptions:Scale=0.94, Extension=.ttf, UprightFont=*, BoldFont=*_Bold, ItalicFont=*_Italic, BoldItalicFont=*_Bold_Italic' \
@@ -21,14 +21,14 @@ function ex()
   # doc "tex"
   doc "pdf"
 }
-if [ -f "out/Vinnusvæði/Verkþáttur 5/310and313media/AuthFlow1/AuthFlow1.eps" ] 
+if [ -f "out/docs/310and313media/AuthFlow1/AuthFlow1.eps" ] 
 then 
-  cp "out/Vinnusvæði/Verkþáttur 5/310and313media/AuthFlow1/AuthFlow1.eps" "lib/media/authtflow1.eps"
+  cp "out/docs/310and313media/AuthFlow1/AuthFlow1.eps" "lib/media/authtflow1.eps"
 fi
 export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)
 ex "ÍST TS 313_2021 Foreign payments"
-# docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md' -o 'Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.pdf' --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter
+# docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'docs/ÍST TS 310_2020 Domestic payments and deposits.md' -o 'docs/ÍST TS 310_2020 Domestic payments and deposits.pdf' --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter
 # echo '313'
 ex "ÍST TS 310_2020 Domestic payments and deposits"
-# docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'Vinnusvæði/Verkþáttur 5/ÍST TS 313_2021 Foreign payments.md' -o 'Vinnusvæði/Verkþáttur 5/ÍST TS 313_2021 Foreign payments.pdf' --from markdown --template 'lib/ist.tex' --listings --filter pandoc-include --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter
+# docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'docs/ÍST TS 313_2021 Foreign payments.md' -o 'docs/ÍST TS 313_2021 Foreign payments.pdf' --from markdown --template 'lib/ist.tex' --listings --filter pandoc-include --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter
 echo 'done'

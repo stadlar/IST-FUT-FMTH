@@ -21,7 +21,7 @@ listings: true
 listings-no-page-break: true
 highlight: "zenburn"
 codeBlockCaptions: True
-mustache: "Vinnusvæði/Verkþáttur 5/313media/docvariables.yml"
+mustache: "docs/313media/docvariables.yml"
 figureTitle: |
   Figure #
 lofTitle: |
@@ -38,36 +38,36 @@ fontsize: 9pt
 titlefont: Arial.ttf
 ...
 
-!include-header "Vinnusvæði/Verkþáttur 5/313media/participants.yaml"
+!include-header "docs/313media/participants.yaml"
 
 \newpage
 
 # Foreword {.unnumbered}
-!include`snippetStart="<!-- ForewordStart -->", snippetEnd="<!-- ForewordEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+!include`snippetStart="<!-- ForewordStart -->", snippetEnd="<!-- ForewordEnd -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"
 
 # Introduction {.unnumbered}
 
-!include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+!include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"
 
 Most of the banks offered comparable web services for foreign payments and associated transactions but until the work on the IOBWS version 3.0 started, a common specification had not been in scope for the IOBWS work. As the underlying cross-border payment mechanisms are quite similar, the TN-FMÞ decided this time around to include payment functionality and the associated account and transaction information retrieval in the form of this shared specification.
 
 The participants in the TN-FMÞ reviewed existing and emerging specifications in the global or mostly European financial industry to look for ways to merge the various domestic schemas with a more widely adopted framework.
 
-!include`snippetStart="<!-- Start1 -->", snippetEnd="<!-- End1 -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+!include`snippetStart="<!-- Start1 -->", snippetEnd="<!-- End1 -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"
 
 # Scope 
 
 
-!include`snippetStart="<!-- ScopeDocContextStart -->", snippetEnd="<!-- ScopeDocContextEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+!include`snippetStart="<!-- ScopeDocContextStart -->", snippetEnd="<!-- ScopeDocContextEnd -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"
 
-!include`snippetStart="<!-- ScopePaymentsDocsContextStart -->", snippetEnd="<!-- ScopePaymentsDocsContextEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+!include`snippetStart="<!-- ScopePaymentsDocsContextStart -->", snippetEnd="<!-- ScopePaymentsDocsContextEnd -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"
 
 
-!include`snippetStart="<!-- ScopeEndNoteStart -->", snippetEnd="<!-- ScopeEndNoteEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+!include`snippetStart="<!-- ScopeEndNoteStart -->", snippetEnd="<!-- ScopeEndNoteEnd -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"
 
 # Normative references, definitions, and symbols 
 
-!include`snippetStart="<!-- TerminalogyStart -->", snippetEnd="<!-- TerminalogyEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+!include`snippetStart="<!-- TerminalogyStart -->", snippetEnd="<!-- TerminalogyEnd -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"
 
 \newpage
 
@@ -75,7 +75,7 @@ The participants in the TN-FMÞ reviewed existing and emerging specifications in
 
 ## Service Overview
 
-!include`snippetStart="<!-- PaymentSvcOverviewStart -->", snippetEnd="<!-- PaymentSvcOverviewEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+!include`snippetStart="<!-- PaymentSvcOverviewStart -->", snippetEnd="<!-- PaymentSvcOverviewEnd -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"
 
 ## Payment Initiation Service
 
@@ -143,7 +143,7 @@ The elements listed in [table @tbl:tbl_data_domestic] are used in the domestic p
 
   **icelandicPurposeCode**                N/A             N/A
 
-  **chargeBearer**                        Mandatory       Optional
+  **chargeBearer**                        N/A             Optional
 
   **remittanceInformationUnstructured**   Optional        Optional
 
@@ -236,33 +236,19 @@ No debtor or charge accounts should be specified on child bulk payment elements,
 
 ## Payment Bulk Errors
 
-!include`snippetStart="<!-- ErrorHandlingStart -->", snippetEnd="<!-- ErrorHandlingEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"  
+!include`snippetStart="<!-- ErrorHandlingStart -->", snippetEnd="<!-- ErrorHandlingEnd -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"  
 
 ÍST 310 should be referenced as to further information on how errors are displayed.
 
 # Accounts Service
 
-The way account transaction information is retrieved bears strong similarities to the previous versions of IOBWS while adapted from the Berlin Group NextGenPSD2 framework. The canonical source for the Account Service is ÍST 310. The list of elements returned for domestic transaction details in [table @tbl:transaction_domestic] is only included for information. An example of balances returned for a domestic currency account is shown in [listing @lst:accexample5].
-
-<!-- balancesDomesticExample5_CurrencyAccount -->
-```{.json caption="Example of information about a currency account." #lst:accexample5}
-!include`startLine=14682, endLine=14692, dedent=7` "Deliverables/IOBWS3.0.yaml"
-```
-
-!include`snippetStart="<!-- AccountsOverviewBegin -->", snippetEnd="<!-- AccountsOverviewEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
-
-An example of how information on account containing foreign currency is provided in [listing @lst:transexample]. For other examples please refer to the IOBWS YAML schema, and ÍST 310.
-
-<!-- transactionsExampleDomestic5_CurrencyAccount_json -->
-``` {.json caption="Example result of a transaction detail query." #lst:transexample}
-!include`startLine=14777, endLine=14817, dedent=7` "Deliverables/IOBWS3.0.yaml"
-```
+The way account transaction information is retrieved bears strong similarities to the previous versions of IOBWS while adapted from the Berlin Group NextGenPSD2 framework. The canonical source for the Account Service is ÍST 310. 
 
 # Payment processing flow 
 
 ![IOBWS authorisation flow with confirmation](lib/media/authtflow1.eps){.calloutright #fig:auth_flow1 width="60%"}
 
-!include`snippetStart="<!-- PaymentsProcessingBegin -->", snippetEnd="<!-- PaymentsProcessingEnd -->"` "Vinnusvæði/Verkþáttur 5/ÍST TS 310_2020 Domestic payments and deposits.md"
+!include`snippetStart="<!-- PaymentsProcessingBegin -->", snippetEnd="<!-- PaymentsProcessingEnd -->"` "docs/ÍST TS 310_2022 Domestic payments and deposits.md"
 ``` {.json caption="Example of a response containing a link to the confirmation resource."}    
   { 
     "transactionStatus": "RCVD",

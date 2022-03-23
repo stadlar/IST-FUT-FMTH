@@ -21,7 +21,7 @@ listings: true
 listings-no-page-break: true
 highlight: "zenburn"
 codeBlockCaptions: True
-mustache: "Vinnusvæði/Verkþáttur 5/310media/docvariables.yml"
+mustache: "docs/310media/docvariables.yml"
 figureTitle: |
   Figure #
 lofTitle: |
@@ -38,7 +38,7 @@ fontsize: 9pt
 titlefont: Arial.ttf
 ...
 
-!include-header "Vinnusvæði/Verkþáttur 5/310media/participants.yaml"
+!include-header "docs/310media/participants.yaml"
 
 \newpage
 

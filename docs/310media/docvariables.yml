@@ -1,0 +1,12 @@
+spec_id: "TS-310"
+fulldoc_name: "ÍST TS 310_2022 Domestic payments and deposits.md"
+context_short: "domestic payments and deposits"
+finaldraft_date: "2022-01-XX"
+approve_date: "2022-03-XX"
+publication_date: "2022-03-YY"
+funding_paragraph: |
+  The work on the ÍST TS was primarily funded by Íslandsbanki, Arion Banki and Landsbankinn.   It is the result the workgroup TN-FMÞ-VH-8. In parts the work is the earlier workshop agreement  WA-310 authored by TN-FMÞ-VH-1 on Technical requirements and TN-FMÞ-VH-2 on Business requirements, with participation of an external consultant. 
+  WA-310 was approved within TN-FMÞ on the 2019-12-12. 
+  ÍST TS-310 should, however, not be viewed as a direct succesor to that agreement, which focused on laying groundwork for PSD2 compliance. 
+  ÍST TS-310 is not related to PSD2 compliance, though it could optionally be used by participants as a foundation for their dedicated interface if so desired. 
+  Instead TS-310 is the next version of the Icelandic Online Banking Services, replacing TS 161:2013 *Greiðslur* and TS 164:2013 *Yfirlit bankareikninga*.

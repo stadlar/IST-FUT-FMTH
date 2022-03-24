@@ -6078,14 +6078,11 @@ components:
   
     financialInstitutionIdentification: 
       description: |
-        Organization identification for 
-      properties:
-        finInstId:
-          type: string
+        Unique and unambiguous identification of a financial institution identification, when BICFI does not apply.
+      type: string
+      pattern: "^(?!([A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1})).*$"
       example:   
-        {
-          "finInstId": "FW123456789"
-        } 
+        "FW123456789"
 
     bicfiOrIdentification: 
       description: |
@@ -14935,7 +14932,7 @@ components:
             "postCode": "101",
             "country": "IS"
           },
-          "creditorAgent": {"finInstId": "DABADKKK"},
+          "creditorAgent": "DABADKKK",
           "creditorAgentAddress": {
             "streetName": "BROGADE",
             "buildingNumber": "3",

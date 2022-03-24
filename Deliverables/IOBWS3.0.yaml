@@ -6076,20 +6076,11 @@ components:
       type: boolean
       example: false
   
-    financialInstitutionIdentification: 
-      description: |
-        Unique and unambiguous identification of a financial institution identification, when BICFI does not apply.
-      type: string
-      pattern: "^(?!([A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1})).*$"
-      example:   
-        "FW123456789"
-
     bicfiOrIdentification: 
       description: |
-        BICFI or other organization identification.
-      oneOf:
-        - $ref: "#/components/schemas/bicfi"
-        - $ref: "#/components/schemas/financialInstitutionIdentification"
+        BICFI or other unambiguous identification of a financial institution identification, when BICFI does not apply..
+      type: string
+      pattern: "([A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1})|(^.*$)"
       example: "AAAADEBBXXX"  
 
     icelandicPurpose:

@@ -15060,7 +15060,7 @@ components:
             "postCode": "101",
             "country": "IS"
           },
-          "creditorAgent": {"finInstId": "DABADKKK"},
+          "creditorAgent": "DABADKKK",
           "creditorAgentAddress": {
             "streetName": "BROGADE",
             "buildingNumber": "3",

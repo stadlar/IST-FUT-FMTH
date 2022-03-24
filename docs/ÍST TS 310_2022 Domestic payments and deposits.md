@@ -164,9 +164,9 @@ Description of the implementation of the checksum calculation is outside the sco
 
   Example       IS        14         01          59         26         007654      5510730339 
   -----------------------------------------------------------------------------------------------
-  :Icelandic IBAN with example {#tbl:ice_iban}
-<!-- TerminalogyEnd -->
+  :Icelandic IBAN with example. {#tbl:ice_iban}  
 
+<!-- TerminalogyEnd -->
 **The Unique Claim Identifier** references the ID of a claim based on the collection solution Kröfupotturinn. To initiate a payment to settle a claim, or relate transaction information about a previous payment, the claim ID should be formatted as a BBAN, Basic Bank Account Number. The method is shown below in [table @tbl:ice_claim]. Claim Payments will therefore only include BBAN, not IBAN as a creditor account reference.
 
 ----------------------------------------------------------------------------------------------------
@@ -178,7 +178,7 @@ Description   10 digits     2 digits    2 digits   2 digits   6 digits    Plus s
 
 Example       5510730339    01          59         66         007654      +           311220 
 ----------------------------------------------------------------------------------------------------
-:Claim key transformed to BBAN with example {#tbl:ice_claim}
+:Claim key transformed to BBAN with example. {#tbl:ice_claim} 
 
 \newpage
 
@@ -472,7 +472,7 @@ The [listing in @lst:bulk_response] shows an example of such a response.
 
 <!-- balancesDomesticExample5_CurrencyAccount -->
 ```{.json caption="Example of bulk status response with errors on sub-elements." #lst:bulk_response}
-!include`startLine=15050, endLine=15115, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=15047, endLine=15112, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
 # Accounts Service
@@ -483,7 +483,7 @@ When querying information about domestic accounts, there exists an option to add
 
 <!-- balancesDomesticExample6_RegularAccount -->
 ```{.json caption="Example of information about an account with credit limit" #lst:accexample6}
-!include`startLine=14697, endLine=14713, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14694, endLine=14710, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
 The definition of the transaction details returned as a list, includes elements that are applicable to the relatively broad range of use cases the NextGenPSD2 covers. In [table @tbl:transaction_domestic] the elements that are applicable to the domestic context and might need further explanation are given further description. 
@@ -581,7 +581,7 @@ An example of how this would look for a domestic account is provided in [listing
 
 <!-- transactionsExampleDomestic4_RegularAccount_json -->
 ``` {.json caption="Example result of a transaction detail query." #lst:transexample}
-!include`startLine=14738, endLine=14771, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14735, endLine=14768, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
 # Confirmation of Funds
@@ -678,7 +678,7 @@ Optionally the links given can be used to check the status of payments, resultin
 
 ## Mapping from older implementations
 
-The ISO 20022 data model uses different terms than the previous versions of IOBWS. Included here is a non-authoritive guide to mapping older implementations over the version 3.0. An overview of the mapping from the previous entities and data elements, over to the new implementation
+The ISO 20022 data model uses different terms than the previous versions of IOBWS. The following sections contain a non-authoritative guide on mapping the older implementations to the new version of IOBWS.
 
 ### Payments
 
@@ -688,7 +688,7 @@ The ISO 20022 data model uses different terms than the previous versions of IOBW
   **Entity/Element**          **Equivalent data element**   **Comment**                  
   --------------------------- ----------------------------- -----------------------------
   RollbackOnError             *No equivalent.*              Bulks are executed as a whole
-                                                            ad not rolled back, but 
+                                                            and not rolled back, but 
                                                             individual errors reported on
                                                             each payment in the results.
 
@@ -701,8 +701,8 @@ The ISO 20022 data model uses different terms than the previous versions of IOBW
 
 ### Payments Out
 
-Encpsulates the debtor side of the payment transfer, for a single payment
-or child-payment in a bulk.
+Encapsulates the debtor side of the payment transfer in the previous version, for a single payment
+or child payments in a payment bulk.
 
   -----------------------------------------------------------------------------------
   **Entity/Element**   **Equivalent data element**       **Comment**
@@ -756,7 +756,7 @@ Encapsulates the credit side of the payment transfer.
 
 ### ABGiro {#sec:abgiro}
 
-When paying an AB Giró use the following pattern.
+The *AB-Giro* data entity represented an AB-giro target in the previous version.
 
   ---------------------------------------------------------------------------------
   **Entity/Element**   **Equivalent data        **Comment**
@@ -775,7 +775,7 @@ When paying an AB Giró use the following pattern.
 
 ### CGiro {#sec:cgiro}
 
-When paying C-Giro, use the following pattern.
+The *C-Giro* data entity represented a C-giro target in the previous version.
 
   ---------------------------------------------------------------------------------
   **Entity/Element**   **Equivalent data        **Comment**
@@ -794,8 +794,7 @@ When paying C-Giro, use the following pattern.
 
 ### Claim {#sec:claim}
 
-The format for claim is *Claim* inniheldur upplýsingar um
-innheimtukröfu.
+The *Claim* data entity represented a request-to-pay instrument (ic. innheimtukröfu) in the previous version.
 
   ----------------------------------------------------------------------------------
   **Entity/Element**   **Equivalent data    **Comment**
@@ -817,7 +816,7 @@ innheimtukröfu.
 
 ### Bond {#sec:bond}
 
-Klasinn *Bond* inniheldur upplýsingar um skuldabréf/víxil.
+The *Bond* data entity represented a bond (ic. skuldabréf/víxil) in the previous version.
 
   -------------------------------------------------------------------------------
   **Entity/Element**   **Equivalent data    **Comment**
@@ -836,7 +835,7 @@ Klasinn *Bond* inniheldur upplýsingar um skuldabréf/víxil.
 
 ### Transfer
 
-Klasinn *Transfer* inniheldur upplýsingar um millifærslu.
+The *Transfer* data entity represented the target for account-to-account transfers in the previous version.
 
   ---------------------------------------------------------------------------------
   **Entity/Element**   **Equivalent data        **Comment**
@@ -858,23 +857,23 @@ Klasinn *Transfer* inniheldur upplýsingar um millifærslu.
 
 ## Domestic adaptations of the NextGenAPI framework
 
-As mentioned, one of the guiding principles for ÍST {{spec_id}} was to make the specification for domestic payments and accounts easy to compare against the original Berlin Group NextGenPSD2 document, and its future versions. In the first iteration of version 3.0, the OpenAPI definition however involved cards and currencies, making the overall contract even more complex than the original. The base was then referencing NextGenPSD2 version 1.3.6 but though upgrading to 1.3.8 was desired, it had turned out to be a considerable task. To facilitate maintenance of the specification througout minor version updates, as well as simplifying implementations of IOBWS, the cards and currencies APIs were split into their own separate contracts, and the domestic adaptations reworked on top of an intact version 1.3.6. This approach was then validated, by upgrading to NextGenPSD2 version 1.3.8 without undue roadblocks.
+As mentioned, one of the guiding principles for ÍST {{spec_id}} was to make the specification for domestic payments and accounts easy to compare against the original Berlin Group NextGenPSD2 document, and its future versions. In the first iteration of version 3.0, the OpenAPI definition however involved cards and currencies, making the overall contract even more complex than the original. The base was then referencing NextGenPSD2 version 1.3.6 but though upgrading to 1.3.8 was desired, it had turned out to be a considerable task. To facilitate maintenance of the specification throughout minor version updates, as well as simplifying implementations of IOBWS, the cards and currencies APIs were split into their own separate contracts, and the domestic adaptations reworked on top of an intact version 1.3.6. This approach was validated by upgrading to NextGenPSD2 version 1.3.8 without undue difficulties.
 
-To make it even easier to do see the deltas in e.g. text comparison tools, localized version of the source NextGenPSD2 API specifications are stored in appropriate "Stuðningsefni/Berlin-group/v.1.3.8" folder. Alongside that document, there was created an intermediary document with some of the most common and repeated adaptations. The relationship between these documents looks like the following, though the actual filenames are longer:
+To make it even easier to do see the deltas in e.g. text comparison tools, localized version of the source NextGenPSD2 API specifications are located in the appropriate "Stuðningsefni/Berlin-group/v.1.3.8" folder. Alongside that document there was created an intermediary document with some of the most common and repeated adaptations. The relationship between these documents looks like the following, though the actual filenames are longer:
 
 > psd2-api 1.3.8 <|-- psd2-api 1.3.8 localized <|-- IOBWS3.0.yaml
 
-The 'localized' document makes comparision in the final IOBWS3.0.yaml more transparent but in the following sections we further breakdown *all adaptations* made for Icelandic payments and accounts:
+The 'localized' document makes comparison in the final IOBWS3.0.yaml more transparent but in the following sections we further breakdown *all adaptations* made for Icelandic payments and accounts:
 
 ### The localized file 
 
-Changes between "psd2-api 1.3.8 2020-12-14v2.yaml" and "psd2-api 1.3.8 2020-12-14v2-localized.yaml" (see Stuðningsefni/Berlin-group/v.1.3.8)
-.
-- Tag "Common Services" was removed completely, botht the definition and  allusage in Tags.
-- Tags on Consents services changed from "Account Information Service (AIS)" to "Consent Service"
-- "Signing Baskets (SBS)" Tag renamed to "Signing Baskets Service (SBS)"
+Changes between "psd2-api 1.3.8 2020-12-14v2.yaml" and "psd2-api 1.3.8 2020-12-14v2-localized.yaml" (see Stuðningsefni/Berlin-group/v.1.3.8).
 
- ### The IOWBS3.0 specification document
+  - Tag "Common Services" was removed completely, both the definition and allusage in Tags.
+  - Tags on Consents services changed from "Account Information Service (AIS)" to "Consent Service".
+  - "Signing Baskets (SBS)" Tag renamed to "Signing Baskets Service (SBS)".  
+
+### The IOWBS3.0 specification document
 
 Changes between "psd2-api 1.3.8 2020-12-14v2-localized.yaml" and "IOBWS3.0.yaml"  (see final in /Deliverables).
 
@@ -938,6 +937,7 @@ Changes between "psd2-api 1.3.8 2020-12-14v2-localized.yaml" and "IOBWS3.0.yaml"
 - transactionFeesDetail
 - icelandicPurpose
 - centralBankPurpose
+- financialInstitutionIdentification
 - bicfiOrIdentification
 
 *Request bodies added for Domestic objects:*
@@ -946,6 +946,8 @@ Changes between "psd2-api 1.3.8 2020-12-14v2-localized.yaml" and "IOBWS3.0.yaml"
 - bulkPaymentInitiationDomestic_json
 - paymentInitiationBulkElementDomestic_jsonResponse added
 - paymentInitiationPaymentIdResponse-200_json
+
+*Various examples added for Domestic objects.*
 
 # Bibliography {.unnumbered}
 \ 

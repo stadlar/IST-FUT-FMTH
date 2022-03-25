@@ -470,9 +470,9 @@ The NextGenPSD2 framework [@NextGenPSD2] has a structured approach to messages t
 <!-- ErrorHandlingEnd -->
 The [listing in @lst:bulk_response] shows an example of such a response.
 
-<!-- balancesDomesticExample5_CurrencyAccount -->
+<!-- paymentInitiationDomesticBody_bulk-payments_with_status_json -->
 ```{.json caption="Example of bulk status response with errors on sub-elements." #lst:bulk_response}
-!include`startLine=15047, endLine=15112, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=15038, endLine=15103, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
 # Accounts Service
@@ -483,7 +483,7 @@ When querying information about domestic accounts, there exists an option to add
 
 <!-- balancesDomesticExample6_RegularAccount -->
 ```{.json caption="Example of information about an account with credit limit" #lst:accexample6}
-!include`startLine=14694, endLine=14710, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14685, endLine=14701, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
 The definition of the transaction details returned as a list, includes elements that are applicable to the relatively broad range of use cases the NextGenPSD2 covers. In [table @tbl:transaction_domestic] the elements that are applicable to the domestic context and might need further explanation are given further description. 
@@ -581,7 +581,7 @@ An example of how this would look for a domestic account is provided in [listing
 
 <!-- transactionsExampleDomestic4_RegularAccount_json -->
 ``` {.json caption="Example result of a transaction detail query." #lst:transexample}
-!include`startLine=14735, endLine=14768, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14726, endLine=14759, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
 # Confirmation of Funds
@@ -928,6 +928,7 @@ Changes between "psd2-api 1.3.8 2020-12-14v2-localized.yaml" and "IOBWS3.0.yaml"
   - posEntryMode - added
 
 *Schema types added for domestic payments and account information:*
+
 - ultimateDebtorId
 - ultimateCreditorId
 - partialPayment
@@ -941,13 +942,14 @@ Changes between "psd2-api 1.3.8 2020-12-14v2-localized.yaml" and "IOBWS3.0.yaml"
 - bicfiOrIdentification
 
 *Request bodies added for Domestic objects:*
+
 - paymentInitiationDomestic_json
 - periodicPaymentInitiationDomestic_json
 - bulkPaymentInitiationDomestic_json
 - paymentInitiationBulkElementDomestic_jsonResponse added
 - paymentInitiationPaymentIdResponse-200_json
 
-*Various examples added for Domestic objects.*
+*Various examples added for Domestic objects, but not listed.*
 
 # Bibliography {.unnumbered}
 \ 

@@ -748,12 +748,6 @@ components:
   # Predefined Schemas
   #####################################################
 
-    uuid:
-      type: string
-      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
-      minLength: 36
-      maxLength: 36
-
     batchId:
       description: |
         Batch id for a list of claim
@@ -1700,64 +1694,6 @@ components:
             - "alter"
         actions:
           $ref: "#/components/schemas/claimStatusResponse"
-
-    claimError:
-      description: Error code and description for the claim error
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-
-    claimOperationSuccess:
-      description: Claim operation success for a claim key
-      type: object
-      properties:
-        claimKey:
-          $ref: "#/components/schemas/claimKey"
-        print:
-          description: Indicates whether a collection claim needs to be printed.
-          type: boolean
-
-    claimOperationError:
-      description: Claim operation error for a claim key
-      type: object
-      properties:
-        claimKey:
-          $ref: "#/components/schemas/claimKey"
-        error:
-          $ref: "#/components/schemas/claimError"
-
-    claimOperation:
-      description: |
-        Claim operation needs to return success or error information about every claim:
-        Created, cancelled or altered.
-        Status of the operation is as follows.
-          - InProgress:           In progress The batch is in progress.
-          - Completed:            Completed Batch processing is complete without error.
-          - CompletedWithErrors:  Completed with Error Batch processing complete.
-                                  An error has come up.
-          - NotConfirmed:         Unconfirmed Unconfirmed pile, awaiting manual confirmation.
-      type: object
-      properties:
-        id:
-          $ref: "#/components/schemas/uuid"
-        status:
-          type: string
-          enum:
-            - "InProgress"
-            - "Completed"
-            - "CompletedWithErrors"
-            - "NotConfirmed"
-        success:
-          type: array
-          items:
-            $ref: "#/components/schemas/claimOperationSuccess"
-        errors:
-          type: array
-          items:
-            $ref: "#/components/schemas/claimOperationError"
 
     claimHistoryList:
       description: |
@@ -2712,20 +2648,6 @@ components:
           examples:
             "Example":
               $ref: "#/components/examples/getClaimHistory-200_Example"
-
-    OK_201_ClaimResponseInformation:
-      description: |
-        Claim response information.
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/claimOperation"
-          examples:
-            "Example":
-              $ref: "#/components/examples/createClaims-201_Example"
 
     OK_200_QueryClaimInformation:
       description: |

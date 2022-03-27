@@ -217,7 +217,7 @@ paths:
         - SecondaryCollection (for secondary)
         - PrimaryCollection (for primary)        
         
-        Use the mergeClaimDetails object to understand all the fields awailable.
+        For further input parameters descriptions, see the mergeClaimDetails request object.
 
       operationId: patchClaim
       tags:
@@ -662,8 +662,7 @@ paths:
     get:
       summary: Get payments for multiple claims
       description: |
-        Returns all payments for multiple claims. When claim is paid by debtor the claim payments visible 
-        is near real-time.
+        Returns all payments for a given claim.  Payment information is accessable near realtime.
       operationId: getClaimsTransactions
       tags:
         - Claim Service
@@ -2338,7 +2337,7 @@ components:
     dateFromQuery:
       name: dateFrom
       in: query
-      required: false
+      required: true
       schema:
         type: string
         format: date
@@ -2347,7 +2346,7 @@ components:
     dateToQuery:
       name: dateTo
       in: query
-      required: false
+      required: true
       schema:
         type: string
         format: date
@@ -2456,7 +2455,7 @@ components:
         $ref: "#/components/schemas/claimStatus"
 
     stateQuery:
-      name: state
+      name: collectionState
       in: query
       description: |
         The claim state to search for

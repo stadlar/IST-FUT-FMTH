@@ -1180,7 +1180,7 @@ components:
       properties:
         name:
           type: string
-        addressLine1:
+        addressLine:
           type: string
         postalCode:
           type: string

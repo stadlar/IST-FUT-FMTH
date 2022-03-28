@@ -3009,20 +3009,16 @@ components:
           "printing": {
             "claimantAddress": {
               "name": "string",
-              "addressLine1": "string",
-              "addressLine2": "string",
+              "addressLine": "string",
               "postalCode": "string",
               "city": "string",
-              "region": "string",
               "country": "string"
             },
             "payorAddress": {
               "name": "string",
-              "addressLine1": "string",
-              "addressLine2": "string",
+              "addressLine": "string",
               "postalCode": "string",
               "city": "string",
-              "region": "string",
               "country": "string"
             },
             "itemRows": [
@@ -3167,20 +3163,16 @@ components:
               "printing": {
                 "claimantAddress": {
                   "name": "string",
-                  "addressLine1": "string",
-                  "addressLine2": "string",
+                  "addressLine": "string",
                   "postalCode": "string",
                   "city": "string",
-                  "region": "string",
                   "country": "string"
                 },
                 "payorAddress": {
                   "name": "string",
-                  "addressLine1": "string",
-                  "addressLine2": "string",
+                  "addressLine": "string",
                   "postalCode": "string",
                   "city": "string",
-                  "region": "string",
                   "country": "string"
                 },
                 "itemRows": [
@@ -3322,20 +3314,16 @@ components:
             "printing": {
               "claimantAddress": {
                 "name": "string",
-                "addressLine1": "string",
-                "addressLine2": "string",
+                "addressLine": "string",
                 "postalCode": "string",
                 "city": "string",
-                "region": "string",
                 "country": "string"
               },
               "payorAddress": {
                 "name": "string",
-                "addressLine1": "string",
-                "addressLine2": "string",
+                "addressLine": "string",
                 "postalCode": "string",
                 "city": "string",
-                "region": "string",
                 "country": "string"
               },
               "itemRows": [
@@ -3415,20 +3403,16 @@ components:
           "printing": {
             "claimantAddress": {
               "name": "string",
-              "addressLine1": "string",
-              "addressLine2": "string",
+              "addressLine": "string",
               "postalCode": "string",
               "city": "string",
-              "region": "string",
               "country": "string"
             },
             "payorAddress": {
               "name": "string",
-              "addressLine1": "string",
-              "addressLine2": "string",
+              "addressLine": "string",
               "postalCode": "string",
               "city": "string",
-              "region": "string",
               "country": "string"
             },
             "itemRows": [

@@ -73,7 +73,7 @@ The Open Banking regulation in the UK and the PSD2 regulation issued by the Euro
 
 Another goal achieved by adopting the NextGenPSD2 Framework is the transition from SOAP to a REST-like API defined by a version of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this addresses some of the perceived complexity in adapting IOBWS to use cases, platforms and programming languages that have come to the fore after the release of the previous IOBWS versions.
 
-ÍST {{spec_id}} includes information on common implementation details and cross cutting concerns related to the the technical specifications that together form IOBWS version 3. It is intended to be an evolving document with each minor version issued as a new workshop agreement. The process for this is described in [section @sec:ws_maintainance].
+ÍST {{spec_id}} includes information on common implementation details and cross-cutting concerns related to the technical specifications that together form IOBWS version 3. It is intended to be an evolving document with each minor version issued as a new workshop agreement. The process for this is described in [section @sec:ws_maintainance].
 
 # Scope 
 
@@ -112,7 +112,7 @@ They establish the Github Git repository [IST-FUT-FMTH](https://github.com/stadl
 
 The participants in TN-FMÞ agree that workgroup TN-FMÞ-VH-7 is in charge of monitoring submitted issues made to the repository when they fall outside the permit of other regular workgroups. VH-7 will regularly review those issues, give feedback, close or potentially classify them as part of larger initiatives or projects. TN-FMÞ-VH-7 will evaluate if changes submitted in the form of pull requests are fit to be accepted into the repository and when or if they warrant a patch or minor releases to the overall specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme but each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above. 
 
-Should TN-FMÞ form future workgroups around larger initiatives, they will adhere to the same rules for change management. Specific development branches will be created for the work and the groups be in charge of accepting individual pull requests into their branch. The acceptance or merge into the main branch will be handled by VH-7 based on the final approval of the initiative in question. A workgroup agreement or technical specification update will be required as part of this approval.
+Should TN-FMÞ form future workgroups around larger initiatives, they will adhere to the same rules for change management. Specific development branches will be created for the work and the groups be in charge of accepting individual pull requests into their branch. The acceptance or rather a pull-request merge into the main branch will be handled by VH-7 based on the final approval of the initiative in question. A workgroup agreement or technical specification update will be required as part of this approval.
 
 Further notes on contributing are included or referenced in the ReadMe Markdown document at the root of the repository and will be updated as deemed necessary by VH-7.
 
@@ -120,7 +120,7 @@ Further notes on contributing are included or referenced in the ReadMe Markdown 
 
 The API specifications for IOBWS reference OAuth2 based authorization, with the NextGenPSD2 ancestry of parts of the specification, occasionally showing through as references to consents. It is the intention here to further elaborate on the ways the most common use cases should be handled as the common dominator among implementors and consumers of the APIs.  
 
-It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication will continue to be supported. They will however not require, as in the previous IOBWS specifications, the usage of username and passwords.  
+It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication will continue to be supported. They will not require the usage of username and passwords as in the previous IOBWS specifications.  
 
 Additionally, OpenID Code Flow with PKCE will be part of the common support to handle the various scenarios.
 
@@ -178,7 +178,7 @@ Acceptance criteria:
 
 #### Software Vendor
 
-> As a **Software Vendor** providing Custom, COTS, or SaaS applications that my clients use to accesses IOBWS 3.0, I want to be able to target common authentication behavior as part of the technical standard offered by all the banks, so that I do not have to implement and test against multiple subtly different endpoints.
+> As a **Software Vendor** providing Custom, COTS, or SaaS applications that my clients use to access IOBWS 3.0, I want to be able to target common authentication behaviour as part of the technical standard offered by all the banks, so that I do not have to implement and test against multiple subtly different endpoints.
 
 Acceptance criteria:
 
@@ -233,9 +233,9 @@ The authorization mechanism in each bank will, of course, further define access 
 
 ### Payment endpoints
 
-Depending on implementation, the endpoints for payments can require either a general payments scope, as for the root resource, or
-dynamic scopes that dynamically link this particular request to a known context. In the latter case the NextGenAPI *pis* pattern is
-used for overall compatability.
+Depending on the implementation, the endpoints for payments can require either a general payments scope, as for the root resource, or
+dynamic scopes that dynamically link this particular request to a known context. In the latter case, the NextGenAPI *pis* pattern is
+used for overall compatibility.
 
 |  Payments EndPoint                                                                                  | Scope                       |              
 |---------------------------------------------------------------------------------------              |---------------------        |
@@ -251,9 +251,9 @@ used for overall compatability.
 
 ### Accounts endpoints
 
-Depending on implementation, the endpoints for accounts can require either a general accounts scope, as for the root resource, or
-dynamic scopes that dynamically link this particular request to a known consent. In the latter case the NextGenAPI *ais* pattern is
-used for overall compatability.
+Depending on the implementation, the endpoints for accounts can require either a general accounts scope, as for the root resource, or
+dynamic scopes that dynamically link this particular request to a known consent. In the latter case, the NextGenAPI *ais* pattern is
+used for overall compatibility.
 
 |              Accounts EndPoint                                                                      | Scope                       |              
 |-----------------------------------------------------------------------------------------------------|---------------------        |
@@ -266,9 +266,9 @@ used for overall compatability.
 
 ### Card endpoints
                     
-Depending on implementation, the endpoints for accounts can require either a general accounts scope, as for the root resource, or
-dynamic scopes that dynamically link this particular request to a known consent. In the latter case the NextGenAPI *ais* pattern is
-used for overall compatability.
+Depending on the implementation, the endpoints for accounts can require either a general accounts scope, as for the root resource, or
+dynamic scopes that dynamically link this particular request to a known consent. In the latter case, the NextGenAPI *ais* pattern is
+used for overall compatibility.
 
 |  Card EndPoints                                                                                     | Scope                       |            
 |-----------------------------------------------------------------------------------------------------|---------------------------- |
@@ -294,7 +294,7 @@ only included here for completeness to make that clear.
 
 ### Documents endpoints
 
-For endpoints related to documents, two possible scopes are possible for read or write. 
+For endpoints related to documents, two scopes are possible for read or write. 
 
 |              Documents EndPoint                                                                     | Scope                                         |              
 |-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
@@ -303,17 +303,18 @@ For endpoints related to documents, two possible scopes are possible for read or
 | /v1/documents/{documentStoreLocation}/types:                                                        | documents.read                                |                                                                    
 : Required document scopes. 
 
-### Currency endpoints         
+### Consents endpoints         
 
 For consents, scopes can specify either read or write. 
  
 |              Consents EndPoint                                                                      | Scope                                         |              
 |-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
-| /v1/consents/                                                                                       | consents.read, consents.write                 |   
+| /v1/consents/                                                                                       | consents.read, consents.write                 |                                                                    
+: Required consents scopes. 
 
 ### Claim template endpoints
       
-Claim templates can only be queried, so the scope is read only.
+Claim templates can only be queried, so the scope is read-only.
 
 |              Claim Templates EndPoint                                                               | Scope                       |              
 |-----------------------------------------------------------------------------------------------------|---------------------        |                    
@@ -340,19 +341,18 @@ business logic can of course apply as indicated by documentation provided by the
 | /v1/batches                                                                                         | claims.read, claims.write   |
 | /v1/batches/{batchId}                                                                               | claims.read, claims.write   |
 | /v1/claims/transactions                                                                             | claims.read, claims.write   |               
-| /v1/claimscollection/{claimId}:                                                                     | claimscollection.read, claimscollection.write |        
-|-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
+| /v1/claimscollection/{claimId}:                                                                     | claimscollection.read, claimscollection.write |                                          
 : Required claim scopes. 
 
 # Idempotency
 
 Certain services of IOBWS and selected methods of those services shall support idempotency to prevent duplication of actions with side effects. This is especially important in the case of initiating single payments, payment batches and claim batches but may apply in other cases.
 
-To use idempotency, insert an idempotent key into the header of the POST request to the API's.
+To use idempotency, insert an idempotent key into the header of the POST request to the APIs.
 
 ## Functionality
 
-An idempotency key is a unique value generated by the client which the resource service uses to recognize subsequent retries of the same request.
+An idempotency key is a unique value generated by the client that the resource service uses to recognize subsequent retries of the same request.
 
 Idempotent keys MUST be guaranteed to be recognized by the service implementer for at least 24 hours but MAY be expired after that.
 
@@ -376,7 +376,7 @@ If the previous operation manages to complete during that time, the same result 
 
 ## Best Practices
 
-It´s recommended to use the same idempotent key again when the client system does not receive a response from the API, for example HttpStatusCode:
+It´s recommended to use the same idempotent key again when the client system does not receive a response from the API, for example, HttpStatusCode:
 
 * 408 Request Timeout
 * 409 Conflict
@@ -386,7 +386,7 @@ It´s recommended to use the same idempotent key again when the client system do
 * 503 Service Unavailable
 * 504 Gateway Timeout
 
-Header example:
+An example of a header submitted with the idempotent key element:
 
 ``` {.http caption="Example of a http header with the *Idempotent-Key* data element."}
     curl -X POST "/v1/payments/sepa-credit-transfers" -H "accept: text/plain"  -H "Idempotent-Key:uuid" -H "xRequestID: <random-UUID>" -H "pSUIPAddress: <IP-Address>" -H "Authorization: Bearer <Access-Token>" -H "Content-Type: application/json-patch+json" -d "<payment-payload>"

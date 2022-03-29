@@ -108,13 +108,13 @@ Project.
 
 The rules outlined in this section are accepted by the participants in TN-FMÞ as the process for further development of the documents and specifications that form IOBWS version 3. 
 
-They establish the Github Git repository [IST-FUT-FMTH](https://github.com/stadlar/IST-FUT-FMTH) created and supervised by the Icelandic Standards Council as the master source for the associated OpenAPI specifications, as well as those workgroup agreements and technical specifications that have been codified into Markdown markup language and stored in the repository.
+They establish the Github Git repository [IST-FUT-FMTH](https://github.com/stadlar/IST-FUT-FMTH) created and supervised by the Icelandic Standards Council as the master source for the associated OpenAPI specifications, as well as those workgroup agreements and technical specifications that have been codified into Markdown markup language and stored in the repository. All updates to the main branch shall be done through pull-requests and the merging of said pull requests after review.
 
 The participants in TN-FMÞ agree that workgroup TN-FMÞ-VH-7 is in charge of monitoring submitted issues made to the repository when they fall outside the permit of other regular workgroups. VH-7 will regularly review those issues, give feedback, close or potentially classify them as part of larger initiatives or projects. TN-FMÞ-VH-7 will evaluate if changes submitted in the form of pull requests are fit to be accepted into the repository and when or if they warrant a patch or minor releases to the overall specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme but each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above. 
 
-Should TN-FMÞ form future workgroups around larger initiatives, they will adhere to the same rules for change management. Specific development branches will be created for the work and the groups be in charge of accepting individual pull requests into their branch. The acceptance or rather a pull-request merge into the main branch will be handled by VH-7 based on the final approval of the initiative in question. A workgroup agreement or technical specification update will be required as part of this approval.
+Should TN-FMÞ form future workgroups around larger initiatives, they will adhere to the same rules for change management. Specific development branches will be created for the work and the groups be in charge of accepting individual pull requests into their branch. The acceptance or rather a pull-request merge into the main branch will be handled by VH-7 based on the final approval of the initiative in question. A workgroup agreement or technical specification update will be required as part of such approval, when not otherwise decided by VH-7.
 
-Further notes on contributing are included or referenced in the ReadMe Markdown document at the root of the repository and will be updated as deemed necessary by VH-7.
+Further notes on contributing and details on how to adhere to these rules are included or referenced in the ReadMe Markdown document at the root of the repository and will be updated as deemed necessary by VH-7.
 
 # Authentication Use Cases and Requirements
 

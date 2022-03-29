@@ -110,7 +110,7 @@ Project.
 
 The rules outlined in this section are accepted by the participants in TN-FMÞ as the process for further development of the documents and specifications that form IOBWS version 3. 
 
-They establish the Github Git repository [IST-FUT-FMTH](https://github.com/stadlar/IST-FUT-FMTH) created and supervised by the Icelandic Standards Council as the master source for the associated OpenAPI specifications, as well as those workgroup agreements and technical specifications that have been codified into Markdown markup language and stored in the repository. All updates to the main branch shall be done through pull-requests and the merging of said pull requests after review.
+They establish the Github Git repository [IST-FUT-FMTH](https://github.com/stadlar/IST-FUT-FMTH) created and supervised by the Icelandic Standards Council as the master source for the associated OpenAPI specifications, as well as those workgroup agreements and technical specifications that have been codified into Markdown markup language and stored in the repository. All updates to the main branch shall be done through pull requests and the merging of said pull requests after review.
 
 The participants in TN-FMÞ agree that workgroup TN-FMÞ-VH-7 is in charge of monitoring submitted issues made to the repository when they fall outside the permit of other regular workgroups. VH-7 will regularly review those issues, give feedback, close or potentially classify them as part of larger initiatives or projects. TN-FMÞ-VH-7 will evaluate if changes submitted in the form of pull requests are fit to be accepted into the repository and when or if they warrant a patch or minor releases to the overall specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme but each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above. 
 
@@ -122,7 +122,7 @@ Further notes on contributing and details on how to adhere to these rules are in
 
 The API specifications for IOBWS reference OAuth2 based authorization, with the NextGenPSD2 ancestry of parts of the specification, occasionally showing through as references to consents. It is the intention here to further elaborate on the ways the most common use cases should be handled as the common dominator among implementors and consumers of the APIs.  
 
-It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication will continue to be supported. They will not require the usage of username and passwords as in the previous IOBWS specifications.  
+It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication will continue to be supported. They will not require the usage of usernames and passwords as in the previous IOBWS specifications.  
 
 Additionally, OpenID Code Flow with PKCE will be part of the common support to handle the various scenarios.
 

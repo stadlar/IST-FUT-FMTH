@@ -98,7 +98,7 @@ The support for payment services for each of the payment products is shown in [T
 | **payments**             | Supported by all implementors of {{spec_id}}, in accordance with the specification, for domestic adaptation of foreign payment products.                         |
 | **bulk-payments**        | Supported by all implementors of {{spec_id}}, in accordance with the specification, for domestic adaptation of foreign payment products. |
 | **periodic-payments**    | Explicitly not part of the {{spec_id}} specification, but included for comparison and compatibility with the NextGenPSD2 OpenAPI contract. |
-:Availability of payment service. {#tbl:tbl_pay_avail_svc}
+:Payment services available. {#tbl:tbl_pay_avail_svc}
 
 ### Domestic Payment Product Data Elements 
 
@@ -208,10 +208,6 @@ No debtor or charge accounts should be specified on child bulk payment elements;
   **paymentInformationId**    Max35Text     Optional        Unique identification assigned 
                                                             by the sending party to
                                                             unambiguously identify this bulk. 
-                                                            Replaces **NameOfBatch**
-                                                            in IOBWS 2.0 and 3.0, as well as
-                                                            **PaymentsID** that was generated
-                                                            by the receiving bank.
                                                             Note: This attribute might be
                                                             considered mandatory in future
                                                             versions of the specification.

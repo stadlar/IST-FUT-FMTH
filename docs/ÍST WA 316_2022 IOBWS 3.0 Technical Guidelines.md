@@ -30,7 +30,7 @@ technical committee on financial services. It does not necessarily
 reflect the views of all stakeholders that might have an interest in its
 subject matter.
 
-The Workshop Agreement (ÍST WA) was funded by Íslandsbanki, Arion banki
+The Workshop Agreement (ÍST WA) was funded by Arion banki, Íslandsbanki
 and Landsbankinn. This ÍST WA is based on the results of the work of two
 workgroups TN-FMÞ-VH-1 Technical requirements and TN-FMÞ-VH-2 Business
 requirements.

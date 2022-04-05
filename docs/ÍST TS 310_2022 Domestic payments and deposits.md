@@ -44,20 +44,20 @@ titlefont: Arial.ttf
 
 # Foreword {.unnumbered}
 <!-- ForewordStart -->
-This ÍST Technical Specification was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnustofusamþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The TS (Technical specification) was prepared by the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardisation) following a public call for participation within TN-FMÞ. The final draft was sent to the TN-FMÞ on the {{finaldraft_date}} and approved by correspondence on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
+This ÍST Technical Specification was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnustofusamþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The TS (Technical specification) was prepared by the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardization) following a public call for participation within TN-FMÞ. The final draft was sent to the TN-FMÞ on the {{finaldraft_date}} and approved by correspondence on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
  
 The accompanying OpenAPI 3.0.1 definition "IOBWS3.0.yaml" located at [https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables](https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables), should be viewed as an integral part of ÍST {{spec_id}}. 
 
-The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures to be laid out in the workshop agreement ÍST WA-316, IOBWS 3.0 Technical Guidelines. The rules are outlined in the README.md accompanying the Github Git repository and are accepted by the participants in TN-FMÞ alongside this specification. These guidelines establish the workgroup TN-FMÞ-VH-7 as in charge of monitoring submitted issues and pull requests made to the repository when they fall outside the purview of other regular workgroups. TN-FMÞ-VH-7 will evaluate if changes are ready to be accepted into the repository, and when or if, they warrant patches or minor releases to the specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme and each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above.
+The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures to be laid out in the workshop agreement ÍST WA-316, IOBWS 3.0 Technical Guidelines. The rules are outlined in the README.md accompanying the Github Git repository and are accepted by the participants in TN-FMÞ alongside this specification. These guidelines establish the workgroup TN-FMÞ-VH-7 as in charge of monitoring submitted issues and pull requests made to the repository when they fall outside the purview of other regular workgroups. TN-FMÞ-VH-7 will evaluate if changes are ready to be accepted into the repository and when or if they warrant patches or minor releases to the specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme and each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above.
 
 {{funding_paragraph}}
 
 ÍST {{spec_id}} is not subject to any patent rights. The underlying OpenAPI specification is derived from version 1.3.8 of the 
 [Berlin Group's NextGenPSD2 Framework](https://www.berlin-group.org/nextgenpsd2-downloads)
-, and therefore also distributed under a 
+and therefore also distributed under a 
 [Creative Commons Attribution 4.0 International Public License (CC BY)](https://creativecommons.org/licenses/by/4.0/#).
 
-This means the YAML Specification for ÍST {{spec_id}} can be copied and redistributed in any medium or format for any purpose, even commercially; when shared, appropriate credit must be given, a link to the license must be provided, and any changes made must be indicated. One may do this in any reasonable manner, however it must not be suggested that the licensor has endorsed it. Additionally, if you remix, transform, or build upon the specification, you may not distribute the modified specification.
+This means the YAML Specification for ÍST {{spec_id}} can be copied and redistributed in any medium or format for any purpose, even commercially; when shared, appropriate credit must be given, a link to the license must be provided, and any changes made must be indicated. One may do this in any reasonable manner, however it must not be suggested that the licensor had endorsed it. Additionally, if you remix, transform, or build upon the specification, you may not distribute the modified specification.
 
 The Technical Committee's participants have made every effort to ensure the reliability and accuracy of the technical and non-technical content of ÍST {{spec_id}}, but this does not guarantee its correctness, explicitly or implicitly. Users of ÍST {{spec_id}} should be aware that neither the TN-FMÞ nor ÍST can be held liable for damages or losses of any kind which may arise from its application. Users of ÍST {{spec_id}} do so on their own responsibility and at their own risk.
 <!-- ForewordEnd -->
@@ -77,9 +77,9 @@ When initiating work on the previous versions, the participants in the TN-FMÞ r
 Meanwhile, Europe and the broader market has been catching up and the Icelandic banks have migrated to new core banking systems; along with the Central Bank of Iceland, they have implemented new clearing and settlement mechanisms (CSM). One of the goals of IOBWS v3, set forward by TN-FMÞ, was to move closer to the standards used by systems such as ISO 20022 [@ISO20022], at least through the application of a comparable dictionary and data elements.
 
 <!-- Start1 -->
-The Open Banking regulation in the UK and the PSD2 regulation issued by the European Parliament has triggered initiatives to standardize access to payment functionality and account information on behalf of customers by third parties. One such effort, the NextGenPSD2 Framework developed by the Berlin Group [@NextGenPSD2], has been broadly accepted in the EEA. The data model references ISO 20022 [@ISO20022] and is close enough to the direction of the Icelandic market to make it relatively straightforward to adapt it as the new base for the IOBWS, instead of continuing to maintain an independent linage of API specifications.
+The Open Banking regulation in the UK along with the PSD2 regulation issued by the European Parliament, has triggered initiatives to standardize access to payment functionality and account information on behalf of customers by third parties. One such effort, the NextGenPSD2 Framework developed by the Berlin Group [@NextGenPSD2], has been broadly accepted in the EEA. The data model references ISO 20022 [@ISO20022] and is close enough to the direction of the Icelandic market to make it suitable as the new base for the IOBWS, instead of maintaining an independent linage of API specifications.
 
-Another goal of the IOBWS version 3 charter, set forth by TN-FMÞ and achieved by adopting the NextGenPSD2 Framework, is the transition from SOAP to a REST-like API, which is defined by a recent iteration of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this should address some of the perceived complexity in adapting IOBWS to various use cases, platforms, and programming languages that have come to the forefront after the release of the previous IOBWS versions.
+Another goal of the IOBWS version 3 charter, which was set forth by TN-FMÞ and achieved by adopting the NextGenPSD2 Framework, is the transition from SOAP to a REST-like API, which is defined by a recent iteration of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this should address some of the perceived complexity in adapting IOBWS to various use cases, platforms, and programming languages that have come to the forefront after the release of the previous IOBWS versions.
 <!-- End1 -->
 
 # Scope 
@@ -124,7 +124,7 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 
 
 ## Terms and definitions
--   **Berlin Group** is a pan-European payments interoperability standards and harmonisation initiative with the primary objective of defining open and common scheme- and processor-independent standards in the interbanking domain between Creditor Bank (Acquirer) and Debtor Bank (Issuer), complementing the work carried out by e.g. the European Payments Council. As such, the Berlin Group has been established as a purely technical standardization body, focusing on detailed technical and organizational requirements to achieve this primary objective. 
+-   **Berlin Group** is a pan-European payments interoperability standards and harmonization initiative with the primary objective of defining open and common scheme- and processor-independent standards in the interbanking domain between Creditor Bank (Acquirer) and Debtor Bank (Issuer), complementing the work carried out by e.g. the European Payments Council. As such, the Berlin Group has been established as a purely technical standardization body, focusing on detailed technical and organizational requirements to achieve this primary objective. 
 - **Clearing and Settlement Mechanisms** (**CMS**) refers to the processes or systems used in the exchange between two payment service providers. In Iceland, the Central Bank acts as the interbank mediator in this scope.
 - **Core Banking Systems** (**CBS**) is the umbrella term for those systems handling payments and transaction accounts in relation to this specification.
 - **Electronic IDentification, Authentication and trust Services** (**eIDAS**) refers to regulation 910/2014 [@EU910/2014], which replaced previous directive 1999/93/EC. It was introduced to Iceland law through act no. 2019/55 [@IS2019/55].
@@ -139,7 +139,7 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 As the ÍST {{spec_id}} owes much of its core to the NextGenPSD2 framework, the terms found in the OpenAPI specification and this document may reflect that background. Some of the main definitions are included here for context.  
 
 - **Payment Services Directive 2** (**PSD2**) was instituted by the European Parliament as EU 2015/2366 [@EU2015/2366] and meant to further open up payment services on the internal EEA market. It was introduced to Iceland law through act no. 2021/114 [@IS2021/114]. PSD2 contains regulations of new services to be operated by so-called Third-Party Payment Service Providers on behalf of a Payment Service User, by leveraging Strong Customer Authentication. Due to the lineage connecting PSD2 with IOBWS v3.0, the main terms are described:
-  - **Account Information Service Provider** (**AISP**) are *TPPs* with permission to connect to a transaction account and use the information to provide **Account Information Services** (**AIS**) as defined in article 67 of EU 2015/2366 [@EU2015/2366].
+  - **Account Information Service Provider** (**AISP**) are *TPPs* with permission to connect to a transaction account and use the information to provide a **Account Information Services** (**AIS**) as defined in article 67 of EU 2015/2366 [@EU2015/2366].
   - **Confirmation of the Availability of Funds Service** is used by Payment Instrument Issuing Service Provider (PIISP) TPP as defined by article 65 of EU 2015/2366 [@EU2015/2366].
   - **Payment Initiation Service Provider** (**PISP**) can, given customers' consent, initiate payments and transactions on their behalf from their bank account, thereby providing **Payment Initiation Service** (**PIS**) as defined by article 66 of EU 2015/2366 [@EU2015/2366].
 -   **Payment Service User** (**PSU**) is the end-user of payment services and customer of the bank in the IOBWS context.
@@ -151,7 +151,7 @@ As the ÍST {{spec_id}} owes much of its core to the NextGenPSD2 framework, the 
 
 ## Data elements {#sec:claim_identifier}
 
-**The International Bank Account Number** (**IBAN**) format for Icelandic accounts should follow the specification set forth in ISO 13616-1:2020 [@ISO13616-1] as shown in [table @tbl:ice_iban] below. 
+**The International Bank Account Number** (**IBAN**) format for Icelandic accounts should follow the specification set forth in ISO 13616-1:2020 [@ISO13616-1] as shown in [Table @tbl:ice_iban] below. 
 Description of the implementation of the checksum calculation is outside the scope of this document but should be discernable from the ISO standard and examples available online.
 
   -----------------------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ Description of the implementation of the checksum calculation is outside the sco
   :Icelandic IBAN with example. {#tbl:ice_iban}  
 
 <!-- TerminalogyEnd -->
-**The Unique Claim Identifier** references the ID of a claim based on the collection solution Kröfupotturinn. To initiate a payment to settle a claim, or relate transaction information about a previous payment, the claim ID should be formatted as a Basic Bank Account Number (BBAN). The method is shown below in [table @tbl:ice_claim]. Claim Payments will therefore include BBAN, rather than IBAN, as a creditor account reference.
+**The Unique Claim Identifier** references the ID of a claim based on the collection solution Kröfupotturinn. To initiate a payment to settle a claim, or relate transaction information about a previous payment, the claim ID should be formatted as a Basic Bank Account Number (BBAN). The method is shown below in [Table @tbl:ice_claim]. Claim Payments will therefore include BBAN, rather than IBAN, as a creditor account reference.
 
 ----------------------------------------------------------------------------------------------------
               Claimant      National    Branch     Fixed      Account     Delimiter   Due    
@@ -186,15 +186,15 @@ Example       5510730339    01          59         66         007654      +     
 ## Service Overview
 
 <!-- PaymentSvcOverviewStart -->
-When TN-FMÞ-VH-1 on Business Requirments and TN-FMÞ-VH-2 on Technical Requirements decided to adopt the NextGenPSD2 framework, the intent was to stay as true to the original specification as possible. 
+When TN-FMÞ-VH-1 on Business Requirements and TN-FMÞ-VH-2 on Technical Requirements decided to adopt the NextGenPSD2 framework, the intent was to stay as true to the original specification as possible. 
 
 However, as with other European adaptations of NextGenPSD2 for domestic use, additional functionality was needed to support payment operations and account information expected by the Icelandic market. The original workgroup did this by extending existing schema types in the NextGenPSD2 OpenAPI contract, while removing elements and services not directly applicable to IOBWS. The intention was to streamline the specification, but developers with previous exposure to NextGenPSD2 found it challenging to understand the implications of the changes. Furthermore, the overall implementation details remained opaque for those migrating from earlier IOBWS versions, so more transparency was needed.
 
 Therefore, workgroup TN-FMÞ-VH-8 was charged with revising the 3.0 version of IOBWS. The group tried to address two primary concerns: Clarify how the {{context_short}} products fit into NextGenPSD2, and simplify comparison against later releases by the Berlin Group. Additionally, the result should make it straightforward to adapt future updates and consider replacing current domestic adaptations in the IOBWS with newer NextGenPSD2 data elements.
 
-The decision by the TN-FMÞ-VH-8 was to keep most of the original NextGenPSD2 OpenAPI definition intact, including those services and types that are not currently applicable to the Icelandic context or intended uses of the IOBWS. The {{context_short}} products (see [section @sec:pis_overview] and [table @tbl:tbl_pis_products] below) are defined separately with applicable JSON schema types, leaving the original, e.g. SEPA message types, intact. They share the generic data elements and the 'native' payment types, reusing the services and operations for payments that are at the core of the NextGenPSD2 specification.
+The decision by the TN-FMÞ-VH-8 was to keep most of the original NextGenPSD2 OpenAPI definition intact, including those services and types that are not currently applicable to the Icelandic context or intended uses of the IOBWS. The {{context_short}} products (see [section @sec:pis_overview] and [Table @tbl:tbl_pis_products] below) are defined separately with applicable JSON schema types, leaving the original, e.g. SEPA message types, intact. They share the generic data elements and the 'native' payment types, reusing the services and operations for payments that are at the core of the NextGenPSD2 specification.
 
-The [table @tbl:tbl_svcsupport] below lists the implications for the OpenAPI YAML contract. It contains the Consents and Signing Basket services, as removing or commenting those out would have impacted the contract structure. They will not be implemented as part of this specification.
+The [Table @tbl:tbl_svcsupport] below lists the implications for the OpenAPI YAML contract. It contains the Consents and Signing Basket services, as removing or commenting those out would have impacted the contract structure. They will not be implemented as part of this specification.
 
 |                          |                                                                                                             |
 |--------------------------|-------------------------------------------------------------------------------------------------------------|
@@ -211,10 +211,10 @@ The [table @tbl:tbl_svcsupport] below lists the implications for the OpenAPI YAM
 
 ### Overview {#sec:pis_overview}
 
-The {{context_short}} products supported by ÍST {{spec_id}} are shown in [table @tbl:tbl_pis_products] below. They are defined as JSON objects. Other payment types are not supported by the specification.
+The {{context_short}} products supported by ÍST {{spec_id}} are shown in [Table @tbl:tbl_pis_products] below. They are defined as JSON objects. Other payment types are not supported by the specification.
 
 The only available payment type in Iceland for an account-to-account transfer between domestic banks is usually classified as an instant credit transfer. The term 'instant' does not preclude additional business rules from applying within each bank: e.g. future payments, high-value payment processing, or variations in the payment lifecycle within e.g. the 'end-of-business-day' window. This could result in consumers of the IOBWS ÍST {{spec_id}} services being exposed to intermediary transaction status codes during steps in the payment execution, some of which have not previously been visible or mapped in IOBWS return codes. Future changes in Core Banking Services and Clearing and Settlement Mechanisms might also affect statuses returned to consumers. 
-All of the available status codes in the specification can therefore be expected as return values.
+All of the available status codes in the specification can be expected as return values.
 
 |                          |                                                                                                             |
 |--------------------------|-------------------------------------------------------------------------------------------------------------|
@@ -223,7 +223,7 @@ All of the available status codes in the specification can therefore be expected
 | **Payment Card Deposits** | Make a withdrawal from an account to pay onto the account behind a payment card, within the same bank or between two domestic banks.  |
 :Domestic payment products. {#tbl:tbl_pis_products}
 
-For each of the payment products, the support for payment services is shown in [table @tbl:pay_avail_svc]. A periodic payment is distinct from future-dating a payment, which is part of creating a payment, similar to previous versions of IOBWS (see requestedExecutionDate). At this time, behavior for periodic payments is not supported by the ÍST {{spec_id}}.
+For each of the payment products, the support for payment services is shown in [Table @tbl:pay_avail_svc]. A periodic payment is distinct from future-dating a payment, which is part of creating a payment, similar to previous versions of IOBWS (see requestedExecutionDate). At this time, behavior for periodic payments is not supported by the ÍST {{spec_id}}.
 
 |                          |                                                                                                             |
 |--------------------------|-------------------------------------------------------------------------------------------------------------|
@@ -234,7 +234,7 @@ For each of the payment products, the support for payment services is shown in [
 
 ### Domestic Payment Product Data Elements 
 
-The elements listed in [table @tbl:tbl_data_domestic] are used in the domestic payment products within the scope of ÍST {{spec_id}}. The schema type *paymentInitiationDomestic_json* should be used to define JSON data instances.
+The elements listed in [Table @tbl:tbl_data_domestic] are used in the domestic payment products within the scope of ÍST {{spec_id}}. The schema type *paymentInitiationDomestic_json* should be used to define JSON data instances.
 
   --------------------------------------------------------------------------------------
   **Data Element**                         **Credit         **Claim      **Credit Card
@@ -290,7 +290,7 @@ The elements listed in [table @tbl:tbl_data_domestic] are used in the domestic p
   --------------------------------------------------------------------------------------
   :Data elements for domestic payments. {#tbl:tbl_data_domestic}
 
-To elaborate on the use of particular attributes, [table @tbl:proper_domestic] contains additional information on top of the schema definitions. Notes on individual data elements or usage patterns follow in the subsections. 
+To elaborate on the use of particular attributes, [Table @tbl:proper_domestic] contains additional information on top of the schema definitions. Notes on individual data elements or usage patterns follow in the subsections. 
 
   -------------------------------------------------------------------------------------------
   Field                                   Description
@@ -394,7 +394,7 @@ To elaborate on the use of particular attributes, [table @tbl:proper_domestic] c
   ------------------------------------------------------------------------------------------
   :Detailed description of ÍST {{spec_id}} payments properties. {#tbl:proper_domestic}
 
-The remittanceInformationStructured mentioned in [table @tbl:proper_domestic] is currently used to carry the debtor's payment reference. For identification, the **type** is set to TILV_U, which clearly identifies this information.
+The remittanceInformationStructured mentioned in [Table @tbl:proper_domestic] is currently used to carry the debtor's payment reference. For identification, the **type** is set to TILV_U, which clearly identifies this information.
 
 ``` {.json caption="Example of the *remittanceInformationStructured* data element."}
  remittanceInformationStructured: [
@@ -424,7 +424,7 @@ The domestic bulk types allow for specifying separate debtor accounts on child p
                                                             the debtor prefers
                                                             individual booking of payments.
 
-  **debtorAccount**           Account       Optional        Should only be set
+  **debtorAccount**           Account       Optional        Should only be set when
                               Reference                     batchBookingPreferred is true.
 
   **paymentInformationId**    Max35Text     Optional        Unique identification assigned 
@@ -484,7 +484,7 @@ When querying information about domestic accounts, there is an option to request
 !include`startLine=14685, endLine=14701, dedent=7` "Deliverables/IOBWS3.0.yaml"
 ```
 
-The definition of the transaction details returned as a list includes elements that are applicable to the broad range of use cases covered by the NextGenPSD2. [table @tbl:transaction_domestic] has descriptions for the elements that are applicable to the domestic context which might need further explanation.
+The definition of the transaction details returned as a list includes elements that are applicable to the broad range of use cases covered by the NextGenPSD2. [Table @tbl:transaction_domestic] has descriptions for the elements that are applicable to the domestic context which might need further explanation.
 <!-- AccountsOverviewBegin -->
 
   ----------------------------------------------------------------------------------------
@@ -598,7 +598,7 @@ This service offers functionality to check if funds up to a certain amount are a
   ----------------------------------------------------------------------------------------
   :Description of confirmation of funds payload. {#tbl:confirmationoffunds_domestic}
 
-ÍST {{spec_id}} only supports the elements shown in [table @tbl:confirmationoffunds_domestic] for confirmation of funds request and consequently applies only to payment accounts. Card accounts are currently not supported and are only included in the OpenAPI schema for compatibility with the source framework. Further business rules on what constitutes availability of funds might apply per financial institutions for particular account types. An example of a request for confirmation of funds is shown below.
+ÍST {{spec_id}} only supports the elements shown in [Table @tbl:confirmationoffunds_domestic] for confirmation of funds request and consequently applies only to payment accounts. Card accounts are currently not supported and are only included in the OpenAPI schema for compatibility with the source framework. Further business rules on what constitutes availability of funds might apply per financial institutions for particular account types. An example of a request for confirmation of funds is shown below.
 
 ``` {.json caption="Example result of a confirmation of funds query. TODO: Verify"}
   {  
@@ -626,7 +626,7 @@ To simplify API usage and distinguish the IOBWS approach from e.g. the NextGenP
 
 In decoupled IOBWS scenarios, payments would be available for confirmation in the appropriate user interface immediately after initiation. This matches the decoupled SCA method in the NextGenPSD2 framework, but without having to explicitly create the authorization resources. The end result also closely aligns with how most banks handle similar cases in support of earlier IOBWS versions.
 
-[@fig:auth_flow1] shows an example of an accounting system using the IOBWS flow. The system would use OAuth 2.0 Client Credentials Grant Flow and authenticate itself over the transport using mutual TLS (mTLS) with an eIDAS compliant certificate, identifying the legal entity or person the system is representing. Certificates issued by Auðkenni ehf., under the "Traustur búnaður" intermediary, are the common denominator supported by all IOBWS service providers.
+[Figure @fig:auth_flow1] shows an example of an accounting system using the IOBWS flow. The system would use OAuth 2.0 Client Credentials Grant Flow and authenticate itself over the transport using mutual TLS (mTLS) with an eIDAS compliant certificate, identifying the legal entity or person the system is representing. Certificates issued by Auðkenni ehf., under the "Traustur búnaður" intermediary, are the common denominator supported by all IOBWS service providers.
 
 The first initiation would receive a response in line with the one below, with the header ASPSP-SCA-Approach containing the method "IOBWS".
 
@@ -800,16 +800,16 @@ The *Claim* data entity represented a request-to-pay instrument (ic. innheimtukr
   **Entity/Element**   **Equivalent data    **Comment**
                        element**            
   -------------------- -------------------- ----------------------------------------
-  Account                                   See data element [table @tbl:ice_claim].
+  Account                                   See data element [Table @tbl:ice_claim].
 
-  Claimant                                  [table @tbl:ice_claim]
+  Claimant                                  See [Table @tbl:ice_claim].
 
   PayorID              ultimateCreditorId   The creditor could be
                                             another party than the *kröfugreiðandi*
                                             entity whose *kennitala* is sometimes
                                             used as part of the claim key.
 
-  DueDate                                   [table @tbl:ice_claim]
+  DueDate                                   See [Table @tbl:ice_claim].
 
   IsDeposit            partialPayment       
   ----------------------------------------------------------------------------------

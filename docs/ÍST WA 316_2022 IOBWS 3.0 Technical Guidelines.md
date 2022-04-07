@@ -128,7 +128,7 @@ Additionally, OpenID Code Flow with PKCE will be part of the common support to h
 
 To harmonize technical expectations, some basic use cases are considered and the acceptance criteria should guide implementors towards selecting the correct solution.
 
-#### Centralized Financial System
+### Centralized Financial System
 
 > As a **Financial System**, I want to connect to IOBWS 3.0 services so that I can e.g. manage Claims, initiate Payments, and fetch Account transactions in batches or directly on behalf of users.  
 
@@ -138,7 +138,7 @@ Acceptance criteria:
 1. Support for OIDC and, code flow with PKCE as the common denominator.
 1. Support for online scenarios, where the organization authenticates the interactive employee that instigates the action.
 
-#### On-premise System
+### On-premise System
 
 > As **a user of an on-premise Financial System**, I want to be able to authorize the system to connect to IOBWS 3.0 services and manage Claims, initiate Payments and fetch Account transactions on my behalf in non-interactive sessions.
 
@@ -146,7 +146,7 @@ Acceptance criteria:
 
 1. Support for OIDC and OAuth 2.0, code flow with offline_access, using MTLS to identify the client/server using Búnaðarskilríki issued under Fullgilt Auðkenni. 
 
-#### On-premise employee
+### On-premise employee
 
 > As a **company employee** I want to e.g. initiate payment instructions, create claims and interact with IOBWS 3.0 so that I can manage my day-to-day activities through e.g. the company ERP system.
 
@@ -155,7 +155,7 @@ Acceptance criteria:
 1. Support for OIDC and OAuth 2.0, code flow with PKCE as the common denominator.
 1. Support for user authentication with Qualified Certificates. 
 
-#### Financial Services
+### Financial Services
 
 > As e.g. **an independent Accounting firm** offering services to multiple clients, I want to be able to access their accounts and products through IOBWS 3.0, so I can manage their financials and accounting.
 
@@ -166,7 +166,7 @@ Acceptance criteria:
 1. Support for user authentication with Qualified Certificates. 
 1. The scopes should be known, based on the endpoints defined in IOBWS 3.0. 
 
-#### Financial Software as a Service
+### Financial Software as a Service
 
 > As the IOBWS 3.0 **customer of a bank**, I want to be able to authorize SaaS software hosted in public clouds to act on my behalf, so I can allow the service to manage my financials and the products I have access to such as Claims.
 
@@ -176,7 +176,7 @@ Acceptance criteria:
 1. Support for OIDC and OAuth 2.0, code flow with PKCE as the common denominator.
 1. Support for user authentication with Qualified Certificates. 
 
-#### Software Vendor
+### Software Vendor
 
 > As a **Software Vendor** providing Custom, COTS, or SaaS applications that my clients use to access IOBWS 3.0, I want to be able to target common authentication behaviour as part of the technical standard offered by all the banks, so that I do not have to implement and test against multiple subtly different endpoints.
 
@@ -186,12 +186,12 @@ Acceptance criteria:
 1. The possible variations between banks do not affect the protocol exchanges between the client, authorization server, and API endpoint. 
 1. Possible variations in methods that still are offered by more than one bank are made part of the standard, as long as a common fallback exists.
 
-#### User of open endpoints
+### User of open endpoints
 
 > As a **Consumer of open services** such as currency data, I want my system to be able to interact with the endpoints without authentication but identify my client as to 
 Acceptance criteria:
 
-#### Enterprise with the Claim Collection Agency role logs in for the first time
+### Enterprise with the Claim Collection Agency role logs in for the first time
 
 > As a **Claim Collection Agency**, I want my system to be able to login into the system and separate my authentication as a secondary collection agency vs. my use as a primary claims collector. 
 
@@ -200,7 +200,7 @@ Acceptance criteria:
 1. When I log in as a secondary collection role, I identify using a client ID that is related to that role. 
 2. When I log in as the parent enterprise to create claims as a primary claims collector, I identify using a client ID that is related to that role. 
 
-#### Claim Collection Agency
+### Claim Collection Agency
 
 > As a **Claim Collection Agency**, I want my system to be able to interact with the endpoints to manipulate claims whose status is in the secondary collection and transferred to a claim template in my ownership. 
 

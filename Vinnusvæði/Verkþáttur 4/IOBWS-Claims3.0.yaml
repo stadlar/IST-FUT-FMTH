@@ -146,261 +146,21 @@ paths:
   # Claims Service
   #####################################################
 
-  /v1/claims/{claimId}:
-
-    get:
-      summary: Get single claim
-      description: |
-        Fetch detail information for a single claim by claimID. Detailed information on fields in claimDetails.
-
-      operationId: getClaim
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
-      #header
-          #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryClaimInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-    patch:
-      summary: Patch a single claim
-      description: |
-        The patch claim method modifies a previously created claim. The patch is
-        then submitted and amended according to new information.
-         
-        Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
-        from cancelled the recreate is triggered. Recreating a claim keeps existing history.
-        
-        To cancel a claim change status to Cancelled
-        
-        To move to different collection change collectionState
-        - SecondaryCollection (for secondary)
-        - PrimaryCollection (for primary)        
-        
-        For further input parameters descriptions, see the mergeClaimDetails request object.
-
-      operationId: patchClaim
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        #NO REQUEST BODY
-
-      requestBody:
-        $ref: "#/components/requestBodies/mergeClaim"  # JSON Merge Patch
-
-      responses:
-        '201':
-          $ref: "#/components/responses/OK_201_ActionSingleResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claims/{claimId}/transactions:
-
-    get:
-      summary: Get payments for a single claim
-      description: |
-        Returns all claim payments. When claim is paid by debtor the claim paymentis visible is near real-time.
-      operationId: getClaimTransactions
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-      #query
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimTransactionListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claims/{claimId}/history:
-
-    get:
-      summary: Get single claim history
-      description: |
-        Claim history contains every event for the claim from the beginning, i.e. all changes that
-        have been made to the claim together with information about the claim itself.
-      operationId: getClaimHistory
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/claimId"
-      #query
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimHistoryListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
   /v1/claims:
 
     get:
       summary: Get a list of claims as defined by the query parameters.
       description: |
-        Getting a list of claim can be done by multiple query parameters to get focused answer.        
+        Getting a list of claims can be done by multiple query parameters to get focused answer.        
         Parameters:
         - dateFromQuery: Searching from a starting date
         - dateToQuery: Searching to a end date
         - dateSpanReferenceDateQuery: When date range (from, to) is defined then the next step to tell what the range
-                                      applies to. Possible valibles are:
+                                      applies to. Possible variables are:
                                       - DueDate: The claim's due date
                                       - FinalDueDate: The claim's final due date
                                       - ExpirationDate: The claim cancellation date
-                                      - ClosingDate:  Date when the claim was paid, canceled or transferred.
+                                      - ClosingDate:  Date when the claim was paid, cancelled or transferred.
                                       - CreationDate: When the claim was created
                                       - LastChanged: Last claim change event date
         - claimantIdQuery: The claim claimant
@@ -529,6 +289,307 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
+  /v1/claims/{claimId}:
+
+    get:
+      summary: Get single claim
+      description: |
+        Fetch detail information for a single claim by claimID. Detailed information on fields in claimDetails.
+
+      operationId: getClaim
+      tags:
+        - Claim Service
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+      #path
+        - $ref: "#/components/parameters/claimId"
+      #query # NO QUERY PARAMETER
+      #header
+          #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+          #optional header parameters
+        #NO REQUEST BODY
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_QueryClaimInformation"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+    patch:
+      summary: Patch a single claim
+      description: |
+        The patch claim method modifies a previously created claim. The patch is
+        then submitted and amended according to new information.
+         
+        Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
+        from cancelled the recreation is triggered. Recreating a claim keeps existing history.
+        
+        To cancel a claim change status to Cancelled
+        
+        To move to different collection change collectionState
+        - SecondaryCollection (for secondary)
+        - PrimaryCollection (for primary)        
+        
+        For further input parameters descriptions, see the mergeClaimDetails request object.
+
+      operationId: patchClaim
+      tags:
+        - Claim Service
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+      #path
+        - $ref: "#/components/parameters/claimId"
+      #query # NO QUERY PARAMETER
+      #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        #NO REQUEST BODY
+
+      requestBody:
+        $ref: "#/components/requestBodies/mergeClaim"  # JSON Merge Patch
+
+      responses:
+        '201':
+          $ref: "#/components/responses/OK_201_ActionSingleResponse"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/claims/{claimId}/transactions:
+
+    get:
+      summary: Get payments for a single claim
+      description: |
+        Returns all claim payments. When claim is paid by debtor the claim payment is visible in near real-time.
+      operationId: getClaimTransactions
+      tags:
+        - Claim Service
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+      #path
+        - $ref: "#/components/parameters/claimId"
+      #query
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/itemsPerPage"
+      #header
+          #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+          #optional header parameters
+        #NO REQUEST BODY
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_ClaimTransactionListInformation"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/claims/{claimId}/history:
+
+    get:
+      summary: Get single claim history
+      description: |
+        Claim history contains every event for the claim from the beginning, i.e., all changes that
+        have been made to the claim together with information about the claim itself.
+      operationId: getClaimHistory
+      tags:
+        - Claim Service
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+      #path
+        - $ref: "#/components/parameters/claimId"
+      #query
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/itemsPerPage"
+      #header
+          #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+          #optional header parameters
+        #NO REQUEST BODY
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_ClaimHistoryListInformation"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/claims/transactions:
+
+    get:
+      summary: Get payments for multiple claims
+      description: |
+        Returns all payments for a given claim.  Payment information is accessable near realtime.
+      operationId: getClaimsTransactions
+      tags:
+        - Claim Service
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+      #path # NO PATH PARAMETER
+      #query
+        - $ref: "#/components/parameters/claimantId"
+        - $ref: "#/components/parameters/dateFromQuery"
+        - $ref: "#/components/parameters/dateToQuery"
+        - $ref: "#/components/parameters/templateCodeQuery"
+        - $ref: "#/components/parameters/depositAccountQuery"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/itemsPerPage"
+      #header
+          #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+          #optional header parameters
+        #NO REQUEST BODY
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_ClaimTransactionListInformation"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
   /v1/batches:
 
     post:
@@ -638,67 +699,6 @@ paths:
       responses:
         '200':
           $ref: "#/components/responses/OK_20x_ActionResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claims/transactions:
-
-    get:
-      summary: Get payments for multiple claims
-      description: |
-        Returns all payments for a given claim.  Payment information is accessable near realtime.
-      operationId: getClaimsTransactions
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path # NO PATH PARAMETER
-      #query
-        - $ref: "#/components/parameters/claimantId"
-        - $ref: "#/components/parameters/dateFromQuery"
-        - $ref: "#/components/parameters/dateToQuery"
-        - $ref: "#/components/parameters/templateCodeQuery"
-        - $ref: "#/components/parameters/depositAccountQuery"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimTransactionListInformation"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -883,9 +883,18 @@ components:
           $ref: "#/components/schemas/claimKey"
         claimId:
           $ref: "#/components/schemas/claimId"
-        errorCode:
+        resultCode:
           type: string
-        errorMessage:
+          enum:
+            - "CLAIM_EXISTS"
+            - "CLAIM_IS_PAID"
+            - "CLAIM_NOT_FOUND"
+            - "CLAIM_IS_CANCELLED"
+            - "CLAIM_NOT_IN_SECONDARY_STATE"
+            - "CLAIM_OTHERS"
+        resultSubCode:
+          type: string
+        resultMessage:
           type: string
 
     claimTemplateCategory:
@@ -1150,7 +1159,7 @@ components:
           type: integer
           minimum: 0
           maximum: 99
-        amount:
+        value:
           type: integer
 
     discount:

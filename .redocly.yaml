@@ -1,0 +1,4 @@
++lint:
+  rules:
+    no-invalid-media-type-examples:
+      severity: warn

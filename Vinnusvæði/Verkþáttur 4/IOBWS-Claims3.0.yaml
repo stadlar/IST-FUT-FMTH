@@ -627,13 +627,13 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimsRecreateBatch:
+  /v1/batches:
 
     post:
-      summary: Creates a list of claims defined by the request body object
+      summary: List of action defined by the request body object
       description: |
-        Creates a list of claims defined by the request body object
-      operationId: createRecreationBatch
+        Creates a list of action defined by the request body object
+      operationId: createActionBatch
       tags:
         - Claim Service
       security:
@@ -651,9 +651,9 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-      #path # NO PATH PARAMETER
-      #query
-      #header
+        #path # NO PATH PARAMETER
+        #query
+        #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
@@ -663,11 +663,11 @@ paths:
         #NO REQUEST BODY
 
       requestBody:
-        $ref: "#/components/requestBodies/createClaimList"
+        $ref: "#/components/requestBodies/batchInitiation"
 
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
+        '201':
+          $ref: "#/components/responses/OK_201_BatchInitiation"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -687,13 +687,13 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimsRecreationBatch/{batchId}:
+  /v1/batches/{batchId}:
 
     get:
-      summary: Gets a list of claims defined by the query object
+      summary: Get a status of batch initiation
       description: |
-        Gets a list of claims previously re-created by POST RecreationBatch method
-      operationId: getRecreationBatch
+        Get a list of claims previously initiated by POST method
+      operationId: getBatchStatus
       tags:
         - Claim Service
       security:
@@ -711,13 +711,72 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-      #path
+        #path
         - $ref: "#/components/parameters/batchId"
-      #query
-      #header
+        #query
+        #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
+        #optional header parameters
+        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/Authorization"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_BatchInitiation"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/batches/{batchId}/success:
+
+    get:
+      summary: Gets a list of claims successfully create in batch initiation
+      description: |
+        The QueryClaims function returns a list of successful claims based on the batch. The maximum
+        return is set with the page number and number per page.
+      operationId: queryBatchSuccess
+      tags:
+        - Claim Service
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        #path # NO PATH PARAMETER
+        #query
+        - $ref: "#/components/parameters/batchId"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/itemsPerPage"
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
 
@@ -743,190 +802,14 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimsCreationBatch:
-
-    post:
-      summary: Creates a list of claims defined by the request body object
-      description: |
-        Creates a list of claims defined by the request body object
-      operationId: createCreationBatch
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path # NO PATH PARAMETER
-      #query
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/X-Idempotency-Key"
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      requestBody:
-        $ref: "#/components/requestBodies/createClaimList"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claimsCreationBatch/{batchId}:
+  /v1/batches/{batchId}/failed:
 
     get:
-      summary: Gets a list of claims defined by the query object
+      summary: Gets a list of batch action that failed processing
       description: |
-        Gets a list of claims previously created by POST CreationBatch method
-      operationId: getCreationBatch
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/batchId"
-      #query
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryClaimListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claimsCancellationBatch:
-
-    post:
-      summary: Cancel a list of claims defined by the request body object
-      description: |
-        Cancel a list of claims defined by the request body object
-      operationId: createCancellationBatch
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path # NO PATH PARAMETER
-      #query
-        #- ADD QUERY
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/X-Idempotency-Key"
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      requestBody:
-        $ref: "#/components/requestBodies/cancelClaimList"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claimsCancellationBatch/{batchId}:
-
-    get:
-      summary: Gets a list of claims cancelled by the query object
-      description: |
-        Gets a list of claims previously cancelled by DELETE CancellationBatch defined by the query object
-      operationId: getCancellationBatch
+        Returns a list of failed batch actions with reason. The maximum
+        return is set with the page number and number per page.
+      operationId: queryClaims
       tags:
         - Claim Service
       security:
@@ -947,133 +830,18 @@ paths:
       #path # NO PATH PARAMETER
       #query
         - $ref: "#/components/parameters/batchId"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/itemsPerPage"
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryClaimListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claimsAlterationBatch:
-
-    post:
-      summary: Alters a list of claims defined by the request body object
-      description: |
-        This method alters a list of claims defined by the request body object
-      operationId: createAlterationBatch
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path # NO PATH PARAMETER
-      #query
-        #- ADD QUERY
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/X-Idempotency-Key"
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      requestBody:
-        $ref: "#/components/requestBodies/alterClaimList"
 
       responses:
         '200':
           $ref: "#/components/responses/OK_200_ClaimResponseInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claimsAlterationBatch/{batchId}:
-
-    get:
-      summary: Gets a list of altered claims defined by the query object
-      description: |
-        Gets a list of altered claims defined by the query object
-      operationId: getAlterationBatch
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path # NO PATH PARAMETER
-      #query
-        - $ref: "#/components/parameters/batchId"
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryClaimListInformation"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -1141,67 +909,6 @@ paths:
       responses:
         '200':
           $ref: "#/components/responses/OK_200_ClaimTransactionListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/claimsTransferBatch:
-
-    post:
-      summary: Move claim between colleciton type.
-      description: |
-        Transfers list of claims to secondary collection
-
-      operationId: moveClaimListBetweenCollectionType
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path # NO PATH PARAMETER
-      #query # NO QUERY PARAMETER
-      #header
-          #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/X-Idempotency-Key"
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      requestBody:
-        $ref: "#/components/requestBodies/transferClaimList"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimResponseInformation"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -2153,7 +1860,6 @@ components:
             - "B"
             - "C"
 
-
     claimDetailInformation:
       description: |
         OK
@@ -2480,7 +2186,74 @@ components:
         claimKey:
           $ref: "#/components/schemas/claimKey"
 
+    createClaimList:
+      description: |
+        JSON request body for a claims update request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/createClaimListDetails"
+
+    recreateClaimList:
+      description: |
+        JSON request body for a claims update request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/createClaimListDetails"
+
+    transferClaimList:
+      description: |
+        JSON request body for a claims update request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/transferClaimListDetails"
+
+    alterClaimList:
+      description: |
+        JSON request body for a claims update request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/alterClaimListDetails"
+
+    cancelClaimList:
+      description: |
+        JSON request body for a claims update request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/cancelClaimListDetails"
+
     # RESPONSES
+
+    batchStatus:
+      description: Status of a batch initiation
+      properties:
+        batchId:
+          $ref: "#/components/schemas/uuid"
+        success:
+          type: integer
+          description: Number of successful items processed
+        failed:
+          type: integer
+          description: Number of failed items processed
+        pending:
+          type: integer
+          description: Number of items pending processing
+        actionType:
+          type: string
+          enum:
+            - "claimPost"
+            - "claimPut"
+            - "claimDelete"
+            - "transferPut"
 
     claimError:
       description: OK
@@ -2547,7 +2320,6 @@ components:
         status:
           description: Did the method success
           type: boolean
-
 
     claimHistoryList:
       description: |
@@ -3765,6 +3537,36 @@ components:
   # Reusable Request Bodies
   #####################################################
 
+    batchInitiation:
+      description: |
+        JSON request body for a action inition request message
+
+        There are the following batch action supported:
+        * claimPost
+        * claimPut
+        * claimDelete
+        * transferPut
+
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/recreateClaimList"
+              - $ref: "#/components/schemas/createClaimList"
+              - $ref: "#/components/schemas/cancelClaimList"
+              - $ref: "#/components/schemas/alterClaimList"
+              - $ref: "#/components/schemas/transferClaimList"
+            properties:
+              batchType:
+                type: string
+                enum:
+                  - recreate
+                  - create
+                  - cancel
+                  - alter
+                  - transfer
+
     claimKeyList:
       description: |
         JSON request body for a claimkeys request message
@@ -3782,42 +3584,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/documentReferenceListDetails"
-
-    createClaimList:
-      description: |
-        JSON request body for a claims update request message
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/createClaimListDetails"
-
-    transferClaimList:
-      description: |
-        JSON request body for a claims update request message
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/transferClaimListDetails"
-
-    alterClaimList:
-      description: |
-        JSON request body for a claims update request message
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/alterClaimListDetails"
-
-    cancelClaimList:
-      description: |
-        JSON request body for a claims update request message
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/cancelClaimListDetails"
 
     claim:
       description: |
@@ -3882,6 +3648,66 @@ components:
     #####################################################
     # Positive Responses
     #####################################################
+
+    OK_201_BatchInitiation:
+      description: Batch initiation created
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+        X-Paging-CurrentPage:
+          description: |
+            Current page number
+          schema:
+            type: integer
+        X-Paging-TotalPages:
+          description: |
+            Total pages
+          schema:
+            type: integer
+        X-Paging-TotalItems:
+          description: |
+            Total items
+          schema:
+            type: integer
+        X-Paging-PerPage:
+          description: |
+            Items per page
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/batchStatus"
+
+    OK_200_BatchInitiation:
+      description: Batch initiation created
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+        X-Paging-CurrentPage:
+          description: |
+            Current page number
+          schema:
+            type: integer
+        X-Paging-TotalPages:
+          description: |
+            Total pages
+          schema:
+            type: integer
+        X-Paging-TotalItems:
+          description: |
+            Total items
+          schema:
+            type: integer
+        X-Paging-PerPage:
+          description: |
+            Items per page
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/batchStatus"
 
     OK_200_ClaimTransactionListInformation:
       description: |
@@ -4082,183 +3908,102 @@ components:
           schema:
             $ref: "#/components/schemas/claimTemplateDetails"
 
-    OK_200_CLAIM:
-      description: |
-        The X-Request-ID has the same value as was passed to the method, as determined by the initiating party.
-      headers:
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/readClaimResponse"
-
-
     #####################################################
     # Negative Responses
     #####################################################
 
     BAD_REQUEST_400:
       description: Bad Request
-
       headers:
         Location:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Error400"
-
         application/problem+json:
           schema:
             $ref: "#/components/schemas/Error400"
 
     UNAUTHORIZED_401:
       description: Unauthorized
-
       headers:
         Location:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Error401"
-
         application/problem+json:
           schema:
              $ref: "#/components/schemas/Error401"
 
     FORBIDDEN_403:
       description: Forbidden
-
       headers:
         Location:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Error403_NG"
-
         application/problem+json:
           schema:
              $ref: "#/components/schemas/Error403"
 
     NOT_FOUND_404:
       description: Not found
-
       headers:
         Location:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Error404_NG"
-
         application/problem+json:
           schema:
              $ref: "#/components/schemas/Error404"
 
     METHOD_NOT_ALLOWED_405:
       description: Method Not Allowed
-
       headers:
         Location:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Error405_NG"
-
         application/problem+json:
           schema:
              $ref: "#/components/schemas/Error405"
 
-    NOT_ACCEPTABLE_406:
-      description: Not Acceptable
-
-      headers:
-        Location:
-          $ref: "#/components/headers/Location"
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/Error406_NG"
-        application/problem+json:
-          schema:
-             $ref: "#/components/schemas/Error406"
-
     REQUEST_TIMEOUT_408:
       description: Request Timeout
-
       headers:
         Location:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 408
-
-    CONFLICT_409:
-      description: Conflict
-
-      headers:
-        Location:
-          $ref: "#/components/headers/Location"
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-      content:
-        application/json:
-          schema:
-             $ref: "#/components/schemas/Error409_NG"
-
-        application/problem+json:
-          schema:
-             $ref: "#/components/schemas/Error409"
+      #No Response body because there are no valid message codes in case of HTTP code 408
 
     UNSUPPORTED_MEDIA_TYPE_415:
       description: Unsupported Media Type
-
       headers:
         Location:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 415
-
-    TOO_MANY_REQUESTS_429:
-      description: Too Many Requests
-
-      headers:
-        Location:
-          $ref: "#/components/headers/Location"
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
-
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/Error429_NG"
-        application/problem+json:
-
-          schema:
-             $ref: "#/components/schemas/Error429"
+      #No Response body because there are no valid message codes in case of HTTP code 415
 
     INTERNAL_SERVER_ERROR_500:
       description: Internal Server Error
@@ -4297,16 +4042,6 @@ tags:
       * Create claims
       * Re create claims
       * Send to secondary collection
-      * Get operation results
-      * Get payments
-      * Get transactions
-
-  - name: Claim Collection Service
-    description: |
-      The component for Claims Collection offers the following services:
-      * Alter claims
-      * Cancel claims
-      * Return from secondary collection
       * Get operation results
       * Get payments
       * Get transactions

@@ -486,7 +486,8 @@ components:
         Kennitala of the sender for filtering.
       required: true
       schema:
-        $ref: "#/components/schemas/kennitala"
+        type: string
+        minLength: 10
 
     senderKennitala:
       name: sender-kennitala
@@ -495,7 +496,8 @@ components:
         Kennitala of the documents sender.
       required: true
       schema:
-        $ref: "#/components/schemas/kennitala"
+        type: string
+        minLength: 10
 
     receiverKennitala:
       name: receiverKennitala
@@ -504,7 +506,8 @@ components:
         Kennitala of the receiver.
       required: false
       schema:
-        $ref: "#/components/schemas/kennitala"
+        type: string
+        minLength: 10
 
     documentTypeCode:
       name: documentTypeCode
@@ -514,7 +517,7 @@ components:
       required: false
       schema:
         type: string
-        maxLength: 10
+        minLength: 10
 
     status:
       name: status
@@ -618,10 +621,8 @@ components:
       type: string
 
     fileReference:
-        description: |
-          If the file is reference to an external reference, like https://www.example.com/files/file.pdf.
-        type: string
-        maxLength: 150
+      type: string
+      maxLength: 150
 
     kennitala:
       description: |
@@ -683,7 +684,6 @@ components:
         - fileType
       properties:
         id:
-          # Unique ID of the batch, as determined by the initiating party.
           $ref: "#/components/schemas/uuid"
         name:
           description: Short description for the file
@@ -726,7 +726,6 @@ components:
         - files
       properties:
         id:
-          # Unique ID of the batch, as determined by the initiating party.
           $ref: "#/components/schemas/uuid"
         name:
           description: Short description for the batch
@@ -779,7 +778,6 @@ components:
         - status
       properties:
         id:
-          # Unique ID of the batch, as determined by the initiating party.
           $ref: "#/components/schemas/uuid"
         name:
           description: Short description for the file

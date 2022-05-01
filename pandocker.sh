@@ -28,8 +28,9 @@ then
   cp "out/docs/310and313media/AuthFlow1/AuthFlow1.eps" "lib/media/authtflow1.eps"
 fi
 # ex "ÍST WA 316_2022 IOBWS 3.0 Technical Guidelines"
-ex "ÍST TS 313_2022 Foreign payments"
-ex "ÍST TS 310_2022 Domestic payments and deposits"
+# ex "ÍST TS 313_2022 Foreign payments"
+# ex "ÍST TS 310_2022 Domestic payments and deposits"
+ex "ÍST TS 311_2022 Debit and credit cards details and statements"
 echo 'done'
 # docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'docs/ÍST TS 313_2021 Foreign payments.md' -o 'docs/ÍST TS 313_2021 Foreign payments.pdf' --from markdown --template 'lib/ist.tex' --listings --filter pandoc-include --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter
 # docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'docs/ÍST TS 310_2020 Domestic payments and deposits.md' -o 'docs/ÍST TS 310_2020 Domestic payments and deposits.pdf' --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter

@@ -1,15 +1,34 @@
 openapi: 3.0.1
 info:
-  title: IOBWS 3.0 Currency
+  title: IOBWS 3.0 Currency Exchange Rate
   version: "3.0"
   description: |
     # Summary
 
-    This document contains version 3.0 of the Icelandic Online Banking Services (IOBWS), for currencies, released 
-    as a technical specification (TS) no. 312 by the Icelandic Standards Council. Previous versions of IOBWS, released
-    in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards to establish common banking
-    interfaces for the Icelandic market. The aim in v3.0 is to offer a more interoperable set of 
-    Application Programming Interfaces (APIs) to provide open access to data.
+    This document represents version 3.0 of the Icelandic Online Banking Services (IOBWS)
+    and is released as a part of the technical specification ÍST TS 312, currency rates, 
+    by the Icelandic Standards Council.
+    Previous versions of IOBWS, released in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards.
+    TS 312 is the immidate successor to TS 160:2013 but offers a more up to date and interoperable set of
+    Application Programming Interfaces (APIs).
+
+    In places the contract uses elements based on the Berlin Group NextGenPSD2 XS2A Framework, mainly
+    versions 1.3.5 and 1.3.8 of that specification. Attribution applies as required by 
+    the CC BY 4.0 license NextGenPSD2 is released under.
+
+    ## Remark on character set support
+
+    The definition of UTF-8 strings in context of this API has to support at least the following characters
+
+    a b c d e f g h i j k l m n o p q r s t u v w x y z å ä ö æ ø á ð é í ó ú ý	þ	æ	ö
+    
+    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö
+
+    0 1 2 3 4 5 6 7 8 9
+     
+    / - ? : ( ) . , ' + @
+    
+    Space
 
   license:
     name: Creative Commons Attribution 4.0 International Public License
@@ -21,14 +40,14 @@ info:
 
 externalDocs:
   description: |
-    Documentation for TS 312 (General Introduction Paper, Operational Rules, Implementation Guidelines)
-  url: https://github.com/stadlar/IST-FUT-FMTH/blob/82d040dbed6cad040b043c3a1fd67a16060d9726/Deliverables/%C3%8DST-TS-312_2021%20Currency.pdf
+    Documentation for ÍS TS-312 (Technical Specifications, Technical Guidelines)
+  url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables
 
 servers:
-  - url: https://psd2.example.com
-    description: PSD2 server
-  - url: https://sandbox-psd2.example.com
-    description: Optional PSD2 sandbox server
+  - url: https://currencies.example.com
+    description: Example production server
+  - url: https://currencies-sandbox.example.com
+    description: Example s server for testing
 
 paths:
 
@@ -44,9 +63,10 @@ paths:
         Retrieve a list of all available currencies, optionally by a particular source.
       operationId: readCurrencies
       tags:
-        - currencies
+        - Currencies Information Service (CIS)
       security:
         - {}
+        - BearerAuthOAuth: []
       parameters:
         #path
         #query
@@ -88,9 +108,10 @@ paths:
         Retrieve all supported currencies sources.
       operationId: readCurrenciesSources
       tags:
-        - currencies
+        - Currencies Information Service (CIS)
       security:
         - {}
+        - BearerAuthOAuth: []
       parameters:
         #path
         #query
@@ -132,9 +153,10 @@ paths:
         Read currency rates for a given base currency.
       operationId: readCurrencyRates
       tags:
-        - currencies
+        - Currencies Information Service (CIS)
       security:
         - {}
+        - BearerAuthOAuth: []
       parameters:
         #path
         - $ref: "#/components/parameters/baseCurrencyCode"
@@ -178,9 +200,10 @@ paths:
         Reads currency rates for a quoted currency, given a defined base currency.
       operationId: readCurrencyRatesBaseCurrency
       tags:
-        - currencies
+        - Currencies Information Service (CIS)
       security:
         - {}
+        - BearerAuthOAuth: []
       parameters:
         #path
         - $ref: "#/components/parameters/quoteCurrencyCode"
@@ -225,9 +248,10 @@ paths:
         Read rates for single currency entity with base currency defined
       operationId: readCurrencyRatesHistoryBaseCurrency
       tags:
-        - currencies
+        - Currencies Information Service (CIS)
       security:
         - {}
+        - BearerAuthOAuth: []
       parameters:
         #path
         - $ref: "#/components/parameters/quoteCurrencyCode"
@@ -270,6 +294,28 @@ components:
 #####################################################
 # Predefined Components
 #####################################################
+  securitySchemes:
+  #####################################################
+  # Predefined Security Schemes:
+  #
+  # In this file only the basic security element to transport
+  # the bearer token of an OAuth2 process, which has to
+  # be included in the HTTP header is described.
+  #
+  # WARNING:
+  # If you want to use this file for a productive implementation,
+  # it is recommended to adjust the security schemes according to
+  # your system environments and security policies.
+  #####################################################
+    BearerAuthOAuth:
+      description: |
+        Bearer Token.
+
+        Is contained only, if an OAuth2 based authentication was performed in a pre-step or
+        an OAuth2 based SCA was performed in a preceding AIS service in the same session.
+      type: http
+      scheme: bearer
+
   schemas:
   #####################################################
   # Predefined Schemas
@@ -296,6 +342,13 @@ components:
       description: Link to a resource.
       type: string
       example: "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
+      
+    currencyCode:
+      description: |
+        ISO 4217 Alpha 3 currency code.
+      type: string
+      pattern: '[A-Z]{3}'
+      example: "EUR"
       
     currency:
       description: |
@@ -505,21 +558,6 @@ components:
         download:
           $ref: "#/components/schemas/hrefType"
 
-        Type of links admitted in this response:
-          - "download": a link to a resource, where the transaction report might be downloaded from in
-          case where transaction reports have a huge size.
-
-        Remark: This feature shall only be used where camt-data is requested which has a huge size.
-
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/hrefType"
-      required:
-        - download
-      properties:
-        download:
-          $ref: "#/components/schemas/hrefType"
-
     _linksCardAccountReport:
       type: object
       additionalProperties:
@@ -564,7 +602,7 @@ components:
   # Generic Elements
   #####################################################
 
-    svcMessageCategory:
+    messageCategory:
       description: Category of the intermediary service message category.
       type: string
       enum:
@@ -665,134 +703,134 @@ components:
   #####################################################
 
 
-    svcMessageText:
+    messageText:
       description: Additional explaining text to the intermediary service.
       type: string
       maxLength: 500
 
 
-    svcMessage400:
+    message400:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode400"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
           
 
-    svcMessage401:
+    message401:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode401"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
 
-    svcMessage403:
+    message403:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode403"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
 
-    svcMessage404:
+    message404:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode404"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    svcMessage405:
+    message405:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode405"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    svcMessage406:
+    message406:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode406"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    svcMessage409:
+    message409:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode409"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    svcMessage429:
+    message429:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode429"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
 
   #####################################################
@@ -1263,10 +1301,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 400.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage400"
+            $ref: "#/components/schemas/message400"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1275,10 +1313,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage401"
+            $ref: "#/components/schemas/message401"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1287,10 +1325,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 403.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage403"
+            $ref: "#/components/schemas/message403"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1299,10 +1337,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 404.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage404"
+            $ref: "#/components/schemas/message404"
         _links:
           $ref: "#/components/schemas/_linksAll"
           
@@ -1311,10 +1349,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage405"
+            $ref: "#/components/schemas/message405"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1323,10 +1361,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 406.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage406"
+            $ref: "#/components/schemas/message406"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1335,10 +1373,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 409.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage409"
+            $ref: "#/components/schemas/message409"
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
@@ -1353,10 +1391,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 429.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage429"
+            $ref: "#/components/schemas/message429"
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
@@ -1365,20 +1403,6 @@ components:
           "code": "ACCESS_EXCEEDED",
           "text": "additional text information of the Bank up to 500 characters"
         }
-
-    cardId:
-      description: |
-        Uniquie identifier for card
-      type: string
-      maxLength: 35
-
-    currencyCode:
-      description: |
-        ISO 4217 Alpha 3 currency code.
-      type: string
-      pattern: '[A-Z]{3}'
-      example: "EUR"
-
 
   parameters:
   #####################################################
@@ -2133,7 +2157,7 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
   
-  - name: currencies
+  - name: Currencies Information Service (CIS)
     description: |
       The Currency Information Service offers the following services:
         * Get a list of the available currencies

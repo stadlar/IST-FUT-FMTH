@@ -5,14 +5,28 @@ info:
   description: |
     # Summary
 
-    This document contains version 3.0 of the Icelandic Online Banking Services (IOBWS), for currencies, released 
-    as a technical specification (TS) no. 311 by the Icelandic Standards Council. Previous versions of IOBWS, released
-    in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards to establish common banking
-    interfaces for the Icelandic market. The aim in v3.0 is to offer a more modern and interoperable set of 
-    Application Programming Interfaces (APIs) to provide card data not previously exposed.
+    This document represents version 3.0 of the Icelandic Online Banking Services (IOBWS) 
+    and is released as a part of the technical specification ÍST TS 311, 
+    debit and credit card details and statements, by the Icelandic Standards Council. 
+    ÍST TS 311 is a new addition so no immidiate successsor exist in IOBWS major versions 2 or 1.
 
-    Early version of this contract used elements that referenced Berlin Group NextGenPSD2 XS2A Framework types and
-    parts of it are aligned with the 1.3.8 version of that standard, where it applies.
+    In places the contract uses elements based on the Berlin Group NextGenPSD2 XS2A Framework, mainly
+    versions 1.3.5 and 1.3.8 of that specification. Attribution applies as required by 
+    the CC BY 4.0 license NextGenPSD2 is released under.
+
+    ## Remark on character set support
+
+    The definition of UTF-8 strings in context of this API has to support at least the following characters
+
+    a b c d e f g h i j k l m n o p q r s t u v w x y z å ä ö æ ø á ð é í ó ú ý	þ	æ	ö
+    
+    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö
+
+    0 1 2 3 4 5 6 7 8 9
+    
+    / - ? : ( ) . , ' + @
+    
+    Space
 
   license:
     name: Creative Commons Attribution 4.0 International Public License
@@ -24,14 +38,14 @@ info:
 
 externalDocs:
   description: |
-    Documentation for TS 312 (General Introduction Paper, Operational Rules, Implementation Guidelines)
-  url: https://github.com/stadlar/IST-FUT-FMTH/blob/82d040dbed6cad040b043c3a1fd67a16060d9726/Deliverables/%C3%8DST-TS-312_2021%20Currency.pdf
+    Documentation for ÍST TS 311 (Technical Specifications, Technical Guidelines)
+  url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables
 
 servers:
-  - url: https://psd2.example.com
-    description: PSD2 server
-  - url: https://sandbox-psd2.example.com
-    description: Optional PSD2 sandbox server
+  - url: https://cards.example.com
+    description: Example production server
+  - url: https://cards-sandbox.example.com
+    description: Sandbox server for testing
 
 paths:
 
@@ -55,7 +69,7 @@ paths:
 
       operationId: readListOfCards
       tags:
-        - cards
+        - Card Information Service (CIS)
 
       security:
       #####################################################
@@ -70,7 +84,7 @@ paths:
       # your system enviroments and security policies.
       #####################################################
         - {}
-        # - BearerAuthOAuth: []
+        - BearerAuthOAuth: []
 
       parameters:
         #path # NO PATH PARAMETER
@@ -79,9 +93,23 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
-        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/consentId_HEADER"
         - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/Digest"
+        - $ref: "#/components/parameters/Signature"
+        - $ref: "#/components/parameters/Signature-Certificate"
+        #optional additional PSU Information in header
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Port"
+        - $ref: "#/components/parameters/USR-Accept"
+        - $ref: "#/components/parameters/USR-Accept-Charset"
+        - $ref: "#/components/parameters/USR-Accept-Encoding"
+        - $ref: "#/components/parameters/USR-Accept-Language"
+        - $ref: "#/components/parameters/USR-User-Agent"
+        - $ref: "#/components/parameters/USR-Http-Method"
+        - $ref: "#/components/parameters/USR-Device-ID"
+        - $ref: "#/components/parameters/USR-Geo-Location"
+    
 
       # no request body
       # requestBody:
@@ -126,7 +154,7 @@ paths:
 
       operationId: readCardDetails
       tags:
-        - cards
+        - Card Information Service (CIS)
 
       security:
       #####################################################
@@ -141,7 +169,7 @@ paths:
       # your system environments and security policies.
       #####################################################
         - {}
-        # - BearerAuthOAuth: []
+        - BearerAuthOAuth: []
 
       parameters:
         #path
@@ -151,9 +179,22 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
-        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/consentId_HEADER"
         - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/Digest"
+        - $ref: "#/components/parameters/Signature"
+        - $ref: "#/components/parameters/Signature-Certificate"
+        #optional additional PSU Information in header
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Port"
+        - $ref: "#/components/parameters/USR-Accept"
+        - $ref: "#/components/parameters/USR-Accept-Charset"
+        - $ref: "#/components/parameters/USR-Accept-Encoding"
+        - $ref: "#/components/parameters/USR-Accept-Language"
+        - $ref: "#/components/parameters/USR-User-Agent"
+        - $ref: "#/components/parameters/USR-Http-Method"
+        - $ref: "#/components/parameters/USR-Device-ID"
+        - $ref: "#/components/parameters/USR-Geo-Location"
 
       # no request body
       # requestBody:
@@ -197,7 +238,7 @@ paths:
 
       operationId: readCardBalances
       tags:
-        - cards
+        - Card Information Service (CIS)
 
       security:
       #####################################################
@@ -212,7 +253,7 @@ paths:
       # your system enviroments and security policies.
       #####################################################
         - {}
-        # - BearerAuthOAuth: []
+        - BearerAuthOAuth: []
 
       parameters:
         #path
@@ -223,9 +264,22 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
-        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/consentId_HEADER"
         - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/Digest"
+        - $ref: "#/components/parameters/Signature"
+        - $ref: "#/components/parameters/Signature-Certificate"
+        #optional additional PSU Information in header
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Port"
+        - $ref: "#/components/parameters/USR-Accept"
+        - $ref: "#/components/parameters/USR-Accept-Charset"
+        - $ref: "#/components/parameters/USR-Accept-Encoding"
+        - $ref: "#/components/parameters/USR-Accept-Language"
+        - $ref: "#/components/parameters/USR-User-Agent"
+        - $ref: "#/components/parameters/USR-Http-Method"
+        - $ref: "#/components/parameters/USR-Device-ID"
+        - $ref: "#/components/parameters/USR-Geo-Location"
 
       # no request body
       # requestBody:
@@ -263,7 +317,7 @@ paths:
 
       operationId: readCardTransactionData
       tags:
-        - cards
+        - Card Information Service (CIS)
 
       security:
       #####################################################
@@ -278,7 +332,7 @@ paths:
       # your system enviroments and security policies.
       #####################################################
         - {}
-        # - BearerAuthOAuth: []
+        - BearerAuthOAuth: []
 
       parameters:
         #path
@@ -292,9 +346,22 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
-        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/consentId_HEADER"
         - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/Digest"
+        - $ref: "#/components/parameters/Signature"
+        - $ref: "#/components/parameters/Signature-Certificate"
+        #optional additional PSU Information in header
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Port"
+        - $ref: "#/components/parameters/USR-Accept"
+        - $ref: "#/components/parameters/USR-Accept-Charset"
+        - $ref: "#/components/parameters/USR-Accept-Encoding"
+        - $ref: "#/components/parameters/USR-Accept-Language"
+        - $ref: "#/components/parameters/USR-User-Agent"
+        - $ref: "#/components/parameters/USR-Http-Method"
+        - $ref: "#/components/parameters/USR-Device-ID"
+        - $ref: "#/components/parameters/USR-Geo-Location"
 
       # no request body
       # requestBody:
@@ -850,7 +917,7 @@ components:
         {
           street: "rue blue",
           buildingnNumber: "89",
-          city: "Paris",
+          townName: "Paris",
           postalCode: "75000",
           country: "FR"
         }
@@ -868,7 +935,7 @@ components:
         combination of numbers, "(", ")", "+" and "-" (up to 30 characters).
         pattern according to ISO20022 \+[0-9]{1,3}-[0-9()+\-]{1,30}
       type: string
-      pattern: '\+[0-9]{1,3}\-[0-9()+\-]{1,30}'
+      pattern: '\+[0-9]{1,3}-[0-9()+\-]{1,30}'
 
     ownerName:
       description: |
@@ -949,7 +1016,7 @@ components:
 
     bookingDate:
       description: |
-        The date when an entry is posted to an account on the ASPSPs books.
+        The date when an entry is posted to an account on the Banks books.
       type: string
       format: date
 
@@ -1105,7 +1172,7 @@ components:
   # Generic Elements
   #####################################################
 
-    svcMessageCategory:
+    messageCategory:
       description: Category of the intermediary service message category.
       type: string
       enum:
@@ -1200,134 +1267,134 @@ components:
   #####################################################
 
 
-    svcMessageText:
+    messageText:
       description: Additional explaining text to the intermediary service.
       type: string
       maxLength: 500
 
 
-    svcMessage400:
+    message400:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode400"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
           
 
-    svcMessage401:
+    message401:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode401"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
 
-    svcMessage403:
+    message403:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode403"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
 
-    svcMessage404:
+    message404:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode404"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    svcMessage405:
+    message405:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode405"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    svcMessage406:
+    message406:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode406"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    svcMessage409:
+    message409:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode409"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
-    svcMessage429:
+    message429:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/svcMessageCategory"
+           $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode429"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/svcMessageText"
+          $ref: "#/components/schemas/messageText"
 
 
   #####################################################
@@ -1798,10 +1865,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 400.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage400"
+            $ref: "#/components/schemas/message400"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1810,10 +1877,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage401"
+            $ref: "#/components/schemas/message401"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1822,10 +1889,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 403.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage403"
+            $ref: "#/components/schemas/message403"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1834,10 +1901,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 404.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage404"
+            $ref: "#/components/schemas/message404"
         _links:
           $ref: "#/components/schemas/_linksAll"
           
@@ -1846,10 +1913,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage405"
+            $ref: "#/components/schemas/message405"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1858,10 +1925,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 406.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage406"
+            $ref: "#/components/schemas/message406"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
@@ -1870,10 +1937,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 409.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage409"
+            $ref: "#/components/schemas/message409"
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
@@ -1888,10 +1955,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 429.
       type: object
       properties:
-        svcMessages:
+        messages:
           type: array
           items:
-            $ref: "#/components/schemas/svcMessage429"
+            $ref: "#/components/schemas/message429"
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
@@ -1919,7 +1986,7 @@ components:
   # Predefined Parameters
   #####################################################
     
-    consentId_HEADER_optional:
+    consentId_HEADER:
       name: Consent-ID
       in: header
       description: |
@@ -1944,8 +2011,8 @@ components:
       name: Authorization
       in: header
       description: |
-        This field  might be used in case where a consent was agreed between Bank and user through an OAuth2 based protocol,
-        facilitated by the intermediary service.
+        This field  might be used in case where access was granted between Bank and user through an OAuth2 based protocol,
+        optionally facilitated by an intermediary service.
       required: false
       schema:
         $ref: "#/components/schemas/authorization"
@@ -2022,8 +2089,31 @@ components:
       schema:
         type: string
         format: uuid
+    
+    Digest:
+      name: Digest
+      in: header
+      description: Is contained if and only if the "Signature" element is contained in the header of the request.
+      schema:
+        type: string
+      required: false # conditional
+      example: "SHA-256=hl1/Eps8BEQW58FJhDApwJXjGY4nr1ArGDHIT25vq6A="
 
-    SVC-Signature-Certificate:
+
+    Signature:
+      name: Signature
+      in: header
+      description: |
+        A signature of the request by the TPP on application level. This might be mandated by ASPSP.
+      schema:
+        type: string
+      required: false # conditional
+      example: >
+        keyId="SN=9FA1,CA=CN=D-TRUST%20CA%202-1%202015,O=D-Trust%20GmbH,C=DE",algorithm="rsa-sha256",
+        headers="Digest X-Request-ID PSU-ID TPP-Redirect-URI Date",
+        signature="Base64(RSA-SHA256(signing string))"
+
+    Signature-Certificate:
       name: SVC-Signature-Certificate
       in: header
       description: |
@@ -2196,6 +2286,17 @@ components:
         format: ipv4
       required: false
       example: 192.168.8.78
+    
+
+    USR-IP-Port:
+      name: PSU-IP-Port
+      in: header
+      description: |
+        The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.
+      schema:
+        type: string
+      required: false
+      example: "1234"
 
     USR-Accept:
       name: USR-Accept
@@ -2847,7 +2948,7 @@ components:
                   "amount": "2499"
                 },
                 "cardAcceptorAddress": {
-                  "city": "STOCKHOLM",
+                  "townName": "STOCKHOLM",
                   "country": "SE"
                 },
                 "proprietaryBankTransactionCode": "PURCHASE",
@@ -2867,7 +2968,7 @@ components:
                   "amount": "99"
                 },
                 "cardAcceptorAddress": {
-                  "city": "STOCKHOLM",
+                  "townName": "STOCKHOLM",
                   "country": "SE"
                 },
                 "proprietaryBankTransactionCode": "PURCHASE",
@@ -2897,10 +2998,10 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
 
-  - name: cards
+  - name: Card Information Service (CIS)
     description: |
-      The Debet and Credit Card Details and Information API offers the following services:
-        * Transaction reports for a given card, including balances.
-        * Balances of a given account or card account
-        * A list of available accounts or card account
-        * Account details of a given account or card account or of the list of all accessible accounts or card account  relative to a granted consent
+      The debit and credit card details and statements information service offers the following services:
+        * A list of available cards
+        * Details for a given card
+        * Balances of a given card
+        * Transactions of a given card

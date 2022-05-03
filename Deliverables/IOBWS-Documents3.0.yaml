@@ -1,30 +1,54 @@
 openapi: 3.0.1
 info:
-  title: IOBWS 3.0 Documents
+  title: IOBWS 3.0 Digital Documents
   version: "3.0"
   description: |
     # Summary
     
-    This document contains version 3.0 of the Icelandic Online Banking Services (IOBWS), for documents, released 
-    as a technical specification (TS) no. 314 by the Icelandic Standards Council. Previous versions of IOBWS, released
-    in 2013, established in 'TS 165:2013 Rafræn skjöl' a common interfaces for uploading documents. 
-    The aim in v3.0 is to offer a more modern and interoperable set of Application Programming Interfaces (APIs)
-    to provide a comparable interface.
+    This document represents version 3.0 of the Icelandic Online Banking Services (IOBWS)
+    and is released as a part of the technical specification ÍST TS 314, digital documents, 
+    by the Icelandic Standards Council.
+    Previous versions of IOBWS, released in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards.
+    TS 312 is the immidate successor to TS 165:2013 but offers a more up to date and interoperable set of
+    Application Programming Interfaces (APIs).
 
-    The document API is defined for both not durable and durable medium. Durability is controlled using the document types.
+    In places the contract uses elements based on the Berlin Group NextGenPSD2 XS2A Framework, mainly
+    versions 1.3.5 and 1.3.8 of that specification. Attribution applies as required by 
+    the CC BY 4.0 license NextGenPSD2 is released under.
+
+    ## Remark on character set support
+
+    The definition of UTF-8 strings in context of this API has to support at least the following characters
+
+    a b c d e f g h i j k l m n o p q r s t u v w x y z å ä ö æ ø á ð é í ó ú ý	þ	æ	ö
+    
+    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö
+
+    0 1 2 3 4 5 6 7 8 9
+     
+    / - ? : ( ) . , ' + @
+    
+    Space
 
   license:
     name: Creative Commons Attribution 4.0 International Public License
     url: https://creativecommons.org/licenses/by/4.0/
   contact:
     name: Stadlarad Islands
-    url: https://www.stadlar.
+    url: https://www.stadlar.is
+    email: openbanking@stadlar.is
+
+externalDocs:
+  description: |
+    Documentation for ÍS TS-312 (Technical Specifications, Technical Guidelines)
+  url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables
 
 servers:
-  - url: https://iobws.example.com
-    description: IOBWS server
-  - url: https://sandbox-iobws.example.com
-    description: Optional IOBWS sandbox server
+  - url: https://documents.example.com
+    description: Example production server
+  - url: https://documents-sandbox.example.com
+    description: Example sandbox server for testing
+
 
 paths:
 
@@ -40,7 +64,7 @@ paths:
         Get single batch by id
       operationId: getSingleDocumentBatch
       tags:
-        - documents
+        - Document Service (DS)
       security:
       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
@@ -65,7 +89,7 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
@@ -97,7 +121,7 @@ paths:
         Update document batch if the document type allows it. User can choose to only send new or changes files
       operationId: update
       tags:
-        - documents
+        - Document Service (DS)
 
       security:
       #####################################################
@@ -124,7 +148,7 @@ paths:
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
@@ -145,8 +169,6 @@ paths:
           $ref: "#/components/responses/NOT_FOUND_404"
         '405':
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '406':
-          $ref: "#/components/responses/NOT_ACCEPTABLE_406"
         '408':
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '409':
@@ -169,7 +191,7 @@ paths:
         The document owner goes thought the banks portal.
       operationId: searchForDocumentBatch
       tags:
-        - documents
+        - Document Service (DS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -190,7 +212,7 @@ paths:
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
@@ -207,12 +229,8 @@ paths:
           $ref: "#/components/responses/NOT_FOUND_404"
         '405':
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '406':
-          $ref: "#/components/responses/NOT_ACCEPTABLE_406"
         '408':
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '409':
-          $ref: "#/components/responses/CONFLICT_409"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
         '429':
@@ -227,7 +245,7 @@ paths:
       description: Upload and store new document
       operationId: uploadDocument
       tags:
-        - documents
+        - Document Service (DS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -244,7 +262,7 @@ paths:
         - $ref: "#/components/parameters/Signature-Certificate"
         #mandatory header parameter
         #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
 
       requestBody:
@@ -269,6 +287,8 @@ paths:
           $ref: "#/components/responses/CONFLICT_409"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
         '500':
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
@@ -282,7 +302,7 @@ paths:
         Get list of all document types. Document types control if document can be updated
       operationId: getDocumentTypeList
       tags:
-        - documents
+        - Document Service (DS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -294,7 +314,7 @@ paths:
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
@@ -311,12 +331,8 @@ paths:
           $ref: "#/components/responses/NOT_FOUND_404"
         '405':
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '406':
-          $ref: "#/components/responses/NOT_ACCEPTABLE_406"
         '408':
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '409':
-          $ref: "#/components/responses/CONFLICT_409"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
         '429':
@@ -349,21 +365,21 @@ components:
         Bearer Token.
 
         Is contained only, if an OAuth2 based authentication was performed in a pre-step or
-        an OAuth2 based SCA was performed in a preceding AIS service in the same session.
+        an OAuth2 based SCA was performed in a preceding IOBWS service in the same session.
       type: http
       scheme: bearer
 
   parameters:
-    #####################################################
-    # Predefined Parameters
-    #####################################################
+  #####################################################
+  # Predefined Parameters
+  #####################################################
 
     Authorization:
       name: Authorization
       in: header
       description: |
-        This field  might be used in case where a consent was agreed between ASPSP and PSU through an OAuth2 based protocol,
-        facilitated by the TPP.
+        This field  might be used in case where a consent was agreed between Bank and User through an OAuth2 based protocol,
+        facilitated by the intermediary service.
       required: false
       schema:
         $ref: "#/components/schemas/authorization"
@@ -391,7 +407,7 @@ components:
       name: Signature
       in: header
       description: |
-        A signature of the request by the TPP on application level. This might be mandated by ASPSP.
+        A signature of the request by the intermediary service on application level. This might be mandated by Bank.
       schema:
         type: string
       required: false # conditional
@@ -407,11 +423,11 @@ components:
         format: byte
       required: false # conditional
 
-    PSU-IP-Address_optional:
-      name: PSU-IP-Address
+    USR-IP-Address_optional:
+      name: USR-IP-Address
       in: header
       description: |
-        The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.
+        The forwarded IP Address header field consists of the corresponding http request IP Address field between User and intermediary service.
       schema:
         type: string
         format: ipv4
@@ -588,7 +604,7 @@ components:
           $ref: "#/components/schemas/hrefType"
         updateEncryptedPsuAuthentication:
           $ref: "#/components/schemas/hrefType"
-        updateAdditionalPsuAuthentication:
+        updateAdditionalPsuAuthentication:  
           $ref: "#/components/schemas/hrefType"
         updateAdditionalEncryptedPsuAuthentication:
           $ref: "#/components/schemas/hrefType"
@@ -880,14 +896,8 @@ components:
         - "ERROR"
         - "WARNING"
 
-    MessageCode2XX:
-      description: Message codes for HTTP Error codes 2XX.
-      type: string
-      enum:
-        - "WARNING"
-
     MessageCode400:
-      description: Message codes defined for AIS for HTTP Error code 400 (BAD_REQUEST).
+      description: Message codes defined for HTTP Error code 400 (BAD_REQUEST).
       type: string
       enum:
         - "FORMAT_ERROR"              #gen
@@ -902,10 +912,10 @@ components:
         - "SCA_METHOD_UNKNOWN"        #gen
         - "SCA_INVALID"               #gen
         - "CONSENT_UNKNOWN"           #gen
-        - "SESSIONS_NOT_SUPPORTED"    #AIS
+        - "SESSIONS_NOT_SUPPORTED"    #IOBWS
 
     MessageCode401:
-      description: Message codes defined for AIS for HTTP Error code 401 (UNAUTHORIZED).
+      description: Message codes defined for HTTP Error code 401 (UNAUTHORIZED).
       type: string
       enum:
         - "CERTIFICATE_INVALID"       #gen
@@ -917,15 +927,15 @@ components:
         - "SIGNATURE_INVALID"         #gen
         - "SIGNATURE_MISSING"         #gen
         - "CORPORATE_ID_INVALID"      #gen
-        - "PSU_CREDENTIALS_INVALID"   #gen
-        - "CONSENT_INVALID"           #gen, AIS
+        - "USR_CREDENTIALS_INVALID"   #gen
+        - "CONSENT_INVALID"           #gen, IOBWS
         - "CONSENT_EXPIRED"           #gen
         - "TOKEN_UNKNOWN"             #gen
         - "TOKEN_INVALID"             #gen
         - "TOKEN_EXPIRED"             #gen
 
     MessageCode403:
-      description: Message codes defined for AIS for HTTP Error code 403 (FORBIDDEN).
+      description: Message codes defined for HTTP Error code 403 (FORBIDDEN).
       type: string
       enum:
         - "CONSENT_UNKNOWN"           #gen
@@ -934,25 +944,25 @@ components:
         - "RESOURCE_EXPIRED"          #gen
 
     MessageCode404:
-      description: Message codes defined for AIS for HTTP Error code 404 (NOT FOUND).
+      description: Message codes defined for HTTP Error code 404 (NOT FOUND).
       type: string
       enum:
         - "RESOURCE_UNKNOWN"          #gens
 
     MessageCode405:
-      description: Message codes defined for AIS for HTTP Error code 405 (METHOD NOT ALLOWED).
+      description: Message codes defined for HTTP Error code 405 (METHOD NOT ALLOWED).
       type: string
       enum:
         - "SERVICE_INVALID"           #gens
 
     MessageCode406:
-      description: Message codes defined for AIS for HTTP Error code 406 (NOT ACCEPTABLE).
+      description: Message codes defined for HTTP Error code 406 (NOT ACCEPTABLE).
       type: string
       enum:
-        - "REQUESTED_FORMATS_INVALID"  #AIS
+        - "REQUESTED_FORMATS_INVALID"  #IOBWS
 
     MessageCode409:
-      description: Message codes defined for AIS for HTTP Error code 409 (CONFLICT).
+      description: Message codes defined for HTTP Error code 409 (CONFLICT).
       type: string
       enum:
         - "STATUS_INVALID"            #gen
@@ -961,7 +971,7 @@ components:
       description: Message codes for HTTP Error code 429 (TOO MANY REQUESTS).
       type: string
       enum:
-        - "ACCESS_EXCEEDED"           #AIS
+        - "ACCESS_EXCEEDED"           #IOBWS
 
     #####################################################
     # Proprietary messages
@@ -971,21 +981,6 @@ components:
       description: Additional explaining text.
       type: string
       maxLength: 500
-
-    message2XX:
-      type: object
-      required:
-        - category
-        - code
-      properties:
-        category:
-           $ref: "#/components/schemas/messageCategory"
-        code:
-          $ref: "#/components/schemas/MessageCode2XX"
-        path:
-          type: string
-        text:
-          $ref: "#/components/schemas/messageText"
 
     message400:
       type: object
@@ -1112,15 +1107,15 @@ components:
     # RFC7807 Messages
     #####################################################
 
-    errorTitle:
+    svcErrorTitle:
       description: |
         Short human readable description of error type.
         Could be in local language.
-        To be provided by ASPSPs.
+        To be provided by Banks.
       type: string
       maxLength: 70
 
-    errorDetail:
+    svcErrorDetail:
       description: |
         Detailed human readable text specific to this instance of the error.
         XPath might be used to point to the issue generating the error in addition.
@@ -1135,7 +1130,7 @@ components:
     Error400:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 400 for AIS.
+        in case of a HTTP error code 400.
       type: object
       required:
         - type
@@ -1144,6 +1139,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1151,7 +1147,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1176,18 +1172,19 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode400"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
+
     Error401:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 401 for AIS.
+        in case of a HTTP error code 401.
       type: object
       required:
         - type
@@ -1196,6 +1193,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1203,7 +1201,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1228,9 +1226,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode401"
         _links:
@@ -1239,7 +1237,7 @@ components:
     Error403:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 403 for AIS.
+        in case of a HTTP error code 403.
       type: object
       required:
         - type
@@ -1248,6 +1246,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1255,7 +1254,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1280,9 +1279,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode403"
         _links:
@@ -1291,7 +1290,7 @@ components:
     Error404:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 404 for AIS.
+        in case of a HTTP error code 404.
       type: object
       required:
         - type
@@ -1300,7 +1299,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1308,7 +1307,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1333,9 +1332,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode404"
         _links:
@@ -1344,7 +1343,7 @@ components:
     Error405:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 405 for AIS.
+        in case of a HTTP error code 405.
       type: object
       required:
         - type
@@ -1353,7 +1352,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1361,7 +1360,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1386,9 +1385,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode405"
         _links:
@@ -1397,7 +1396,7 @@ components:
     Error406:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 406 for AIS.
+        in case of a HTTP error code 406.
       type: object
       required:
         - type
@@ -1406,6 +1405,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1413,7 +1413,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1438,9 +1438,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode406"
         _links:
@@ -1449,7 +1449,7 @@ components:
     Error409:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 409 for AIS.
+        in case of a HTTP error code 409.
       type: object
       required:
         - type
@@ -1458,6 +1458,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1465,7 +1466,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1490,9 +1491,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode409"
         _links:
@@ -1501,7 +1502,7 @@ components:
     Error429:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 429 for AIS.
+        in case of a HTTP error code 429.
       type: object
       required:
         - type
@@ -1510,6 +1511,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1517,7 +1519,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1544,15 +1546,15 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode429"
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error400_NG:
+    Error400_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 400.
       type: object
@@ -1564,7 +1566,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error401_NG:
+    Error401_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
@@ -1576,7 +1578,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error403_NG:
+    Error403_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 403.
       type: object
@@ -1588,7 +1590,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error404_NG:
+    Error404_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 404.
       type: object
@@ -1600,7 +1602,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error405_NG:
+    Error405_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
@@ -1612,7 +1614,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error406_NG:
+    Error406_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 406.
       type: object
@@ -1624,7 +1626,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error409_NG:
+    Error409_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 409.
       type: object
@@ -1639,10 +1641,10 @@ components:
         {
           "category": "ERROR",
           "code": "STATUS_INVALID",
-          "text": "additional text information of the ASPSP up to 500 characters"
+          "text": "additional text information of the Bank up to 500 characters"
         }
 
-    Error429_NG:
+    Error429_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 429.
       type: object
@@ -1657,7 +1659,7 @@ components:
         {
           "category": "ERROR",
           "code": "ACCESS_EXCEEDED",
-          "text": "additional text information of the ASPSP up to 500 characters"
+          "text": "additional text information of the Bank up to 500 characters"
         }
 
   requestBodies:
@@ -1695,6 +1697,19 @@ components:
         format: url
       required: false
 
+    #conditional for extended service lean push
+    IOBWS-Notification-Support:
+      description: |
+        true if the Bank supports resource status notification services.
+
+        false if the Bank supports resource status notification in general, but not for the current request.
+
+        Not used, if resource status notification services are generally not supported by the Bank.
+
+        Shall be supported if the Bank supports resource status notification services.
+      schema:
+        type: boolean
+      required: false
   responses:
     #####################################################
     # Reusabale Responses
@@ -1760,7 +1775,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error400_NG"
+            $ref: "#/components/schemas/Error400_IOBWS"
 
         application/problem+json:
           schema:
@@ -1778,7 +1793,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error401_NG"
+            $ref: "#/components/schemas/Error401_IOBWS"
 
         application/problem+json:
           schema:
@@ -1796,7 +1811,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error403_NG"
+            $ref: "#/components/schemas/Error403_IOBWS"
 
         application/problem+json:
           schema:
@@ -1814,7 +1829,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error404_NG"
+            $ref: "#/components/schemas/Error404_IOBWS"
 
         application/problem+json:
           schema:
@@ -1832,7 +1847,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error405_NG"
+            $ref: "#/components/schemas/Error405_IOBWS"
 
         application/problem+json:
           schema:
@@ -1850,7 +1865,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error406_NG"
+            $ref: "#/components/schemas/Error406_IOBWS"
         application/problem+json:
           schema:
              $ref: "#/components/schemas/Error406"
@@ -1863,7 +1878,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 408
+      #No Response body because there are no valid message codes in case of HTTP code 408
 
     CONFLICT_409:
       description: Conflict
@@ -1876,7 +1891,7 @@ components:
       content:
         application/json:
           schema:
-             $ref: "#/components/schemas/Error409_NG"
+             $ref: "#/components/schemas/Error409_IOBWS"
 
         application/problem+json:
           schema:
@@ -1890,7 +1905,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 415
+      #No Response body because there are no valid message codes in case of HTTP code 415
 
     TOO_MANY_REQUESTS_429:
       description: Too Many Requests
@@ -1904,7 +1919,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error429_NG"
+            $ref: "#/components/schemas/Error429_IOBWS"
         application/problem+json:
 
           schema:
@@ -1917,7 +1932,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 500
+      #No Response body because there are no valid message codes in case of HTTP code 500
 
     SERVICE_UNAVAILABLE_503:
       description: Service Unavailable
@@ -1926,7 +1941,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 503
+      #No Response body because there are no valid message codes in case of HTTP code 503
 
 security:
   #####################################################
@@ -1939,7 +1954,7 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
 
-  - name: documents
+  - name: Document Service (DS)
     description: |
       The API interface for Documents offers the following services:
         * Initiation and update of a document request

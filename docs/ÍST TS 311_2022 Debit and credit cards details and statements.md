@@ -156,41 +156,41 @@ Description of the implementation of the checksum calculation is outside the sco
 
 ## Service Overview
 
-<!-- PaymentSvcOverviewStart -->
+<!-- SvcOverview|Start -->
 When TN-FMÞ-VH-1 on Business Requirements and TN-FMÞ-VH-2 on Technical Requirements decided to include card data, the original approach was to extend the existing NextGenPSD2 OpenAPI contract, with somewhat extensive domestic adaptions. Developers with previous exposure to NextGenPSD2 found this challenging to understand, and the overall implementation remained opaque for those migrating from earlier IOBWS versions. More transparancy was needed
 
 Therefore, workgroup TN-FMÞ-VH-8 decided to keep most of the original NextGenPSD2 OpenAPI definition intact, and add the card specific functionality in a separate and independant OpenAPI definition. The {{context_short}} resources share similar generic data elements but the schemas are separate.
 
 The [Table @tbl:tbl_svcsupport] describes the resources and in which OpenAPI YAML contract they can be found.
 
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Endpoints/Resources**                             **In Contract**      **Description**
---------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------
 cards                                               Cards                Read all identifiers of the card (usually a credit card), to which an access has been granted by the User.
                                                                          In addition, relevant information about the cards and hyperlinks to corresponding card information resources 
                                                                          are provided if a related access has been already granted.
---------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------
 cards\/{cardid}                                     Cards                Read detailed information  about the addressed card.
---------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
-cardscards\/{cardid}cards/\\balances                Cards                Read detailed balance information about the addressed card.
---------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
-cardscards\/{card-id}cards/\\transactions           Cards                Read transaction reports or transaction lists  related to a given card. 
+--------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------
+cardscards\/{cardid}cards\/balances                 Cards                Read detailed balance information about the addressed card.
+--------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------
+cardscards\/{card-id}cards\/transactions            Cards                Read transaction reports or transaction lists  related to a given card. 
                                                                          For a given card, additional parameters are  e.g. the attributes  \"dateFrom\" and  \"dateTo\".
---------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------
 card-accounts                                       BG                   Read all identifiers of the card accounts, to which an account access has been granted by the User.
                                                                          In addition, relevant information about the card accounts and hyperlinks to corresponding account information 
                                                                          resources are provided if a related consent has been already granted.
---------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------
 card-accountscards\/{account-id}                    BG                   Give detailed information about the addressed card account.
---------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
-card-accountscards\/{account-id}/\\balances         BG                   Give detailed balance information about the addressed card account.
---------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
-card-accountscards\/{account-id}/\\transactions     BG                   Read transaction reports or transaction lists related to a given card account.
+--------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------
+card-accountscards\/{account-id\/balances           BG                   Give detailed balance information about the addressed card account.
+--------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------
+card-accountscards\/{account-id}\/transactions      BG                   Read transaction reports or transaction lists related to a given card account.
                                                                          For a given card account, additional parameters are e.g. the attributes \"dateFrom\" and \"dateTo\".
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :Service support in ÍST {{spec_id}}. {#tbl:tbl_svcsupport}  
 
-<!-- PaymentSvcOverviewEnd -->
+<!-- SvcOverview|End -->
 
 # Bibliography {.unnumbered}
 \ 

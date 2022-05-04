@@ -90,7 +90,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
         - $ref: "#/components/parameters/USR-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       responses:
@@ -149,7 +148,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/USR-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       requestBody:
@@ -213,7 +211,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
         - $ref: "#/components/parameters/USR-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       responses:
@@ -263,7 +260,7 @@ paths:
         #mandatory header parameter
         #optional header parameters
         - $ref: "#/components/parameters/USR-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/Idempotency-Key"
 
       requestBody:
         $ref: "#/components/requestBodies/documentBatchInitiation"
@@ -315,7 +312,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
         - $ref: "#/components/parameters/USR-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
         #NO REQUEST BODY
 
       responses:
@@ -552,6 +548,15 @@ components:
       required: false
       schema:
         $ref: "#/components/schemas/fileReference"
+      
+    Idempotency-Key:
+      name: Idempotency-Key
+      in: header
+      description: Idempotent value for the operation being performed.
+      required: false
+      example: "doc-init-001"
+      schema:
+        type: string
 
   schemas:
     #####################################################

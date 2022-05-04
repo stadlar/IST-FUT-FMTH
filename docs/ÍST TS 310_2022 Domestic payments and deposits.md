@@ -260,6 +260,8 @@ The elements listed in [Table @tbl:tbl_data_domestic] are used in the domestic p
 
   **creditorAgent**                        N/A              N/A          N/A
 
+  **creditorAgentName**                    N/A              N/A          N/A
+
   **creditorAgentAddress**                 N/A              N/A          N/A
 
   **creditorName**                         N/A              N/A          N/A

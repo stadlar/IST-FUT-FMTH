@@ -129,6 +129,8 @@ The elements listed in [Table @tbl:tbl_data_domestic] are used in the domestic p
 
   **creditorAgent**                       N/A             Optional
 
+  **creditorAgentName**                   N/A             Optional
+
   **creditorAgentAddress**                N/A             Optional
 
   **creditorName**                        Mandatory       Mandatory

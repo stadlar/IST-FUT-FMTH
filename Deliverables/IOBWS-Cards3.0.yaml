@@ -2209,28 +2209,6 @@ components:
         type: string
       required: false
 
-    SVC-Notification-Content-Preferred:
-      name: SVC-Notification-Content-Preferred
-      in: header
-      description: |
-        The string has the form
-
-        status=X1, ..., Xn
-
-        where Xi is one of the constants SCA, PROCESS, LAST and where constants are not
-        repeated.
-        The usage of the constants supports the of following semantics:
-
-          SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the intermediary service.
-
-          PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the intermediary service.
-          LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the intermediary service.
-
-        This header field may be ignored, if the Bank does not support resource notification services for the related intermediary service.
-      schema:
-        type: string
-      required: false
-
     USR-ID:
       name: USR-ID
       in: header

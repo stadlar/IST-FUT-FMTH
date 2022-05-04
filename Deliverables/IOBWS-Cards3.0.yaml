@@ -94,7 +94,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/consentId_HEADER"
-        - $ref: "#/components/parameters/Authorization"
         - $ref: "#/components/parameters/Digest"
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/Signature-Certificate"
@@ -180,7 +179,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/consentId_HEADER"
-        - $ref: "#/components/parameters/Authorization"
         - $ref: "#/components/parameters/Digest"
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/Signature-Certificate"
@@ -265,7 +263,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/consentId_HEADER"
-        - $ref: "#/components/parameters/Authorization"
         - $ref: "#/components/parameters/Digest"
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/Signature-Certificate"
@@ -347,7 +344,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/consentId_HEADER"
-        - $ref: "#/components/parameters/Authorization"
         - $ref: "#/components/parameters/Digest"
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/Signature-Certificate"

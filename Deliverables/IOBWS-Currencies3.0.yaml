@@ -837,7 +837,7 @@ components:
   # RFC7807 Messages
   #####################################################
 
-    svcErrorTitle:
+    errorTitle:
       description: |
         Short human readable description of error type.
         Could be in local language.
@@ -845,7 +845,7 @@ components:
       type: string
       maxLength: 70
 
-    svcErrorDetail:
+    errorDetail:
       description: |
         Detailed human readable text specific to this instance of the error.
         XPath might be used to point to the issue generating the error in addition.
@@ -906,9 +906,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/svcErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/svcErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode400"
         _links:
@@ -960,9 +960,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/svcErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/svcErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode401"
         _links:
@@ -1014,9 +1014,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/svcErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/svcErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode403"
         _links:
@@ -1068,9 +1068,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/svcErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/svcErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode404"
         _links:
@@ -1122,9 +1122,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/svcErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/svcErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode405"
         _links:
@@ -1176,9 +1176,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/svcErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/svcErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode406"
         _links:
@@ -1230,9 +1230,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/svcErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/svcErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode409"
         _links:
@@ -1285,9 +1285,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/svcErrorTitle"
+                $ref: "#/components/schemas/errorTitle"
               detail:
-                $ref: "#/components/schemas/svcErrorDetail"
+                $ref: "#/components/schemas/errorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode429"
         _links:

@@ -172,9 +172,9 @@ cards                                               Cards                Read al
 --------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
 cards\/{cardid}                                     Cards                Read detailed information  about the addressed card.
 --------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
-cardscards\/{cardid}cards\/balances                 Cards                Read detailed balance information about the addressed card.
+cardscards\/{cardid}cards/\\balances                Cards                Read detailed balance information about the addressed card.
 --------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
-cardscards\/{card-id}cards\/transactions            Cards                Read transaction reports or transaction lists  related to a given card. 
+cardscards\/{card-id}cards/\\transactions           Cards                Read transaction reports or transaction lists  related to a given card. 
                                                                          For a given card, additional parameters are  e.g. the attributes  \"dateFrom\" and  \"dateTo\".
 --------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
 card-accounts                                       BG                   Read all identifiers of the card accounts, to which an account access has been granted by the User.
@@ -183,9 +183,9 @@ card-accounts                                       BG                   Read al
 --------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
 card-accountscards\/{account-id}                    BG                   Give detailed information about the addressed card account.
 --------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
-card-accountscards\/{account-id}/\balances          BG                   Give detailed balance information about the addressed card account.
+card-accountscards\/{account-id}/\\balances         BG                   Give detailed balance information about the addressed card account.
 --------------------------------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------
-card-accountscards\/{account-id}/\transactions      BG                   Read transaction reports or transaction lists related to a given card account.
+card-accountscards\/{account-id}/\\transactions     BG                   Read transaction reports or transaction lists related to a given card account.
                                                                          For a given card account, additional parameters are e.g. the attributes \"dateFrom\" and \"dateTo\".
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :Service support in ÍST {{spec_id}}. {#tbl:tbl_svcsupport}  

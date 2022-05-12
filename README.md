@@ -94,7 +94,7 @@ The YAML artifacts are distributed under the Creative Commons Attribution 4.0 In
 | Previous Specification                                         | New Specification |
 |----------------------------------------------------------------|--------------------------------|
 | TS 160:2013 Gengi                                              | [TS 312:2021 Currency](https://github.com/stadlar/IST-FUT-FMTH/blob/8a2e3d012c873c61eb3d205bc093e043aadaa7a4/Deliverables/%C3%8DST-TS-312_2021%20Currency.pdf)           |    
-| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | [TS 310:2022 Domestic payments and deposits ( also WA 310:2020)](Deliverables/%C3%8DST%20TS%20310_2022%20Domestic%20payments%20and%20deposits.pdf)                  |  
+| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | [TS 310:2022 Domestic payments and deposits](Deliverables/%C3%8DST%20TS%20310_2022%20Domestic%20payments%20and%20deposits.pdf)                  |  
 | ---                                                            | [WA 311:2021 Debit and credit cards details and statements (new in IOBWS v3.0)](https://github.com/stadlar/IST-FUT-FMTH/blob/8a2e3d012c873c61eb3d205bc093e043aadaa7a4/Deliverables/%C3%8DST-TS-311_2021%20Debit%20and%20credit%20cards%20details%20and%20statements.pdf)                  |  
 | TS 162:2013 Innheimtukröfur<br>TS 163:2013 Milliinnheimta      | TS 315 Claims (in draft)<br>TS 31x Secondary Collecion (not started)                         |  
 | TS 165:2013 Rafræn skjöl                                       | [TS 314:2021 Documents](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/)                    |  

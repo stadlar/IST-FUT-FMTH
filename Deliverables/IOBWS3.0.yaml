@@ -6817,7 +6817,7 @@ components:
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
         remittanceInformationStructured: 
-          $ref: "#/components/schemas/remittanceInformationStructuredArray"
+          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
         requestedExecutionDate:
           type: string
           format: date
@@ -6861,7 +6861,7 @@ components:
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
         remittanceInformationStructured: 
-          $ref: "#/components/schemas/remittanceInformationStructuredArray"
+          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
         startDate:
           type: string
           format: date
@@ -6983,7 +6983,7 @@ components:
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
         remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/remittanceInformationStructuredArray"
+          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
 
     iobwsAuthorisationConfirmation:
       description: |

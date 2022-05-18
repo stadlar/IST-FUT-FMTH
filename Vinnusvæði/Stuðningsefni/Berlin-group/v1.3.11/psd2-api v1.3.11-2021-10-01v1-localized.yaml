@@ -1,17 +1,10 @@
 openapi: 3.0.1
 info:
-  title: IOBWS 3.0 Payments and accounts
-  version: "3.0"
+  title: NextGenPSD2 XS2A Framework
+  version: "1.3.11_2021-09-24"
   description: |
     # Summary
-    This document forms the basis for version 3.0 of the Icelandic Online Banking Services (IOBWS), released as a
-    technical specification (TS) no. 310 by the Icelandic Standards Council. Previous versions of IOBWS, released
-    in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards to establish common banking
-    interfaces for the Icelandic market. They specified strict security requirements involving a combination of 
-    WS-Security X.509 Binary Security and Username tokens, making implementations on some platforms and frameworks
-    cumbersome, especially when third party service providers are involved. In the meantime new technology standards
-    have emerged and Europe been catching up to Iceland. The aim in v3.0 is to therefore to merge with
-    the **NextGenPSD2** *Framework Version 1.3.8*, to offer a modern, open, harmonised and interoperable set of
+    The **NextGenPSD2** *Framework Version 1.3.11* offers a modern, open, harmonised and interoperable set of
     Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.
     The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards 
     in Europe and, aligned with the goals of the Euro Retail Payments Board,
@@ -21,7 +14,6 @@ info:
     The possible Approaches are:
       * Redirect SCA Approach
       * OAuth SCA Approach
-      The following items are not required, but are optional for each bank to implement and offer.
       * Decoupled SCA Approach
       * Embedded SCA Approach without SCA method
       * Embedded SCA Approach with only one SCA method available
@@ -74,31 +66,27 @@ info:
     
     Space
 
-    The domestic Icelandic adaptations additionally must support the following characters
-    
-    å ä ö æ ø á ð é í ó ú ý	þ	æ	ö @
-    
-    Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö @
 
   license:
     name: Creative Commons Attribution 4.0 International Public License
     url: https://creativecommons.org/licenses/by/4.0/
+  #termsOfService: URL for Terms of Service of the API
   contact:
-    name: Stadlarad Islands
-    url: https://www.stadlar.is
-    email: openbanking@stadlar.is
+    name: The Berlin Group - A European Standards Initiative
+    url: https://www.berlin-group.org/
+    email: info@berlin-group.org
 
 externalDocs:
   description: |
     Full Documentation of NextGenPSD2 Access to Account Interoperability Framework
     (General Introduction Paper, Operational Rules, Implementation Guidelines)
-  url: https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/%C3%8DST-TS-310_2021%20Domestic%20Payments%20And%20Deposits.pdf
+  url: https://www.berlin-group.org/nextgenpsd2-downloads
 
 servers:
-  - url: https://psd2.example.com
+  - url: https://api.testbank.com/psd2
     description: PSD2 server
-  - url: https://sandbox-psd2.example.com
-    description: Optional PSD2 sandbox server
+  - url: https://test-api.testbank.com/psd2
+    description: Optional PSD2 test server
 
 paths:
 
@@ -121,11 +109,15 @@ paths:
         
           - Payment products with payment information in *JSON* format:
             - ***sepa-credit-transfers***
+            - ***instant-sepa-credit-transfers***
+            - ***target-2-payments***
             - ***cross-border-credit-transfers***
-            - ***credit-transfers***
-            - ***claim-payments***
-            - ***payment-card-deposits***
-
+          - Payment products with payment information in *pain.001* XML format:
+            - ***pain.001-sepa-credit-transfers***
+            - ***pain.001-instant-sepa-credit-transfers***
+            - ***pain.001-target-2-payments***
+            - ***pain.001-cross-border-credit-transfers***
+        
         Furthermore the request body depends on the **payment-service**:
           * ***payments***: A single payment initiation request.
           * ***bulk-payments***: A collection of several payment initiation requests.
@@ -191,6 +183,7 @@ paths:
         - $ref: "#/components/parameters/consentId_HEADER_optional"
         - $ref: "#/components/parameters/PSU-IP-Address_mandatory"
         - $ref: "#/components/parameters/TPP-Redirect-Preferred"
+        - $ref: "#/components/parameters/TPP-Decoupled-Preferred"
         - $ref: "#/components/parameters/TPP-Redirect-URI"
         - $ref: "#/components/parameters/TPP-Nok-Redirect-URI"
         - $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
@@ -209,9 +202,7 @@ paths:
         - $ref: "#/components/parameters/PSU-Http-Method"
         - $ref: "#/components/parameters/PSU-Device-ID"
         - $ref: "#/components/parameters/PSU-Geo-Location"
-      #optional additional idempotency value of operation in header    
-        - $ref: "#/components/parameters/Idempotency-Key"
-
+        
       requestBody:
         $ref: "#/components/requestBodies/paymentInitiation"
       
@@ -295,7 +286,6 @@ paths:
       responses: 
         '200':
           $ref: "#/components/responses/OK_200_PaymentInitiationInformation"
-        
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_PIS"
         '401':
@@ -369,6 +359,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
         - $ref: "#/components/parameters/TPP-Redirect-Preferred"
+        - $ref: "#/components/parameters/TPP-Decoupled-Preferred"
         - $ref: "#/components/parameters/TPP-Nok-Redirect-URI"
         - $ref: "#/components/parameters/TPP-Redirect-URI"
         - $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
@@ -472,7 +463,7 @@ paths:
       responses:
         '200':
           $ref: "#/components/responses/OK_200_PaymentInitiationStatus"
-        
+          
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400_PIS"
         '401':
@@ -892,7 +883,6 @@ paths:
                 - $ref: "#/components/schemas/selectPsuAuthenticationMethod"
                 - $ref: "#/components/schemas/transactionAuthorisation" 
                 - $ref: "#/components/schemas/authorisationConfirmation" 
-                - $ref: "#/components/schemas/iobwsAuthorisationConfirmation"
             examples:
               "Update PSU identification (Decoupled Approach)":
                 value: {}
@@ -1422,7 +1412,6 @@ paths:
       #path # NO PATH PARAMETER
       #query
         - $ref: "#/components/parameters/withBalanceQuery"
-        - $ref: "#/components/parameters/withCreditLimitQuery"
       #header
           #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -1431,7 +1420,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
@@ -1515,7 +1504,6 @@ paths:
         - $ref: "#/components/parameters/accountId"
       #query
         - $ref: "#/components/parameters/withBalanceQuery"
-        - $ref: "#/components/parameters/withCreditLimitQuery"
       #header
           #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -1524,7 +1512,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
@@ -1611,7 +1599,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
@@ -1690,7 +1678,7 @@ paths:
         - $ref: "#/components/parameters/dateFrom"
         - $ref: "#/components/parameters/dateTo"
         - $ref: "#/components/parameters/entryReferenceFrom"
-        - $ref: "#/components/parameters/bookingStatus"
+        - $ref: "#/components/parameters/bookingStatusGeneric"
         - $ref: "#/components/parameters/deltaList"
         - $ref: "#/components/parameters/withBalanceQuery"
       #header
@@ -1701,7 +1689,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #- $ref: "#/components/parameters/Accept" #Can not defined in Open API. See general comments in the description attached to the top level of the file.
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
@@ -1788,7 +1776,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
@@ -1846,7 +1834,7 @@ paths:
         It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. 
         The addressed list of card accounts depends then on the PSU ID and the stored consent addressed by consentId, 
         respectively the OAuth2 access token. 
-      operationId: getCardAccount 
+      operationId: getCardAccountList
       tags:
         - Account Information Service (AIS)
       
@@ -1867,8 +1855,7 @@ paths:
       
       parameters:
       #path # NO PATH PARAMETER
-      #query
-        - $ref: "#/components/parameters/withBalanceQuery"
+      #query # NO QUERY PARAMETER
       #header
           #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -1877,7 +1864,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
@@ -1930,7 +1917,7 @@ paths:
         and stored on the ASPSP system. The addressed details of this account depends 
         then on the stored consent addressed by consentId, respectively the OAuth2 
         access token.
-      operationId: ReadCardAccount
+      operationId: readCardAccountDetails
       tags:
         - Account Information Service (AIS)
 
@@ -1952,8 +1939,7 @@ paths:
       parameters:
       #path
         - $ref: "#/components/parameters/accountId"
-      #query
-        - $ref: "#/components/parameters/withBalanceQuery"
+      #query # NO QUERY PARAMETER
       #header
           #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -1962,7 +1948,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
@@ -2051,7 +2037,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
           #optional additional PSU Information in header
@@ -2128,9 +2114,8 @@ paths:
         - $ref: "#/components/parameters/dateFrom"
         - $ref: "#/components/parameters/dateTo"
         - $ref: "#/components/parameters/entryReferenceFrom"
-        - $ref: "#/components/parameters/bookingStatus"
+        - $ref: "#/components/parameters/bookingStatusCard"
         - $ref: "#/components/parameters/deltaList"
-        - $ref: "#/components/parameters/withBalanceQuery"
       #header
           #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -2139,7 +2124,7 @@ paths:
         - $ref: "#/components/parameters/Signature"
         - $ref: "#/components/parameters/TPP-Signature-Certificate"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional"
+        - $ref: "#/components/parameters/consentId_HEADER_mandatory"
         #- $ref: "#/components/parameters/Accept" #Can not defined in Open API. See general comments in the description attached to the top level of the file.
           #conditional elemention for AIS
         - $ref: "#/components/parameters/PSU-IP-Address_conditionalForAis"
@@ -2246,6 +2231,7 @@ paths:
         - $ref: "#/components/parameters/PSU-Corporate-ID"
         - $ref: "#/components/parameters/PSU-Corporate-ID-Type"
         - $ref: "#/components/parameters/TPP-Redirect-Preferred"
+        - $ref: "#/components/parameters/TPP-Decoupled-Preferred"
         - $ref: "#/components/parameters/TPP-Redirect-URI"
         - $ref: "#/components/parameters/TPP-Nok-Redirect-URI"
         - $ref: "#/components/parameters/TPP-Explicit-Authorisation-Preferred"
@@ -4196,6 +4182,7 @@ components:
             The device resp. the specific app than derives an OTP from the visual challenge data and displays 
             the OTP to the PSU.
           - 'PUSH_OTP': An OTP is pushed to a dedicated authentication APP and displayed to the PSU.
+          - 'SMTP_OTP': An OTP is sent via email to the PSU.
         
       type: string
       enum:
@@ -4203,6 +4190,7 @@ components:
         - "CHIP_OTP"
         - "PHOTO_OTP"
         - "PUSH_OTP"
+        - "SMTP_OTP"
 
     authenticationObject:
       description: |
@@ -4338,7 +4326,8 @@ components:
           * BBAN, for payment accounts if there is no IBAN, or 
           * the Primary Account Number (PAN) of a card, can be tokenised by the ASPSP due to PCI DSS requirements, or
           * the Primary Account Number (PAN) of a card in a masked form, or
-          * an alias to access a payment account via a registered mobile phone number (MSISDN).
+          * an alias to access a payment account via a registered mobile phone number (MSISDN), or
+          * a proprietary ID of the  respective account that uniquely identifies the account for this ASPSP.
       type: object
       properties:
         iban: 
@@ -4351,10 +4340,38 @@ components:
           $ref: "#/components/schemas/maskedPan"
         msisdn: 
           $ref: "#/components/schemas/msisdn"
+        other:
+          $ref: "#/components/schemas/otherType"
         currency:
           $ref: "#/components/schemas/currencyCode"
         cashAccountType:
           $ref: "#/components/schemas/cashAccountType"
+
+    otherType:
+      description: In cases where the specifically defined criteria (IBAN, BBAN, MSISDN)
+        are not provided to identify an instance of the respective account type (e.g. a savings account), 
+        the ASPSP shall include a proprietary ID of the respective account that uniquely identifies the account for this ASPSP.
+      type: object
+      required: 
+        - identification
+      properties:
+        identification:
+          description: Proprietary identification of the account.
+          type: string
+          maxLength: 35
+        schemeNameCode:
+          description: An entry provided by an external ISO code list. 
+          type: string
+          maxLength: 35
+        schemeNameProprietary:
+          description: A scheme name defined in a proprietary way.
+          type: string
+          maxLength: 35
+        issuer:
+          description: Issuer of the identification.
+          type: string
+          maxLength: 35
+
 
 #    accountReferenceIban:
 #      type: object
@@ -4462,19 +4479,6 @@ components:
             and subject to further changes during the business day. 
             The interim balance is calculated on the basis of booked credit and debit items during the calculation time/period 
             specified.
-          - "expectedBooked":
-            Balance composed of booked entries and pending items known at the time of calculation,
-            which projects the end of day balance if everything is booked on the account and no other entry is posted.
-
-            For card accounts, this is composed of:
-              - not yet invoiced but already booked entries and
-              - pending items (not yet booked)
-
-            For card-accounts:
-
-            "money to spend with the value of a pre-approved credit limit on the card account"
-
-
           - "forwardAvailable":
             Forward available balance of money that is at the disposal of the account owner on the date specified.
           - "nonInvoiced": 
@@ -4681,8 +4685,6 @@ components:
           $ref: "#/components/schemas/_linksAccountDetails"
         ownerName:
           $ref: "#/components/schemas/ownerName"
-        creditLimit:
-          $ref: "#/components/schemas/amount"
 
 
     cardAccountDetails:
@@ -4737,7 +4739,7 @@ components:
               - characteristics of the account
               - characteristics of the relevant card
           type: string
-          maxLength: 500
+          maxLength: 1000
         creditLimit:
           $ref: "#/components/schemas/amount"
         balances:
@@ -4803,7 +4805,6 @@ components:
         This card account report contains transactions resulting from the query parameters.
       type: object
       required:
-        - booked
         - _links
       properties:
         booked:
@@ -4872,7 +4873,8 @@ components:
         bookingDate:
           $ref: "#/components/schemas/bookingDate"
         valueDate:
-          description: The Date at which assets become available to the account owner in case of a credit.
+          description: The Date at which assets become available to the account owner in case of a credit, or cease to be available to the account owner in case of a debit entry.
+            **Usage:** If entry status is pending and value date is present, then the value date refers to an expected/requested value date.
           type: string
           format: date
         transactionAmount:
@@ -4919,19 +4921,7 @@ components:
           $ref: "#/components/schemas/balance"
         _links:
           $ref: "#/components/schemas/_linksTransactionDetails"
-        transactionTimestamp:
-          description: |
-            Execution datetime of the record
-          type: string
-          format: date-time
-        ultimateCreditorId:
-          $ref: "#/components/schemas/ultimateCreditorId"
-        debtorId:
-          $ref: "#/components/schemas/debtorId"
-        ultimateDebtorId:
-          $ref: "#/components/schemas/ultimateDebtorId"
-        icelandicPurpose:
-          $ref: "#/components/schemas/icelandicPurpose"
+
 
     cardTransaction:
       description: Card transaction information.
@@ -4951,8 +4941,18 @@ components:
           format: date-time
         bookingDate:
           $ref: "#/components/schemas/bookingDate"
+        valueDate:
+          description: The Date at which assets become available to the account owner in case of a credit, or cease to be available to the account owner in case of a debit entry.
+            For card transactions this is the payment due date of related booked transactions of a card.
+          type: string
+          format: date
         transactionAmount:
           $ref: "#/components/schemas/amount"
+        grandTotalAmount:
+          allOf:
+            - $ref: "#/components/schemas/amount"
+            - description: |
+                Total amount of the instalment including charges, insurance and taxes in addition to the funded amount.
         currencyExchange:
           $ref: "#/components/schemas/reportExchangeRateList"
         originalAmount:
@@ -4977,13 +4977,11 @@ components:
           $ref: "#/components/schemas/maskedPan"
         transactionDetails:
           type: string
-          maxLength: 140
+          maxLength: 1000
         invoiced:
           type: boolean
         proprietaryBankTransactionCode:
           $ref: "#/components/schemas/proprietaryBankTransactionCode"
-        posEntryMode:
-          $ref: "#/components/schemas/posEntryMode"
 
     reportExchangeRateList:
       description: Array of exchange rates.
@@ -5007,7 +5005,7 @@ components:
         exchangeRate:
           type: string
         unitCurrency:
-          type: string
+          $ref: "#/components/schemas/currencyCode"
         targetCurrency:
           $ref: "#/components/schemas/currencyCode"
         quotationDate:
@@ -5015,6 +5013,7 @@ components:
           format: date
         contractIdentification:
           type: string
+          maxLength: 35
 
 
     paymentExchangeRate:  
@@ -5022,11 +5021,12 @@ components:
       type: object
       properties:
         unitCurrency:
-          type: string
+          $ref: "#/components/schemas/currencyCode"
         exchangeRate:
           type: string
         contractIdentification:
           type: string
+          maxLength: 35
         rateType:
           type: string
           enum:
@@ -5307,6 +5307,31 @@ components:
         - "CRED"
         - "SHAR"
         - "SLEV"
+
+
+    serviceLevelCode:
+      description: |
+        ExternalServiceLevel1Code from ISO 20022.
+        
+        Values from ISO 20022 External Code List ExternalCodeSets_1Q2021 May 2021.
+        
+      type: string
+
+      enum:
+        - "BKTR"
+        - "G001"
+        - "G002"
+        - "G003"
+        - "G004"
+        - "NPCA"
+        - "NUGP"
+        - "NURG"
+        - "PRPT"
+        - "SDVA"
+        - "SEPA"
+        - "SVDE"
+        - "URGP"
+        - "URNS"
 
 
     remittanceInformationStructuredMax140: 
@@ -5907,10 +5932,10 @@ components:
         This attribute is contained if and only if the frequency equals "MonthlyVariable".
         Example: An execution on January, April and October each year is addressed by ["1", "4", "10"].
       type: array
+      maxItems: 11
       items:
         type: string
         maxLength: 2
-        maxItems: 11
         enum:
         - "1"
         - "2"
@@ -5977,7 +6002,7 @@ components:
     creditorAgentName:
       description: Creditor agent name.
       type: string
-      maxLength: 70
+      maxLength: 140
       example: "Creditor Agent Name"
 
     debtorName:
@@ -6054,142 +6079,6 @@ components:
       format: date
       example: "2018-07-01"
 
-    #####################################################
-    # Domestic additional schemas
-    #####################################################
-
-    ultimateDebtorId:
-      description: Ultimate Debtor Id
-      type: string
-      maxLength: 35
-      example: "Ultimate Debtor Id 1234"
-
-    ultimateCreditorId:
-      description: Ultimate Creditor Id
-      type: string
-      maxLength: 35
-      example: "Ultimate Creditor Id 1234"
-
-    partialPayment:
-      description: |
-        Payment used to pay claim (Icelandic)
-      type: boolean
-      example: false
-  
-    bicfiOrIdentification: 
-      description: |
-        BICFI or other unambiguous identification of a financial institution identification, when BICFI does not apply..
-      type: string
-      pattern: "([A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1})|(^.*$)"
-      example: "AAAADEBBXXX"  
-
-    icelandicPurpose:
-      description: |
-        Standardised definition of icelandic purpose code and description used in transactions
-      type: object
-      properties:
-        code:
-          type: string
-          maxLength: 2
-        description:
-          type: string
-          maxLength: 150        
-
-    icelandicPurposeCode:
-      description: |
-        Standardised definition of transaction used in the Iceland market to define the purpose of the transaction.
-      type: string
-      maxLength: 2
-      example: "87"
-
-    centralBankPurposeCode:
-      description: |
-        Standardised definition of purpose code required by the Icelandic Central Bank.
-      type: string
-      maxLength: 3
-      example: "099"
-    
-    posEntryMode:
-      description: |
-        Card transaction orginated from.
-      enum:
-        - "UNKNOWN"
-        - "MAGIC_STRIP"
-        - "CHIP"
-        - "TOUCHLESS"
-        - "RECURRING"
-        - "MANUAL"
-        - "MOTO"
-
-    transactionFeesDetail:
-      description: |
-        A single transaction fee details.
-        - fees: Standard fee
-        - priorityFees: The priority payment fee
-        - foreignBankServiceFees:
-      type: object
-      required:
-        - feeType
-        - value
-      properties:
-        feeType:
-          enum:
-            - "FEES"
-            - "PRIORITYFEES"
-            - "FOREIGNBANKSERVICEFEES"
-            - "OTHERFEES"
-        value:
-          $ref: "#/components/schemas/amount"
-      example:
-        {
-          "feeType": "OTHERFEES",
-          "value": {
-            "currency": "ISK",
-            "amount": "0"
-          }
-        }
-
-    transactionFeesList:
-      description: |
-        A list of transaction fees for example: foreignBankServiceFees, priorityFees
-        fees or otherFees
-      type: array
-      items:
-        $ref: "#/components/schemas/transactionFeesDetail"
-      example:
-          [
-            {
-              "feeType": "OTHERFEES",
-              "value": {
-                "currency": "ISK",
-                "amount": "0"
-              }
-            },
-            {
-              "feeType": "FEES",
-              "value": {
-                "currency": "ISK",
-                "amount": "1000"
-              }
-            },
-            {
-              "feeType": "PRIORITYFEES",
-              "value":
-                {
-                "currency": "ISK",
-                "amount": "2000"
-              }
-            },
-            {
-              "feeType": "FOREIGNBANKSERVICEFEES",
-              "value":
-                {
-                  "currency": "ISK",
-                  "amount": "3000"
-                }
-            }
-          ]
-    
 
 #####################################################
 # Content of Request Bodies
@@ -6232,7 +6121,7 @@ components:
          <tr><td>debtorId</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>ultimateDebtor</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>instructedAmount</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> </tr>
-         <tr><td>transactionCurrency</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
+         <tr><td>currencyOfTransfer</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>exchangeRateInformation</td> <td>n.a.</td> <td>n.a.</td><td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>creditorAccount</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> </tr>
          <tr><td>creditorAgent</td> <td>optional</td> <td>optional</td> <td>optional</td> <td>conditional </td> </tr>
@@ -6244,6 +6133,7 @@ components:
          <tr><td>ultimateCreditor</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>purposeCode</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>chargeBearer</td> <td>n.a.</td> <td>n.a.</td> <td>optional</td> <td>conditional </td> </tr>
+         <tr><td>serviceLevel</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a. </td> </tr>
          <tr><td>remittanceInformationUnstructured</td> <td>optional</td> <td>optional</td> <td> optional</td> <td>optional</td> </tr>
          <tr><td>remittanceInformationUnstructuredArray</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>remittanceInformationStructured</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
@@ -6289,7 +6179,7 @@ components:
 #          $ref: "#/components/schemas/ultimateDebtor"
         instructedAmount:
           $ref: "#/components/schemas/amount"
-#        transactionCurrency: # N.A. for all, but can be used by ASPSP if needed
+#        currencyOfTransfer: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/currencyCode"
 #        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/paymentExchangeRate"
@@ -6315,6 +6205,8 @@ components:
 #          $ref: "#/components/schemas/purposeCode"
 #        chargeBearer: #In some payment product N.A. in some Optional in some conditional
 #          $ref: "#/components/schemas/chargeBearer"
+#        serviceLevel: #N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/serviceLevelCode"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
@@ -6368,7 +6260,7 @@ components:
          <tr><td>debtorId</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>ultimateDebtor</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>instructedAmount</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> </tr>
-         <tr><td>transactionCurrency</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
+         <tr><td>currencyOfTransfer</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>exchangeRateInformation</td> <td>n.a.</td> <td>n.a.</td><td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>creditorAccount</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> </tr>
          <tr><td>creditorAgent</td> <td>optional</td> <td>optional</td> <td>optional</td> <td>conditional </td> </tr>
@@ -6380,6 +6272,7 @@ components:
          <tr><td>ultimateCreditor</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>purposeCode</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>chargeBearer</td> <td>n.a.</td> <td>n.a.</td> <td>optional</td> <td>conditional </td> </tr>
+         <tr><td>serviceLevel</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a. </td> </tr>
          <tr><td>remittanceInformationUnstructured</td> <td>optional</td> <td>optional</td> <td> optional</td> <td>optional</td> </tr>
          <tr><td>remittanceInformationUnstructuredArray</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>remittanceInformationStructured</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
@@ -6420,7 +6313,7 @@ components:
 #          $ref: "#/components/schemas/ultimateDebtor"
         instructedAmount:
           $ref: "#/components/schemas/amount"
-#        transactionCurrency: # N.A. for all, but can be used by ASPSP if needed
+#        currencyOfTransfer: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/currencyCode"
 #        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/paymentExchangeRate"
@@ -6444,6 +6337,8 @@ components:
 #          $ref: "#/components/schemas/purposeCode"
 #        chargeBearer: #In some payment product N.A. in some Optional in some conditional
 #          $ref: "#/components/schemas/chargeBearer"
+#        serviceLevel: #N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/serviceLevelCode"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
@@ -6485,7 +6380,7 @@ components:
          <tr><td>debtorId</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>ultimateDebtor</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>instructedAmount</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> </tr>
-         <tr><td>transactionCurrency</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
+         <tr><td>currencyOfTransfer</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>exchangeRateInformation</td> <td>n.a.</td> <td>n.a.</td><td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>creditorAccount</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> <td>mandatory</td> </tr>
          <tr><td>creditorAgent</td> <td>optional</td> <td>optional</td> <td>optional</td> <td>conditional </td> </tr>
@@ -6497,6 +6392,7 @@ components:
          <tr><td>ultimateCreditor</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>purposeCode</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>chargeBearer</td> <td>n.a.</td> <td>n.a.</td> <td>optional</td> <td>conditional </td> </tr>
+         <tr><td>serviceLevel</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a. </td> </tr>
          <tr><td>remittanceInformationUnstructured</td> <td>optional</td> <td>optional</td> <td> optional</td> <td>optional</td> </tr>
          <tr><td>remittanceInformationUnstructuredArray</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
          <tr><td>remittanceInformationStructured</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> <td>n.a.</td> </tr>
@@ -6565,6 +6461,10 @@ components:
 #          $ref: "#/components/schemas/ultimateCreditor"
 #        purposeCode:  # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/purposeCode"
+#        chargeBearer: #In some payment product N.A. in some Optional in some conditional
+#          $ref: "#/components/schemas/chargeBearer"
+#        serviceLevel: #N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/serviceLevelCode"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
@@ -6590,6 +6490,8 @@ components:
           $ref: "#/components/schemas/frequencyCode"
         dayOfExecution:
           $ref: "#/components/schemas/dayOfExecution"
+        monthsOfExecution:
+          $ref: "#/components/schemas/monthsOfExecution"
 
 
     bulkPaymentInitiation_json: 
@@ -6753,246 +6655,6 @@ components:
           description: Confirmation Code as retrieved by the TPP from the redirect based SCA process.
           type: string
 
-    #####################################################
-    # Content of Request Bodies - JSON - Domestic
-    #####################################################
-
-    paymentInitiationDomestic_json:
-      description: |
-        Generic Body for a domestic payment initation via JSON.
-
-        Payments types:
-          * credit-transfers
-          * claim-payments
-          * payment-card-deposits
-          * foreign-payment
-
-      type: object
-      required:
-        - debtorAccount
-        - creditorAccount
-      properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
-        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
-          type: string
-          maxLength: 35
-        debtorId:
-          type: string
-          maxLength: 35
-        debtorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        chargesAccount:
-          $ref: "#/components/schemas/accountReference"
-        ultimateDebtor:
-          $ref: "#/components/schemas/ultimateDebtor"
-        ultimateDebtorId: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/ultimateDebtorId"
-        instructedAmount:
-          $ref: "#/components/schemas/amount"
-        creditorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        creditorId:
-          type: string
-          maxLength: 35
-        creditorName:
-          $ref: "#/components/schemas/creditorName"
-        creditorAddress:
-          $ref: "#/components/schemas/address"
-        creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
-        creditorAgentName:
-          $ref: "#/components/schemas/creditorAgentName"
-        creditorAgentAddress:
-          $ref: "#/components/schemas/address"
-        ultimateCreditor:
-          $ref: "#/components/schemas/ultimateCreditor"
-        ultimateCreditorId:
-          $ref: "#/components/schemas/ultimateCreditorId"
-        centralBankPurposeCode:
-          $ref: "#/components/schemas/centralBankPurposeCode"
-        icelandicPurposeCode:
-          $ref: "#/components/schemas/icelandicPurposeCode"
-        remittanceInformationUnstructured:
-          $ref: "#/components/schemas/remittanceInformationUnstructured"
-        remittanceInformationStructured: 
-          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-        requestedExecutionDate:
-          type: string
-          format: date
-        partialPayment:
-          $ref: "#/components/schemas/partialPayment"
-        chargeBearer:
-          $ref: "#/components/schemas/chargeBearer"
-        serviceLevel:
-          type: string
-
-    periodicPaymentInitiationDomestic_json:
-      description: |
-        Generic Body for a domestic payment initation via JSON.
-
-        Possible values:
-          * credit-transfers
-          * payment-card-deposit
-
-      type: object
-      required:
-        - debtorAccount
-        - instructedAmount
-      properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
-        debtorId:
-          type: string
-          maxLength: 35
-        debtorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        creditorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        creditorId:
-          type: string
-          maxLength: 35
-        instructedAmount:
-          $ref: "#/components/schemas/amount"
-        icelandicPurposeCode:
-          $ref: "#/components/schemas/icelandicPurposeCode"
-        remittanceInformationUnstructured:
-          $ref: "#/components/schemas/remittanceInformationUnstructured"
-        remittanceInformationStructured: 
-          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-        startDate:
-          type: string
-          format: date
-        executionRule:
-          type: string
-        endDate:
-          type: string
-          format: date
-        frequency:
-          $ref: "#/components/schemas/frequencyCode"
-        dayOfExecution:
-          type: string
-          maxLength: 2
-
-    bulkPaymentInitiationDomestic_json:
-      description: |
-        Generic Body for a domestic bulk payments initation via JSON.
-
-        Payments types:
-          * credit-transfers
-          * claim-payments
-          * payment-card-deposits
-
-      type: object
-      required:
-        - payments
-        - paymentInformationId
-      properties:
-        batchBookingPreferred:
-          type: boolean
-        debtorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        paymentInformationId:
-          type: string
-          maxLength: 35
-        requestedExecutionDate:
-          type: string
-          format: date
-        payments:
-          description: |
-            A list of generic JSON bodies domestic payment initations for bulk payments via JSON.
-            
-            Note: Some fields from single payments do not occcur in a bulk payment element
-          type: array
-          items:
-            $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
-        chargesAccount:
-          $ref: "#/components/schemas/accountReference"
-
-    paymentInitiationBulkElementDomestic_json:
-      description: |
-        Generic body for a bulk payment initation entry.
-        
-        The bulk entry type is a type which follows the JSON formats for the supported products for single payments
-        excluding the data elements (if supported):
-          * requestedExecutionDate.
-          
-        These data elements may not be contained in any bulk entry. Foreign (sepa and cross-border) payments must skip exclude the data elements:
-          * debtorAccount
-          * requestedExecutionDate
-          * chargesAccount
-          
-          The should only be present on the parent bulkPaymentInitiationDomestic_json bulk initation entity.
-
-        This data object can be used to represent valid bulk payment initiations entry for the following JSON based payment product, 
-        which where defined in the Implementation Guidelines:
-        
-          * credit-transfers
-          * claim-payments
-          * payment-card-deposits
-          * sepa-credit-transfers
-          * cross-border-credit-transfers
-        
-        For the convenience of the implementer additional which are already predefinded in the Implementation Guidelines 
-        are included (but commented in source code), such that an ASPSP may add them easily.
-        
-        Take care: Since the format is intended to fit for all payment products 
-        there are additional conditions which are NOT covered by this specification.
-        Please check the Implementation Guidelines for detailes.
-
-      type: object
-      required:
-        - instructedAmount
-        - creditorAccount
-      additionalProperties: true
-      properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
-        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
-          type: string
-          maxLength: 35
-        resourceId:
-          type: string
-          maxLength: 35
-        debtorId: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/debtorId"
-        debtorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/ultimateDebtor"
-        ultimateDebtorId:
-          $ref: "#/components/schemas/ultimateDebtorId"
-        instructedAmount:
-          $ref: "#/components/schemas/amount"
-        creditorId:
-          type: string
-          maxLength: 35
-        creditorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        ultimateCreditor: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/ultimateCreditor"
-        ultimateCreditorId:
-          $ref: "#/components/schemas/ultimateCreditorId"
-        icelandicPurposeCode:
-          $ref: "#/components/schemas/icelandicPurposeCode"
-        centralBankPurposeCode:
-          $ref: "#/components/schemas/centralBankPurposeCode"
-        remittanceInformationUnstructured:
-          $ref: "#/components/schemas/remittanceInformationUnstructured"
-        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/remittanceInformationStructuredArray"
-
-    iobwsAuthorisationConfirmation:
-      description: |
-        Content of the body of an authorisation confirmation request when initiating e.g. straight through processing or cancelling a previous initiation in a IOBWS scenario.
-      type: object
-      properties:
-        confirmationMessage:
-          description: Optional description supplied by the IOBWS consumer that might be used for auditing purposes and traceability.
-          type: string
 
     #####################################################
     # Content of Request Bodies - XML
@@ -7101,6 +6763,8 @@ components:
           $ref: "#/components/schemas/frequencyCode"
         dayOfExecution:
           $ref: "#/components/schemas/dayOfExecution"
+        monthsOfExecution:
+          $ref: "#/components/schemas/monthsOfExecution"
 
 
 #####################################################
@@ -7109,7 +6773,7 @@ components:
 
 
     paymentInitiationStatusResponse-200_json:
-      description: Body of the response for a successful payment initiation status request in case of an JSON based endpoint.
+      description: Body of the response for a successful payment initiation status request in case of an JSON based endpoint. *Remark:* If the PSU does not complete a required SCA within the required timeframe the payment resource's status must be set to "RJCT". Particularly, if a multi-level-SCA is required and the number of successful SCAs during the required timeframe is insufficient, the status must also be set to "RJCT".
       type: object
       required:
         - transactionStatus
@@ -7120,6 +6784,13 @@ components:
           $ref: "#/components/schemas/fundsAvailable"
         psuMessage:
           $ref: "#/components/schemas/psuMessageText"
+        _links:
+          $ref: "#/components/schemas/_linksPaymentInitiationStatus"
+        tppMessage:
+          type: array
+          items: 
+            $ref: "#/components/schemas/tppMessageGeneric"
+          description: Messages to the TPP on operational issues.
 
 
     paymentInitiationStatusResponse-200_xml:
@@ -7155,12 +6826,12 @@ components:
         currencyConversionFee:
           # description: Might be used by the ASPSP to transport specific currency conversion fees related to the initiated credit transfer.
           $ref: "#/components/schemas/amount"
-#        estimatedTotalAmount:
-#          # description: The amount which is estimated to be debted from the debtor account. Note: This amount includes fees.
-#          $ref: "#/components/schemas/amount"
-#        estimatedInterbankSettlementAmount:
-#          # description: The estimated amount to be transferred to the payee.
-#          $ref: "#/components/schemas/amount"
+        estimatedTotalAmount:
+          # description: The amount which is estimated to be debted from the debtor account. Note: This amount includes fees.
+          $ref: "#/components/schemas/amount"
+        estimatedInterbankSettlementAmount:
+          # description: The estimated amount to be transferred to the payee.
+          $ref: "#/components/schemas/amount"
         transactionFeeIndicator:
           $ref: "#/components/schemas/transactionFeeIndicator"
         scaMethods:
@@ -7176,11 +6847,7 @@ components:
         tppMessages:
           type: array
           items:
-            $ref: "#/components/schemas/tppMessage2XX"
-        transactionFeesDetails:
-          $ref: "#/components/schemas/transactionFeesList"
-        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/paymentExchangeRate"
+            $ref: "#/components/schemas/tppMessage201PaymentInitiation"
 
 
     paymentInitiationCancelResponse-202:
@@ -7227,7 +6894,7 @@ components:
 #          $ref: "#/components/schemas/ultimateDebtor"
         instructedAmount:
           $ref: "#/components/schemas/amount"
-#        transactionCurrency: # N.A. for all, but can be used by ASPSP if needed
+#        currencyOfTransfer: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/currencyCode"
 #        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/paymentExchangeRate"
@@ -7251,6 +6918,8 @@ components:
 #          $ref: "#/components/schemas/purposeCode"
 #        chargeBearer: #In some payment product N.A. in some Optional in some conditional
 #          $ref: "#/components/schemas/chargeBearer"
+#        serviceLevel: #N.A. for all, but can be used by ASPSP if needed
+#          $ref: "#/components/schemas/serviceLevelCode"
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
 #        remittanceInformationUnstructuredArray:
@@ -7267,6 +6936,11 @@ components:
 #          format: date-time
         transactionStatus:
           $ref: "#/components/schemas/transactionStatus"
+        tppMessage:
+          type: array
+          items: 
+            $ref: "#/components/schemas/tppMessageGeneric"
+          description: Messages to the TPP on operational issues.
 
 
     periodicPaymentInitiationWithStatusResponse: 
@@ -7338,6 +7012,11 @@ components:
           $ref: "#/components/schemas/dayOfExecution"
         transactionStatus:
           $ref: "#/components/schemas/transactionStatus"
+        tppMessage:
+          type: array
+          items: 
+            $ref: "#/components/schemas/tppMessageGeneric"
+          description: Messages to the TPP on operational issues.
 
 
     bulkPaymentInitiationWithStatusResponse: 
@@ -7371,6 +7050,11 @@ components:
             $ref: "#/components/schemas/paymentInitiationBulkElement_json"
         transactionStatus:
           $ref: "#/components/schemas/transactionStatus"
+        tppMessage:
+          type: array
+          items: 
+            $ref: "#/components/schemas/tppMessageGeneric"
+          description: Messages to the TPP on operational issues.
 
 
     scaStatusResponse:
@@ -7385,6 +7069,13 @@ components:
           $ref: "#/components/schemas/psuMessageText"
         trustedBeneficiaryFlag:
           $ref: "#/components/schemas/trustedBeneficiaryFlag"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+        tppMessage:
+          type: array
+          items: 
+            $ref: "#/components/schemas/tppMessageGeneric"
+          description: Messages to the TPP on operational issues.
         
 
 
@@ -7731,160 +7422,6 @@ components:
         Data MT942 format in a text structure.
       type: string
 
-    #####################################################
-    # Content of Response Bodies - Domestic
-    #####################################################
-
-    paymentInitiationDomesticWithStatusResponse: 
-      description: |
-        Generic JSON response body consistion of the corresponding payment initation JSON body together with an optional transaction status field.
-      type: object
-      required:
-        - debtorAccount
-        - instructedAmount
-        - creditorAccount
-        - creditorName
-      properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
-        debtorName: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/debtorName"
-        debtorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        debtorId: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/debtorId"
-        ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/ultimateDebtor"
-        instructedAmount:
-          $ref: "#/components/schemas/amount"
-        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/paymentExchangeRate"
-        creditorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
-        creditorName:
-          $ref: "#/components/schemas/creditorName"
-        creditorAddress:
-          $ref: "#/components/schemas/address"
-        creditorId: # N.A. for all, but can be used by ASPSP if needed
-          description: Identification of Creditors, e.g. a SEPA Creditor ID.
-          type: string
-          maxLength: 35
-        ultimateCreditor: # N.A.
-          $ref: "#/components/schemas/ultimateCreditor"
-        chargeBearer: #In some payment product N.A. in some Optional in some conditional
-          $ref: "#/components/schemas/chargeBearer"
-        remittanceInformationUnstructured:
-          $ref: "#/components/schemas/remittanceInformationUnstructured"
-        remittanceInformationStructured: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/remittanceInformationStructuredMax140"
-        requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
-          type: string
-          format: date
-        transactionStatus:
-          $ref: "#/components/schemas/transactionStatus"
-        transactionFeesDetails:
-          $ref: "#/components/schemas/transactionFeesList"
-        icelandicPurposeCode:
-          $ref: "#/components/schemas/icelandicPurposeCode"
-        chargesAccount:
-          $ref: "#/components/schemas/accountReference"
-
-    periodicPaymentInitiationDomesticWithStatusResponse: 
-      description: |
-        Generic JSON response body consistion of the corresponding periodic payment initation JSON body together with an optional transaction status field.
-      type: object
-      required:
-        - debtorAccount
-        - instructedAmount
-        - creditorAccount
-        - creditorName
-        - startDate
-        - frequency
-      properties:
-        endToEndIdentification:
-          type: string
-          maxLength: 35
-        debtorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        instructedAmount:
-          $ref: "#/components/schemas/amount"
-        creditorAccount: 
-          $ref: "#/components/schemas/accountReference"
-        creditorAgent:
-          $ref: "#/components/schemas/bicfiOrIdentification"
-        creditorName:
-          $ref: "#/components/schemas/creditorName"
-        creditorAddress:
-          $ref: "#/components/schemas/address"
-        remittanceInformationUnstructured:
-          $ref: "#/components/schemas/remittanceInformationUnstructured"
-        #Additional Information for periodic payments
-        startDate:
-          $ref: "#/components/schemas/startDate"
-        endDate:
-          $ref: "#/components/schemas/endDate"
-        executionRule:
-          $ref: "#/components/schemas/executionRule"
-        frequency:
-          $ref: "#/components/schemas/frequencyCode"
-        dayOfExecution:
-          $ref: "#/components/schemas/dayOfExecution"
-        transactionStatus:
-          $ref: "#/components/schemas/transactionStatus"
-
-    bulkPaymentInitiationDomesticWithStatusResponse: 
-      description: |
-        Generic JSON response body consistion of the corresponding bulk payment initation JSON body together with an optional transaction status field.
-      type: object
-      required:
-        - batchBookingPreferred
-        - paymentInformationId
-        - payments
-      properties:
-        batchBookingPreferred:
-          $ref: "#/components/schemas/batchBookingPreferred"
-        debtorAccount:
-          $ref: "#/components/schemas/accountReference"
-        paymentInformationId:
-          type: string
-          maxLength: 35
-        requestedExecutionDate:
-          type: string
-          format: date
-        payments:
-          description: |
-            A list of generic JSON bodies payment initations for bulk payments via JSON.
-            
-            Note: Some fields from single payments do not occcur in a bulk payment element
-          type: array
-          items:
-            $ref: "#/components/schemas/bulkPaymentInitiationElementDomesticWithStatus"
-        transactionStatus:
-          $ref: "#/components/schemas/transactionStatus"
-        chargesAccount:
-          $ref: "#/components/schemas/accountReference"
-        exchangeRateInformation: # N.A. for all, but can be used by ASPSP if needed
-          $ref: "#/components/schemas/paymentExchangeRate"
-        transactionFeesDetails:
-          $ref: "#/components/schemas/transactionFeesList"
-          
-    bulkPaymentInitiationElementDomesticError:
-      type: object
-      additionalProperties: true
-      nullable: true
-      properties:
-        errors:
-          $ref: "#/components/schemas/Error400_NG_PIS"
-
-    bulkPaymentInitiationElementDomesticWithStatus:
-      allOf:
-        - $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
-        - $ref: "#/components/schemas/bulkPaymentInitiationElementDomesticError"
-          
-
 
 #####################################################
 # _links
@@ -7892,7 +7429,7 @@ components:
 
     _linksAll:
       description: |
-        A _link object with all availabel link types.
+        A _link object with all available link types.
       type: object
       additionalProperties: 
         $ref: "#/components/schemas/hrefType"
@@ -8011,10 +7548,6 @@ components:
         * 'scaStatus': 
           The link to retrieve the scaStatus of the corresponding authorisation sub-resource. 
           This link is only contained, if an authorisation sub-resource has been already created.
-        * 'confirmIobwsStraightThroughProcessingAuthorisation':
-          The link to the the URL end-point for IOBWS scenarios, which needs to be called to authorise the transaction e.g. by invoking 
-          the authorisation end-point where the authorisation sub-resource has been pre-generated. If the latter case, the payload should 
-          confirm to the "authorisationConfirmation" type with confirmation code containing the reason or ID generated by the invoker.
 
       type: object
       additionalProperties: 
@@ -8044,12 +7577,22 @@ components:
           $ref: "#/components/schemas/hrefType"
         scaStatus:
           $ref: "#/components/schemas/hrefType"
-        confirmIobwsStraightThroughProcessingAuthorisation:
-          $ref: "#/components/schemas/hrefType"
       example: 
         {
         "scaRedirect": {"href": "https://www.testbank.com/asdfasdfasdf"},
-        "self": {"href": "/v1/payments/sepa-credit-transfers/1234-wertiq-983"}
+        "self": {"href": "/psd2/v1/payments/sepa-credit-transfers/1234-wertiq-983"}
+        }
+
+    _linksPaymentInitiationStatus: 
+      description: |
+        Should refer to next steps if the problem can be resolved via the interface e.g. for re-submission of credentials.
+      type: object
+      additionalProperties: 
+        $ref: "#/components/schemas/hrefType"
+      example: 
+        {
+        "scaRedirect": {"href": "https://www.testbank.com/asdfasdfasdf"},
+        "self": {"href": "/psd2/v1/payments/sepa-credit-transfers/1234-wertiq-983"}
         }
 
 
@@ -8578,12 +8121,27 @@ components:
         - "ERROR"
         - "WARNING"
 
+
     MessageCode2XX: 
       description: Message codes for HTTP Error codes 2XX.
       type: string
       enum: 
         - "WARNING"
 
+
+    MessageCode200InitiationStatus: 
+      description: Message codes for HTTP codes 200 to a Payment Initiation Status Request.
+      type: string
+      enum: 
+        - "FUNDS_NOT_AVAILABLE"
+
+
+    MessageCode201PaymentInitiation:
+      description: Message codes for HTTP Codes 201 to a Payment Initiation Request.
+      type: string
+      enum: 
+        - "WARNING"
+        - "BENEFICIARY_WHITELISTING_REQUIRED"
 
     MessageCode400_AIS: 
       description: Message codes defined for AIS for HTTP Error code 400 (BAD_REQUEST).
@@ -8622,17 +8180,6 @@ components:
         - "CONSENT_UNKNOWN"           #gen
         - "PAYMENT_FAILED"            #PIS
         - "EXECUTION_DATE_INVALID"    #PIS
-        - "DEBTOR_ACCOUNT_NOT_FOUND"        #IOBWS
-        - "CREDITOR_ACCOUNT_NOT_FOUND"      #IOBWS
-        - "CLAIM_NOT_FOUND"                 #IOBWS
-        - "CLAIM_ALREADY_PAID"              #IOBWS
-        - "INSUFFICIENT_FUNDS"              #IOBWS
-        - "CARD_NOT_FOUND"                  #IOBWS
-        - "RECIPIENT_INFO_INSUFFICIENT"     #IOBWS
-        - "MARKETS_CLOSED"                  #IOBWS
-        - "RECIPIENT_COUNTRY_IS_IBAN_ONLY"  #IOBWS
-        
-
 
 
     MessageCode400_PIIS: 
@@ -8693,7 +8240,7 @@ components:
         - "TOKEN_UNKNOWN"             #gen
         - "TOKEN_INVALID"             #gen
         - "TOKEN_EXPIRED"             #gen
-        - "REQUIRED_KID_MISSING"      #PIS
+        - "KID_MISSING"               #PIS
 
 
     MessageCode401_AIS: 
@@ -8911,6 +8458,38 @@ components:
       maxLength: 500
 
 
+    tppMessageGeneric: 
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/tppMessageCategory"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+
+    tppMessageInitiationStatusResponse-200: 
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode200InitiationStatus"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+
     tppMessage2XX: 
       type: object
       required:
@@ -8921,6 +8500,22 @@ components:
            $ref: "#/components/schemas/tppMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode2XX"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/tppMessageText"
+
+
+    tppMessage201PaymentInitiation: 
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/tppMessageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode201PaymentInitiation"
         path:
           type: string
         text:
@@ -10864,28 +10459,6 @@ components:
             $ref: "#/components/schemas/tppMessage400_PIS"
         _links:
           $ref: "#/components/schemas/_linksAll"
-      example:
-        {
-          "tppMessages": [
-            {
-              "category": "ERROR",
-              "code": "DEBTOR_ACCOUNT_NOT_FOUND",
-              "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-              "text": "Úttektarreikningur ekki til"
-            },
-            {
-              "category": "ERROR",
-              "code": "FORMAT_ERROR",
-              "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-              "text": "Eigin villa banka"
-            }
-          ],
-          "_links": {
-            "self": {
-              "href": "/v1/payments/credit-transfers/1234-wertiq-983"
-            }
-          }
-        }
 
 
     Error400_NG_AIS: 
@@ -11289,11 +10862,14 @@ components:
         The ASPSP will publish which of the payment products/endpoints will be supported.
         
         The following payment products are supported:
-          - credit-transfers
-          - claim-payments
-          - payment-card-deposits
           - sepa-credit-transfers
+          - instant-sepa-credit-transfers
+          - target-2-payments
           - cross-border-credit-transfers
+          - pain.001-sepa-credit-transfers
+          - pain.001-instant-sepa-credit-transfers
+          - pain.001-target-2-payments
+          - pain.001-cross-border-credit-transfers
         
         **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, 
         the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. 
@@ -11307,11 +10883,15 @@ components:
       schema:
         type: string
         enum:
-          - "credit-transfers"
-          - "claim-payments"
-          - "payment-card-deposits"
           - "sepa-credit-transfers"
+          - "instant-sepa-credit-transfers"
+          - "target-2-payments"
           - "cross-border-credit-transfers"
+          - "pain.001-sepa-credit-transfers"
+          - "pain.001-instant-sepa-credit-transfers"
+          - "pain.001-target-2-payments"
+          - "pain.001-cross-border-credit-transfers"
+
 
     paymentId:
       name: paymentId
@@ -11403,7 +10983,6 @@ components:
       schema:
         $ref: "#/components/schemas/consentId"
 
-
     withBalanceQuery:
       name: withBalance
       in: query
@@ -11468,23 +11047,51 @@ components:
         type: string
 
 
-    bookingStatus:
+    bookingStatusGeneric:
       name: bookingStatus
       in: query
       description: |
         Permitted codes are 
-          * "information",
           * "booked",
-          * "pending", and 
-          * "both"
+          * "pending",  
+          * "both",
+          * "information" and
+          * "all"
         "booked" shall be supported by the ASPSP.
         To support the "pending" and "both" feature is optional for the ASPSP, 
-        Error code if not supported in the online banking frontend
+        Error code if not supported in the online banking frontend.
+        If supported, "both" means to request transaction reports of transaction of bookingStatus either "pending" or "booked".
+        To support the "information" feature is optional for the ASPSP. Currently the booking status “information” only covers standing orders. Error code if not supported.
+        To support the "all" feature is optional for the ASPSP, Error code if not supported. If supported, "all" means to request transaction reports of transaction of any bookingStatus ("pending", "booked" or "information").
+        
       required: true
       schema:
         type: string
         enum:
           - "information"
+          - "booked"
+          - "pending"
+          - "both"
+          - "all"
+
+
+    bookingStatusCard:
+      name: bookingStatus
+      in: query
+      description: |
+        Permitted codes are 
+          * "booked",
+          * "pending",  
+          * "both",
+        "booked" shall be supported by the ASPSP.
+        To support the "pending" and "both" feature is optional for the ASPSP, 
+        Error code if not supported in the online banking frontend.
+        If supported, "both" means to request transaction reports of transaction of bookingStatus either "pending" or "booked".
+        
+      required: true
+      schema:
+        type: string
+        enum:
           - "booked"
           - "pending"
           - "both"
@@ -11558,7 +11165,7 @@ components:
       description: |
         If it equals "true", the TPP prefers a redirect over an embedded SCA approach.
         If it equals "false", the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled
-        SCA approach, depending on the choice of the SCA procedure by the TPP/PSU.
+        SCA approach, depending on the parameter TPP-Decoupled-Preferred and the choice of the SCA procedure by the TPP/PSU.
         If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the
         TPP/PSU.
       schema:
@@ -11566,6 +11173,23 @@ components:
       required: false
 
 
+    TPP-Decoupled-Preferred:
+      name: TPP-Decoupled-Preferred
+      in: header
+      description: |
+        If it equals "true", the TPP prefers a decoupled SCA approach. 
+        If it equals "false", the TPP prefers not to use the decoupled approach for SCA. The ASPSP will then choose between the embedded or the redirect SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. 
+        If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the parameter TPP-Redirect-Preferred and the SCA method chosen by the TPP/PSU. 
+        The parameter might be ignored by the ASPSP.
+        If both parameters TPP-Redirect-Preferred and TPP-Decoupled-Preferred are present and true, the request is still not rejected, but it is up to the ASPSP, which approach will actually be used.
+        
+        **Remark for Future:** 
+        TPP-Redirect-Preferred and TPP-Decoupled-Preferred will be revised in future versions, maybe merged. Currently kept separate for downward compatibility.
+      schema:
+        type: boolean
+      required: false
+      
+      
     TPP-Redirect-URI:
       name: TPP-Redirect-URI
       in: header
@@ -11878,30 +11502,6 @@ components:
       required: false
       example: GEO:52.506931;13.144558
 
-    #####################################################
-    # Predefined Domestic Parameters
-    #####################################################
-
-    withCreditLimitQuery:
-      name: withCreditLimit
-      in: query
-      description: |
-        If contained, this function reads the list of accessible payment accounts including the credit limit,
-        if granted by the PSU in the related consent and available by the ASPSP.
-        This parameter might be ignored by the ASPSP.
-      required: false
-      schema:
-        type: boolean
-
-        
-    Idempotency-Key:
-      name: Idempotency-Key
-      in: header
-      description: Idempotent value for the operation being performed.
-      required: false
-      example: "paym-init-001"
-      schema:
-        type: string
 
   requestBodies:
   #####################################################
@@ -11913,12 +11513,17 @@ components:
         JSON request body for a payment inition request message.
         
         There are the following payment-products supported:
-          * "credit-transfers with JSON-Body"
-          * "claim-payments with JSON-Body"
-          * "payment-card-deposits with JSON-Body"
           * "sepa-credit-transfers" with JSON-Body
+          * "instant-sepa-credit-transfers" with JSON-Body
+          * "target-2-payments" with JSON-Body
           * "cross-border-credit-transfers" with JSON-Body
-
+          * "pain.001-sepa-credit-transfers" with XML pain.001.001.03 body for SCT scheme
+          * "pain.001-instant-sepa-credit-transfers" with XML pain.001.001.03 body for SCT INST scheme
+          * "pain.001-target-2-payments" with pain.001 body. 
+            Only country specific schemes are currently available
+          * "pain.001-cross-border-credit-transfers" with pain.001 body. 
+            Only country specific schemes are currently available
+          
         There are the following payment-services supported:
           * "payments"
           * "periodic-payments"
@@ -11930,37 +11535,35 @@ components:
         application/json:
           schema:
             oneOf: #Different Payment products in JSON
-              - $ref: "#/components/schemas/paymentInitiationDomestic_json"
-              - $ref: "#/components/schemas/periodicPaymentInitiationDomestic_json"
-              - $ref: "#/components/schemas/bulkPaymentInitiationDomestic_json"
-              # - $ref: "#/components/schemas/paymentInitiation_json"
-              # - $ref: "#/components/schemas/periodicPaymentInitiation_json"
-              # - $ref: "#/components/schemas/bulkPaymentInitiation_json"
+              - $ref: "#/components/schemas/paymentInitiation_json"
+              - $ref: "#/components/schemas/periodicPaymentInitiation_json"
+              - $ref: "#/components/schemas/bulkPaymentInitiation_json"
               
-
+              
           examples:
-            # "Example 1: 'payments' - 'sepa-credit-transfers'":
-            #   $ref: "#/components/examples/paymentInitiationSctBody_payments_json"
-            # "Example 2: 'periodic-payments' - 'sepa-credit-transfers'":
-            #   $ref: "#/components/examples/paymentInitiationSctBody_periodic-payments_json"
-            # "Example 3: 'bulk-payments' - 'sepa-credit-transfers'":
-            #   $ref: "#/components/examples/paymentInitiationSctBody_bulk-payments_json"
-            "Example 4: 'payments' - 'credit-transfers'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-payments_json"
-            "Example 5: 'payments' - 'claim-payments'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-claim-payments_json"
-            "Example 6: 'payments' - 'payment-card-deposits'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-payment-card-payments_json"
-            "Example 7: 'payments' - 'foreign-payment-sepa'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-foreign-sepa-payments_json"
-            "Example 8: 'payments' - 'foreign-payment-cross-border'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-foreign-cross-border-payments_json"            
-            "Example 9: 'periodic-payments' - 'credit-transfers'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_creditTransfer-periodic-payments_json"
-            "Example 10: 'periodic-payments' - 'payment-card-deposits'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_paymentCardTopUp-periodic-payments_json"
-            "Example 11: 'bulk-payments' - 'credit-transfers'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_json"
+            "Example 1: 'payments' - 'sepa-credit-transfers'":
+              $ref: "#/components/examples/paymentInitiationSctBody_payments_json"
+            "Example 2: 'periodic-payments' - 'sepa-credit-transfers'":
+              $ref: "#/components/examples/paymentInitiationSctBody_periodic-payments_json"
+            "Example 3: 'bulk-payments' - 'sepa-credit-transfers'":
+              $ref: "#/components/examples/paymentInitiationSctBody_bulk-payments_json"
+
+        application/xml:
+          schema:
+            oneOf: #The same schemas are used for single and bulk payment in case of a pain.001
+              - $ref: "#/components/schemas/paymentInitiationSct_pain.001"
+              - $ref: "#/components/schemas/paymentInitiationSctInst_pain.001"
+              - $ref: "#/components/schemas/paymentInitiationTarget2_pain.001"
+              - $ref: "#/components/schemas/paymentInitiationCrossBorder_pain.001"
+          examples:
+            "Example 1: 'payments' - 'pain.001-sepa-credit-transfers'":
+              $ref: "#/components/examples/pain.001.001_SCT_singleTransaction"
+        
+        multipart/form-data: #For periodic-payments with pain.001
+          schema:
+            $ref: "#/components/schemas/periodicPaymentInitiationMultipartBody"
+
+
     signingBasket:
       description: |
         Request body for a confirmation of an establishing signing basket request.
@@ -12021,7 +11624,6 @@ components:
           * EMBEDDED
           * DECOUPLED
           * REDIRECT
-          * IOWBS
         The OAuth SCA approach will be subsumed by REDIRECT.
       schema:
         type: string
@@ -12029,7 +11631,6 @@ components:
           - "EMBEDDED"
           - "DECOUPLED"
           - "REDIRECT"
-          - "IOWBS"
         example: "EMBEDDED"
       required: false
 
@@ -12098,17 +11699,11 @@ components:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
-          schema:
+           schema:
             oneOf:  #Different Payment Products with status
-              # - $ref: "#/components/schemas/paymentInitiationWithStatusResponse"
-              # - $ref: "#/components/schemas/periodicPaymentInitiationWithStatusResponse"
-              # - $ref: "#/components/schemas/bulkPaymentInitiationWithStatusResponse"
-              - $ref: "#/components/schemas/paymentInitiationDomesticWithStatusResponse"
-              - $ref: "#/components/schemas/periodicPaymentInitiationDomesticWithStatusResponse"
-              - $ref: "#/components/schemas/bulkPaymentInitiationDomesticWithStatusResponse"
-          examples:
-            "Example 2: 'bulk-payments' - 'credit-transfers with status'":
-              $ref: "#/components/examples/paymentInitiationDomesticBody_bulk-payments_with_status_json"
+              - $ref: "#/components/schemas/paymentInitiationWithStatusResponse"
+              - $ref: "#/components/schemas/periodicPaymentInitiationWithStatusResponse"
+              - $ref: "#/components/schemas/bulkPaymentInitiationWithStatusResponse"
               
         application/xml:
           schema:
@@ -12181,7 +11776,8 @@ components:
 
 
     OK_200_AccountList:
-      description: OK
+      description: OK. In case, no account is accessible, the ASPSP shall return an empty array. As this is also considered a positive response, the Response code must still be 200.
+
       
       headers:
         X-Request-ID:
@@ -12192,20 +11788,17 @@ components:
           schema:
             $ref: "#/components/schemas/accountList"
           examples:
-            # "Example 1":
-            #   $ref: "#/components/examples/accountListExample1"
-            # "Example 2":
-            #   $ref: "#/components/examples/accountListExample2"
-            # "Example 3":
-            #   $ref: "#/components/examples/accountListExample3"
-            "Example 4":
-              $ref: "#/components/examples/accountListDomesticExample4"
-            "Example 5":
-              $ref: "#/components/examples/accountListDomesticExample5"
+            "Example 1":
+              $ref: "#/components/examples/accountListExample1"
+            "Example 2":
+              $ref: "#/components/examples/accountListExample2"
+            "Example 3":
+              $ref: "#/components/examples/accountListExample3"
 
 
     OK_200_CardAccountList:
-      description: OK
+      description: OK. In case, no card-account is accessible, the ASPSP shall return an empty array. As this is also considered a positive response, the Response Code must still be 200.
+      
       
       headers:
         X-Request-ID:
@@ -12237,16 +11830,10 @@ components:
               account:
                 $ref: "#/components/schemas/accountDetails"
           examples:
-            # "Regular Account": 
-            #   $ref: "#/components/examples/accountDetailsRegularAccount"
-            # "Multicurrency Account":
-            #   $ref: "#/components/examples/accountDetailsMulticurrencyAccount"
-            "Regular Domestic Account": 
-              $ref: "#/components/examples/accountDetailsDomesticRegularAccount"
-            "Domestic Currency Account":
-              $ref: "#/components/examples/accountDetailsDomesticCurrencyAccount"
-            "Regular Domestic Account with Balances and Creditlimit":
-              $ref: "#/components/examples/accountDetailsDomesticRegularAccountWithBalancesAndCreditlimit"
+            "Regular Account": 
+              $ref: "#/components/examples/accountDetailsRegularAccount"
+            "Multicurrency Account":
+              $ref: "#/components/examples/accountDetailsMulticurrencyAccount"
 
 
     OK_200_CardAccountDetails:
@@ -12287,10 +11874,8 @@ components:
               transactionsDetails:
                 $ref: "#/components/schemas/transactionDetailsBody"
           examples:
-            # Example:
-            #   $ref: "#/components/examples/transactionDetailsExample"
-            "Example Domestic":
-              $ref: "#/components/examples/transactionDetailsDomesticExample"
+            Example:
+              $ref: "#/components/examples/transactionDetailsExample"
 
 
     OK_200_Balances:
@@ -12305,18 +11890,12 @@ components:
           schema:
             $ref: "#/components/schemas/readAccountBalanceResponse-200"
           examples:
-            # "Example 1: Regular Account":
-            #   $ref: "#/components/examples/balancesExample1_RegularAccount"
-            # "Example 2: Multicurrency Account":
-            #   $ref: "#/components/examples/balancesExample2_MulticurrencyAcount"
-            # "Example 3:":
-            #   $ref: "#/components/examples/balancesExample3_RegularAccount"
-            "Example 4: Regular Domestic Account":
-              $ref: "#/components/examples/balancesDomesticExample4_RegularAccount"
-            "Example 5: Currency Domestic Account":
-              $ref: "#/components/examples/balancesDomesticExample5_CurrencyAccount"
-            "Example 6:":
-              $ref: "#/components/examples/balancesDomesticExample6_RegularAccount"
+            "Example 1: Regular Account":
+              $ref: "#/components/examples/balancesExample1_RegularAccount"
+            "Example 2: Multicurrency Account":
+              $ref: "#/components/examples/balancesExample2_MulticurrencyAcount"
+            "Example 3:":
+              $ref: "#/components/examples/balancesExample3_RegularAccount"
 
     OK_200_CardAccountBalances:
       description: OK
@@ -12345,16 +11924,12 @@ components:
           schema:
             $ref: "#/components/schemas/transactionsResponse-200_json"
           examples:
-            # "Example 1":
-            #   $ref: "#/components/examples/transactionsExample1_RegularAccount_json"
-            # "Example 2":
-            #   $ref: "#/components/examples/transactionsExample2_Download_json"
-            # "Example 3":
-            #   $ref: "#/components/examples/transactionsExample3_MulticurrencyAccount_json"
-            "Example 4":
-              $ref: "#/components/examples/transactionsExampleDomestic4_RegularAccount_json"
-            "Example 5":
-              $ref: "#/components/examples/transactionsExampleDomestic5_CurrencyAccount_json"
+            "Example 1":
+              $ref: "#/components/examples/transactionsExample1_RegularAccount_json"
+            "Example 2":
+              $ref: "#/components/examples/transactionsExample2_Download_json"
+            "Example 3":
+              $ref: "#/components/examples/transactionsExample3_MulticurrencyAccount_json"
         
         application/xml:
           schema:
@@ -13595,8 +13170,8 @@ components:
               "name": "Main Account",
               "_links": 
                 {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                  "balances": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
                  }
             }
         }
@@ -13617,8 +13192,8 @@ components:
               "name": "Aggregation Account",
               "_links": 
                 {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
+                  "balances": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+                  "transactions": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
                 }
             }
         }
@@ -13637,17 +13212,17 @@ components:
                "cashAccountType": "CACC",
                "name": "Main Account",
                "_links": {
-            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
+            "balances": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+            "transactions": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
               },
-              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81g",
+              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81e",
                "iban": "DE2310010010123456788",
                "currency": "USD",
                "product": "Fremdwährungskonto",
                "cashAccountType": "CACC",
                "name": "US Dollar Account",
                "_links": {
-            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/balances" }}
+            "balances": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81e/balances" }}
                } 
         ]}
 
@@ -13666,18 +13241,18 @@ components:
                "cashAccountType": "CACC",
                "name": "Main Account",
                "_links": {
-            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
+            "balances": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
+            "transactions": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
               },
-              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81g",
+              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81e",
                "iban": "DE2310010010123456788",
                "currency": "USD",
                "product": "Fremdwährungskonto",
                "cashAccountType": "CACC",
                "name": "US Dollar Account",
                "_links": {
-                 "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/balances"},
-                 "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/transactions"} }
+                 "balances": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81e/balances"},
+                 "transactions": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81e/transactions"} }
                } 
         ]}
 
@@ -13698,28 +13273,28 @@ components:
                "cashAccountType": "CACC",
                "name": "Aggregation Account",
                "_links": {
-            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e333/balances"},
-            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e333/transactions"}}
+            "balances": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e333/balances"},
+            "transactions": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e333/transactions"}}
               },
-        {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+        {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80e",
                "iban": "DE2310010010123456788", 
                "currency": "EUR",
                "product": "Girokonto",
                "cashAccountType": "CACC",
                "name": "Main Account",
                "_links": {
-            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}}
+            "balances": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80e/balances"},
+            "transactions": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80e/transactions"}}
               },
-              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81g",
+              {"resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e81d",
                "iban": "DE2310010010123456788",
                "currency": "USD",
                "product": "Fremdwährungskonto",
                "cashAccountType": "CACC",
                "name": "US Dollar Account",
                "_links": {
-            "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/balances"},
-            "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81g/transactions"} }
+            "balances": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81d/balances"},
+            "transactions": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e81d/transactions"} }
                } 
         ]}
 
@@ -13750,7 +13325,7 @@ components:
             ],
             "_links": {
               "transactions": {
-                "href": "/v1/card-accounts/3d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
+                "href": "/psd2/v1/card-accounts/3d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
               }
             }
           }
@@ -13786,7 +13361,7 @@ components:
             ],
             "_links": {
               "transactions": {
-                "href": "/v1/card-accounts/3d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
+                "href": "/psd2/v1/card-accounts/3d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
               }
             }
           }
@@ -13823,9 +13398,9 @@ components:
           "basketId": "1234-basket-567",
           "_links": 
                 {
-                "self": {"href": "/v1/signing-baskets/1234-basket-567"},
-                "status": {"href": "/v1/signing-baskets/1234-basket-567/status"},
-                "startAuthorisation": {"href": "/v1/signing-baskets/1234-basket-567/authorisations"}
+                "self": {"href": "/psd2/v1/signing-baskets/1234-basket-567"},
+                "status": {"href": "/psd2/v1/signing-baskets/1234-basket-567/status"},
+                "startAuthorisation": {"href": "/psd2/v1/signing-baskets/1234-basket-567/authorisations"}
                 }
         }
 
@@ -13938,7 +13513,7 @@ components:
           "validUntil": "2017-11-01",
           "frequencyPerDay": 4,
           "consentStatus": "valid",
-          "_links": {"account": {"href": "/v1/accounts"}}
+          "_links": {"account": {"href": "/psd2/v1/accounts"}}
         }
 
 
@@ -13951,8 +13526,8 @@ components:
           "_links": 
             {
             "scaRedirect": {"href": "https://www.testbank.com/authentication/1234-wertiq-983"},
-            "status": {"href": "/v1/consents/1234-wertiq-983/status"},
-            "scaStatus": {"href": "v1/consents/1234-wertiq-983/authorisations/123auth567"}
+            "status": {"href": "/psd2/v1/consents/1234-wertiq-983/status"},
+            "scaStatus": {"href": "/psd2/v1/consents/1234-wertiq-983/authorisations/123auth567"}
             }
         }
 
@@ -13965,7 +13540,7 @@ components:
           "consentId": "1234-wertiq-983",
           "_links": 
             {
-            "startAuthorisation": {"href": "v1/consents/1234-wertiq-983/authorisations"}
+            "startAuthorisation": {"href": "/psd2/v1/consents/1234-wertiq-983/authorisations"}
             }
         }
 
@@ -13978,8 +13553,8 @@ components:
         "consentId": "1234-wertiq-983",
         "_links": 
           {
-            "self": {"href": "/v1/consents/1234-wertiq-983"},
-            "scaStatus": {"href": "v1/consents/1234-wertiq-983/authorisations/123auth567"},
+            "self": {"href": "/psd2/v1/consents/1234-wertiq-983"},
+            "scaStatus": {"href": "/psd2/v1/consents/1234-wertiq-983/authorisations/123auth567"},
             "scaOAuth": {"href": "https://www.testbank.com/oauth/.well-known/oauth-authorization-server"}
           }
         } 
@@ -13993,7 +13568,7 @@ components:
           "consentId": "1234-wertiq-983",
           "_links": 
             {
-            "startAuthorisationWithPsuIdentification": {"href": "/v1/consents/1234-wertiq-983/authorisations"}
+            "startAuthorisationWithPsuIdentification": {"href": "/psd2/v1/consents/1234-wertiq-983/authorisations"}
             }
         } 
 
@@ -14006,7 +13581,7 @@ components:
           "consentId": "1234-wertiq-983",
           "_links": 
             {
-            "startAuthorisationWithPsuAuthentication": {"href": "/v1/consents/1234-wertiq-983/authorisations"}
+            "startAuthorisationWithPsuAuthentication": {"href": "/psd2/v1/consents/1234-wertiq-983/authorisations"}
             }
         }
 
@@ -14028,9 +13603,9 @@ components:
           "_links": 
             {
             "scaRedirect": {"href": "https://www.testbank.com/asdfasdfasdf"},
-            "self": {"href": "/v1/payments/sepa-credit-transfers/1234-wertiq-983"},
-            "status": {"href": "/v1/payments/1234-wertiq-983/status"},
-            "scaStatus": {"href": "/v1/payments/1234-wertiq-983/authorisations/123auth456"}
+            "self": {"href": "/psd2/v1/payments/sepa-credit-transfers/1234-wertiq-983"},
+            "status": {"href": "/psd2/v1/payments/1234-wertiq-983/status"},
+            "scaStatus": {"href": "/psd2/v1/payments/1234-wertiq-983/authorisations/123auth456"}
             }
         }
 
@@ -14043,9 +13618,9 @@ components:
           "paymentId": "1234-wertiq-983",
           "_links": 
             {
-            "self": {"href": "/v1/payments/1234-wertiq-983"},
-            "status": {"href": "/v1/payments/1234-wertiq-983/status"},
-            "startAuthorisation": {"href": "/v1/payments1234-wertiq-983/authorisations"}
+            "self": {"href": "/psd2/v1/payments/1234-wertiq-983"},
+            "status": {"href": "/psd2/v1/payments/1234-wertiq-983/status"},
+            "startAuthorisation": {"href": "/psd2/v1/payments1234-wertiq-983/authorisations"}
             }
         }
 
@@ -14059,9 +13634,9 @@ components:
           "_links": 
             {
             "scaOAuth": {"href": "https://www.testbank.com/oauth/.well-known/oauth-authorization-server"},
-            "self": {"href": "/v1/payments/1234-wertiq-983"},
-            "status": {"href": "/v1/payments/1234-wertiq-983/status"},
-            "scaStatus": {"href": "/v1/payments/1234-wertiq-983/authorisations/123auth456"}
+            "self": {"href": "/psd2/v1/payments/1234-wertiq-983"},
+            "status": {"href": "/psd2/v1/payments/1234-wertiq-983/status"},
+            "scaStatus": {"href": "/psd2/v1/payments/1234-wertiq-983/authorisations/123auth456"}
             }
         }
 
@@ -14075,7 +13650,7 @@ components:
           "_links": 
             {
             "startAuthorisationWithPsuIdentification": {"href":"/v1/payments/1234-wertiq-983/authorisations"},
-            "self": {"href": "/v1/payments/1234-wertiq-983"}
+            "self": {"href": "/psd2/v1/payments/1234-wertiq-983"}
             }
         } 
 
@@ -14088,8 +13663,8 @@ components:
           "paymentId": "1234-wertiq-983",
           "_links": 
             {
-            "startAuthenticationWithPsuAuthentication": {"href": "/v1/payments/1234-wertiq-983/authorisations"},
-            "self": {"href": "/v1/payments/1234-wertiq-983"}
+            "startAuthorisationWithPsuAuthentication": {"href": "/psd2/v1/payments/1234-wertiq-983/authorisations"},
+            "self": {"href": "/psd2/v1/payments/1234-wertiq-983"}
             }
         }
 
@@ -14107,9 +13682,9 @@ components:
           "transactionStatus": "ACTC",
           "_links": 
             {
-            "self": {"href": "/v1/payments/123456scheduled789"},
-            "status": {"href": "/v1/payments/123456scheduled789/status"},
-            "startAuthorisation": {"href": "/v1/payments/123456scheduled789/cancellation-authorisations"}
+            "self": {"href": "/psd2/v1/payments/123456scheduled789"},
+            "status": {"href": "/psd2/v1/payments/123456scheduled789/status"},
+            "startAuthorisation": {"href": "/psd2/v1/payments/123456scheduled789/cancellation-authorisations"}
             }
         }
 
@@ -14141,7 +13716,7 @@ components:
         { 
           "scaStatus": "psuAuthenticated",
           _links: {
-           "authoriseTransaction": {"href": "/v1/payments/1234-wertiq-983/authorisations/123auth456"}
+           "authoriseTransaction": {"href": "/psd2/v1/payments/1234-wertiq-983/authorisations/123auth456"}
           }
         }
 
@@ -14158,7 +13733,7 @@ components:
           "otpMaxLength": "6",
           "otpFormat": "integer"},
           "_links": {
-             "authoriseTransaction": {"href": "/v1/payments/1234-wertiq-983/authorisations/123auth456"}
+             "authoriseTransaction": {"href": "/psd2/v1/payments/1234-wertiq-983/authorisations/123auth456"}
           }
         }
 
@@ -14324,7 +13899,7 @@ components:
                  "valueDate": "2017-10-26", 
                  "remittanceInformationUnstructured": "Example 3"
                 }],
-            "_links": {"account": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
+            "_links": {"account": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
              }
         }
 
@@ -14378,7 +13953,7 @@ components:
                "valueDate": "2017-10-26", 
                "remittanceInformationUnstructured": "Example 4"
               }],
-           "_links": {"account": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
+           "_links": {"account": {"href": "/psd2/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
            }
         }
 
@@ -14408,700 +13983,9 @@ components:
         { 
           "authorisationIds": ["123auth456"]
         }
-
-#####################################################
-# Predefined Examples Domestic
-#####################################################
-
-    accountDetailsDomesticRegularAccountWithBalancesAndCreditlimit:
-      description: Account details for a regular Account.
-      value:
-        {
-          "account":
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS060537260002062306671449", 
-              "currency": "ISK",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Gullvild einstaklinga",
-              "cashAccountType": "CACC",
-              "displayName": "My Main Account",
-              "bic": "GLITISRE",
-              "creditLimit": 
-              {
-                "currency": "ISK",
-                "amount": "200000"
-              },
-              "balances": [
-                {
-                  "balanceAmount": {
-                    "currency": "ISK",
-                    "amount": "100000"
-                  },
-                  "balanceType": "interimBooked",
-                  "creditLimitIncluded": false,
-                  "lastChangeDateTime": "0001-01-01T00:00:00",
-                  "referenceDate": "0001-01-01T00:00:00"
-                },
-                {
-                  "balanceAmount": {
-                    "currency": "ISK",
-                    "amount": "300000"
-                  },
-                  "balanceType": "expected",
-                  "creditLimitIncluded": true,
-                  "lastChangeDateTime": "0001-01-01T00:00:00",
-                  "referenceDate": "0001-01-01T00:00:00"
-                }
-              ],             
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            }
-        }
     
-    accountDetailsDomesticRegularAccount:
-      description: Account details for a regular Account.
-      value:
-        {
-          "account":
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS060537260002062306671449", 
-              "currency": "ISK",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Gullvild einstaklinga",
-              "cashAccountType": "CACC",
-              "displayName": "My Main Account",
-              "bic": "GLITISRE",              
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            }
-        }
-
-    accountDetailsDomesticCurrencyAccount:
-      description: Account details for a multicurrency account.
-      value:
-        {
-          "account":
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS950528293004010101759689", 
-              "currency": "USD",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Veltureikningur",
-              "cashAccountType": "CACC",
-              "displayName": "My USD Account",
-              "bic": "GLITISRE",
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            }
-        }
-    
-    accountListDomesticExample4:
-      summary: Account list Example 4
-      description: Response in case of an example, where the consent has been given on two different IBANs.
-      value:
-        {"accounts":
-            [
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS060537260002062306671449", 
-              "currency": "ISK",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Gullvild einstaklinga",
-              "cashAccountType": "CACC",
-              "displayName": "My Main Account",
-              "bic": "GLITISRE",
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            },
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS950528293004010101759689", 
-              "currency": "USD",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Veltureikningur",
-              "cashAccountType": "CACC",
-              "displayName": "My USD Account",
-              "bic": "GLITISRE",
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            }
-        ]}
-
-    accountListDomesticExample5:
-      summary: Account list Example 5
-      description: |
-        Response in case of an example, where the withBalance and with creditLimit query parameters are set.
-      value:
-        {"accounts":
-           [
-              {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS060537260002062306671449", 
-              "currency": "ISK",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Gullvild einstaklinga",
-              "cashAccountType": "CACC",
-              "displayName": "My Main Account",
-              "bic": "GLITISRE",
-              "creditLimit": 
-              {
-                "currency": "ISK",
-                "amount": "200000"
-              },
-              "balances": [
-                {
-                  "balanceAmount": {
-                    "currency": "ISK",
-                    "amount": "100000"
-                  },
-                  "balanceType": "interimBooked",
-                  "creditLimitIncluded": false,
-                  "lastChangeDateTime": "2022-28-02T00:00:00",
-                  "referenceDate": "2022-28-02T00:00:00"
-                },
-                {
-                  "balanceAmount": {
-                    "currency": "ISK",
-                    "amount": "300000"
-                  },
-                  "balanceType": "expected",
-                  "creditLimitIncluded": true,
-                  "lastChangeDateTime": "2022-28-02T00:00:00",
-                  "referenceDate": "2022-28-02T00:00:00"
-                }
-              ],             
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            },
-            {
-              "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
-              "iban": "IS950528293004010101759689", 
-              "currency": "USD",
-              "ownerName": "Þóroddur ÞÍ Stancikas",
-              "status": "enabled",
-              "product": "Veltureikningur",
-              "cashAccountType": "CACC",
-              "displayName": "My USD Account",
-              "bic": "GLITISRE",
-              "creditLimit": 
-              {
-                "currency": "USD",
-                "amount": "1000"
-              },
-              "balances": [
-                {
-                  "balanceAmount": {
-                    "currency": "USD",
-                    "amount": "1000"
-                  },
-                  "balanceType": "interimBooked",
-                  "creditLimitIncluded": false,
-                  "lastChangeDateTime": "2022-28-02T00:00:00",
-                  "referenceDate": "2022-28-02T00:00:00"
-                },
-                {
-                  "balanceAmount": {
-                    "currency": "USD",
-                    "amount": "20000"
-                  },
-                  "balanceType": "expected",
-                  "creditLimitIncluded": true,
-                  "lastChangeDateTime": "2022-28-02T00:00:00",
-                  "referenceDate": "2022-28-02T00:00:00"
-                }
-              ],
-              "_links": 
-                {
-                  "balances": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"},
-                  "transactions": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"}
-                }
-            }
-        ]}
-
-    balancesDomesticExample4_RegularAccount:
-      description: Response for a read balance request in case of a regular account.
-      value: 
-        {
-          "account": {"iban": "IS060537260002062306671449"},
-          "balances":
-              [{
-                "balanceAmount": {"currency": "ISK", "amount": "500.00"},
-                "balanceType": "closingBooked",
-                "referenceDate": "2017-10-25"
-                    },
-                {
-                "balanceAmount": {"currency": "ISK","amount": "900.00"},
-                "balanceType": "expected", 
-                "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
-                }]
-        }
-
-    balancesDomesticExample5_CurrencyAccount:
-      description: |
-        Response in case of a currency account in EUR,
-        where the ASPSP has delivered a link to the balance endpoint.
-      value: 
-        {
-          "balances":
-              [{"balanceAmount": {"currency": "EUR", "amount": "500.00"},
-                "balanceType": "closingBooked",
-                "referenceDate": "2017-10-25"
-                   },
-              {"balanceAmount": {"currency": "EUR", "amount": "900.00"},
-              "balanceType": "expected",
-              "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
-              }]
-        }
-
-    balancesDomesticExample6_RegularAccount:
-      description: Response in case of a regular account where the corresponding balances in the online channel is reported independently from account statements with fixed dates, i.e. always displaying running balance for current time.
-      value: 
-        {
-            "balances":[      
-              {
-                "balanceAmount":{"currency":"ISK", "amount": "1000.00"},
-                "balanceType":"interimBooked"
-                  },     
-              {
-                  "balanceAmount":{"currency": "ISK", "amount": "300.00"},
-                  "balanceType":"interimAvailable"
-              },
-              {
-                  "balanceAmount":{"currency":"ISK", "amount": "5300.00"},
-                  "balanceType": "interimAvailable",
-                  "creditLimitIncluded": true
-              }
-            ]
-        }
-        
-    transactionDetailsDomesticExample:
-        description: Example for transaction details.
-        value:
-          {
-            "transactionsDetails": {
-              "transactionDetails":
-                {
-                  "transactionId": "1234567",
-                  "creditorName": "John Miles",
-                  "creditorAccount": {"iban": "IS450500000000900101759689"},
-                  "mandateId": "Mandate-2018-04-20-1234",
-                  "transactionAmount": {"currency": "ISK", "amount": "25000"},
-                  "bookingDate": "2017-10-25",
-                  "valueDate": "2017-10-26",
-                  "remittanceInformationUnstructured": "Example 1",
-                  "bankTransactionCode": "PMNT-RDDT-ESDD" 
-                }
-              }
-          }   
-
-    transactionsExampleDomestic4_RegularAccount_json:
-      description: Response in JSON format for an access on a regular account.
-      value:
-        {
-          "account": {"iban": "IS060537260002062306671449" },
-          "transactions":
-            {
-            "booked":
-              [{
-              "transactionId": "1234567",
-              "creditorName": "Jón Jónsson",
-              "creditorAccount": {"iban": "IS67100100101306118605"},
-              "transactionAmount": {"currency": "ISK", "amount": "256.67"},
-              "bookingDate": "2017-10-25",
-              "valueDate": "2017-10-26", 
-              "remittanceInformationUnstructured": "Example 1" 
-                },{
-                 "transactionId": "1234568",
-                 "debtorName": "LiljaÞÍ Kristjánsdóttir",
-                 "debtorAccount": {"iban": "IS620511040000171105551489"},
-                 "transactionAmount": {"currency": "ISK", "amount": "343.01"},
-                 "bookingDate": "2017-10-25",
-                 "valueDate": "2017-10-26", 
-                 "remittanceInformationUnstructured": "Example 2"
-                }],
-            "pending":
-              [{
-                 "transactionId": "1234569",
-                 "debtorName": "LiljaÞÍ Kristjánsdóttir",
-                 "debtorAccount": {"iban": "IS620511040000171105551489"},
-                 "transactionAmount": {"currency": "ISK", "amount": "-100.03"},
-                 "valueDate": "2017-10-26", 
-                 "remittanceInformationUnstructured": "Example 3"
-                }],
-            "_links": {"account": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
-             }
-        }
 
 
-    transactionsExampleDomestic5_CurrencyAccount_json:
-      description: Response in JSON format for an access on a domestic currency account.
-      value:
-        {
-        "account": {"iban": "IS060537260002062306671449"},
-         "transactions":
-           {"booked": 
-             [{
-               "transactionId": "1234567",
-               "creditorName": "John Miles",
-               "creditorAccount": {"iban": "DE67100100101306118605"},
-               "transactionAmount": {"currency": "EUR", "amount": "-256.67"},
-               "bookingDate": "2017-10-25",
-               "valueDate": "2017-10-26", 
-               "remittanceInformationUnstructured": "Example 1"
-              },{
-               "transactionId": "1234568",
-               "debtorName": "Paul Simpson",
-               "debtorAccount": {"iban": "NL76RABO0359400371"},
-               "transactionAmount": {"currency": "EUR", "amount": "343.01"},
-               "bookingDate": "2017-10-25",
-               "valueDate": "2017-10-26", 
-               "remittanceInformationUnstructured": "Example 2"
-              },{
-               "transactionId": "1234569",
-               "debtorName": "Pepe Martin",
-               "debtorAccount": {"iban": "SE9412309876543211234567"},
-               "transactionAmount": {"currency": "EUR", "amount": "100"},
-               "bookingDate": "2017-10-25",
-               "valueDate": "2017-10-26", 
-               "remittanceInformationUnstructured": "Example 3"
-              }],
-           "pending":
-             [{
-               "transactionId": "1234570",
-               "creditorName": "Claude Renault",
-               "creditorAccount": {"iban": "FR7612345987650123456789014"},
-               "transactionAmount": {"currency": "EUR", "amount": "-100.03"},
-               "valueDate": "2017-10-26", 
-               "remittanceInformationUnstructured": "Example 4"
-              }],
-           "_links": {"account": {"href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f"}}
-           }
-        }
-    
-    paymentInitiationDomesticBody_creditTransfer-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "instructionIdentification": "UID233",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "instructedAmount": {
-            "currency": "ISK",
-            "amount": "1235"
-          },
-          "creditorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "icelandicPurposeCode": "03",
-          "remittanceInformationUnstructured": "My description"
-        }
-
-    paymentInitiationDomesticBody_creditTransfer-claim-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "bban": "030015000001"
-          },
-          "instructedAmount": {
-            "currency": "ISK",
-            "amount": "1235"
-          },
-          "ultimateDebtorId": "0808714569",
-          "ultimateDebtor": "Jón Jónsson (Real payer)",
-          "ultimateCreditorId": "0109722329",
-          "ultimateCreditor": "Páll Pálsson (Real receiver)",
-          "partialPayment": true,
-          "icelandicPurposeCode": "03",
-          "remittanceInformationUnstructured": "My description"
-        }
-
-    paymentInitiationDomesticBody_creditTransfer-payment-card-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "pan": "1234567"
-          },
-          "instructedAmount": {
-            "currency": "ISK",
-            "amount": "1235"
-          },
-          "partialPayment": true,
-          "icelandicPurposeCode": "87",
-          "remittanceInformationUnstructured": "My description"
-        }
-
-    paymentInitiationDomesticBody_creditTransfer-foreign-sepa-payments_json:
-      value:
-        {
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "chargesAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "instructedAmount": {
-            "currency": "EUR",
-            "amount": "123.5"
-          },
-          "creditorAccount": {
-            "iban": "DK01234567890123456"
-          },
-          "creditorName": "Jón Jónsson",
-          "creditorAddress": {
-            "streetName": "Lambhagi",
-            "buildingNumber": "10",
-            "townName": "Reykjavík",
-            "postCode": "101",
-            "country": "IS"
-          },
-          "centralBankPurposeCode": "099",
-          "remittanceInformationUnstructured": "My description"
-        }
-    
-    paymentInitiationDomesticBody_creditTransfer-foreign-cross-border-payments_json:
-      value:
-        {
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "chargesAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "instructedAmount": {
-            "currency": "EUR",
-            "amount": "123.5"
-          },
-          "creditorAccount": {
-            "iban": "DK01234567890123456"
-          },
-          "creditorName": "Jón Jónsson",
-          "creditorAddress": {
-            "streetName": "Lambhagi",
-            "buildingNumber": "10",
-            "townName": "Reykjavík",
-            "postCode": "101",
-            "country": "IS"
-          },
-          "creditorAgent": "DABADKKK",
-          "creditorAgentAddress": {
-            "streetName": "BROGADE",
-            "buildingNumber": "3",
-            "townName": "KØGE",
-            "postCode": "4600",
-            "country": "DK"
-          },
-          "serviceLevel": "URGP",
-          "centralBankPurposeCode": "099",
-          "remittanceInformationUnstructured": "My description"
-        }
-
-    paymentInitiationDomesticBody_creditTransfer-periodic-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "instructedAmount": {
-            "currency": "ISK",
-            "amount": "1235"
-          },
-          "icelandicPurposeCode": "87",
-          "remittanceInformationUnstructured": "My description",
-          "startDate": "2020-03-01",
-          "executionRule": "preceding",
-          "frequency": "Monthly",
-          "dayOfExecution": "1"
-        }
-
-    paymentInitiationDomesticBody_paymentCardTopUp-periodic-payments_json:
-      value:
-        {
-          "endToEndIdentification": "Short description",
-          "debtorId": "0208714669",
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-          },
-          "instructedAmount": {
-            "currency": "ISK",
-            "amount": "1235"
-          },
-          "creditorId": "0208714669",
-          "creditorAccount": {
-            "bban": "030013000001"
-          },
-          "icelandicPurposeCode": "87",
-          "remittanceInformationUnstructured": "My description",
-          "startDate": "2020-03-01",
-          "executionRule": "preceding",
-          "frequency": "Monthly",
-          "dayOfExecution": "1"
-        }
-
-    paymentInitiationDomesticBody_bulk-payments_json:
-      value:
-        {
-          "batchBookingPreferred": true,
-          "debtorAccount": {
-            "iban": "IS40100100103307118608"
-            },
-          "paymentInformationId": "75BA1A88418445C0BE88AABFBEEEE230",
-          "requestedExecutionDate": "2020-08-01",
-          "payments": [
-            {
-              "endToEndIdentification": "Short description",
-              "instructionIdentification": "my_payment_1",
-              "debtorId": "0208714669",
-              "debtorAccount": {
-                "iban": "IS40100100103307118608"
-              },
-              "instructedAmount": {
-                "currency": "ISK",
-                "amount": "1235"
-              },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "030013000001"
-              },
-              "icelandicPurposeCode": "87",
-              "remittanceInformationUnstructured": "My description"
-            },
-            {
-              "endToEndIdentification": "Short description",
-              "instructionIdentification": "my_payment_2",
-              "debtorId": "0208714669",
-              "debtorAccount": {
-                "iban": "IS40100100103307118608"
-              },
-              "instructedAmount": {
-                "currency": "ISK",
-                "amount": "1235"
-              },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "030013000001"
-              },
-              "icelandicPurposeCode": "87",
-              "remittanceInformationUnstructured": "My description"
-            }
-          ]
-        }
-        
-    paymentInitiationDomesticBody_bulk-payments_with_status_json:
-      value:
-        {
-          "batchBookingPreferred": false,
-          "paymentInformationId": "75BA1A88418445C0BE88AABFBEEEE230",
-          "requestedExecutionDate": "2020-08-01",
-          "payments": [
-            {
-              "endToEndIdentification": "Short description",
-              "instructionIdentification": "my_payment_1",
-              "resourceId": "my_payment_1_uid",
-              "debtorId": "0208714669",
-              "debtorAccount": {
-                "iban": "IS40100100103307118608"
-              },
-              "instructedAmount": {
-                "currency": "ISK",
-                "amount": "1235"
-              },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "030013000001"
-              },
-              "icelandicPurposeCode": "87",
-              "remittanceInformationUnstructured": "My description"
-            },
-            {
-              "endToEndIdentification": "Short description",
-              "instructionIdentification": "my_payment_2",
-              "debtorId": "0208714669",
-              "debtorAccount": {
-                "iban": "IS40100100103307118608"
-              },
-              "instructedAmount": {
-                "currency": "ISK",
-                "amount": "1235"
-              },
-              "creditorId": "0208714669",
-              "creditorAccount": {
-                "bban": "045126123456"
-              },
-              "icelandicPurposeCode": "87",
-              "remittanceInformationUnstructured": "My description",
-              "errors": {
-                "tppMessages": [
-                  {
-                    "category": "ERROR",
-                    "code": "DEBTOR_ACCOUNT_NOT_FOUND",
-                    "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-                    "text": "Úttektarreikningur ekki til"
-                  },
-                  {
-                    "category": "ERROR",
-                    "code": "FORMAT_ERROR",
-                    "path": "https://github.com/stadlar/IST-FUT-FMTH/PIS/ErrorCodes",
-                    "text": "Eigin villa banka"
-                  }
-                ],
-                "_links": {
-                  "self": {
-                    "href": "/v1/payments/credit-transfers/1234-wertiq-983"
-                  }
-                }
-              }
-            }
-          ],
-          "transactionStatus": "ACTC"
-        }
-    
 security:
   #####################################################
   # Global security options

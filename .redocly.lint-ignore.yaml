@@ -47,6 +47,7 @@ Deliverables/IOBWS3.0.yaml:
     - >-
       #/components/responses/CREATED_201_StartScaProcess/content/application~1json/schema
     - '#/components/examples/updatePsuAuthenticationExample_Embedded/value'
+    - '#/paths/~1v1~1{payment-service}~1{payment-product}~1{paymentId}~1authorisations~1{authorisationId}/put/requestBody/content/application~1json/examples/Update PSU identification (Decoupled Approach)/value'
     - '#/components/examples/selectPsuAuthenticationMethodExample_Embedded/value'
     - >-
       #/components/examples/selectPsuAuthenticationMethodExample_Embedded/value/authenticationMethodId
@@ -58,6 +59,28 @@ Deliverables/IOBWS3.0.yaml:
       #/components/examples/authorisationConfirmationExample_Redirect/value/confirmationCode
     - >-
       #/components/responses/OK_200_UpdatePsuData/content/application~1json/schema
+    - '#/components/examples/transactionDetailsExample/value/transactionsDetails'
+    - >-
+      #/components/examples/transactionDetailsExample/value/transactionsDetails/transactionId
+    - >-
+      #/components/examples/transactionDetailsExample/value/transactionsDetails/creditorName
+    - >-
+      #/components/examples/transactionDetailsExample/value/transactionsDetails/creditorAccount
+    - >-
+      #/components/examples/transactionDetailsExample/value/transactionsDetails/mandateId
+    - >-
+      #/components/examples/transactionDetailsExample/value/transactionsDetails/transactionAmount
+    - >-
+      #/components/examples/transactionDetailsExample/value/transactionsDetails/bookingDate
+    - >-
+      #/components/examples/transactionDetailsExample/value/transactionsDetails/valueDate
+    - >-
+      #/components/examples/transactionDetailsExample/value/transactionsDetails/remittanceInformationUnstructured
+    - >-
+      #/components/examples/transactionDetailsExample/value/transactionsDetails/bankTransactionCode
+    - '#/components/examples/balancesExample_CardAccount/value/balances/0'
+    - >-
+      #/components/examples/balancesExample_CardAccount/value/balances/0/debitAccounting
     - '#/components/requestBodies/consents/content/application~1json/schema'
     - >-
       #/components/responses/CREATED_201_Consents/content/application~1json/schema
@@ -85,3 +108,4 @@ Deliverables/IOBWS3.0.yaml:
     - '#/components/examples/ibanExampleSe_01'
     - '#/components/examples/maskedPanExample'
     - '#/components/examples/uuidExample'
+    - '#/components/headers/ASPSP-Multiple-Consent-Support'

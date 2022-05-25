@@ -611,12 +611,18 @@ components:
           $ref: "#/components/schemas/currencyCode"
         ownerName:
           $ref: "#/components/schemas/ownerName"
+        ownerId:
+          type: string
+          maxLength: 35
         expDate:
           $ref: "#/components/schemas/expDate"
         issueDate:
           $ref: "#/components/schemas/issueDate"
         cardholderName:
           $ref: "#/components/schemas/cardholderName"
+        cardholderId:
+          type: string
+          maxLength: 35
         panId:
           $ref: "#/components/schemas/panId"
         bank:
@@ -1743,7 +1749,7 @@ components:
                 $ref: "#/components/schemas/MessageCode406"
         _links:
           $ref: "#/components/schemas/_linksAll"
- 
+
 
     Error409:
       description: |
@@ -2119,136 +2125,7 @@ components:
         type: string
         format: byte
       required: false # conditional
-
-    SVC-Redirect-Preferred:
-      name: SVC-Redirect-Preferred
-      in: header
-      description: |
-        If it equals "true", the intermediary service prefers a redirect over an embedded SCA approach.
-        If it equals "false", the intermediary service prefers not to be redirected for SCA. The Bank will then choose between the Embedded or the Decoupled
-        SCA approach, depending on the choice of the SCA procedure by the intermediary service or user.
-        If the parameter is not used, the Bank will choose the SCA approach to be applied depending on the SCA method chosen by the
-        intermediary service or user.
-      schema:
-        type: boolean
-      required: false
-
-    SVC-Redirect-URI:
-      name: SVC-Redirect-URI
-      in: header
-      description: |
-        URI of the intermediary service, where the transaction flow shall be redirected to after a Redirect.
-
-        Mandated for the Redirect SCA Approach, specifically
-        when SVC-Redirect-Preferred equals "true".
-        It is recommended to always use this header field.
-
-        **Remark for Future:**
-        This field might be changed to mandatory in the next version of the specification.
-      schema:
-        type: string
-        format: uri
-      required: false # conditional
-
-    SVC-Nok-Redirect-URI:
-      name: SVC-Nok-Redirect-URI
-      in: header
-      description: |
-        If this URI is contained, the intermediary service is asking to redirect the transaction flow to this address instead of the SVC-Redirect-URI in case
-        of a negative result of the redirect SCA method. This might be ignored by the Bank.
-      schema:
-        type: string
-        format: uri
-      required: false
-
-    SVC-Explicit-Authorisation-Preferred:
-      name: SVC-Explicit-Authorisation-Preferred
-      in: header
-      description: |
-        If it equals "true", the intermediary service prefers to start the authorisation process separately,
-        e.g. because of the usage of a signing basket.
-        This preference might be ignored by the Bank, if a signing basket is not supported as functionality.
-
-        If it equals "false" or if the parameter is not used, there is no preference of the intermediary service.
-        This especially indicates that the intermediary service assumes a direct authorisation of the transaction in the next step,
-        without using a signing basket.
-      schema:
-        type: boolean
-      required: false
-
-    SVC-Brand-Logging-Information:
-      name: SVC-Brand-Logging-Information
-      in: header
-      description: |
-        This header might be used by intermediary services to inform the Bank about the brand used by the intermediary service towards the user.
-        This information is meant for logging entries to enhance communication between Bank and user or Bank and intermediary service.
-        This header might be ignored by the Bank.
-
-      schema:
-        type: string
-      required: false
-
-    SVC-Notification-URI:
-      name: SVC-Notification-URI
-      in: header
-      description: |
-        URI for the Endpoint of the SVC-API to which the status of a resource entity update should be sent.
-        This header field may by ignored by the Bank.
-
-        For security reasons, it shall be ensured that the SVC-Notification-URI as introduced above is secured by the intermediary service eIDAS QWAC used for identification of the intermediary service. The following applies:
-
-        URIs which are provided by intermediary services in SVC-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the intermediary service in the field CN or SubjectAltName of the certificate. 
-        
-        Wildcard definitions shall be taken into account for compliance checks by the Bank.
-        Banks may respond with IOBWS-Notification-Support set to false, if the provided URIs do not comply.
-      schema:
-        type: string
-      required: false
-
-    USR-ID:
-      name: USR-ID
-      in: header
-      description: |
-        Client ID of the user in the Bank client interface.
-
-        Might be mandated in the Bank's documentation.
-
-        It might be contained even if an OAuth2 based authentication was performed in a pre-step.
-        In this case the Bank might check whether USR-ID and token match,
-        according to Bank's documentation.
-      schema:
-        type: string
-      required: false
-      example: "USR-1234"
-
-    USR-ID-Type:
-      name: USR-ID-Type
-      in: header
-      description: |
-        Type of the USR-ID, needed in scenarios where users have several USR-IDs as access possibility.
-
-        In this case, the means and use are then defined in the Bank’s documentation.
-      schema:
-        type: string
-      required: false
-
-    USR-Corporate-ID:
-      name: USR-Corporate-ID
-      in: header
-      description: |
-        Might be mandated in the Bank's documentation. Only used in a corporate context.
-      schema:
-        type: string
-      required: false
-
-    USR-Corporate-ID-Type:
-      name: USR-Corporate-ID-Type
-      in: header
-      description: |
-        Might be mandated in the Bank's documentation. Only used in a corporate context.
-      schema:
-        type: string
-      required: false
+      
 
     USR-IP-Address_optional:
       name: USR-IP-Address
@@ -2506,7 +2383,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error401"
+            $ref: "#/components/schemas/Error401"
 
     FORBIDDEN_403:
       description: Forbidden
@@ -2524,7 +2401,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error403"
+            $ref: "#/components/schemas/Error403"
 
     NOT_FOUND_404:
       description: Not found
@@ -2542,7 +2419,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error404"
+            $ref: "#/components/schemas/Error404"
 
     METHOD_NOT_ALLOWED_405:
       description: Method Not Allowed
@@ -2560,7 +2437,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error405"
+            $ref: "#/components/schemas/Error405"
 
     NOT_ACCEPTABLE_406:
       description: Not Acceptable
@@ -2577,7 +2454,7 @@ components:
             $ref: "#/components/schemas/Error406_IOBWS"
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error406"
+            $ref: "#/components/schemas/Error406"
 
     REQUEST_TIMEOUT_408:
       description: Request Timeout
@@ -2650,9 +2527,11 @@ components:
               "maskedPan": "525412******3241",
               "currency": "ISK",
               "ownerName": "Ísland ÞÍ Ögrum",
+              "ownerId": "1112559009",
               "expDate": "08/22",
               "issueDate": "2019-08-24",
               "cardholderName": "Ýr ÞÍ Ægisdóttir",
+              "cardholderId": "0412559009",
               "panId": "4324234234234",
               "bank": "0999",
               "name": "Gold Card",
@@ -2682,9 +2561,11 @@ components:
             "maskedPan": "525412******3242",
             "currency": "EUR",
             "ownerName": "Ísland ÞÍ Ögrum",
+            "ownerId": "1112559009",
             "expDate": "08/22",
             "name": "Platinum Card",
             "cardholderName": "Iða ÞÍ Örlygsdóttir",
+            "cardholderId": "0202404009",
             "product": "Payment Card",
             "status": "enabled",
             "creditLimit": { "currency": "EUR", "amount": "5000" },
@@ -2711,9 +2592,11 @@ components:
             "maskedPan": "525412******3241",
             "currency": "ISK",
             "ownerName": "Ýr ÞÍ Ægisdóttir",
+            "ownerId": "1112559009",
             "expDate": "08/22",
             "issueDate": "2019-08-24",
             "cardholderName": "Ýr ÞÍ Ægisdóttir",
+            "cardholderId": "1112559009",
             "panId": "4324234234234",
             "bank": "0999",
             "name": "Gold Card",

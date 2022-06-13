@@ -169,6 +169,11 @@ currencies\/{quote-currency}\/rates                     Get a list of historical
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport2}  
 
+The sources returned by the bank can vary based on implementations, but at least two types should be expected.
+
+1. General (Bank exchange rate) should be returned by all banks.
+2. Notes (Banknote exchange rate) is optional but the name is standard.    
+
 # Bibliography {.unnumbered}
 \ 
 \ 

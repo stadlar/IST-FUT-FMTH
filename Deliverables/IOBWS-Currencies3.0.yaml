@@ -25,7 +25,7 @@ info:
     A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö
 
     0 1 2 3 4 5 6 7 8 9
-     
+    
     / - ? : ( ) . , ' + @
     
     Space
@@ -73,6 +73,7 @@ paths:
         - $ref: "#/components/parameters/currencySourceQuery"
         #header
         #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
         - $ref: "#/components/parameters/USR-IP-Address_optional"
 
@@ -295,41 +296,31 @@ components:
 # Predefined Components
 #####################################################
   securitySchemes:
-  #####################################################
-  # Predefined Security Schemes:
-  #
-  # In this file only the basic security element to transport
-  # the bearer token of an OAuth2 process, which has to
-  # be included in the HTTP header is described.
-  #
-  # WARNING:
-  # If you want to use this file for a productive implementation,
-  # it is recommended to adjust the security schemes according to
-  # your system environments and security policies.
-  #####################################################
-    BearerAuthOAuth:
-      description: |
-        Bearer Token.
+    #####################################################
+    # Predefined Security Schemes:
+    #
+    # In this file only the basic security element to transport
+    # the bearer token of an OAuth2 process, which has to
+    # be included in the HTTP header is described.
+    #
+    # WARNING:
+    # If you want to use this file for a productive implementation,
+    # it is recommended to adjust the security schemes according to
+    # your system environments and security policies.
+    #####################################################
+      BearerAuthOAuth:
+        description: |
+          Bearer Token.
 
-        Is contained only, if an OAuth2 based authentication was performed in a pre-step or
-        an OAuth2 based SCA was performed in a preceding AIS service in the same session.
-      type: http
-      scheme: bearer
+          Is contained only, if an OAuth2 based authentication was performed in a pre-step or
+          an OAuth2 based SCA was performed in a preceding AIS service in the same session.
+        type: http
+        scheme: bearer  
 
   schemas:
   #####################################################
   # Predefined Schemas
   #####################################################
-    
-    authorization:
-      description: |
-        Authorization by OAuth2 based Protocol.
-      type: string
-      
-    authorisationId:
-      description: Resource identification of the related SCA.
-      type: string
-      example: "123auth456"
   
     hrefType:
       description: Link to a resource.
@@ -349,13 +340,13 @@ components:
       type: string
       pattern: '[A-Z]{3}'
       example: "EUR"
-      
+
     currency:
       description: |
         Currency details.
       type: object
       required:
-        - currency
+        - currencyCode
       properties:
         currencyCode:
           $ref: "#/components/schemas/currencyCode"
@@ -383,9 +374,9 @@ components:
         currencySource:
           $ref: "#/components/schemas/currencySource"
         buy:
-          $ref: "#/components/schemas/amountValue"
+          $ref: "#/components/schemas/currencyRateValue"
         sell:
-          $ref: "#/components/schemas/amountValue"
+          $ref: "#/components/schemas/currencyRateValue"
         date:
           description: |
             Execution datetime of the record
@@ -407,22 +398,21 @@ components:
           maxLength: 70
           example: "General"
           
-    amountValue:
+    currencyRateValue:
       description: |
-        The amount given with fractional digits, where fractions must be compliant to the currency definition.
-        Up to 14 significant figures. Negative amounts are signed by minus.
+        The currency rate given with fractional digits, where fractions must be compliant to the currency definition.
+        Up to 14 significant figures.
         The decimal separator is a dot.
         
         **Example:**
         Valid representations for EUR with up to two decimals are:
         
-          * 1056
-          * 5768.2
-          * -1.50
-          * 5877.78
+          * 124
+          * 123.2
+          * 125.78
       type: string
-      pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
-      example: "5877.78"
+      pattern: "[0-9]{1,14}(\\.[0-9]{1,6})?"
+      example: "125.78"
 
         
     readCurrenciesResponse-200_json:
@@ -431,7 +421,7 @@ components:
       required:
         - currencies
       properties:
-        currency:
+        currencies:
           type: array
           items:
             $ref: "#/components/schemas/currency"
@@ -440,7 +430,7 @@ components:
       description: Descriptions of the accessible currencies.
       type: object
       required:
-        - currencies
+        - currencyRates
       properties:
         currencyRates:
           type: array
@@ -462,9 +452,9 @@ components:
       description: Descriptions of the accessible currencies.
       type: object
       required:
-        - currencies
+        - currencyRates
       properties:
-        currencies:
+        currencyRates:
           type: array
           items:
             $ref: "#/components/schemas/currencyRate"
@@ -473,12 +463,13 @@ components:
       description: Descriptions of the accessible currencies.
       type: object
       required:
-        - currencies
+        - currencyRates
       properties:
-        currencies:
+        currencyRates:
           type: array
           items:
             $ref: "#/components/schemas/currencyRate"
+
 #####################################################
 # Content of Request Bodies
 #####################################################
@@ -558,41 +549,6 @@ components:
         download:
           $ref: "#/components/schemas/hrefType"
 
-    _linksCardAccountReport:
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/hrefType"
-      required:
-        - cardAccount
-      properties:
-        cardAccount:
-          $ref: "#/components/schemas/hrefType"
-        first:
-          $ref: "#/components/schemas/hrefType"
-        next:
-          $ref: "#/components/schemas/hrefType"
-        previous:
-          $ref: "#/components/schemas/hrefType"
-        last:
-          $ref: "#/components/schemas/hrefType"
-
-    _linksAccountDetails:
-      description: |
-        Links to the account, which can be directly used for retrieving account information from this dedicated account.
-
-        Links to "balances" and/or "transactions"
-
-        These links are only supported, when the corresponding consent has been already granted.
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/hrefType"
-      properties:
-        balances:
-          $ref: "#/components/schemas/hrefType"
-        transactions:
-          $ref: "#/components/schemas/hrefType"
-
-
 #####################################################
 # Tpp-Messages to Communicate Error Information
 #####################################################
@@ -602,19 +558,12 @@ components:
   # Generic Elements
   #####################################################
 
-    messageCategory:
+    svcMessageCategory:
       description: Category of the intermediary service message category.
       type: string
       enum:
         - "ERROR"
         - "WARNING"
-
-    MessageCode2XX:
-      description: Message codes for HTTP Error codes 2XX.
-      type: string
-      enum:
-        - "WARNING"
-
 
     MessageCode400:
       description: Message codes defined for HTTP Error code 400 (BAD_REQUEST).
@@ -633,8 +582,6 @@ components:
         - "SCA_INVALID"               #gen
         - "CONSENT_UNKNOWN"           #gen
         - "SESSIONS_NOT_SUPPORTED"    #IOBWS
-
-
 
     MessageCode401:
       description: Message codes defined for HTTP Error code 401 (UNAUTHORIZED).
@@ -665,7 +612,6 @@ components:
         - "RESOURCE_UNKNOWN"          #gen
         - "RESOURCE_EXPIRED"          #gen
 
-
     MessageCode404:
       description: Message codes defined for HTTP Error code 404 (NOT FOUND).
       type: string
@@ -677,7 +623,6 @@ components:
       type: string
       enum:
         - "SERVICE_INVALID"           #gens
-
 
     MessageCode406:
       description: Message codes defined for HTTP Error code 406 (NOT ACCEPTABLE).
@@ -702,142 +647,137 @@ components:
   # IOBWS scoped SVC-messages
   #####################################################
 
-
-    messageText:
+    svcMessageText:
       description: Additional explaining text to the intermediary service.
       type: string
       maxLength: 500
 
-
-    message400:
+    svcMessage400:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode400"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/messageText"
+          $ref: "#/components/schemas/svcMessageText"
           
-
-    message401:
+    svcMessage401:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode401"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/messageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-
-    message403:
+    svcMessage403:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode403"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/messageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-
-    message404:
+    svcMessage404:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode404"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/messageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-    message405:
+    svcMessage405:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode405"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/messageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-    message406:
+    svcMessage406:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode406"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/messageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-    message409:
+    svcMessage409:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode409"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/messageText"
+          $ref: "#/components/schemas/svcMessageText"
 
-    message429:
+    svcMessage429:
       type: object
       required:
         - category
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/svcMessageCategory"
         code:
           $ref: "#/components/schemas/MessageCode429"
         path:
           type: string
         text:
-          $ref: "#/components/schemas/messageText"
+          $ref: "#/components/schemas/svcMessageText"
 
 
   #####################################################
   # RFC7807 Messages
   #####################################################
 
-    errorTitle:
+    svcErrorTitle:
       description: |
         Short human readable description of error type.
         Could be in local language.
@@ -845,7 +785,7 @@ components:
       type: string
       maxLength: 70
 
-    errorDetail:
+    svcErrorDetail:
       description: |
         Detailed human readable text specific to this instance of the error.
         XPath might be used to point to the issue generating the error in addition.
@@ -853,13 +793,9 @@ components:
       type: string
       maxLength: 500
 
-
-
-
   #####################################################
   # RFC7807 Messages
   #####################################################
-
 
     Error400:
       description: |
@@ -906,9 +842,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode400"
         _links:
@@ -960,9 +896,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode401"
         _links:
@@ -1014,9 +950,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode403"
         _links:
@@ -1068,9 +1004,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode404"
         _links:
@@ -1122,9 +1058,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode405"
         _links:
@@ -1176,9 +1112,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode406"
         _links:
@@ -1230,9 +1166,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode409"
         _links:
@@ -1285,9 +1221,9 @@ components:
               - code
             properties:
               title:
-                $ref: "#/components/schemas/errorTitle"
+                $ref: "#/components/schemas/svcErrorTitle"
               detail:
-                $ref: "#/components/schemas/errorDetail"
+                $ref: "#/components/schemas/svcErrorDetail"
               code:
                 $ref: "#/components/schemas/MessageCode429"
         _links:
@@ -1301,84 +1237,70 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 400.
       type: object
       properties:
-        messages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/message400"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
+            $ref: "#/components/schemas/svcMessage400"
 
     Error401_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        messages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/message401"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
+            $ref: "#/components/schemas/svcMessage401"
 
     Error403_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 403.
       type: object
       properties:
-        messages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/message403"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
+            $ref: "#/components/schemas/svcMessage403"
 
     Error404_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 404.
       type: object
       properties:
-        messages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/message404"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
+            $ref: "#/components/schemas/svcMessage404"
           
     Error405_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
       properties:
-        messages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/message405"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
+            $ref: "#/components/schemas/svcMessage405"
 
     Error406_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 406.
       type: object
       properties:
-        messages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/message406"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
+            $ref: "#/components/schemas/svcMessage406"
 
     Error409_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 409.
       type: object
       properties:
-        messages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/message409"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
+            $ref: "#/components/schemas/svcMessage409"
       example:
         {
           "category": "ERROR",
@@ -1391,12 +1313,10 @@ components:
         IOBWS specific definition of reporting error information in case of a HTTP error code 429.
       type: object
       properties:
-        messages:
+        svcMessages:
           type: array
           items:
-            $ref: "#/components/schemas/message429"
-        _links:
-          $ref: "#/components/schemas/_linksAll"
+            $ref: "#/components/schemas/svcMessage429"
       example:
         {
           "category": "ERROR",
@@ -1434,25 +1354,7 @@ components:
         The currency source
       required: false
       schema:
-        $ref: "#/components/schemas/currencySource"
-
-    authorisationId:
-      name: authorisationId
-      in: path
-      description: Resource identification of the related SCA.
-      required: true
-      schema:
-        $ref: "#/components/schemas/authorisationId"
-
-    Authorization:
-      name: Authorization
-      in: header
-      description: |
-        This field  might be used in case where a consent was agreed between Bank and user through an OAuth2 based protocol,
-        facilitated by the intermediary service.
-      required: false
-      schema:
-        $ref: "#/components/schemas/authorization"
+        type: string
 
     dateFrom:
       name: dateFrom
@@ -1493,181 +1395,6 @@ components:
         type: string
         format: uuid
 
-    SVC-Signature-Certificate:
-      name: SVC-Signature-Certificate
-      in: header
-      description: |
-        The certificate used for signing the request, in base64 encoding.
-        Must be contained if a signature is contained.
-      schema:
-        type: string
-        format: byte
-      required: false # conditional
-
-    SVC-Redirect-Preferred:
-      name: SVC-Redirect-Preferred
-      in: header
-      description: |
-        If it equals "true", the intermediary service prefers a redirect over an embedded SCA approach.
-        If it equals "false", the intermediary service prefers not to be redirected for SCA. The Bank will then choose between the Embedded or the Decoupled
-        SCA approach, depending on the choice of the SCA procedure by the intermediary service or user.
-        If the parameter is not used, the Bank will choose the SCA approach to be applied depending on the SCA method chosen by the
-        intermediary service or user.
-      schema:
-        type: boolean
-      required: false
-
-    SVC-Redirect-URI:
-      name: SVC-Redirect-URI
-      in: header
-      description: |
-        URI of the intermediary service, where the transaction flow shall be redirected to after a Redirect.
-
-        Mandated for the Redirect SCA Approach, specifically
-        when SVC-Redirect-Preferred equals "true".
-        It is recommended to always use this header field.
-
-        **Remark for Future:**
-        This field might be changed to mandatory in the next version of the specification.
-      schema:
-        type: string
-        format: uri
-      required: false # conditional
-
-    SVC-Nok-Redirect-URI:
-      name: SVC-Nok-Redirect-URI
-      in: header
-      description: |
-        If this URI is contained, the intermediary service is asking to redirect the transaction flow to this address instead of the SVC-Redirect-URI in case
-        of a negative result of the redirect SCA method. This might be ignored by the Bank.
-      schema:
-        type: string
-        format: uri
-      required: false
-
-    SVC-Explicit-Authorisation-Preferred:
-      name: SVC-Explicit-Authorisation-Preferred
-      in: header
-      description: |
-        If it equals "true", the intermediary service prefers to start the authorisation process separately,
-        e.g. because of the usage of a signing basket.
-        This preference might be ignored by the Bank, if a signing basket is not supported as functionality.
-
-        If it equals "false" or if the parameter is not used, there is no preference of the intermediary service.
-        This especially indicates that the intermediary service assumes a direct authorisation of the transaction in the next step,
-        without using a signing basket.
-      schema:
-        type: boolean
-      required: false
-
-    SVC-Brand-Logging-Information:
-      name: SVC-Brand-Logging-Information
-      in: header
-      description: |
-        This header might be used by intermediary services to inform the Bank about the brand used by the intermediary service towards the user.
-        This information is meant for logging entries to enhance communication between Bank and user or Bank and intermediary service.
-        This header might be ignored by the Bank.
-
-      schema:
-        type: string
-      required: false
-
-    SVC-Notification-URI:
-      name: SVC-Notification-URI
-      in: header
-      description: |
-        URI for the Endpoint of the SVC-API to which the status of a resource entity update should be sent.
-        This header field may by ignored by the Bank.
-
-        For security reasons, it shall be ensured that the SVC-Notification-URI as introduced above is secured by the intermediary service eIDAS QWAC used for identification of the intermediary service. The following applies:
-
-        URIs which are provided by intermediary services in SVC-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the intermediary service in the field CN or SubjectAltName of the certificate. 
-        
-        Wildcard definitions shall be taken into account for compliance checks by the Bank.
-        Banks may respond with IOBWS-Notification-Support set to false, if the provided URIs do not comply.
-      schema:
-        type: string
-      required: false
-
-    SVC-Notification-Content-Preferred:
-      name: SVC-Notification-Content-Preferred
-      in: header
-      description: |
-        The string has the form
-
-        status=X1, ..., Xn
-
-        where Xi is one of the constants SCA, PROCESS, LAST and where constants are not
-        repeated.
-        The usage of the constants supports the of following semantics:
-
-          SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the intermediary service.
-
-          PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the intermediary service.
-          LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the intermediary service.
-
-        This header field may be ignored, if the Bank does not support resource notification services for the related intermediary service.
-      schema:
-        type: string
-      required: false
-
-    USR-ID:
-      name: USR-ID
-      in: header
-      description: |
-        Client ID of the user in the Bank client interface.
-
-        Might be mandated in the Bank's documentation.
-
-        It might be contained even if an OAuth2 based authentication was performed in a pre-step.
-        In this case the Bank might check whether USR-ID and token match,
-        according to Bank's documentation.
-      schema:
-        type: string
-      required: false
-      example: "USR-1234"
-
-    USR-ID-Type:
-      name: USR-ID-Type
-      in: header
-      description: |
-        Type of the USR-ID, needed in scenarios where users have several USR-IDs as access possibility.
-
-        In this case, the means and use are then defined in the Bankâ€™s documentation.
-      schema:
-        type: string
-      required: false
-
-    USR-Corporate-ID:
-      name: USR-Corporate-ID
-      in: header
-      description: |
-        Might be mandated in the Bank's documentation. Only used in a corporate context.
-      schema:
-        type: string
-      required: false
-
-    USR-Corporate-ID-Type:
-      name: USR-Corporate-ID-Type
-      in: header
-      description: |
-        Might be mandated in the Bank's documentation. Only used in a corporate context.
-      schema:
-        type: string
-      required: false
-
-    USR-IP-Address_mandatory:
-      name: USR-IP-Address
-      in: header
-      description: |
-        The forwarded IP Address header field consists of the corresponding http request IP Address field between user and intermediary service.
-        If not available, the intermediary service shall use the IP Address used by the service when submitting this request.
-      schema:
-        type: string
-        format: ipv4
-      required: true
-      example: 192.168.8.78
-
     USR-IP-Address_optional:
       name: USR-IP-Address
       in: header
@@ -1678,96 +1405,6 @@ components:
         format: ipv4
       required: false
       example: 192.168.8.78
-
-    USR-Accept:
-      name: USR-Accept
-      in: header
-      description: |
-        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
-      schema:
-        type: string
-      required: false
-
-    USR-Accept-Charset:
-      name: USR-Accept-Charset
-      in: header
-      description: |
-        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
-      schema:
-        type: string
-      required: false
-
-    USR-Accept-Encoding:
-      name: USR-Accept-Encoding
-      in: header
-      description: |
-        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
-      schema:
-        type: string
-      required: false
-
-    USR-Accept-Language:
-      name: USR-Accept-Language
-      in: header
-      description: |
-        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
-      schema:
-        type: string
-      required: false
-
-    USR-User-Agent:
-      name: USR-User-Agent
-      in: header
-      description: |
-        The forwarded Agent header field of the HTTP request between user and intermediary service, if available.
-      schema:
-        type: string
-      required: false
-
-    USR-Http-Method:
-      name: USR-Http-Method
-      in: header
-      description: |
-        HTTP method used at the user and intermediary service interface, if available.
-        Valid values are:
-        * GET
-        * POST
-        * PUT
-        * PATCH
-        * DELETE
-      schema:
-        type: string
-        enum:
-          - "GET"
-          - "POST"
-          - "PUT"
-          - "PATCH"
-          - "DELETE"
-      required: false
-
-    USR-Device-ID:
-      name: USR-Device-ID
-      in: header
-      description: |
-        UUID (Universally Unique Identifier) for a device, which is used by the intermediary service, if available.
-        UUID identifies either a device or a device dependant application installation.
-        In case of an installation identification this ID needs to be unaltered until removal from device.
-      schema:
-        type: string
-        format: uuid
-      required: false
-      example: "99435c7e-ad88-49ec-a2ad-99ddcb1f5555"
-
-    USR-Geo-Location:
-      name: USR-Geo-Location
-      in: header
-      description: |
-        The forwarded Geo Location of the corresponding http request between user and intermediary service if available.
-      schema:
-        type: string
-        pattern: 'GEO:-?[0-9]{1,2}\.[0-9]{6};-?[0-9]{1,3}\.[0-9]{6}'
-      required: false
-      example: GEO:52.506931;13.144558
 
   # requestBodies:
   #####################################################
@@ -1795,19 +1432,6 @@ components:
         format: url
       required: false
 
-    #conditional for extended service lean push
-    IOBWS-Notification-Support:
-      description: |
-        true if the Bank supports resource status notification services.
-
-        false if the Bank supports resource status notification in general, but not for the current request.
-
-        Not used, if resource status notification services are generally not supported by the Bank.
-
-        Shall be supported if the Bank supports resource status notification services.
-      schema:
-        type: boolean
-      required: false
   responses:
   #####################################################
   # Reusabale Responses
@@ -1828,9 +1452,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrenciesResponse-200_json"
-        examples:
-          example:
-            $ref: "#/components/examples/readCurrenciesResponse-200_json_Example"
+          examples:
+            example:
+              $ref: "#/components/examples/readCurrenciesResponse-200_json_Example"
 
     OK_200_BASE_CURRENCY_RATES:
       description: OK
@@ -1842,9 +1466,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrencyRateResponse-200_json"
-        examples:
-          example:
-            $ref: "#/components/examples/readCurrencyRateResponse-200_json_Example"
+          examples:
+            example:
+              $ref: "#/components/examples/readCurrencyRateResponse-200_json_Example"
 
     OK_200_CURRENCIES_SOURCES:
       description: OK
@@ -1856,9 +1480,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrencySourcesResponse-200_json"
-        examples:
-          example:
-            $ref: "#/components/examples/readCurrencySourcesResponse-200_json_Example"
+          examples:
+            example:
+              $ref: "#/components/examples/readCurrencySourcesResponse-200_json_Example"
 
     OK_200_CURRENCY_RATES_BASE_CURRENCY:
       description: OK
@@ -1870,9 +1494,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrencyRatesBaseCurrencyResponse-200_json"
-        examples:
-          example:
-            $ref: "#/components/examples/readCurrencyRatesBaseCurrencyResponse-200_json_Example"
+          examples:
+            example:
+              $ref: "#/components/examples/readCurrencyRatesBaseCurrencyResponse-200_json_Example"
 
     OK_200_CURRENCY_RATES_BASE_CURRENCY_HISTORY:
       description: OK
@@ -1884,9 +1508,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/readCurrencyRatesBaseCurrencyHistoryResponse-200_json"
-        examples:
-          example:
-            $ref: "#/components/examples/readCurrencyRatesBaseCurrencyHistoryResponse-200_json_Example"
+          examples:
+            example:
+              $ref: "#/components/examples/readCurrencyRatesBaseCurrencyHistoryResponse-200_json_Example"
 
     
     #####################################################
@@ -1927,7 +1551,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error401"
+            $ref: "#/components/schemas/Error401"
 
     FORBIDDEN_403:
       description: Forbidden
@@ -1945,7 +1569,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error403"
+            $ref: "#/components/schemas/Error403"
 
     NOT_FOUND_404:
       description: Not found
@@ -1963,7 +1587,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error404"
+            $ref: "#/components/schemas/Error404"
 
     METHOD_NOT_ALLOWED_405:
       description: Method Not Allowed
@@ -1981,7 +1605,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error405"
+            $ref: "#/components/schemas/Error405"
 
     NOT_ACCEPTABLE_406:
       description: Not Acceptable
@@ -1998,7 +1622,7 @@ components:
             $ref: "#/components/schemas/Error406_IOBWS"
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error406"
+            $ref: "#/components/schemas/Error406"
 
     REQUEST_TIMEOUT_408:
       description: Request Timeout
@@ -2036,7 +1660,7 @@ components:
         application/problem+json:
 
           schema:
-             $ref: "#/components/schemas/Error429"
+            $ref: "#/components/schemas/Error429"
 
     INTERNAL_SERVER_ERROR_500:
       description: Internal Server Error
@@ -2081,13 +1705,14 @@ components:
       description: List of available currency sources.
       value:
         {
-          "currencySources":
+          "currencySources": [
             {
               "sourceName": "General"
             },
             {
               "sourceName": "Notes"
             }
+          ]
         }
     
     readCurrencyRateResponse-200_json_Example:
@@ -2098,7 +1723,9 @@ components:
             {
               "baseCurrency": "ISK",
               "quoteCurrency": "EUR",
-              "currencySource": "General",
+              "currencySource": {
+                "sourceName": "General"
+              },
               "buy": "154.34",
               "sell": "155.26",
               "date": "2020-08-02"
@@ -2106,7 +1733,9 @@ components:
             {
               "baseCurrency": "ISK",
               "quoteCurrency": "USD",
-              "currencySource": "General",
+              "currencySource": {
+                "sourceName": "General"
+              },
               "buy": "130.95",
               "sell": "131.87",
               "date": "2020-08-02"
@@ -2122,7 +1751,9 @@ components:
             {
               "baseCurrency": "ISK",
               "quoteCurrency": "EUR",
-              "currencySource": "General",
+              "currencySource": {
+                "sourceName": "General"
+              },
               "buy": "154.34",
               "sell": "155.26",
               "date": "2020-08-02"
@@ -2138,10 +1769,32 @@ components:
             {
               "baseCurrency": "ISK",
               "quoteCurrency": "EUR",
-              "currencySource": "General",
+              "currencySource": {
+                "sourceName": "General"
+              },
+              "buy": "153.34",
+              "sell": "154.26",
+              "date": "2020-08-03"
+            },
+            {
+              "baseCurrency": "ISK",
+              "quoteCurrency": "EUR",
+              "currencySource": {
+                "sourceName": "General"
+              },
               "buy": "154.34",
               "sell": "155.26",
               "date": "2020-08-02"
+            },
+            {
+              "baseCurrency": "ISK",
+              "quoteCurrency": "EUR",
+              "currencySource": {
+                "sourceName": "General"
+              },
+              "buy": "155.34",
+              "sell": "156.26",
+              "date": "2020-08-01"
             }
           ]
         }    

@@ -253,10 +253,6 @@ paths:
       #header
         #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #header to support the signature function
-        - $ref: "#/components/parameters/Digest"
-        - $ref: "#/components/parameters/Signature"
-        - $ref: "#/components/parameters/Signature-Certificate"
         #mandatory header parameter
         #optional header parameters
         - $ref: "#/components/parameters/USR-IP-Address_optional"
@@ -390,35 +386,6 @@ components:
         type: string
         format: uuid
 
-    Digest:
-      name: Digest
-      in: header
-      description: Is contained if and only if the "Signature" element is contained in the header of the request.
-      schema:
-        type: string
-      required: false # conditional
-      example: "SHA-256=hl1/Eps8BEQW58FJhDApwJXjGY4nr1ArGDHIT25vq6A="
-
-    Signature:
-      name: Signature
-      in: header
-      description: |
-        A signature of the request by the intermediary service on application level. This might be mandated by Bank.
-      schema:
-        type: string
-      required: false # conditional
-
-    Signature-Certificate:
-      name: Signature-Certificate
-      in: header
-      description: |
-        The certificate used for signing the request, in base64 encoding.
-        Must be contained if a signature is contained.
-      schema:
-        type: string
-        format: byte
-      required: false # conditional
-
     USR-IP-Address_optional:
       name: USR-IP-Address
       in: header
@@ -441,6 +408,8 @@ components:
 
     documentStoreLocation:
       name: document-store-location
+      description: |
+        The name of the store where the documents are located. 
       in: path
       required: true
       schema:
@@ -498,8 +467,7 @@ components:
         Kennitala of the sender for filtering.
       required: true
       schema:
-        type: string
-        minLength: 10
+        $ref: "#/components/schemas/kennitala"
 
     senderKennitala:
       name: sender-kennitala
@@ -508,8 +476,7 @@ components:
         Kennitala of the documents sender.
       required: true
       schema:
-        type: string
-        minLength: 10
+        $ref: "#/components/schemas/kennitala"
 
     receiverKennitala:
       name: receiverKennitala
@@ -518,8 +485,7 @@ components:
         Kennitala of the receiver.
       required: false
       schema:
-        type: string
-        minLength: 10
+        $ref: "#/components/schemas/kennitala"
 
     documentTypeCode:
       name: documentTypeCode
@@ -650,6 +616,7 @@ components:
         An Icelandic national ID, either issued for individuals by the Registers Iceland (Þjóðskrá) or the 
         Register of Enterprises maintained by the office of Iceland Revenue and Customs (Skatturinn). As
         suggestions to change this ID from the current pattern exist, future updates might be needed.
+        https://en.wikipedia.org/wiki/Icelandic_identification_number
       type: string
       pattern: '[0-9]{10}'
       example: "1111111119"
@@ -758,11 +725,7 @@ components:
           type: string
           maxLength: 140
         senderKennitala:
-          description: |
-            The ID Number of the sender of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
-          type: string
-          minLength: 10
-          maxLength: 10
+          $ref: "#/components/schemas/kennitala"
         documentTypeCode:
           description: |
             Document type code
@@ -994,7 +957,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode400"
         path:
@@ -1009,7 +972,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode401"
         path:
@@ -1024,7 +987,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode403"
         path:
@@ -1039,7 +1002,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode404"
         path:
@@ -1054,7 +1017,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode405"
         path:
@@ -1069,7 +1032,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode406"
         path:
@@ -1084,7 +1047,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode409"
         path:
@@ -1099,7 +1062,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode429"
         path:
@@ -1802,7 +1765,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error401"
+            $ref: "#/components/schemas/Error401"
 
     FORBIDDEN_403:
       description: Forbidden
@@ -1820,7 +1783,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error403"
+            $ref: "#/components/schemas/Error403"
 
     NOT_FOUND_404:
       description: Not found
@@ -1838,7 +1801,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error404"
+            $ref: "#/components/schemas/Error404"
 
     METHOD_NOT_ALLOWED_405:
       description: Method Not Allowed
@@ -1856,7 +1819,7 @@ components:
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error405"
+            $ref: "#/components/schemas/Error405"
 
     NOT_ACCEPTABLE_406:
       description: Not Acceptable
@@ -1873,7 +1836,7 @@ components:
             $ref: "#/components/schemas/Error406_IOBWS"
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error406"
+            $ref: "#/components/schemas/Error406"
 
     REQUEST_TIMEOUT_408:
       description: Request Timeout
@@ -1896,11 +1859,11 @@ components:
       content:
         application/json:
           schema:
-             $ref: "#/components/schemas/Error409_IOBWS"
+            $ref: "#/components/schemas/Error409_IOBWS"
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error409"
+            $ref: "#/components/schemas/Error409"
 
     UNSUPPORTED_MEDIA_TYPE_415:
       description: Unsupported Media Type
@@ -1928,7 +1891,7 @@ components:
         application/problem+json:
 
           schema:
-             $ref: "#/components/schemas/Error429"
+            $ref: "#/components/schemas/Error429"
 
     INTERNAL_SERVER_ERROR_500:
       description: Internal Server Error

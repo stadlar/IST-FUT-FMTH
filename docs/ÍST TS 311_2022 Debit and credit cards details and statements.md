@@ -208,7 +208,57 @@ cards\/{cardid}\/balances                           Read detailed balance inform
 cards\/{card-id}\/transactions                      Read transaction reports or transaction lists  related to a given card. 
                                                     For a given card, additional parameters are  e.g. the attributes  \"dateFrom\" and  \"dateTo\".
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-:Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport}  
+:Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport} 
+
+The card balance is 
+
+--------------------------------------------------------------------------------
+**Type**                **Description**
+----------------------- --------------------------------------------------------
+closingBooked           Balance of the account at the end of the pre-agreed   
+                        account reporting period. It is the sum of the        
+                        opening booked balance at the beginning of the period 
+                        and all entries booked to the account during the      
+                        pre-agreed account reporting period.                  
+                        For card-accounts and cards, this is composed of      
+                        invoiced, but not yet paid entries.                  
+                        
+expected                Balance composed of booked entries and pending items  
+                        known at the time of calculation, which projects the  
+                        end of day balance if everything is booked on the     
+                        account and no other entry is posted.               
+                        For card accounts, this is composed of:               
+                        - invoiced, but not yet paid entries,                                                     
+                        - not yet invoiced but already booked entries and   
+                        - pending items (not yet booked).                   
+                   
+openingBooked           Book balance of the account at the beginning of the   
+                        account reporting period. It always equals the        
+                        closing book balance from the previous report.        
+
+interimAvailable        Available balance calculated in the course of the     
+                        account 'servicer's business day, at the time         
+                        specified, and subject to further changes during the  
+                        business day. The interim balance is calculated based 
+                        on booked credit and debit items during the           
+                        calculation time/period specified.                    
+                        For card-accounts, this is composed of:               
+                        - invoiced, but not yet paid entries,               
+                        - not yet invoiced but already booked entries.      
+                        For cards, this is composed of:                       
+                        - invoiced, but not yet paid entries                
+                        - not yet invoiced but already booked entries       
+                        - pending items (not yet booked).                   
+
+interimBooked           Balance calculated during the account servicer\'s     
+                        business day, at the time specified, and subject to   
+                        further changes during the business day. The interim  
+                        balance is calculated since booked credit and debit   
+                        items during the calculation time/period specified.   
+
+forwardAvailable        Forward available balance of money that is at the     
+                        disposal of the account owner on the date specified.  
+------------------------------------------------------------------------------
 
 # Bibliography {.unnumbered}
 \ 

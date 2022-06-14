@@ -72,7 +72,7 @@ Previous versions of IOBWS, released in 2007 and 2013 respectively, used the OAS
 A goal of the IOBWS version 3.0 charter, which was set forth by TN-FMÞ in the beginning, is the transition from SOAP to a REST-like API, which is defined by a recent iteration of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this addresses some of the perceived complexity in adapting IOBWS to various use cases, platforms, and programming languages that have come to the forefront after the release of the previous IOBWS versions.
 <!-- IntroductionEnd -->
 
-The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. It was not the aim of TN-FMÞ to substantially alter the functionality of the previous service that only offered information on foreign exchange rates. It should be viewed as a standalone serive though of the IOBWS specifications in the version 3 update, it most closely aligns with TS-313 and to a lesser degree TS-310. Readers looking for more context can consult those documents. ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The drive to consolidate the IOBWS specifications may however result in many of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
+The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. It was not the aim of TN-FMÞ to substantially alter the functionality of the previous service, which only offered information on foreign exchange rates. It should be viewed as a standalone specification though part of the overall IOBWS version 3 update, where it most closely aligns with TS-313 and to a lesser degree TS-310. Readers looking for more context can consult those documents. ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The drive to consolidate the IOBWS specifications may however result in many of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
 
 # Scope 
 
@@ -101,8 +101,6 @@ Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetiti
 ## Normative references
 
 The following documents are referenced in ÍST {{spec_id}}, as part of their content constitutes the requirements of this document. If newer editions exist, only the edition cited applies.
-
-ISO 13616-1:2020. *Financial services - International bank account number (IBAN). Part 1: Structure of the IBAN.*
 
 ISO 20022. *Financial services - universal financial industry message scheme*.
 
@@ -171,8 +169,10 @@ currencies\/{quote-currency}\/rates                     Get a list of historical
 
 The sources returned by the bank can vary based on implementations, but at least two types should be expected.
 
-1. General (Bank exchange rate) should be returned by all banks.
-2. Notes (Banknote exchange rate) is optional but the name is standard.    
+1. General (Bank exchange rate, ic. *almennt gengi*) should be returned by all banks.
+2. Notes (Banknote exchange rate, ic. *seðlagengi*) is optional but the name is standard.
+
+Other source types are expected to be handled by consumers of the services, with only those mentioned given standardized names as part of ÍST {{spec_id}}.
 
 # Bibliography {.unnumbered}
 \ 

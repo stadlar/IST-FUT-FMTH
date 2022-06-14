@@ -386,7 +386,9 @@ components:
 
     currencySource:
       description: |
-        Currency source.
+        Currency source. The source *General* should be returned by all banks, 
+        with *Notes* as an optional source. Other sources can be expected but
+        do not have standardised names.
       type: object
       required:
         - sourceName

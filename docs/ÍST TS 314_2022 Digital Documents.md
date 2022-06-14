@@ -49,7 +49,7 @@ titlefont: Arial.ttf
 
 !include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "docs/ÍST TS 312_2022 Currency Exchange Rates.md"
 
-The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. It was not the aim of TN-FMÞ to substantially alter the functionality of the previous service that only offered information on foreign exchange rates. It should be viewed as a standalone serive though of the IOBWS specifications in the version 3 update, it most closely aligns with TS-313 and to a lesser degree TS-310. Readers looking for more context can consult those documents. ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The drive to consolidate the IOBWS specifications may however result in many of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
+The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification, that described services to encapsulate the system previously known as *Birtingur* but now as *Ark-kerfið*, used for uploading data and documents for later display to the bank's customers in their and other banks UIs. The specification should be viewed as a standalone specification though part of the IOBWS version 3 framework and adapting the same REST patterns established in the OpenAPI contracts that are part of version 3. The TN-FMÞ did not aim to substantially alter the functionality of the previous service, but [subsection @sec:svc_overview] list the main additions. It should be emphasized that ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The patterns shared by the IOBWS version 3 specifications may however result in some of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
 
 # Scope 
 
@@ -79,23 +79,18 @@ Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetiti
 
 The following documents are referenced in ÍST {{spec_id}}, as part of their content constitutes the requirements of this document. If newer editions exist, only the edition cited applies.
 
-ISO 13616-1:2020. *Financial services - International bank account number (IBAN). Part 1: Structure of the IBAN.*
-
-ISO 20022. *Financial services - universal financial industry message scheme*.
-
 NextGenPSD2 v1.3.8. *The Berlin Group NextGenPSD2 Access to Account Framework*.
 
 OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Linux Foundation Collaborative Project.
 
 
 ## Terms and definitions
--   **Berlin Group** is a pan-European payments interoperability standards and harmonization initiative with the primary objective of defining open and common scheme- and processor-independent standards in the interbanking domain between Creditor Bank (Acquirer) and Debtor Bank (Issuer), complementing the work carried out by e.g. the European Payments Council. As such, the Berlin Group has been established as a purely technical standardization body, focusing on detailed technical and organizational requirements to achieve this primary objective.
-- **CurrencyCode**: is an ISO 4217 standard for all currencies in the world.
-- **ISO 20022** is an ISO standard [@ISO20022] for electronic data interchange between financial institutions.
+- **Ark-kerfið* is the system owned and operated by Reiknistofa bankanna, for storing and displaying data based on specified templates or whole documents. Previously owned Greiðsluveitan ehf and known by the name Birtingur.
+- **Birtingur**: see *Ark-kerfi*.
+- **Checkfree**: see *Ark-kerfi*.
 - **Kennitala** (often abbreviated as **KT**) is the unique national identification number issued by the Registers Iceland (ic. Þjóðskrá Íslands) and used by governmental bodies and enterprises to identify individuals, and through a comparable schema under the Iceland Revenue and Customs (ic. ríkisskattstjóri), legal entities in Iceland.
 - **NextGenPSD2 Access to Accounts Framework** (**NextGenPSD2 Framework** or just **NextGenPSD2**) is the framework established by *the Berlin Group* to define a common PSD2 compliance interface [@NextGenPSD2]. Since then, parts of the framework have extended beyond compliance and into other Open Banking aspects.
 - **The OpenAPI Specification** (**OAS**) defines a programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic.
-- **Payment Services Directive 2** (**PSD2**) was instituted by the European Parliament as EU 2015/2366 [@EU2015/2366] and meant to further open up payment services on the internal EEA market. It was introduced to Iceland law through act no. 2021/114 [@IS2021/114]. PSD2 contains regulations of new services to be operated by so-called Third-Party Payment Service Providers on behalf of a Payment Service User, by leveraging Strong Customer Authentication.
 
 <!-- TerminalogyEnd -->
 
@@ -103,47 +98,40 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 
 # Implementation
 
-## Service Overview
+## Service Overview {#sec:svc_overview}
 
 <!-- SvcOverview|Start -->
-The foreign currency exchange rate service is relatively simple and briefly described in [table @tbl:tbl_offered_services].
+The functionality offered by the service endpoints is described in the [table @tbl:tbl_offered_services].
 
 ---------------------------------------------------------------------------------------------------------------
 \_                                        \_
 ----------------------------------------- ---------------------------------------------------------------------
-Currencies Information Service            The Currency Information Service offers methods to retrieve a list 
-                                          of available currencies and the sources of currency information 
-                                          available from the bank in question. Based on the source, available
-                                          rates for a currency can be queried as well as a specified rate 
-                                          for a single currency given a base currency. Historical rates for 
-                                          a base currency can be queried but different service levels might
-                                          apply between bank implementations.
+Document Service                          The Document Service offers methods to initiate and
+                                          update a document, retrive thes status of a document and the types
+                                          of documents supported by the system.
 ---------------------------------------------------------------------------------------------------------------
 :Service on offer. {#tbl:tbl_offered_services}
 
 The subsequent section describe the services in further details.
 <!-- SvcOverview|End -->
 
-### Currencies Information Service 
+### Document Service 
 
 The card account information services is closely aligned with the information service for ordinary accounts. It should reflect similar details, balances and transaction reports available through the online interfaces offered by each bank.  
 
 The [table @tbl:tbl_svcsupport2] describes the resources found in the NextGenPSD2 based {{yaml_definition}}.
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Endpoints/Resources**                                 **Description**
-------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------
-currencies                                              List all currencies offered by the bank.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Endpoints/Resources**                                                        **Description**
+------------------------------------------------------------------------------ ---------------------------------------------------------------------------------------------------------------
+documents\/{document-store-location}                                           Create a new document batch by store, or get information on previously 
+                                                                               created document batches by query parameters. Under ÍST {{spec_id}} all banks will support
+                                                                               one common document store location 'arksystem', referring to the *Ark-kerfi*.
                                                     
-currencies\/sources                                     Retrieve all the sources of currency information available.
+documents\/{document-store-location}\/{sender-kennitala}\/{documents-id}       Retrieve information on a document batch by ID or update a batch by ID, if allowed.
 
-currencies\/{base-currency}\/rates                      Get available rates for a currency based on source.
-
-currencies\/{quote-currency}\/rates\/{base-currency}    Get a specified rate for a currency based on a base currency
-
-currencies\/{quote-currency}\/rates                     Get a list of historical rates for a currency based on a base currency
-\/{base-currency}\/history
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+{document-store-location}/types                                                Get available document types based on store.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport2}  
 
 # Bibliography {.unnumbered}

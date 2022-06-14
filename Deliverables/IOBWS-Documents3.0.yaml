@@ -118,7 +118,7 @@ paths:
       summary: Update document
       description: |
         Update document batch if the document type allows it. User can choose to only send new or changes files
-      operationId: update
+      operationId: updateDocument
       tags:
         - Document Service (DS)
 
@@ -410,6 +410,8 @@ components:
       name: document-store-location
       description: |
         The name of the store where the documents are located. 
+        All banks will support at least one location, the 'arksystem' referring to the 
+        *Ark-kerfi* owned and operated by Reiknistofa bankanna (RB).
       in: path
       required: true
       schema:
@@ -1922,7 +1924,7 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
 
-  - name: Document Service (DS)
+  - name: Document ServiceDocument Service (DS)
     description: |
       The API interface for Documents offers the following services:
         * Initiation and update of a document request

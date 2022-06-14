@@ -179,7 +179,7 @@ The [table @tbl:tbl_svcsupport2] describes the resources found in the NextGenPSD
 --------------------------------------------------- ---------------------------------------------------------------------------------------------------------------
 card-accounts                                       Read all identifiers of the card accounts, to which an account access has been granted by the User.
                                                     In addition, relevant information about the card accounts and hyperlinks to corresponding account information 
-                                                    resources are provided if a related consent has been already granted.
+                                                    resources are provided if the related access grants are already present.
                                                     
 card-accounts\/{account-id}                         Give detailed information about the addressed card account.
 
@@ -192,16 +192,16 @@ card-accounts\/{account-id}\/transactions           Read transaction reports or 
 
 ### Card Information Service 
 
-The card information service offers access to debit and credit card details and statements. The [table @tbl:tbl_svcsupport] describes the resources found in the NextGenPSD2 based {{yaml_definition}}.
+The card information service offers access to debit and credit card details, balances and transactions related to the card as an entity. The [table @tbl:tbl_svcsupport] describes the resources found in the NextGenPSD2 based {{yaml_definition}}.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Endpoints/Resources**                             **Description**
 --------------------------------------------------- --------------------------------------------------------------------------------------------------------------
 cards                                               Read all identifiers of the card (usually a credit card), to which an access has been granted by the User.
                                                     In addition, relevant information about the cards and hyperlinks to corresponding card information resources 
-                                                    are provided if a related access has been already granted.
+                                                    are provided if the related access has been already granted.
                                                     
-cards\/{cardid}                                     Read detailed information  about the addressed card.
+cards\/{cardid}                                     Read detailed information about the addressed card.
 
 cards\/{cardid}\/balances                           Read detailed balance information about the addressed card.
 
@@ -210,55 +210,64 @@ cards\/{card-id}\/transactions                      Read transaction reports or 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport} 
 
-The card balance is 
+The calculation and presentation of card balances will reflect the underlying properties and business rules of each card product. 
+This might e.g. affect multi-card accounts with the reported balances and transactions scoped to the individual card resource indicated by Id. 
+Please refer to the relevant documentation provided by each bank.
+
+### Balance Types for card accounts and cards 
+
+In [table @tbl:tbl_svcsupport] the balance types for cards is given context in addition to the documentation in the "{{yaml_definition}}" definition.
 
 --------------------------------------------------------------------------------
 **Type**                **Description**
 ----------------------- --------------------------------------------------------
-closingBooked           Balance of the account at the end of the pre-agreed   
-                        account reporting period. It is the sum of the        
-                        opening booked balance at the beginning of the period 
-                        and all entries booked to the account during the      
-                        pre-agreed account reporting period.                  
-                        For card-accounts and cards, this is composed of      
-                        invoiced, but not yet paid entries.                  
-                        
-expected                Balance composed of booked entries and pending items  
-                        known at the time of calculation, which projects the  
-                        end of day balance if everything is booked on the     
-                        account and no other entry is posted.               
-                        For card accounts, this is composed of:               
-                        - invoiced, but not yet paid entries,                                                     
-                        - not yet invoiced but already booked entries and   
-                        - pending items (not yet booked).                   
                    
-openingBooked           Book balance of the account at the beginning of the   
-                        account reporting period. It always equals the        
-                        closing book balance from the previous report.        
+openingBooked           Booked balance of the account at the beginning of the   
+                        period as indicated by the associated *referenceDate*. 
+                        It should be equal to the closing book balance from 
+                        end of the business day for the the previous 
+                        reporting period.   
+
+closingBooked           For card-accounts and cards, this balance is composed of      
+                        invoiced, but not yet paid entries at the end of the 
+                        the last full business day of the reporting period 
+                        as indicated by the associated *referenceDate*.                  
+                        
+expected                Includes pending items, that affect the available
+                        spending limit, including those pending items that 
+                        have not yet been booked,
+                        invoiced items not yet paid and booked entries not 
+                        yet invoiced during the current business day period
+                        up to the point in time of the query. Optionally
+                        the time of the last update to the calculation 
+                        can be indicated by the property 
+                        *lastChangeDateTime*.               
+
+interimBooked           Balance of booked debit or credit entries calculated 
+                        during the bank\'s current business day,
+                        up to the time of the query or *lastChangeDateTime* if
+                        supplied. If no further entries are posted or
+                        or in *expected*, this balance when added to the 
+                        current *closingBooked* would form a new 
+                        *closingBooked* balance for the combined period.         
 
 interimAvailable        Available balance calculated in the course of the     
-                        account 'servicer's business day, at the time         
-                        specified, and subject to further changes during the  
-                        business day. The interim balance is calculated based 
-                        on booked credit and debit items during the           
-                        calculation time/period specified.                    
-                        For card-accounts, this is composed of:               
-                        - invoiced, but not yet paid entries,               
-                        - not yet invoiced but already booked entries.      
-                        For cards, this is composed of:                       
-                        - invoiced, but not yet paid entries                
-                        - not yet invoiced but already booked entries       
-                        - pending items (not yet booked).                   
+                        bank\'s business day, at the time of the query or         
+                        or *lastChangeDateTime* if specified, but 
+                        subject to further changes during the period. 
+                        The available amount is based on the *expected*
+                        balance combined with the *interimBooked*, 
+                        including the creditLimit if so indicated by the
+                        boolean property *creditLimitIncluded*.         
 
-interimBooked           Balance calculated during the account servicer\'s     
-                        business day, at the time specified, and subject to   
-                        further changes during the business day. The interim  
-                        balance is calculated since booked credit and debit   
-                        items during the calculation time/period specified.   
+forwardAvailable        Currently not supported by ÍST {{spec_id}}. 
 
-forwardAvailable        Forward available balance of money that is at the     
-                        disposal of the account owner on the date specified.  
+nonInvoiced             Currently not supported by ÍST {{spec_id}}. 
+
+
+
 ------------------------------------------------------------------------------
+:Balance types returned for card resources. {#tbl:tbl_cardresource} 
 
 # Bibliography {.unnumbered}
 \ 

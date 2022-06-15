@@ -630,7 +630,7 @@ components:
       required:
         - code
         - name
-        - durableMedia
+        - durableMedium
       properties:
         code:
           description: Unique code for the document type.
@@ -640,10 +640,10 @@ components:
           description: Short description for the document type
           type: string
           maxLength: 70
-        durableMedia:
+        durableMedium:
           description: |
-            Control flag describing if document type is durable media. If document type
-            is durable media then any document batch using this code can not be updated.
+            Control flag describing if document type requires durable medium. If true 
+            then any document batch using this code can not be updated.
           type: boolean
         description:
           description: |

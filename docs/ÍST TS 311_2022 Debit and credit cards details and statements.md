@@ -78,7 +78,7 @@ The Open Banking regulation in the UK along with the PSD2 regulation issued by t
 The NextGenPSD2 Framework includes information about card accounts as reflected in the card-accounts paths in {{yaml_definition2}}. These are new to IOBWS in version 3.0 and form a part of ÍST {{spec_id}}.
 <!-- Psd2IntroEnd1 -->
 
-However TN-FMÞ felt consumers of the IOBWS would benefit from being able to retrieve detailed information about both debit and credit cards, such as expiry. Also being able to view balances and transactions from the viewpoint of the card was felt to be closer to what stakeholders expected as the account could potentially serve several cards. These additional capabilities were added in {{yaml_definition2}}. They are as such not part of NextGenPSD2 nor is ÍST {{spec_id}} related to the PSD2 regulation though many of the elements and types are based on that framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
+However TN-FMÞ felt consumers of the IOBWS would benefit from being able to retrieve detailed information about both debit and credit cards. Also being able to view balances and transactions from the viewpoint of the card was felt to be closer to what stakeholders expected as the account could potentially serve multiple cards or be subject to other uses. These additional capabilities were added in {{yaml_definition2}}. They are as such not part of NextGenPSD2 nor is ÍST {{spec_id}} directly related to the PSD2 regulation though many of the elements and types are based on the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
 
 # Scope 
 
@@ -218,10 +218,9 @@ Please refer to the relevant documentation provided by each bank.
 
 In [table @tbl:tbl_svcsupport] the balance types for cards is given context in addition to the documentation in the "{{yaml_definition}}" definition.
 
---------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
 **Type**                **Description**
------------------------ --------------------------------------------------------
-                   
+----------------------- ----------------------------------------------------------                 
 openingBooked           Booked balance of the account at the beginning of the   
                         period as indicated by the associated *referenceDate*. 
                         It should be equal to the closing book balance from 
@@ -252,21 +251,20 @@ interimBooked           Balance of booked debit or credit entries calculated
                         *closingBooked* balance for the combined period.         
 
 interimAvailable        Available balance calculated in the course of the     
-                        bank\'s business day, at the time of the query or         
-                        or *lastChangeDateTime* if specified, but 
-                        subject to further changes during the period. 
+                        bank\'s business day, as of the time the query is         
+                        run or at *lastChangeDateTime* if so specified.
                         The available amount is based on the *expected*
                         balance combined with the *interimBooked*, 
                         including the creditLimit if so indicated by the
-                        boolean property *creditLimitIncluded*.         
+                        boolean property *creditLimitIncluded*. 
+                        When credit limits to not apply in the case
+                        of card products the property is either not
+                        present or false.
 
-forwardAvailable        Currently not supported by ÍST {{spec_id}}. 
+forwardAvailable        Currently not supported by ÍST {{spec_id}}.
 
 nonInvoiced             Currently not supported by ÍST {{spec_id}}. 
-
-
-
-------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
 :Balance types returned for card resources. {#tbl:tbl_cardresource} 
 
 # Bibliography {.unnumbered}

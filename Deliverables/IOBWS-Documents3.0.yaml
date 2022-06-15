@@ -56,7 +56,7 @@ paths:
   # Document Service
   #####################################################
 
-  /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:
+  /v1/documents/{store}/{sender-kennitala}/{documents-id}:
 
     get:
       summary: Get single document batch
@@ -115,10 +115,10 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
     put:
-      summary: Update document
+      summary: Updates a document batch
       description: |
-        Update document batch if the document type allows it. User can choose to only send new or changes files
-      operationId: updateDocument
+        Updates a document batch if the document type allows it. User can choose to only send new or changes files
+      operationId: updatesDocuments
       tags:
         - Document Service (DS)
 
@@ -180,12 +180,12 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{document-store-location}:
+  /v1/documents/{store}:
 
     get:
-      summary: Query already uploaded document batch
+      summary: Query already uploaded document batches
       description: |
-        Find uploaded document by query date range. Only the document sender can search for the document.
+        Find uploaded document batches by query date range. Only the sender can search for the batches.
         The document owner goes thought the banks portal.
       operationId: searchForDocumentBatch
       tags:
@@ -287,7 +287,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{document-store-location}/types:
+  /v1/documents/{store}/types:
 
     get:
       summary: Get list of all document types
@@ -407,7 +407,7 @@ components:
         $ref: "#/components/schemas/uuid"
 
     documentStoreLocation:
-      name: document-store-location
+      name: store
       description: |
         The name of the store where the documents are located. 
         All banks will support at least one location, the 'arksystem' referring to the 

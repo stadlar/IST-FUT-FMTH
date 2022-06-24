@@ -78,7 +78,7 @@ The Open Banking regulation in the UK along with the PSD2 regulation issued by t
 The NextGenPSD2 Framework includes information about card accounts as reflected in the card-accounts paths in {{yaml_definition2}}. These are new to IOBWS in version 3.0 and form a part of ÍST {{spec_id}}.
 <!-- Psd2IntroEnd1 -->
 
-However TN-FMÞ felt consumers of the IOBWS would benefit from being able to retrieve detailed information about both debit and credit cards, such as expiry. Also being able to view balances and transactions from the viewpoint of the card was felt to be closer to what stakeholders expected as the account could potentially serve several cards. These additional capabilities were added in {{yaml_definition2}}. They are as such not part of NextGenPSD2 nor is ÍST {{spec_id}} related to the PSD2 regulation though many of the elements and types are based on that framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
+However TN-FMÞ felt consumers of the IOBWS would benefit from being able to retrieve detailed information about both debit and credit cards. Also being able to view balances and transactions from the viewpoint of the card was felt to be closer to what stakeholders expected as the account could potentially serve multiple cards or be subject to other uses. These additional capabilities were added in {{yaml_definition2}}. They are as such not part of NextGenPSD2 nor is ÍST {{spec_id}} directly related to the PSD2 regulation though many of the elements and types are based on the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
 
 # Scope 
 
@@ -179,7 +179,7 @@ The [table @tbl:tbl_svcsupport2] describes the resources found in the NextGenPSD
 --------------------------------------------------- ---------------------------------------------------------------------------------------------------------------
 card-accounts                                       Read all identifiers of the card accounts, to which an account access has been granted by the User.
                                                     In addition, relevant information about the card accounts and hyperlinks to corresponding account information 
-                                                    resources are provided if a related consent has been already granted.
+                                                    resources are provided if the related access grants are already present.
                                                     
 card-accounts\/{account-id}                         Give detailed information about the addressed card account.
 
@@ -192,23 +192,80 @@ card-accounts\/{account-id}\/transactions           Read transaction reports or 
 
 ### Card Information Service 
 
-The card information service offers access to debit and credit card details and statements. The [table @tbl:tbl_svcsupport] describes the resources found in the NextGenPSD2 based {{yaml_definition}}.
+The card information service offers access to debit and credit card details, balances and transactions related to the card as an entity. The [table @tbl:tbl_svcsupport] describes the resources found in the NextGenPSD2 based {{yaml_definition}}.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Endpoints/Resources**                             **Description**
 --------------------------------------------------- --------------------------------------------------------------------------------------------------------------
 cards                                               Read all identifiers of the card (usually a credit card), to which an access has been granted by the User.
                                                     In addition, relevant information about the cards and hyperlinks to corresponding card information resources 
-                                                    are provided if a related access has been already granted.
+                                                    are provided if the related access has been already granted.
                                                     
-cards\/{cardid}                                     Read detailed information  about the addressed card.
+cards\/{cardid}                                     Read detailed information about the addressed card.
 
 cards\/{cardid}\/balances                           Read detailed balance information about the addressed card.
 
 cards\/{card-id}\/transactions                      Read transaction reports or transaction lists  related to a given card. 
                                                     For a given card, additional parameters are  e.g. the attributes  \"dateFrom\" and  \"dateTo\".
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-:Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport}  
+:Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport} 
+
+The calculation and presentation of card balances will reflect the underlying properties and business rules of each card product. 
+This might e.g. affect multi-card accounts with the reported balances and transactions scoped to the individual card resource indicated by Id. 
+Please refer to the relevant documentation provided by each bank.
+
+### Balance Types for card accounts and cards 
+
+In [table @tbl:tbl_svcsupport] the balance types for cards is given context in addition to the documentation in the "{{yaml_definition}}" definition.
+
+----------------------------------------------------------------------------------
+**Type**                **Description**
+----------------------- ----------------------------------------------------------                 
+openingBooked           Booked balance of the account at the beginning of the   
+                        period as indicated by the associated *referenceDate*. 
+                        It should be equal to the closing book balance from 
+                        end of the business day for the the previous 
+                        reporting period.   
+
+closingBooked           For card-accounts and cards, this balance is composed of      
+                        invoiced, but not yet paid entries at the end of the 
+                        the last full business day of the reporting period 
+                        as indicated by the associated *referenceDate*.                  
+                        
+expected                Includes pending items, that affect the available
+                        spending limit, including those pending items that 
+                        have not yet been booked,
+                        invoiced items not yet paid and booked entries not 
+                        yet invoiced during the current business day period
+                        up to the point in time of the query. Optionally
+                        the time of the last update to the calculation 
+                        can be indicated by the property 
+                        *lastChangeDateTime*.               
+
+interimBooked           Balance of booked debit or credit entries calculated 
+                        during the bank\'s current business day,
+                        up to the time of the query or *lastChangeDateTime* if
+                        supplied. If no further entries are posted or
+                        or in *expected*, this balance when added to the 
+                        current *closingBooked* would form a new 
+                        *closingBooked* balance for the combined period.         
+
+interimAvailable        Available balance calculated in the course of the     
+                        bank\'s business day, as of the time the query is         
+                        run or at *lastChangeDateTime* if so specified.
+                        The available amount is based on the *expected*
+                        balance combined with the *interimBooked*, 
+                        including the creditLimit if so indicated by the
+                        boolean property *creditLimitIncluded*. 
+                        When credit limits to not apply in the case
+                        of card products the property is either not
+                        present or false.
+
+forwardAvailable        Currently not supported by ÍST {{spec_id}}.
+
+nonInvoiced             Currently not supported by ÍST {{spec_id}}. 
+----------------------------------------------------------------------------------
+:Balance types returned for card resources. {#tbl:tbl_cardresource} 
 
 # Bibliography {.unnumbered}
 \ 

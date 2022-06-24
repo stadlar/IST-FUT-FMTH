@@ -56,7 +56,7 @@ paths:
   # Document Service
   #####################################################
 
-  /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:
+  /v1/documents/{store}/{sender-kennitala}/{documents-id}:
 
     get:
       summary: Get single document batch
@@ -115,10 +115,10 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
     put:
-      summary: Update document
+      summary: Updates a document batch
       description: |
-        Update document batch if the document type allows it. User can choose to only send new or changes files
-      operationId: update
+        Updates a document batch if the document type allows it. User can choose to only send new or changes files
+      operationId: updatesDocuments
       tags:
         - Document Service (DS)
 
@@ -180,12 +180,12 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{document-store-location}:
+  /v1/documents/{store}:
 
     get:
-      summary: Query already uploaded document batch
+      summary: Query already uploaded document batches
       description: |
-        Find uploaded document by query date range. Only the document sender can search for the document.
+        Find uploaded document batches by query date range. Only the sender can search for the batches.
         The document owner goes thought the banks portal.
       operationId: searchForDocumentBatch
       tags:
@@ -287,7 +287,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{document-store-location}/types:
+  /v1/documents/{store}/types:
 
     get:
       summary: Get list of all document types
@@ -407,9 +407,11 @@ components:
         $ref: "#/components/schemas/uuid"
 
     documentStoreLocation:
-      name: document-store-location
+      name: store
       description: |
         The name of the store where the documents are located. 
+        All banks will support at least one location, the 'arksystem' referring to the 
+        *Ark-kerfi* owned and operated by Reiknistofa bankanna (RB).
       in: path
       required: true
       schema:
@@ -628,7 +630,7 @@ components:
       required:
         - code
         - name
-        - durableMedia
+        - durableMedium
       properties:
         code:
           description: Unique code for the document type.
@@ -638,10 +640,10 @@ components:
           description: Short description for the document type
           type: string
           maxLength: 70
-        durableMedia:
+        durableMedium:
           description: |
-            Control flag describing if document type is durable media. If document type
-            is durable media then any document batch using this code can not be updated.
+            Control flag describing if document type requires durable medium. If true 
+            then any document batch using this code can not be updated.
           type: boolean
         description:
           description: |
@@ -1922,7 +1924,7 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
 
-  - name: Document Service (DS)
+  - name: Document ServiceDocument Service (DS)
     description: |
       The API interface for Documents offers the following services:
         * Initiation and update of a document request

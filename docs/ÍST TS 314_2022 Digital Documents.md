@@ -49,7 +49,9 @@ titlefont: Arial.ttf
 
 !include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "docs/ÍST TS 312_2022 Currency Exchange Rates.md"
 
-The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. It was not the aim of TN-FMÞ to substantially alter the functionality of the previous service that only offered information on foreign exchange rates. It should be viewed as a standalone serive though of the IOBWS specifications in the version 3 update, it most closely aligns with TS-313 and to a lesser degree TS-310. Readers looking for more context can consult those documents. ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The drive to consolidate the IOBWS specifications may however result in many of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
+The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification, defining services that encapsulated the system previously known as *Birtingur* and now as *ARK-kerfið*. This system has since the year 2000 enabled enterprises in Iceland to upload information for display based on templates in all of the domestic banks' online user interfaces. The TN-FMÞ did not substantially alter the functionality available in the previous service but made some possibilities more explicit such as altering or adding a version to a batch of digital documents, and opening up the possibility of more other document storage locations besides *ARK*. See [subsection @sec:svc_overview] for further details.
+
+The ÍST {{spec_id}} specification should be viewed as standalone though part of the IOBWS version 3 framework and adapting the same REST patterns established in the OpenAPI contracts that are part of version 3. It should be emphasized that ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The patterns shared by the IOBWS version 3 specifications may however result in some of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
 
 # Scope 
 
@@ -58,9 +60,9 @@ The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. It
 <!-- ScopeDocContextEnd -->
 
 <!-- ScopePaymentsDocsContextStart -->
-Other ÍST Technical Specifications exist which address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST WA-316. As the consumption and implementation of each part of IOBWS are optional, the documents aim to be independent of each other.
+Other ÍST Technical Specifications exist that address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST WA-316. As the consumption and implementation of each part of IOBWS are optional, the documents aim to be independent of each other.
 
-The focus in ÍST {{spec_id}} is the information needed for consuming information about foreign currency rates though the variations in client usage patterns and bank specific implementations detail result in many different use cases for said information.
+The focus in ÍST {{spec_id}} is the features needed to create and amend digital documents.
 
 The intended audience for the specification document ÍST {{spec_id}} is developers who will either implement banking API services or the systems that will consume them as API clients. The reader is expected to have a basic understanding of the Icelandic financial products involved. Further documentation on business aspects of those products will be available from each bank, as they may involve service agreements and the end customers' contractual preferences and benefits.
 <!-- ScopePaymentsDocsContextEnd -->
@@ -69,7 +71,7 @@ Out of necessity, the previous IOBWS technical specifications largely consisted 
 The expectation for ÍST {{spec_id}} is that the technical service definitions and JSON data schemas in the accompanying OpenAPI specification can be understood using utilities that can convert them into documentation or navigatable user interfaces.
 
 <!-- ScopeEndNoteStart -->
-Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetition of information found in the technical contract "[{{yaml_definition}}](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/{{yaml_definition}})". Instead, the the document focuses on the information needed to understand the domestic context of services, schema types and service flows required to implement ÍST {{spec_id}}.
+Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetition of information found in the technical contract "[{{yaml_definition}}](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/{{yaml_definition}})". Instead, the document focuses on the information needed to understand the domestic context of services, schema types and service flows required to implement ÍST {{spec_id}}.
 <!-- ScopeEndNoteEnd -->
 
 # Normative references, definitions and data elements 
@@ -79,23 +81,19 @@ Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetiti
 
 The following documents are referenced in ÍST {{spec_id}}, as part of their content constitutes the requirements of this document. If newer editions exist, only the edition cited applies.
 
-ISO 13616-1:2020. *Financial services - International bank account number (IBAN). Part 1: Structure of the IBAN.*
-
-ISO 20022. *Financial services - universal financial industry message scheme*.
-
 NextGenPSD2 v1.3.8. *The Berlin Group NextGenPSD2 Access to Account Framework*.
 
 OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Linux Foundation Collaborative Project.
 
 
 ## Terms and definitions
--   **Berlin Group** is a pan-European payments interoperability standards and harmonization initiative with the primary objective of defining open and common scheme- and processor-independent standards in the interbanking domain between Creditor Bank (Acquirer) and Debtor Bank (Issuer), complementing the work carried out by e.g. the European Payments Council. As such, the Berlin Group has been established as a purely technical standardization body, focusing on detailed technical and organizational requirements to achieve this primary objective.
-- **CurrencyCode**: is an ISO 4217 standard for all currencies in the world.
-- **ISO 20022** is an ISO standard [@ISO20022] for electronic data interchange between financial institutions.
-- **Kennitala** (often abbreviated as **KT**) is the unique national identification number issued by the Registers Iceland (ic. Þjóðskrá Íslands) and used by governmental bodies and enterprises to identify individuals, and through a comparable schema under the Iceland Revenue and Customs (ic. ríkisskattstjóri), legal entities in Iceland.
+- **ARK-kerfið** is the system owned and operated by Reiknistofa bankanna (RB), for storing and displaying data based on specified templates or whole documents. Previously the system was owned by Greiðsluveitan ehf and known domestically under the name Birtingur.
+- **Birtingur**: see *ARK-kerfi*.
+- **Checkfree**: see *ARK-kerfi*.
+- **Durable medium** (ic. *varanlegur miðill*) refers in the context of ÍST {{spec_id}} to the storage of a document digitally, as a record that cannot be altered and is stored long-term. Current systems guarantee this for at least 7 years. The definition refers to usage in Icelandic law, where the record is permanent after the display to the user and is enforced in the contractual relationship between those institutions with permissions to interface with the ARK-system and RB.
+- **Kennitala** (often abbreviated as **KT**) is the unique national identification number issued by the Registers Iceland (ic. Þjóðskrá Íslands) and used by governmental bodies and enterprises to identify individuals, and through a comparable schema under the Iceland Revenue and Customs (ic. ríkisskattstjóri), legal entities in Iceland. It is used to identify the sender and receiver of digital documents.
 - **NextGenPSD2 Access to Accounts Framework** (**NextGenPSD2 Framework** or just **NextGenPSD2**) is the framework established by *the Berlin Group* to define a common PSD2 compliance interface [@NextGenPSD2]. Since then, parts of the framework have extended beyond compliance and into other Open Banking aspects.
 - **The OpenAPI Specification** (**OAS**) defines a programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic.
-- **Payment Services Directive 2** (**PSD2**) was instituted by the European Parliament as EU 2015/2366 [@EU2015/2366] and meant to further open up payment services on the internal EEA market. It was introduced to Iceland law through act no. 2021/114 [@IS2021/114]. PSD2 contains regulations of new services to be operated by so-called Third-Party Payment Service Providers on behalf of a Payment Service User, by leveraging Strong Customer Authentication.
 
 <!-- TerminalogyEnd -->
 
@@ -103,47 +101,42 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 
 # Implementation
 
-## Service Overview
+## Service Overview {#sec:svc_overview}
 
 <!-- SvcOverview|Start -->
-The foreign currency exchange rate service is relatively simple and briefly described in [table @tbl:tbl_offered_services].
+The functionality offered by the service endpoints is described in the [table @tbl:tbl_offered_services].
 
 ---------------------------------------------------------------------------------------------------------------
 \_                                        \_
 ----------------------------------------- ---------------------------------------------------------------------
-Currencies Information Service            The Currency Information Service offers methods to retrieve a list 
-                                          of available currencies and the sources of currency information 
-                                          available from the bank in question. Based on the source, available
-                                          rates for a currency can be queried as well as a specified rate 
-                                          for a single currency given a base currency. Historical rates for 
-                                          a base currency can be queried but different service levels might
-                                          apply between bank implementations.
+Document Service                          The Document Service offers methods to initiate and
+                                          update a document, retrieve the status of a document and the types
+                                          of documents supported by the system.
 ---------------------------------------------------------------------------------------------------------------
 :Service on offer. {#tbl:tbl_offered_services}
 
-The subsequent section describe the services in further details.
+The subsequent section describes the functionality offered by the service.
 <!-- SvcOverview|End -->
 
-### Currencies Information Service 
+### Document Service 
 
-The card account information services is closely aligned with the information service for ordinary accounts. It should reflect similar details, balances and transaction reports available through the online interfaces offered by each bank.  
+The Document services focus on supporting the uploading of documents in batches, retrieving information about the status of previous uploads, and optionally updating one or more documents uploaded previously if the system allows it. Though storage in the *ARK-system* can be considered a durable medium, documents or the data that defines them sometime need amending after the initial upload e.g. when a mistake is discovered in the data. This can be allowed based on the document type in question.  
 
 The [table @tbl:tbl_svcsupport2] describes the resources found in the NextGenPSD2 based {{yaml_definition}}.
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Endpoints/Resources**                                 **Description**
-------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------
-currencies                                              List all currencies offered by the bank.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Endpoints/Resources**                                                        **Description**
+------------------------------------------------------------------------------ ---------------------------------------------------------------------------------------------------------------
+documents\/{document-store-location}                                           Create a new document batch by store, or get information on previously 
+                                                                               created document batches by query parameters. Under ÍST {{spec_id}} all banks will support
+                                                                               one common document store location 'arksystem', referring to the *ARK-kerfi*.
                                                     
-currencies\/sources                                     Retrieve all the sources of currency information available.
+documents\/{document-store-location}\/{sender-kennitala}\/{documents-id}       Gets information on a single document batch by ID. Alter  updates a batch by ID, if so allowed. 
+                                                                               The possibility to update a document depends on if the type allows changes. There the
+                                                                               definition of durable medium
 
-currencies\/{base-currency}\/rates                      Get available rates for a currency based on source.
-
-currencies\/{quote-currency}\/rates\/{base-currency}    Get a specified rate for a currency based on a base currency
-
-currencies\/{quote-currency}\/rates                     Get a list of historical rates for a currency based on a base currency
-\/{base-currency}\/history
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+{document-store-location}/types                                                Get available document types based on store.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport2}  
 
 # Bibliography {.unnumbered}

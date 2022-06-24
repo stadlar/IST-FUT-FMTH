@@ -56,190 +56,11 @@ paths:
   # Document Service
   #####################################################
 
-  /v1/documents/{store}/{sender-kennitala}/{documents-id}:
-
-    get:
-      summary: Get single document batch
-      description: |
-        Get single batch by id
-      operationId: getSingleDocumentBatch
-      tags:
-        - Document Service (DS)
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/documentStoreLocation"
-        - $ref: "#/components/parameters/senderKennitala"
-        - $ref: "#/components/parameters/documentsId"
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        - $ref: "#/components/parameters/USR-IP-Address_optional"
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_DocumentBatchWithStatusDetails"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-    put:
-      summary: Updates a document batch
-      description: |
-        Updates a document batch if the document type allows it. User can choose to only send new or changes files
-      operationId: updatesDocuments
-      tags:
-        - Document Service (DS)
-
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-
-      parameters:
-      #path
-        - $ref: "#/components/parameters/documentStoreLocation"
-        - $ref: "#/components/parameters/senderKennitala"
-        - $ref: "#/components/parameters/documentsId"
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        - $ref: "#/components/parameters/USR-IP-Address_optional"
-        #NO REQUEST BODY
-
-      requestBody:
-        $ref: "#/components/requestBodies/documentBatchInitiation"
-
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_UpdateDocumentBatch"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '409':
-          $ref: "#/components/responses/CONFLICT_409"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '429':
-          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/documents/{store}:
-
-    get:
-      summary: Query already uploaded document batches
-      description: |
-        Find uploaded document batches by query date range. Only the sender can search for the batches.
-        The document owner goes thought the banks portal.
-      operationId: searchForDocumentBatch
-      tags:
-        - Document Service (DS)
-      security:
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-        #path
-        - $ref: "#/components/parameters/documentStoreLocation"
-        #query
-        - $ref: "#/components/parameters/senderKennitalaQuery"
-        - $ref: "#/components/parameters/receiverKennitala"
-        - $ref: "#/components/parameters/documentTypeCode"
-        - $ref: "#/components/parameters/status"
-        - $ref: "#/components/parameters/dateFrom"
-        - $ref: "#/components/parameters/dateTo"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/itemsPerPage"
-        - $ref: "#/components/parameters/reference"
-        #header
-          #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        - $ref: "#/components/parameters/USR-IP-Address_optional"
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_DocumentBatchListWithStatusDetails"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '429':
-          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+  /v1/documents/{document-store}:
 
     post:
-      summary: Upload and store new document
-      description: Upload and store new document
+      summary: Upload and store new documents
+      description: Upload and store new documents
       operationId: uploadDocument
       tags:
         - Document Service (DS)
@@ -248,7 +69,7 @@ paths:
         - BearerAuthOAuth: []
       parameters:
       #path
-        - $ref: "#/components/parameters/documentStoreLocation"
+        - $ref: "#/components/parameters/documentStore"
       #query
       #header
         #common header parameter
@@ -259,11 +80,133 @@ paths:
         - $ref: "#/components/parameters/Idempotency-Key"
 
       requestBody:
-        $ref: "#/components/requestBodies/documentBatchInitiation"
+        $ref: "#/components/requestBodies/documentsProcessInitiation"
 
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_DocumentBatchWithStatusDetails"
+          $ref: "#/components/responses/OK_200_DocumentsProcessWithStatusDetails"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '409':
+          $ref: "#/components/responses/CONFLICT_409"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+          
+    get:
+      summary: Query uploaded documents processes
+      description: |
+        Find uploaded documents process by query parameters. Only the document sender can search for the document.
+        The document owner goes through the banks portal.
+      operationId: searchForDocumentsProcess
+      tags:
+        - Document Service (DS)
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        #path
+        - $ref: "#/components/parameters/documentStore"
+        #query
+        - $ref: "#/components/parameters/senderKennitalaQuery"
+        - $ref: "#/components/parameters/documentsProcessIdQuery"
+        - $ref: "#/components/parameters/documentTypeCode"
+        - $ref: "#/components/parameters/status"
+        - $ref: "#/components/parameters/dateFrom"
+        - $ref: "#/components/parameters/dateTo"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/itemsPerPage"
+        #header
+          #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+          #optional header parameters
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        #NO REQUEST BODY
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_DocumentsProcessListWithStatusDetails"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/documents/{document-store}/{sender-kennitala}/{documents-id}:
+
+    put:
+      summary: Update documents
+      description: |
+        Update documents if the document type allows it. User can choose to only send new or changed files
+      operationId: update
+      tags:
+        - Document Service (DS)
+
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+
+      parameters:
+      #path
+        - $ref: "#/components/parameters/documentStore"
+        - $ref: "#/components/parameters/senderKennitala"
+        - $ref: "#/components/parameters/documentsId"
+      #query # NO QUERY PARAMETER
+      #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        #NO REQUEST BODY
+
+      requestBody:
+        $ref: "#/components/requestBodies/documentsProcessInitiation"
+
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_UpdateDocumentsProcess"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -287,7 +230,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{store}/types:
+  /v1/documents/{document-store}/{sender-kennitala}/types:
 
     get:
       summary: Get list of all document types
@@ -301,8 +244,9 @@ paths:
         - BearerAuthOAuth: []
       parameters:
         #path
-        - $ref: "#/components/parameters/documentStoreLocation"
-        #query # NO PATH PARAMETERS
+        - $ref: "#/components/parameters/documentStore"
+        - $ref: "#/components/parameters/senderKennitala"
+        #query
         #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -366,16 +310,6 @@ components:
   # Predefined Parameters
   #####################################################
 
-    Authorization:
-      name: Authorization
-      in: header
-      description: |
-        This field  might be used in case where a consent was agreed between Bank and User through an OAuth2 based protocol,
-        facilitated by the intermediary service.
-      required: false
-      schema:
-        $ref: "#/components/schemas/authorization"
-
     X-Request-ID:
       name: X-Request-ID
       in: header
@@ -405,13 +339,20 @@ components:
       required: true
       schema:
         $ref: "#/components/schemas/uuid"
+        
+    documentsProcessIdQuery:
+      name: documentsProcessId
+      in: query
+      description: |
+        Documents process id.
+      required: false
+      schema:
+        $ref: "#/components/schemas/uuid"
 
-    documentStoreLocation:
-      name: store
+    documentStore:
+      name: document-store
       description: |
         The name of the store where the documents are located. 
-        All banks will support at least one location, the 'arksystem' referring to the 
-        *Ark-kerfi* owned and operated by Reiknistofa bankanna (RB).
       in: path
       required: true
       schema:
@@ -466,7 +407,7 @@ components:
       name: senderKennitala
       in: query
       description: |
-        Kennitala of the sender for filtering.
+        Kennitala of the document sender for filtering.
       required: true
       schema:
         $ref: "#/components/schemas/kennitala"
@@ -477,15 +418,6 @@ components:
       description: |
         Kennitala of the documents sender.
       required: true
-      schema:
-        $ref: "#/components/schemas/kennitala"
-
-    receiverKennitala:
-      name: receiverKennitala
-      in: query
-      description: |
-        Kennitala of the receiver.
-      required: false
       schema:
         $ref: "#/components/schemas/kennitala"
 
@@ -553,39 +485,7 @@ components:
       additionalProperties:
         $ref: "#/components/schemas/hrefType"
       properties:
-        scaRedirect:
-          $ref: "#/components/schemas/hrefType"
-        scaOAuth:
-          $ref: "#/components/schemas/hrefType"
         confirmation:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisation:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithPsuIdentification:
-          $ref: "#/components/schemas/hrefType"
-        updatePsuIdentification:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithProprietaryData:
-          $ref: "#/components/schemas/hrefType"
-        updateProprietaryData:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updatePsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithEncryptedPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updateEncryptedPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updateAdditionalPsuAuthentication:  
-          $ref: "#/components/schemas/hrefType"
-        updateAdditionalEncryptedPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithAuthenticationMethodSelection:
-          $ref: "#/components/schemas/hrefType"
-        selectAuthenticationMethod:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithTransactionAuthorisation:
           $ref: "#/components/schemas/hrefType"
         self:
           $ref: "#/components/schemas/hrefType"
@@ -604,11 +504,6 @@ components:
         download:
           $ref: "#/components/schemas/hrefType"
 
-    authorization:
-      description: |
-        Authorization by OAuth2 based Protocol.
-      type: string
-
     fileReference:
       type: string
       maxLength: 150
@@ -625,12 +520,12 @@ components:
 
     documentTypeDetails:
       description: |
-        Document details.
+        Document type details.
       type: object
       required:
         - code
         - name
-        - durableMedium
+        - durableMedia
       properties:
         code:
           description: Unique code for the document type.
@@ -640,10 +535,10 @@ components:
           description: Short description for the document type
           type: string
           maxLength: 70
-        durableMedium:
+        durableMedia:
           description: |
-            Control flag describing if document type requires durable medium. If true 
-            then any document batch using this code can not be updated.
+            Control flag describing if document type is durable media. If document type
+            is durable media then any documents process using this code can not be updated.
           type: boolean
         description:
           description: |
@@ -656,9 +551,9 @@ components:
         List of document type with details.
       type: object
       required:
-        - documents
+        - documentTypes
       properties:
-        documents:
+        documentTypes:
           type: array
           items:
             $ref: "#/components/schemas/documentTypeDetails"
@@ -670,7 +565,7 @@ components:
       required:
         - id
         - name
-        - kennitala
+        - receiverKennitala
         - fileType
       properties:
         id:
@@ -684,11 +579,8 @@ components:
             The file description usually in this format: "<Company name as sender> - <Document type>"
           type: string
           maxLength: 140
-        kennitala:
-          description: |
-            The ID Number of the receiver of the document. 
-          type: string
-          maxLength: 10
+        receiverKennitala:
+          $ref: "#/components/schemas/kennitala"
         fileType:
           description: |
             File type only xml, pdf, link is allowed. Xml and pdf are physical files and link is reference to file
@@ -704,9 +596,9 @@ components:
           # If the field 'file' contains data then this field is disgarded.
           $ref: "#/components/schemas/fileReference"
 
-    documentBatchDetails:
+    documentsProcessDetails:
       description: |
-        Document batch details.
+        Documents process details.
       type: object
       required:
         - id
@@ -718,7 +610,7 @@ components:
         id:
           $ref: "#/components/schemas/uuid"
         name:
-          description: Short description for the batch
+          description: Short description for the documents process
           type: string
           maxLength: 70
         description:
@@ -730,7 +622,7 @@ components:
           $ref: "#/components/schemas/kennitala"
         documentTypeCode:
           description: |
-            Document type code
+            Document type code retrived from {sender-kennitala}/types
           type: string
         files:
           type: array
@@ -760,7 +652,7 @@ components:
       required:
         - id
         - name
-        - kennitala
+        - receiverKennitala
         - status
       properties:
         id:
@@ -797,22 +689,22 @@ components:
           type: string
           maxLength: 70
 
-    documentBatchWithStatusDetails:
+    documentsProcessWithStatusDetails:
       description: |
-        Document batch details.
+        Documents process details.
       type: object
       required:
         - id
         - name
-        - kennitala
+        - senderKennitala
         - documentTypeCode
         - files
       properties:
         id:
-          # Unique ID of the batch, as determined by the initiating party.
+          # Unique ID of the process, as determined by the initiating party.
           $ref: "#/components/schemas/uuid"
         name:
-          description: Short description for the batch
+          description: Short description for the process
           type: string
           maxLength: 70
         description:
@@ -821,13 +713,10 @@ components:
           type: string
           maxLength: 140
         senderKennitala:
-          description: |
-            The ID Number of the sender of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
-          type: string
-          maxLength: 10
+          $ref: "#/components/schemas/kennitala"
         documentTypeCode:
           description: |
-            Document type code
+            Document type code retrived from {sender-kennitala}/types
           type: string
         status:
           $ref: "#/components/schemas/processStatus"
@@ -836,17 +725,17 @@ components:
           items:
             $ref: "#/components/schemas/fileWithStatusDetails"
 
-    documentBatchWithStatusList:
+    documentsProcessWithStatusList:
       description: |
         List of documents with details.
       type: object
       required:
-        - documents
+        - documentsProcesses
       properties:
-        documents:
+        documentsProcesses:
           type: array
           items:
-            $ref: "#/components/schemas/documentBatchWithStatusDetails"
+            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
 
     uuid:
       description: Unique Identifier 
@@ -879,9 +768,6 @@ components:
         - "RESOURCE_BLOCKED"          #gen
         - "TIMESTAMP_INVALID"         #gen
         - "PERIOD_INVALID"            #gen
-        - "SCA_METHOD_UNKNOWN"        #gen
-        - "SCA_INVALID"               #gen
-        - "CONSENT_UNKNOWN"           #gen
         - "SESSIONS_NOT_SUPPORTED"    #IOBWS
 
     MessageCode401:
@@ -908,7 +794,6 @@ components:
       description: Message codes defined for HTTP Error code 403 (FORBIDDEN).
       type: string
       enum:
-        - "CONSENT_UNKNOWN"           #gen
         - "SERVICE_BLOCKED"           #gen
         - "RESOURCE_UNKNOWN"          #gen
         - "RESOURCE_EXPIRED"          #gen
@@ -1149,7 +1034,6 @@ components:
                 $ref: "#/components/schemas/MessageCode400"
         _links:
           $ref: "#/components/schemas/_linksAll"
-
 
     Error401:
       description: |
@@ -1637,14 +1521,17 @@ components:
     # Reusable Request Bodies
     #####################################################
 
-    documentBatchInitiation:
+    documentsProcessInitiation:
       description: |
-        JSON request body for a document batch inition or update request message
+        JSON request body for a documents process inition or update request message
       required: true
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentBatchDetails"
+            $ref: "#/components/schemas/documentsProcessDetails"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentsProcessInitiation_json_Example"
 
   headers:
     #####################################################
@@ -1667,19 +1554,6 @@ components:
         format: url
       required: false
 
-    #conditional for extended service lean push
-    IOBWS-Notification-Support:
-      description: |
-        true if the Bank supports resource status notification services.
-
-        false if the Bank supports resource status notification in general, but not for the current request.
-
-        Not used, if resource status notification services are generally not supported by the Bank.
-
-        Shall be supported if the Bank supports resource status notification services.
-      schema:
-        type: boolean
-      required: false
   responses:
     #####################################################
     # Reusabale Responses
@@ -1689,27 +1563,33 @@ components:
     # Positive Responses
     #####################################################
 
-    OK_200_DocumentBatchListWithStatusDetails:
-      description: Get document batch details
+    OK_200_DocumentsProcessListWithStatusDetails:
+      description: Get documents process details
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentBatchWithStatusList"
+            $ref: "#/components/schemas/documentsProcessWithStatusList"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentsProcessWithStatusList-200_json_Example"
 
-    OK_200_DocumentBatchWithStatusDetails:
-      description: Get document batch details
+    OK_200_DocumentsProcessWithStatusDetails:
+      description: Get documents process details
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentBatchWithStatusDetails"
+            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentsProcessWithStatusDetails-200_json_Example"
 
-    OK_200_UpdateDocumentBatch:
+    OK_200_UpdateDocumentsProcess:
       description: OK
       headers:
         X-Request-ID:
@@ -1717,7 +1597,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentBatchWithStatusDetails"
+            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentsProcessWithStatusDetails-200_json_Example"
 
     OK_200_DocumentTypeDetails:
       description: OK
@@ -1728,6 +1611,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/documentTypeList"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentTypeListResponse-200_json_Example"
 
     #####################################################
     # Negative Responses
@@ -1913,6 +1799,135 @@ components:
           $ref: "#/components/headers/X-Request-ID"
       #No Response body because there are no valid message codes in case of HTTP code 503
 
+  examples:
+    #####################################################
+    # Predefined Examples
+    #####################################################
+    
+    documentTypeListResponse-200_json_Example:
+      description: List of document types.
+      value:
+        {
+          "documentTypes": [
+            { 
+              "code": "STVO",
+              "name": "/typ/3254b7b2-302c-72",
+              "durableMedia": true,
+              "description": "Pay slip from Company"
+            },
+            { 
+              "code": "IDFR",
+              "name": "/typ/3254b7b2-302c-72",
+              "durableMedia": true,
+              "description": "Account statement from Company"
+            }
+          ]
+        }
+
+    documentsProcessInitiation_json_Example:
+      description: Documents upload request.
+      value: 
+        {
+          "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
+          "name": "Account statements",
+          "description": "Account statements for june 2022",
+          "senderKennitala": "1111111199",
+          "documentTypeCode": "IDFR",
+          "files": [
+            {
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "name": "Account statement",
+              "description": "Company - Account statement",
+              "receiverKennitala": "1111112239",
+              "fileType": "PDF",
+              "file": "The file in the form of base64 encoded characters",
+              "fileRef": "If the field 'file' contains data then this field is disgarded"
+            },
+            {
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "name": "Account statement",
+              "description": "Company - Account statement",
+              "receiverKennitala": "1111112249",
+              "fileType": "PDF",
+              "file": "The file in the form of base64 encoded characters",
+              "fileRef": "If the field 'file' contains data then this field is disgarded"
+            } 
+          ]
+        }
+
+    documentsProcessWithStatusDetails-200_json_Example:
+      description: Documents process result.
+      value: 
+        {
+          "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
+          "name": "Account statements",
+          "description": "Account statements for june 2022",
+          "senderKennitala": "1111111199",
+          "documentTypeCode": "IDFR",
+          "status": "received",
+          "files": [
+            {
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "name": "Short description for the file",
+              "description": "",
+              "receiverKennitala": "1111112239",
+              "fileType": "PDF",
+              "status": "received",
+              "statusMessage": "File is currently being processed",
+              "reference": "Reference"
+            },
+            {
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "name": "Short description for the file",
+              "description": "",
+              "receiverKennitala": "1111112249",
+              "fileType": "PDF",
+              "status": "received",
+              "statusMessage": "File is currently being processed",
+              "reference": "Reference"
+            }
+          ]
+        }
+
+    documentsProcessWithStatusList-200_json_Example:
+      description: Documents query result.
+      value: 
+        {
+          "documentsProcesses": [
+            {
+              "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
+              "name": "Account statements",
+              "description": "Account statements for june 2022",
+              "senderKennitala": "1111111199",
+              "documentTypeCode": "IDFR",
+              "status": "received",
+              "files": [
+                {
+                  "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+                  "name": "Short description for the file",
+                  "description": "",
+                  "receiverKennitala": "1111112239",
+                  "fileType": "PDF",
+                  "status": "received",
+                  "statusMessage": "File is currently being processed",
+                  "reference": "Reference"
+                },
+                {
+                  "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+                  "name": "Short description for the file",
+                  "description": "",
+                  "receiverKennitala": "1111112249",
+                  "fileType": "PDF",
+                  "status": "received",
+                  "statusMessage": "File is currently being processed",
+                  "reference": "Reference"
+                }
+              ]
+            }
+          ]
+          
+        }
+
 security:
   #####################################################
   # Global security options
@@ -1924,9 +1939,9 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
 
-  - name: Document ServiceDocument Service (DS)
+  - name: Document Service (DS)
     description: |
       The API interface for Documents offers the following services:
         * Initiation and update of a document request
         * Status information of a document
-        * Document type
+        * Document types

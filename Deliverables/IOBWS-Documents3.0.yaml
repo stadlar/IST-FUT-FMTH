@@ -439,15 +439,6 @@ components:
       required: false
       schema:
         $ref: "#/components/schemas/processStatus"
-
-    reference:
-      name: reference
-      in: query
-      description: |
-        File reference
-      required: false
-      schema:
-        $ref: "#/components/schemas/fileReference"
       
     Idempotency-Key:
       name: Idempotency-Key
@@ -503,10 +494,6 @@ components:
           $ref: "#/components/schemas/hrefType"
         download:
           $ref: "#/components/schemas/hrefType"
-
-    fileReference:
-      type: string
-      maxLength: 150
 
     kennitala:
       description: |
@@ -592,9 +579,6 @@ components:
           description: The file in the form of base64 encoded characters
           type: string
           format: byte
-        fileRef: 
-          # If the field 'file' contains data then this field is disgarded.
-          $ref: "#/components/schemas/fileReference"
 
     documentsProcessDetails:
       description: |
@@ -1840,8 +1824,7 @@ components:
               "description": "Company - Account statement",
               "receiverKennitala": "1111112239",
               "fileType": "PDF",
-              "file": "The file in the form of base64 encoded characters",
-              "fileRef": "If the field 'file' contains data then this field is disgarded"
+              "file": "The file in the form of base64 encoded characters"
             },
             {
               "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
@@ -1849,8 +1832,7 @@ components:
               "description": "Company - Account statement",
               "receiverKennitala": "1111112249",
               "fileType": "PDF",
-              "file": "The file in the form of base64 encoded characters",
-              "fileRef": "If the field 'file' contains data then this field is disgarded"
+              "file": "The file in the form of base64 encoded characters"
             } 
           ]
         }

@@ -9,7 +9,7 @@ info:
     and is released as a part of the technical specification ÍST TS 314, digital documents, 
     by the Icelandic Standards Council.
     Previous versions of IOBWS, released in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards.
-    TS 312 is the immidate successor to TS 165:2013 but offers a more up to date and interoperable set of
+    TS 314 is the immidate successor to TS 165:2013 but offers a more up to date and interoperable set of
     Application Programming Interfaces (APIs).
 
     In places the contract uses elements based on the Berlin Group NextGenPSD2 XS2A Framework, mainly
@@ -40,7 +40,7 @@ info:
 
 externalDocs:
   description: |
-    Documentation for ÍS TS-312 (Technical Specifications, Technical Guidelines)
+    Documentation for ÍS TS-314 (Technical Specifications, Technical Guidelines)
   url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables
 
 servers:

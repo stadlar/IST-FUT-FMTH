@@ -486,39 +486,7 @@ components:
       additionalProperties:
         $ref: "#/components/schemas/hrefType"
       properties:
-        scaRedirect:
-          $ref: "#/components/schemas/hrefType"
-        scaOAuth:
-          $ref: "#/components/schemas/hrefType"
         confirmation:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisation:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithPsuIdentification:
-          $ref: "#/components/schemas/hrefType"
-        updatePsuIdentification:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithProprietaryData:
-          $ref: "#/components/schemas/hrefType"
-        updateProprietaryData:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updatePsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithEncryptedPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updateEncryptedPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updateAdditionalPsuAuthentication:  
-          $ref: "#/components/schemas/hrefType"
-        updateAdditionalEncryptedPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithAuthenticationMethodSelection:
-          $ref: "#/components/schemas/hrefType"
-        selectAuthenticationMethod:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithTransactionAuthorisation:
           $ref: "#/components/schemas/hrefType"
         self:
           $ref: "#/components/schemas/hrefType"
@@ -763,9 +731,9 @@ components:
         List of documents with details.
       type: object
       required:
-        - documents
+        - documentsProcesses
       properties:
-        documents:
+        documentsProcesses:
           type: array
           items:
             $ref: "#/components/schemas/documentsProcessWithStatusDetails"
@@ -801,9 +769,6 @@ components:
         - "RESOURCE_BLOCKED"          #gen
         - "TIMESTAMP_INVALID"         #gen
         - "PERIOD_INVALID"            #gen
-        - "SCA_METHOD_UNKNOWN"        #gen
-        - "SCA_INVALID"               #gen
-        - "CONSENT_UNKNOWN"           #gen
         - "SESSIONS_NOT_SUPPORTED"    #IOBWS
 
     MessageCode401:
@@ -830,7 +795,6 @@ components:
       description: Message codes defined for HTTP Error code 403 (FORBIDDEN).
       type: string
       enum:
-        - "CONSENT_UNKNOWN"           #gen
         - "SERVICE_BLOCKED"           #gen
         - "RESOURCE_UNKNOWN"          #gen
         - "RESOURCE_EXPIRED"          #gen
@@ -1635,6 +1599,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentsProcessWithStatusDetails-200_json_Example"
 
     OK_200_DocumentTypeDetails:
       description: OK
@@ -1890,7 +1857,7 @@ components:
         }
 
     documentsProcessWithStatusDetails-200_json_Example:
-      description: Documents query result.
+      description: Documents process result.
       value: 
         {
           "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
@@ -1927,7 +1894,7 @@ components:
       description: Documents query result.
       value: 
         {
-          "documents": [
+          "documentsProcesses": [
             {
               "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
               "name": "Account statements",

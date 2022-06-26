@@ -630,16 +630,11 @@ components:
       type: object
       required:
         - id
-        - name
         - receiverKennitala
         - status
       properties:
         id:
           $ref: "#/components/schemas/uuid"
-        name:
-          description: Short description for the file
-          type: string
-          maxLength: 70
         description:
           description: |
             The file description usually in this format: "<Company name as sender> - <Document type>"
@@ -663,10 +658,6 @@ components:
           description: Process status message
           type: string
           maxLength: 250
-        reference:
-          description: File reference, can be claim no. or any other meaningful reference
-          type: string
-          maxLength: 70
 
     documentsProcessWithStatusDetails:
       description: |
@@ -1843,23 +1834,19 @@ components:
           "files": [
             {
               "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
-              "name": "Short description for the file",
               "description": "",
               "receiverKennitala": "1111112239",
               "fileType": "PDF",
               "status": "received",
-              "statusMessage": "File is currently being processed",
-              "reference": "Reference"
+              "statusMessage": "File is currently being processed"
             },
             {
               "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
-              "name": "Short description for the file",
               "description": "",
               "receiverKennitala": "1111112249",
               "fileType": "PDF",
               "status": "received",
-              "statusMessage": "File is currently being processed",
-              "reference": "Reference"
+              "statusMessage": "File is currently being processed"
             }
           ]
         }
@@ -1879,23 +1866,19 @@ components:
               "files": [
                 {
                   "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
-                  "name": "Short description for the file",
                   "description": "",
                   "receiverKennitala": "1111112239",
                   "fileType": "PDF",
                   "status": "received",
-                  "statusMessage": "File is currently being processed",
-                  "reference": "Reference"
+                  "statusMessage": "File is currently being processed"
                 },
                 {
                   "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
-                  "name": "Short description for the file",
                   "description": "",
                   "receiverKennitala": "1111112249",
                   "fileType": "PDF",
                   "status": "received",
-                  "statusMessage": "File is currently being processed",
-                  "reference": "Reference"
+                  "statusMessage": "File is currently being processed"
                 }
               ]
             }

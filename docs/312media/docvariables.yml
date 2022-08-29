@@ -3,9 +3,9 @@ fulldoc_name: "ÍST TS 312_2022 Debit and credit cards details and statements.md
 context_icelandic: "Gengi gjaldmiðla"
 context_english: "Currency exchange rate"
 context_short: "currency exchange rate"
-finaldraft_date: "2022-05-XX"
-approve_date: "2022-05-XX"
-publication_date: "2022-0-XX"
+finaldraft_date: "2022-06-15"
+approve_date: "2022-06-22"
+publication_date: "2022-08-30"
 yaml_definition: "IOBWS-Currency3.0.yaml"
 previous_spec: "TS-160"
 funding_paragraph: |

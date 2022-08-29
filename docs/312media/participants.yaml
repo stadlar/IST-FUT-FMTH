@@ -3,14 +3,12 @@ include-before: |
 
   | Name                          | Company                    | Name                         | Company              |                              
   | ----------------------------- | -------------------------- | ---------------------------- | -------------------- |
-  | Ásgeir Halldórsson            | Debitum - Gjaldskil        |  Ólafur Eiríksson            | Landsbankinn         |          
-  | Eiríkur Gestsson              | Creditinfo                 |  Sigurður Gauti Hauksson     | Alskil               |  
-  | Halldór Vagn Hreinsson        | Íslandsbanki               |  Sigurvin Frank Garðarsson   | Íslandsbanki         |  
-  | Jóhannes Þór Ágústarson       | Íslandsbanki               |  Snorri Karlsson             | Íslandsbanki         |  
-  | Kristinn Stefánsson           | Arion banki                |  Steinar Þorbjörnsson        | Arion banki          |
-  | Kristján Theódór Sigurðsson   | Arion banki                |  Sigurvin Sigurjónsson       | KPMG                 |
+  | Halldór Vagn Hreinsson        | Íslandsbanki               |  Ólafur Eiríksson            | Landsbankinn         |   
+  | Jóhannes Þór Ágústarson       | Íslandsbanki               |  Sigurvin Frank Garðarsson   | Íslandsbanki         |  
+  | Kristinn Stefánsson           | Arion banki                |  Snorri Karlsson             | Íslandsbanki         |  
+  | Kristján Theódór Sigurðsson   | Arion banki                |  Steinar Þorbjörnsson        | Arion banki          |
 
-  © Icelandic Standards (IST) 2020, 2022. All Rights Reserved.
+  © Icelandic Standards (IST) 2021, 2022. All Rights Reserved.
 
   Without the written permission of the publisher,  
   this technical specification document may not  

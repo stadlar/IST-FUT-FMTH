@@ -1,7 +1,7 @@
 ---
 title: "ÍST TS 312:2022"
 author: ICS 35.240, 3.060
-date: "Entry into force XX-XX-2022"
+date: "Entry into force 30.08.2022"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 312]
 subtitle: ["Tækniforskrift - Gengi gjaldmiðla", "Technical specification - Currency Exchange Rates"]

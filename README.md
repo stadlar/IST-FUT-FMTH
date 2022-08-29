@@ -31,17 +31,15 @@ When it came time to upgrade the standard to version 3.0 of IOBWS, the participa
 <!-- GETTING STARTED -->
 ## Getting Started
 
-The latest official version of the technical standards and workshop agreements is available from Staðlaráð Íslands as follows:
+The latest official version of the technical standards is as of now available from Staðlaráð Íslands as follows:
 
-* [Technical specification – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-310-2022)
+* [Workshop agreement – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-WA-310-2020)
 * [Technical specification - Debit and credit cards details and statements](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-311-2021)
-* [Technical specification - Currency exchange rates](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-312-2022)
-* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2022)
-* [Technical specification - Documents](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-314-2022)
-* [Technical specification - Claims](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-315-2022)
-* [Workshop Agreement - IOBWS version 3 Technical Guidelines](https://stadlar.is/stadlabudin/vara/?ProductName=IST-WA-316-2022)
+* [Technical specification - Currency rate](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-312-2021)
+* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2021)
+* [Technical specification - Documents](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-314-2021)
 
-ÍST TS-310, TS-313, and TS-312 in parts, are based on the Berlin Group NextGenPSD2 framework, with appropriate attribution given according to the Creative Commons Attribution 4.0 International Public License. Other IOBWS specifications might derive individual data types or elements from the ÍST TS-310 and ÍST TS-313, and attribution applies to these instances, as applicable.
+ÍST TS-310 and TS-313 are based on the Berlin Group NextGenPSD2 framework, with appropriate attribution given according to the Creative Commons Attribution 4.0 International Public License. Other IOBWS specifications might derive individual data types or elements from the ÍST TS-310 and ÍST TS-313, and attribution applies to these instances, as applicable.
 
 Parties wishing to participate in the work of TN FMÞ are expected to know and understand the above standards and should consider participating in the regular work of the technical committee as allowed by the charter of the standards institute.
 

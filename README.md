@@ -31,15 +31,17 @@ When it came time to upgrade the standard to version 3.0 of IOBWS, the participa
 <!-- GETTING STARTED -->
 ## Getting Started
 
-The latest official version of the technical standards is as of now available from Staðlaráð Íslands as follows:
+Official version of the technical standards and workshop agreements is available from Staðlaráð Íslands as follows:
 
-* [Workshop agreement – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-WA-310-2020)
-* [Technical specification - Debit and credit cards details and statements](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-311-2021)
-* [Technical specification - Currency rate](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-312-2021)
-* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2021)
-* [Technical specification - Documents](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-314-2021)
+* [Technical specification – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-310-2022)
+* [Technical specification - Debit and credit cards details and statements](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-311-2022)
+* [Technical specification - Currency exchange rates](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-312-2022)
+* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2022)
+* [Technical specification - Documents](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-314-2022)
+* [Technical specification - Claims](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-315-2022)
+* [Workshop Agreement - IOBWS version 3 Technical Guidelines](https://stadlar.is/stadlabudin/vara/?ProductName=IST-WA-316-2022)
 
-ÍST TS-310 and TS-313 are based on the Berlin Group NextGenPSD2 framework, with appropriate attribution given according to the Creative Commons Attribution 4.0 International Public License. Other IOBWS specifications might derive individual data types or elements from the ÍST TS-310 and ÍST TS-313, and attribution applies to these instances, as applicable.
+ÍST TS-310, TS-313, and TS-312 in parts, are based on the Berlin Group NextGenPSD2 framework, with appropriate attribution given according to the Creative Commons Attribution 4.0 International Public License. Other IOBWS specifications might derive individual data types or elements from the ÍST TS-310 and ÍST TS-313, and attribution applies to these instances, as applicable.
 
 Parties wishing to participate in the work of TN FMÞ are expected to know and understand the above standards and should consider participating in the regular work of the technical committee as allowed by the charter of the standards institute.
 
@@ -93,13 +95,13 @@ The YAML artifacts are distributed under the Creative Commons Attribution 4.0 In
 
 | Previous Specification                                         | New Specification |
 |----------------------------------------------------------------|--------------------------------|
-| TS 160:2013 Gengi                                              | [TS 312:2021 Currency](https://github.com/stadlar/IST-FUT-FMTH/blob/8a2e3d012c873c61eb3d205bc093e043aadaa7a4/Deliverables/%C3%8DST-TS-312_2021%20Currency.pdf)           |    
-| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | [TS 310:2022 Domestic payments and deposits](Deliverables/%C3%8DST%20TS%20310_2022%20Domestic%20payments%20and%20deposits.pdf)                  |  
-| ---                                                            | [WA 311:2021 Debit and credit cards details and statements (new in IOBWS v3.0)](https://github.com/stadlar/IST-FUT-FMTH/blob/8a2e3d012c873c61eb3d205bc093e043aadaa7a4/Deliverables/%C3%8DST-TS-311_2021%20Debit%20and%20credit%20cards%20details%20and%20statements.pdf)                  |  
-| TS 162:2013 Innheimtukröfur<br>TS 163:2013 Milliinnheimta      | TS 315 Claims (in draft)<br>TS 31x Secondary Collecion (not started)                         |  
-| TS 165:2013 Rafræn skjöl                                       | [TS 314:2021 Documents](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/)                    |  
-| TS 166:2013 Tæknilegar upplýsingar og villuboð                 | [WA 316:2021 Technical Requirements](Verkáttur%205/ÍST%20WA%20316_2021%20IOBWS%203.0%20Technical%20Guidelines)       |  
-| ---                                                            | [TS 313:2022 Foreign Payments](Deliverables/%C3%8DST%20TS%20313_2022%20Foreign%20payments.pdf)             |  
+| TS 160:2013 Gengi                                              | TS 312:2022 Currency (replaces TS 312:2021)         |    
+| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | TS 310:2022 Domestic payments and deposits  (replaces WA 310:2020)                |  
+| ---                                                            | TS 311:2022 Debit and credit cards details and statements (replaces TS 311:2021, new in IOBWS v3.0)                  |  
+| TS 162:2013 Innheimtukröfur<br>TS 163:2013 Milliinnheimta      | TS 315:2022 Claims                      |  
+| TS 165:2013 Rafræn skjöl                                       | TS 314:2022 Documents (replaces TS 314:2021)                    |  
+| TS 166:2013 Tæknilegar upplýsingar og villuboð                 | WA 316:2022 Technical Requirements       |  
+| ---                                                            | TS 313:2022 Foreign Payments  (replaces TS 313:2021)          |  
 
 
 <!-- CONTACT -->

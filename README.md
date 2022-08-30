@@ -41,7 +41,7 @@ Official version of the technical standards and workshop agreements is available
 * [Technical specification - Claims](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-315-2022)
 * [Workshop Agreement - IOBWS version 3 Technical Guidelines](https://stadlar.is/stadlabudin/vara/?ProductName=IST-WA-316-2022)
 
-ÍST TS-310, TS-313, and TS-312 in parts, are based on the Berlin Group NextGenPSD2 framework, with appropriate attribution given according to the Creative Commons Attribution 4.0 International Public License. Other IOBWS specifications might derive individual data types or elements from the ÍST TS-310 and ÍST TS-313, and attribution applies to these instances, as applicable.
+ÍST TS 310, ÍST TS 313, and ÍST TS 312 in parts, are based on the Berlin Group NextGenPSD2 framework, with appropriate attribution given according to the Creative Commons Attribution 4.0 International Public License. Other IOBWS specifications might derive individual data types or elements from the ÍST TS 310 and ÍST TS 313, and attribution applies to these instances, as applicable.
 
 Parties wishing to participate in the work of TN FMÞ are expected to know and understand the above standards and should consider participating in the regular work of the technical committee as allowed by the charter of the standards institute.
 

@@ -1,7 +1,7 @@
 ---
 title: "ÍST TS 312:2022"
 author: ICS 35.240, 3.060
-date: "Entry into force 18.08.2022"
+date: "Entry into force 30.08.2022"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 312]
 subtitle: ["Tækniforskrift - Gengi gjaldmiðla", "Technical specification - Currency Exchange Rates"]
@@ -72,7 +72,7 @@ Previous versions of IOBWS, released in 2007 and 2013 respectively, used the OAS
 A goal of the IOBWS version 3.0 charter, which was set forth by TN-FMÞ in the beginning, is the transition from SOAP to a REST-like API, which is defined by a recent iteration of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this addresses some of the perceived complexity in adapting IOBWS to various use cases, platforms, and programming languages that have come to the forefront after the release of the previous IOBWS versions.
 <!-- IntroductionEnd -->
 
-The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. It was not the aim of TN-FMÞ to substantially alter the functionality of the previous service, which only offered information on foreign exchange rates. It should be viewed as a standalone specification though part of the overall IOBWS version 3 update, where it most closely aligns with TS-313 and to a lesser degree TS-310. Readers looking for more context can consult those documents. ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The drive to consolidate the IOBWS specifications may however result in many of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
+The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. It was not the aim of TN-FMÞ to substantially alter the functionality of the previous service, which only offered information on foreign exchange rates. It should be viewed as a standalone specification though part of the overall IOBWS version 3 update, where it most closely aligns with ÍST TS 313 and to a lesser degree ÍST TS 310. Readers looking for more context can consult those documents. ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The drive to consolidate the IOBWS specifications may however result in many of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
 
 # Scope 
 
@@ -81,7 +81,7 @@ The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. It
 <!-- ScopeDocContextEnd -->
 
 <!-- ScopePaymentsDocsContextStart -->
-Other ÍST Technical Specifications exist which address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST WA-316. As the consumption and implementation of each part of IOBWS are optional, the documents aim to be independent of each other.
+Other ÍST Technical Specifications exist which address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST WA 316. As the consumption and implementation of each part of IOBWS are optional, the documents aim to be independent of each other.
 
 The focus in ÍST {{spec_id}} is the information needed for consuming information about foreign currency rates though the variations in client usage patterns and bank specific implementations detail result in many different use cases for said information.
 

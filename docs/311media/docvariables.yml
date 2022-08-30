@@ -1,14 +1,14 @@
-spec_id: "TS-311"
+spec_id: "TS 311"
 fulldoc_name: "ÍST TS 311_2022 Debit and credit cards details and statements.md"
 context_icelandic: "Yfirlit debet og kreditkorta"
 context_english: "Debit and credit cards details and statements"
 context_short: "debit and credit cards details and statements"
 finaldraft_date: "2022-06-15"
 approve_date: "2022-06-22"
-publication_date: "2022-08-30"
+publication_date: "2022-08-18"
 yaml_definition: "IOBWS-Cards3.0.yaml"
 yaml_definition2: "IOBWS3.0.yaml"
 funding_paragraph: |
-  The work on the ÍST TS was primarily funded by Arion Banki, Íslandsbanki and Landsbankinn. It is the result of the workgroup TN-FMÞ-VH-8. In part, the work is based on the earlier technical specification TS-311 authored by TN-FMÞ-VH-2 on Technical Requirements, and TN-FMÞ-VH-1 on Business Requirements, with the participation of an external consultant. 
-  TS-311 was approved within TN-FMÞ on 15.3.2021.
-  TS-311 adds new products to the Icelandic Online Banking Services, though it indirectly expands on TS 164:2013 *Yfirlit bankareikninga*.
+  The work on the ÍST TS 311:2022 was primarily funded by Arion Banki, Íslandsbanki and Landsbankinn. It is the result of the workgroup TN-FMÞ-VH-8. In part, the work is based on the earlier technical specification ÍST TS 311:2021 authored by TN-FMÞ-VH-2 on Technical Requirements, and TN-FMÞ-VH-1 on Business Requirements, with the participation of an external consultant. 
+  ÍST TS 311:2021 was approved within TN-FMÞ on 15.3.2021.
+  ÍST TS 311:2022 adds new products to the Icelandic Online Banking Services, though it indirectly expands on ÍST TS 164:2013 *Yfirlit bankareikninga*.

@@ -1,7 +1,7 @@
 ---
 title: "ÍST TS 311:2022"
 author: ICS 35.240, 3.060
-date: "Entry into force 30.08.2022"
+date: "Entry into force 18.08.2022"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 311]
 subtitle: ["Tækniforskrift - Yfirlit debet og kreditkorta", "Technical specification - Debit and credit cards details and statements"]

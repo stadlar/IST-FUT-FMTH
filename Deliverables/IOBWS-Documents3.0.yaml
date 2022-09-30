@@ -1,14 +1,34 @@
 openapi: 3.0.1
 info:
-  title: IOBWS 3.0 Documents
+  title: IOBWS 3.0 Digital Documents
   version: "3.0"
   description: |
-    #Summary
-    This is an independent document but delivered as an part of IOBWS version 3.0 of the Icelandic banking API standard.
-    The new standard is defined as an RESTful API to make it easier for programmers of any programming language without
-    compromize security and follow standards.
+    # Summary
+    
+    This document represents version 3.0 of the Icelandic Online Banking Services (IOBWS)
+    and is released as a part of the technical specification ÍST TS 314, digital documents, 
+    by the Icelandic Standards Council.
+    Previous versions of IOBWS, released in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards.
+    TS 314 is the immidate successor to TS 165:2013 but offers a more up to date and interoperable set of
+    Application Programming Interfaces (APIs).
 
-    The document API is defined for both not durable and durable medium. Durability is controlled using the document types.
+    In places the contract uses elements based on the Berlin Group NextGenPSD2 XS2A Framework, mainly
+    versions 1.3.5 and 1.3.8 of that specification. Attribution applies as required by 
+    the CC BY 4.0 license NextGenPSD2 is released under.
+
+    ## Remark on character set support
+
+    The definition of UTF-8 strings in context of this API has to support at least the following characters
+
+    a b c d e f g h i j k l m n o p q r s t u v w x y z å ä ö æ ø á ð é í ó ú ý	þ	æ	ö
+    
+    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö
+
+    0 1 2 3 4 5 6 7 8 9
+     
+    / - ? : ( ) . , ' + @
+    
+    Space
 
   license:
     name: Creative Commons Attribution 4.0 International Public License
@@ -16,6 +36,19 @@ info:
   contact:
     name: Stadlarad Islands
     url: https://www.stadlar.is
+    email: openbanking@stadlar.is
+
+externalDocs:
+  description: |
+    Documentation for ÍS TS-314 (Technical Specifications, Technical Guidelines)
+  url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables
+
+servers:
+  - url: https://documents.example.com
+    description: Example production server
+  - url: https://documents-sandbox.example.com
+    description: Example sandbox server for testing
+
 
 paths:
 
@@ -23,109 +56,35 @@ paths:
   # Document Service
   #####################################################
 
-  /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:
+  /v1/documents/{document-store}:
 
-    get:
-      summary: Get single document batch
-      description: |
-        Get single batch by id
-      operationId: getSingleDocumentBatch
+    post:
+      summary: Upload and store new documents
+      description: Upload and store new documents
+      operationId: uploadDocument
       tags:
-        - Document Service
+        - Document Service (DS)
       security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
         - {}
         - BearerAuthOAuth: []
       parameters:
       #path
-        - $ref: "#/components/parameters/documentStoreLocation"
-        - $ref: "#/components/parameters/senderKennitala"
-        - $ref: "#/components/parameters/documentsId"
-      #query # NO QUERY PARAMETER
+        - $ref: "#/components/parameters/documentStore"
+      #query
       #header
-        #mandatory header parameter
+        #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_DocumentBatchWithStatusDetails"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-    put:
-      summary: Update document
-      description: |
-        Update document batch if the document type allows it. User can choose to only send new or changes files
-      operationId: update
-      tags:
-        - Document Service
-
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
-
-      parameters:
-      #path
-        - $ref: "#/components/parameters/documentStoreLocation"
-        - $ref: "#/components/parameters/senderKennitala"
-        - $ref: "#/components/parameters/documentsId"
-      #query # NO QUERY PARAMETER
-      #header
         #mandatory header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-        #NO REQUEST BODY
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/Idempotency-Key"
 
       requestBody:
-        $ref: "#/components/requestBodies/documentBatchInitiation"
-
+        $ref: "#/components/requestBodies/documentsProcessInitiation"
 
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_UpdateDocumentBatch"
+          $ref: "#/components/responses/OK_200_DocumentsProcessWithStatusDetails"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -136,8 +95,6 @@ paths:
           $ref: "#/components/responses/NOT_FOUND_404"
         '405':
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '406':
-          $ref: "#/components/responses/NOT_ACCEPTABLE_406"
         '408':
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '409':
@@ -150,44 +107,40 @@ paths:
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/documents/{document-store-location}:
-
+          
     get:
-      summary: Query already uploaded document batch
+      summary: Query uploaded documents processes
       description: |
-        Find uploaded document by query date range. Only the document sender can search for the document.
-        The document owner goes thought the banks portal.
-      operationId: searchForDocumentBatch
+        Find uploaded documents process by query parameters. Only the document sender can search for the document.
+        The document owner goes through the banks portal.
+      operationId: searchForDocumentsProcess
       tags:
-        - Document Service
+        - Document Service (DS)
       security:
         - {}
         - BearerAuthOAuth: []
       parameters:
         #path
-        - $ref: "#/components/parameters/documentStoreLocation"
+        - $ref: "#/components/parameters/documentStore"
         #query
         - $ref: "#/components/parameters/senderKennitalaQuery"
-        - $ref: "#/components/parameters/receiverKennitala"
+        - $ref: "#/components/parameters/documentsProcessIdQuery"
         - $ref: "#/components/parameters/documentTypeCode"
         - $ref: "#/components/parameters/status"
         - $ref: "#/components/parameters/dateFrom"
         - $ref: "#/components/parameters/dateTo"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-        - $ref: "#/components/parameters/reference"
         #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
         #NO REQUEST BODY
 
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_DocumentBatchListWithStatusDetails"
+          $ref: "#/components/responses/OK_200_DocumentsProcessListWithStatusDetails"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -198,8 +151,72 @@ paths:
           $ref: "#/components/responses/NOT_FOUND_404"
         '405':
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '406':
-          $ref: "#/components/responses/NOT_ACCEPTABLE_406"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/documents/{document-store}/{sender-kennitala}/{documents-id}:
+
+    put:
+      summary: Update documents
+      description: |
+        Update documents if the document type allows it. User can choose to only send new or changed files
+      operationId: update
+      tags:
+        - Document Service (DS)
+
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+
+      parameters:
+      #path
+        - $ref: "#/components/parameters/documentStore"
+        - $ref: "#/components/parameters/senderKennitala"
+        - $ref: "#/components/parameters/documentsId"
+      #query # NO QUERY PARAMETER
+      #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        #NO REQUEST BODY
+
+      requestBody:
+        $ref: "#/components/requestBodies/documentsProcessInitiation"
+
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_UpdateDocumentsProcess"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
         '408':
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
         '409':
@@ -213,59 +230,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-    post:
-      summary: Upload and store new document
-      description: Upload and store new document
-      operationId: uploadDocument
-      tags:
-        - Document Services
-      security:
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-      #path
-        - $ref: "#/components/parameters/documentStoreLocation"
-      #query
-      #header
-        #common header parameter
-        - $ref: "#/components/parameters/X-Request-ID"
-        #header to support the signature function
-        - $ref: "#/components/parameters/Digest"
-        - $ref: "#/components/parameters/Signature"
-        - $ref: "#/components/parameters/Signature-Certificate"
-        #mandatory header parameter
-        #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
-
-      requestBody:
-        $ref: "#/components/requestBodies/documentBatchInitiation"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_DocumentBatchWithStatusDetails"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '409':
-          $ref: "#/components/responses/CONFLICT_409"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  /v1/documents/{document-store-location}/types:
+  /v1/documents/{document-store}/{sender-kennitala}/types:
 
     get:
       summary: Get list of all document types
@@ -273,20 +238,20 @@ paths:
         Get list of all document types. Document types control if document can be updated
       operationId: getDocumentTypeList
       tags:
-        - Document Service
+        - Document Service (DS)
       security:
         - {}
         - BearerAuthOAuth: []
       parameters:
         #path
-        - $ref: "#/components/parameters/documentStoreLocation"
-        #query # NO PATH PARAMETERS
+        - $ref: "#/components/parameters/documentStore"
+        - $ref: "#/components/parameters/senderKennitala"
+        #query
         #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
-        - $ref: "#/components/parameters/PSU-IP-Address_optional"
-        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
         #NO REQUEST BODY
 
       responses:
@@ -302,12 +267,8 @@ paths:
           $ref: "#/components/responses/NOT_FOUND_404"
         '405':
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '406':
-          $ref: "#/components/responses/NOT_ACCEPTABLE_406"
         '408':
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '409':
-          $ref: "#/components/responses/CONFLICT_409"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
         '429':
@@ -340,24 +301,14 @@ components:
         Bearer Token.
 
         Is contained only, if an OAuth2 based authentication was performed in a pre-step or
-        an OAuth2 based SCA was performed in a preceding AIS service in the same session.
+        an OAuth2 based SCA was performed in a preceding IOBWS service in the same session.
       type: http
       scheme: bearer
 
   parameters:
-    #####################################################
-    # Predefined Parameters
-    #####################################################
-
-    Authorization:
-      name: Authorization
-      in: header
-      description: |
-        This field  might be used in case where a consent was agreed between ASPSP and PSU through an OAuth2 based protocol,
-        facilitated by the TPP.
-      required: false
-      schema:
-        $ref: "#/components/schemas/authorization"
+  #####################################################
+  # Predefined Parameters
+  #####################################################
 
     X-Request-ID:
       name: X-Request-ID
@@ -369,40 +320,11 @@ components:
         type: string
         format: uuid
 
-    Digest:
-      name: Digest
-      in: header
-      description: Is contained if and only if the "Signature" element is contained in the header of the request.
-      schema:
-        type: string
-      required: false # conditional
-      example: "SHA-256=hl1/Eps8BEQW58FJhDApwJXjGY4nr1ArGDHIT25vq6A="
-
-    Signature:
-      name: Signature
+    USR-IP-Address_optional:
+      name: USR-IP-Address
       in: header
       description: |
-        A signature of the request by the TPP on application level. This might be mandated by ASPSP.
-      schema:
-        type: string
-      required: false # conditional
-
-    Signature-Certificate:
-      name: Signature-Certificate
-      in: header
-      description: |
-        The certificate used for signing the request, in base64 encoding.
-        Must be contained if a signature is contained.
-      schema:
-        type: string
-        format: byte
-      required: false # conditional
-
-    PSU-IP-Address_optional:
-      name: PSU-IP-Address
-      in: header
-      description: |
-        The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.
+        The forwarded IP Address header field consists of the corresponding http request IP Address field between User and intermediary service.
       schema:
         type: string
         format: ipv4
@@ -417,9 +339,20 @@ components:
       required: true
       schema:
         $ref: "#/components/schemas/uuid"
+        
+    documentsProcessIdQuery:
+      name: documentsProcessId
+      in: query
+      description: |
+        Documents process id.
+      required: false
+      schema:
+        $ref: "#/components/schemas/uuid"
 
-    documentStoreLocation:
-      name: document-store-location
+    documentStore:
+      name: document-store
+      description: |
+        The name of the store where the documents are located. 
       in: path
       required: true
       schema:
@@ -445,7 +378,11 @@ components:
       name: dateFrom
       in: query
       description: |
-        Conditional: Starting date (inclusive the date dateFrom) of the document list
+        Conditional: Starting date (inclusive the date dateFrom) of the expected list, mandated if no delta access is required
+        and if bookingStatus does not equal "information.
+
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
+
       required: false
       schema:
         type: string
@@ -455,7 +392,12 @@ components:
       name: dateTo
       in: query
       description: |
-        End date (inclusive the data dateTo) of the document list
+        End date (inclusive the data dateTo) of the expected list, default is "now" if not given.
+
+        Might be ignored if a delta function is used.
+
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
+
       required: false
       schema:
         type: string
@@ -465,31 +407,19 @@ components:
       name: senderKennitala
       in: query
       description: |
-        Kennitala
+        Kennitala of the document sender for filtering.
       required: true
       schema:
-        type: string
-        minLength: 10
+        $ref: "#/components/schemas/kennitala"
 
     senderKennitala:
       name: sender-kennitala
       in: path
       description: |
-        Kennitala of the documents sender
+        Kennitala of the documents sender.
       required: true
       schema:
-        type: string
-        minLength: 10
-
-    receiverKennitala:
-      name: receiverKennitala
-      in: query
-      description: |
-        Kennitala
-      required: false
-      schema:
-        type: string
-        minLength: 10
+        $ref: "#/components/schemas/kennitala"
 
     documentTypeCode:
       name: documentTypeCode
@@ -509,15 +439,15 @@ components:
       required: false
       schema:
         $ref: "#/components/schemas/processStatus"
-
-    reference:
-      name: reference
-      in: query
-      description: |
-        File reference
+      
+    Idempotency-Key:
+      name: Idempotency-Key
+      in: header
+      description: Idempotent value for the operation being performed.
       required: false
+      example: "doc-init-001"
       schema:
-        $ref: "#/components/schemas/fileReference"
+        type: string
 
   schemas:
     #####################################################
@@ -546,39 +476,7 @@ components:
       additionalProperties:
         $ref: "#/components/schemas/hrefType"
       properties:
-        scaRedirect:
-          $ref: "#/components/schemas/hrefType"
-        scaOAuth:
-          $ref: "#/components/schemas/hrefType"
         confirmation:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisation:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithPsuIdentification:
-          $ref: "#/components/schemas/hrefType"
-        updatePsuIdentification:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithProprietaryData:
-          $ref: "#/components/schemas/hrefType"
-        updateProprietaryData:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updatePsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithEncryptedPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updateEncryptedPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updateAdditionalPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        updateAdditionalEncryptedPsuAuthentication:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithAuthenticationMethodSelection:
-          $ref: "#/components/schemas/hrefType"
-        selectAuthenticationMethod:
-          $ref: "#/components/schemas/hrefType"
-        startAuthorisationWithTransactionAuthorisation:
           $ref: "#/components/schemas/hrefType"
         self:
           $ref: "#/components/schemas/hrefType"
@@ -597,18 +495,19 @@ components:
         download:
           $ref: "#/components/schemas/hrefType"
 
-    authorization:
+    kennitala:
       description: |
-        Authorization by OAuth2 based Protocol.
+        An Icelandic national ID, either issued for individuals by the Registers Iceland (Þjóðskrá) or the 
+        Register of Enterprises maintained by the office of Iceland Revenue and Customs (Skatturinn). As
+        suggestions to change this ID from the current pattern exist, future updates might be needed.
+        https://en.wikipedia.org/wiki/Icelandic_identification_number
       type: string
-
-    fileReference:
-      type: string
-      maxLength: 150
+      pattern: '[0-9]{10}'
+      example: "1111111119"
 
     documentTypeDetails:
       description: |
-        Document details.
+        Document type details.
       type: object
       required:
         - code
@@ -626,7 +525,7 @@ components:
         durableMedia:
           description: |
             Control flag describing if document type is durable media. If document type
-            is durable media then any document batch using this code can not be updated.
+            is durable media then any documents process using this code can not be updated.
           type: boolean
         description:
           description: |
@@ -639,9 +538,9 @@ components:
         List of document type with details.
       type: object
       required:
-        - documents
+        - documentTypes
       properties:
-        documents:
+        documentTypes:
           type: array
           items:
             $ref: "#/components/schemas/documentTypeDetails"
@@ -652,26 +551,18 @@ components:
       type: object
       required:
         - id
-        - name
-        - kennitala
+        - receiverKennitala
         - fileType
       properties:
         id:
           $ref: "#/components/schemas/uuid"
-        name:
-          description: Short description for the file
-          type: string
-          maxLength: 70
         description:
           description: |
             The file description usually in this format: "<Company name as sender> - <Document type>"
           type: string
           maxLength: 140
-        kennitala:
-          description: |
-            The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
-          type: string
-          maxLength: 10
+        receiverKennitala:
+          $ref: "#/components/schemas/kennitala"
         fileType:
           description: |
             File type only xml, pdf, link is allowed. Xml and pdf are physical files and link is reference to file
@@ -683,18 +574,10 @@ components:
           description: The file in the form of base64 encoded characters
           type: string
           format: byte
-        fileRef:
-          description: |
-            If the file is reference to an external reference, like https://www.example.com/files/file.pdf. If the field
-            'file' contains data then this field is disgarded.
-          type: string
-          format: uri
-        reference:
-          $ref: "#/components/schemas/fileReference"
 
-    documentBatchDetails:
+    documentsProcessDetails:
       description: |
-        Document batch details.
+        Documents process details.
       type: object
       required:
         - id
@@ -706,7 +589,7 @@ components:
         id:
           $ref: "#/components/schemas/uuid"
         name:
-          description: Short description for the batch
+          description: Short description for the documents process
           type: string
           maxLength: 70
         description:
@@ -715,14 +598,10 @@ components:
           type: string
           maxLength: 140
         senderKennitala:
-          description: |
-            The ID Number of the sender of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
-          type: string
-          minLength: 10
-          maxLength: 10
+          $ref: "#/components/schemas/kennitala"
         documentTypeCode:
           description: |
-            Document type code
+            Document type code retrived from {sender-kennitala}/types
           type: string
         files:
           type: array
@@ -751,16 +630,11 @@ components:
       type: object
       required:
         - id
-        - name
-        - kennitala
+        - receiverKennitala
         - status
       properties:
         id:
           $ref: "#/components/schemas/uuid"
-        name:
-          description: Short description for the file
-          type: string
-          maxLength: 70
         description:
           description: |
             The file description usually in this format: "<Company name as sender> - <Document type>"
@@ -784,28 +658,23 @@ components:
           description: Process status message
           type: string
           maxLength: 250
-        reference:
-          description: File reference, can be claim no. or any other meaningful reference
-          type: string
-          maxLength: 70
 
-    documentBatchWithStatusDetails:
+    documentsProcessWithStatusDetails:
       description: |
-        Document batch details.
+        Documents process details.
       type: object
       required:
         - id
         - name
-        - kennitala
+        - senderKennitala
         - documentTypeCode
         - files
       properties:
         id:
-          description: |
-            Unique ID of the batch, as determined by the initiating party.
+          # Unique ID of the process, as determined by the initiating party.
           $ref: "#/components/schemas/uuid"
         name:
-          description: Short description for the batch
+          description: Short description for the process
           type: string
           maxLength: 70
         description:
@@ -814,13 +683,10 @@ components:
           type: string
           maxLength: 140
         senderKennitala:
-          description: |
-            The ID Number of the sender of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
-          type: string
-          maxLength: 10
+          $ref: "#/components/schemas/kennitala"
         documentTypeCode:
           description: |
-            Document type code
+            Document type code retrived from {sender-kennitala}/types
           type: string
         status:
           $ref: "#/components/schemas/processStatus"
@@ -829,19 +695,20 @@ components:
           items:
             $ref: "#/components/schemas/fileWithStatusDetails"
 
-    documentBatchWithStatusList:
+    documentsProcessWithStatusList:
       description: |
         List of documents with details.
       type: object
       required:
-        - documents
+        - documentsProcesses
       properties:
-        documents:
+        documentsProcesses:
           type: array
           items:
-            $ref: "#/components/schemas/documentBatchWithStatusDetails"
+            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
 
     uuid:
+      description: Unique Identifier 
       type: string
       pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
       minLength: 36
@@ -858,14 +725,8 @@ components:
         - "ERROR"
         - "WARNING"
 
-    MessageCode2XX:
-      description: Message codes for HTTP Error codes 2XX.
-      type: string
-      enum:
-        - "WARNING"
-
     MessageCode400:
-      description: Message codes defined for AIS for HTTP Error code 400 (BAD_REQUEST).
+      description: Message codes defined for HTTP Error code 400 (BAD_REQUEST).
       type: string
       enum:
         - "FORMAT_ERROR"              #gen
@@ -877,13 +738,10 @@ components:
         - "RESOURCE_BLOCKED"          #gen
         - "TIMESTAMP_INVALID"         #gen
         - "PERIOD_INVALID"            #gen
-        - "SCA_METHOD_UNKNOWN"        #gen
-        - "SCA_INVALID"               #gen
-        - "CONSENT_UNKNOWN"           #gen
-        - "SESSIONS_NOT_SUPPORTED"    #AIS
+        - "SESSIONS_NOT_SUPPORTED"    #IOBWS
 
     MessageCode401:
-      description: Message codes defined for AIS for HTTP Error code 401 (UNAUTHORIZED).
+      description: Message codes defined for HTTP Error code 401 (UNAUTHORIZED).
       type: string
       enum:
         - "CERTIFICATE_INVALID"       #gen
@@ -895,42 +753,41 @@ components:
         - "SIGNATURE_INVALID"         #gen
         - "SIGNATURE_MISSING"         #gen
         - "CORPORATE_ID_INVALID"      #gen
-        - "PSU_CREDENTIALS_INVALID"   #gen
-        - "CONSENT_INVALID"           #gen, AIS
+        - "USR_CREDENTIALS_INVALID"   #gen
+        - "CONSENT_INVALID"           #gen, IOBWS
         - "CONSENT_EXPIRED"           #gen
         - "TOKEN_UNKNOWN"             #gen
         - "TOKEN_INVALID"             #gen
         - "TOKEN_EXPIRED"             #gen
 
     MessageCode403:
-      description: Message codes defined for AIS for HTTP Error code 403 (FORBIDDEN).
+      description: Message codes defined for HTTP Error code 403 (FORBIDDEN).
       type: string
       enum:
-        - "CONSENT_UNKNOWN"           #gen
         - "SERVICE_BLOCKED"           #gen
         - "RESOURCE_UNKNOWN"          #gen
         - "RESOURCE_EXPIRED"          #gen
 
     MessageCode404:
-      description: Message codes defined for AIS for HTTP Error code 404 (NOT FOUND).
+      description: Message codes defined for HTTP Error code 404 (NOT FOUND).
       type: string
       enum:
         - "RESOURCE_UNKNOWN"          #gens
 
     MessageCode405:
-      description: Message codes defined for AIS for HTTP Error code 405 (METHOD NOT ALLOWED).
+      description: Message codes defined for HTTP Error code 405 (METHOD NOT ALLOWED).
       type: string
       enum:
         - "SERVICE_INVALID"           #gens
 
     MessageCode406:
-      description: Message codes defined for AIS for HTTP Error code 406 (NOT ACCEPTABLE).
+      description: Message codes defined for HTTP Error code 406 (NOT ACCEPTABLE).
       type: string
       enum:
-        - "REQUESTED_FORMATS_INVALID"  #AIS
+        - "REQUESTED_FORMATS_INVALID"  #IOBWS
 
     MessageCode409:
-      description: Message codes defined for AIS for HTTP Error code 409 (CONFLICT).
+      description: Message codes defined for HTTP Error code 409 (CONFLICT).
       type: string
       enum:
         - "STATUS_INVALID"            #gen
@@ -939,7 +796,7 @@ components:
       description: Message codes for HTTP Error code 429 (TOO MANY REQUESTS).
       type: string
       enum:
-        - "ACCESS_EXCEEDED"           #AIS
+        - "ACCESS_EXCEEDED"           #IOBWS
 
     #####################################################
     # Proprietary messages
@@ -950,21 +807,6 @@ components:
       type: string
       maxLength: 500
 
-    message2XX:
-      type: object
-      required:
-        - category
-        - code
-      properties:
-        category:
-           $ref: "#/components/schemas/messageCategory"
-        code:
-          $ref: "#/components/schemas/MessageCode2XX"
-        path:
-          type: string
-        text:
-          $ref: "#/components/schemas/messageText"
-
     message400:
       type: object
       required:
@@ -972,7 +814,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode400"
         path:
@@ -987,7 +829,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode401"
         path:
@@ -1002,7 +844,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode403"
         path:
@@ -1017,7 +859,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode404"
         path:
@@ -1032,7 +874,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode405"
         path:
@@ -1047,7 +889,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode406"
         path:
@@ -1062,7 +904,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode409"
         path:
@@ -1077,7 +919,7 @@ components:
         - code
       properties:
         category:
-           $ref: "#/components/schemas/messageCategory"
+          $ref: "#/components/schemas/messageCategory"
         code:
           $ref: "#/components/schemas/MessageCode429"
         path:
@@ -1094,7 +936,7 @@ components:
       description: |
         Short human readable description of error type.
         Could be in local language.
-        To be provided by ASPSPs.
+        To be provided by Banks.
       type: string
       maxLength: 70
 
@@ -1113,7 +955,7 @@ components:
     Error400:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 400 for AIS.
+        in case of a HTTP error code 400.
       type: object
       required:
         - type
@@ -1122,6 +964,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1129,7 +972,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1165,7 +1008,7 @@ components:
     Error401:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 401 for AIS.
+        in case of a HTTP error code 401.
       type: object
       required:
         - type
@@ -1174,6 +1017,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1181,7 +1025,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1217,7 +1061,7 @@ components:
     Error403:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 403 for AIS.
+        in case of a HTTP error code 403.
       type: object
       required:
         - type
@@ -1226,6 +1070,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1233,7 +1078,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1269,7 +1114,7 @@ components:
     Error404:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 404 for AIS.
+        in case of a HTTP error code 404.
       type: object
       required:
         - type
@@ -1278,7 +1123,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1286,7 +1131,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1322,7 +1167,7 @@ components:
     Error405:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 405 for AIS.
+        in case of a HTTP error code 405.
       type: object
       required:
         - type
@@ -1331,7 +1176,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
-            Remark For Future: These URI will be provided by NextGenPSD2 in future.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1339,7 +1184,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1375,7 +1220,7 @@ components:
     Error406:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 406 for AIS.
+        in case of a HTTP error code 406.
       type: object
       required:
         - type
@@ -1384,6 +1229,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1391,7 +1237,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1427,7 +1273,7 @@ components:
     Error409:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 409 for AIS.
+        in case of a HTTP error code 409.
       type: object
       required:
         - type
@@ -1436,6 +1282,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1443,7 +1290,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1479,7 +1326,7 @@ components:
     Error429:
       description: |
         Standardised definition of reporting error information according to [RFC7807]
-        in case of a HTTP error code 429 for AIS.
+        in case of a HTTP error code 429.
       type: object
       required:
         - type
@@ -1488,6 +1335,7 @@ components:
         type:
           description: |
             A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
           type: string
           format: uri
           maxLength: 70
@@ -1495,7 +1343,7 @@ components:
           description: |
             Short human readable description of error type.
             Could be in local language.
-            To be provided by ASPSPs.
+            To be provided by Banks.
           type: string
           maxLength: 70
         detail:
@@ -1530,7 +1378,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error400_NG:
+    Error400_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 400.
       type: object
@@ -1542,7 +1390,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error401_NG:
+    Error401_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
@@ -1554,7 +1402,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error403_NG:
+    Error403_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 403.
       type: object
@@ -1566,7 +1414,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error404_NG:
+    Error404_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 404.
       type: object
@@ -1578,7 +1426,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error405_NG:
+    Error405_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 401.
       type: object
@@ -1590,7 +1438,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error406_NG:
+    Error406_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 406.
       type: object
@@ -1602,7 +1450,7 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
 
-    Error409_NG:
+    Error409_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 409.
       type: object
@@ -1614,13 +1462,13 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
+        {
           "category": "ERROR",
           "code": "STATUS_INVALID",
-          "text": "additional text information of the ASPSP up to 500 characters"
-        }]
+          "text": "additional text information of the Bank up to 500 characters"
+        }
 
-    Error429_NG:
+    Error429_IOBWS:
       description: |
         IOBWS specific definition of reporting error information in case of a HTTP error code 429.
       type: object
@@ -1632,25 +1480,28 @@ components:
         _links:
           $ref: "#/components/schemas/_linksAll"
       example:
-        [{
+        {
           "category": "ERROR",
           "code": "ACCESS_EXCEEDED",
-          "text": "additional text information of the ASPSP up to 500 characters"
-        }]
+          "text": "additional text information of the Bank up to 500 characters"
+        }
 
   requestBodies:
     #####################################################
     # Reusable Request Bodies
     #####################################################
 
-    documentBatchInitiation:
+    documentsProcessInitiation:
       description: |
-        JSON request body for a document batch inition or update request message
+        JSON request body for a documents process inition or update request message
       required: true
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentBatchDetails"
+            $ref: "#/components/schemas/documentsProcessDetails"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentsProcessInitiation_json_Example"
 
   headers:
     #####################################################
@@ -1682,27 +1533,33 @@ components:
     # Positive Responses
     #####################################################
 
-    OK_200_DocumentBatchListWithStatusDetails:
-      description: Get document batch details
+    OK_200_DocumentsProcessListWithStatusDetails:
+      description: Get documents process details
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentBatchWithStatusList"
+            $ref: "#/components/schemas/documentsProcessWithStatusList"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentsProcessWithStatusList-200_json_Example"
 
-    OK_200_DocumentBatchWithStatusDetails:
-      description: Get document batch details
+    OK_200_DocumentsProcessWithStatusDetails:
+      description: Get documents process details
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentBatchWithStatusDetails"
+            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentsProcessWithStatusDetails-200_json_Example"
 
-    OK_200_UpdateDocumentBatch:
+    OK_200_UpdateDocumentsProcess:
       description: OK
       headers:
         X-Request-ID:
@@ -1710,7 +1567,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentBatchWithStatusDetails"
+            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentsProcessWithStatusDetails-200_json_Example"
 
     OK_200_DocumentTypeDetails:
       description: OK
@@ -1721,6 +1581,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/documentTypeList"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentTypeListResponse-200_json_Example"
 
     #####################################################
     # Negative Responses
@@ -1738,7 +1601,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error400_NG"
+            $ref: "#/components/schemas/Error400_IOBWS"
 
         application/problem+json:
           schema:
@@ -1756,11 +1619,11 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error401_NG"
+            $ref: "#/components/schemas/Error401_IOBWS"
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error401"
+            $ref: "#/components/schemas/Error401"
 
     FORBIDDEN_403:
       description: Forbidden
@@ -1774,11 +1637,11 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error403_NG"
+            $ref: "#/components/schemas/Error403_IOBWS"
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error403"
+            $ref: "#/components/schemas/Error403"
 
     NOT_FOUND_404:
       description: Not found
@@ -1792,11 +1655,11 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error404_NG"
+            $ref: "#/components/schemas/Error404_IOBWS"
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error404"
+            $ref: "#/components/schemas/Error404"
 
     METHOD_NOT_ALLOWED_405:
       description: Method Not Allowed
@@ -1810,11 +1673,11 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error405_NG"
+            $ref: "#/components/schemas/Error405_IOBWS"
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error405"
+            $ref: "#/components/schemas/Error405"
 
     NOT_ACCEPTABLE_406:
       description: Not Acceptable
@@ -1828,10 +1691,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error406_NG"
+            $ref: "#/components/schemas/Error406_IOBWS"
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error406"
+            $ref: "#/components/schemas/Error406"
 
     REQUEST_TIMEOUT_408:
       description: Request Timeout
@@ -1841,7 +1704,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 408
+      #No Response body because there are no valid message codes in case of HTTP code 408
 
     CONFLICT_409:
       description: Conflict
@@ -1854,11 +1717,11 @@ components:
       content:
         application/json:
           schema:
-             $ref: "#/components/schemas/Error409_NG"
+            $ref: "#/components/schemas/Error409_IOBWS"
 
         application/problem+json:
           schema:
-             $ref: "#/components/schemas/Error409"
+            $ref: "#/components/schemas/Error409"
 
     UNSUPPORTED_MEDIA_TYPE_415:
       description: Unsupported Media Type
@@ -1868,7 +1731,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 415
+      #No Response body because there are no valid message codes in case of HTTP code 415
 
     TOO_MANY_REQUESTS_429:
       description: Too Many Requests
@@ -1882,11 +1745,11 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error429_NG"
+            $ref: "#/components/schemas/Error429_IOBWS"
         application/problem+json:
 
           schema:
-             $ref: "#/components/schemas/Error429"
+            $ref: "#/components/schemas/Error429"
 
     INTERNAL_SERVER_ERROR_500:
       description: Internal Server Error
@@ -1895,7 +1758,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 500
+      #No Response body because there are no valid message codes in case of HTTP code 500
 
     SERVICE_UNAVAILABLE_503:
       description: Service Unavailable
@@ -1904,7 +1767,124 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for AIS in case of HTTP code 503
+      #No Response body because there are no valid message codes in case of HTTP code 503
+
+  examples:
+    #####################################################
+    # Predefined Examples
+    #####################################################
+    
+    documentTypeListResponse-200_json_Example:
+      description: List of document types.
+      value:
+        {
+          "documentTypes": [
+            { 
+              "code": "STVO",
+              "name": "/typ/3254b7b2-302c-72",
+              "durableMedia": true,
+              "description": "Pay slip from Company"
+            },
+            { 
+              "code": "IDFR",
+              "name": "/typ/3254b7b2-302c-72",
+              "durableMedia": true,
+              "description": "Account statement from Company"
+            }
+          ]
+        }
+
+    documentsProcessInitiation_json_Example:
+      description: Documents upload request.
+      value: 
+        {
+          "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
+          "name": "Account statements",
+          "description": "Account statements for june 2022",
+          "senderKennitala": "1111111199",
+          "documentTypeCode": "IDFR",
+          "files": [
+            {
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "description": "Company - Account statement",
+              "receiverKennitala": "1111112239",
+              "fileType": "PDF",
+              "file": "The file in the form of base64 encoded characters"
+            },
+            {
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "description": "Company - Account statement",
+              "receiverKennitala": "1111112249",
+              "fileType": "PDF",
+              "file": "The file in the form of base64 encoded characters"
+            } 
+          ]
+        }
+
+    documentsProcessWithStatusDetails-200_json_Example:
+      description: Documents process result.
+      value: 
+        {
+          "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
+          "name": "Account statements",
+          "description": "Account statements for june 2022",
+          "senderKennitala": "1111111199",
+          "documentTypeCode": "IDFR",
+          "status": "received",
+          "files": [
+            {
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "description": "",
+              "receiverKennitala": "1111112239",
+              "fileType": "PDF",
+              "status": "received",
+              "statusMessage": "File is currently being processed"
+            },
+            {
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "description": "",
+              "receiverKennitala": "1111112249",
+              "fileType": "PDF",
+              "status": "received",
+              "statusMessage": "File is currently being processed"
+            }
+          ]
+        }
+
+    documentsProcessWithStatusList-200_json_Example:
+      description: Documents query result.
+      value: 
+        {
+          "documentsProcesses": [
+            {
+              "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
+              "name": "Account statements",
+              "description": "Account statements for june 2022",
+              "senderKennitala": "1111111199",
+              "documentTypeCode": "IDFR",
+              "status": "received",
+              "files": [
+                {
+                  "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+                  "description": "",
+                  "receiverKennitala": "1111112239",
+                  "fileType": "PDF",
+                  "status": "received",
+                  "statusMessage": "File is currently being processed"
+                },
+                {
+                  "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+                  "description": "",
+                  "receiverKennitala": "1111112249",
+                  "fileType": "PDF",
+                  "status": "received",
+                  "statusMessage": "File is currently being processed"
+                }
+              ]
+            }
+          ]
+          
+        }
 
 security:
   #####################################################
@@ -1917,9 +1897,9 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
 
-  - name: Document Service
+  - name: Document Service (DS)
     description: |
-      The component for Documents offers the following services:
+      The API interface for Documents offers the following services:
         * Initiation and update of a document request
         * Status information of a document
-        * Document type
+        * Document types

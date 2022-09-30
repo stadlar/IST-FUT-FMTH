@@ -1,0 +1,2864 @@
+openapi: 3.0.1
+info:
+  title: IOBWS 3.0 Debit and credit cards, details and statements
+  version: "3.0"
+  description: |
+    # Summary
+
+    This document represents version 3.0 of the Icelandic Online Banking Services (IOBWS) 
+    and is released as a part of the technical specification ÍST TS 311, 
+    debit and credit card details and statements, by the Icelandic Standards Council. 
+    ÍST TS 311 is a new addition so no immidiate successsor exist in IOBWS major versions 2 or 1.
+
+    In places the contract uses elements based on the Berlin Group NextGenPSD2 XS2A Framework, mainly
+    versions 1.3.5 and 1.3.8 of that specification. Attribution applies as required by 
+    the CC BY 4.0 license NextGenPSD2 is released under.
+
+    ## Remark on character set support
+
+    The definition of UTF-8 strings in context of this API has to support at least the following characters
+
+    a b c d e f g h i j k l m n o p q r s t u v w x y z å ä ö æ ø á ð é í ó ú ý	þ	æ	ö
+    
+    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö
+
+    0 1 2 3 4 5 6 7 8 9
+    
+    / - ? : ( ) . , ' + @
+    
+    Space
+
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://creativecommons.org/licenses/by/4.0/
+  contact:
+    name: Stadlarad Islands
+    url: https://www.stadlar.is
+    email: openbanking@stadlar.is
+
+externalDocs:
+  description: |
+    Documentation for ÍST TS 311 (Technical Specifications, Technical Guidelines)
+  url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables
+
+servers:
+  - url: https://cards.example.com
+    description: Example production server
+  - url: https://cards-sandbox.example.com
+    description: Sandbox server for testing
+
+paths:
+
+  #####################################################
+  # Card Information Service
+  #####################################################
+
+  /v1/cards:
+
+    get:
+      summary: Read list of cards.
+      description: |
+        Reads a list of cards potentially with additional information, e.g. balance information.
+        
+        It is assumed that a consent of the user to this access is already given and stored on the Bank's system.
+        The addressed list of cards depends then on the stored consent addressed by consentId, respectively the OAuth2 access token.
+
+        Please note, that the current line of credit of a given card might be tighter than what the balance
+        response will suggest, due to credit limits on the card account and transactions by
+        other cards to the same account.
+
+      operationId: readListOfCards
+      tags:
+        - Card Information Service (CIS)
+
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an an OAuth2 process, which has to
+      # be included inthe HTTP header ist described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommandes to adjust the security schemes according to
+      # your system enviroments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+
+      parameters:
+        #path # NO PATH PARAMETER
+        #query # NO QUERY PARAMETER
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        - $ref: "#/components/parameters/consentId_HEADER"
+        - $ref: "#/components/parameters/Digest"
+        - $ref: "#/components/parameters/Signature"
+        - $ref: "#/components/parameters/Signature-Certificate"
+        #optional additional PSU Information in header
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Port"
+        - $ref: "#/components/parameters/USR-Accept"
+        - $ref: "#/components/parameters/USR-Accept-Charset"
+        - $ref: "#/components/parameters/USR-Accept-Encoding"
+        - $ref: "#/components/parameters/USR-Accept-Language"
+        - $ref: "#/components/parameters/USR-User-Agent"
+        - $ref: "#/components/parameters/USR-Http-Method"
+        - $ref: "#/components/parameters/USR-Device-ID"
+        - $ref: "#/components/parameters/USR-Geo-Location"
+    
+
+      # no request body
+      # requestBody:
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CARDS"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/cards/{card-id}:
+
+    get:
+      summary: Read card details.
+      description: |
+        Reads details about a card. It is assumed that a consent of the user to this access is already given and stored on the Bank's system.
+        
+        The addressed details of this account depends then on the stored consent addressed by consentId, respectively the OAuth2 access
+        token.
+
+        Please note, that the current line of credit of a given card might be tighter than what the balance
+        response will suggest, due to credit limits on the card account and transactions by
+        other cards to the same account.
+
+      operationId: readCardDetails
+      tags:
+        - Card Information Service (CIS)
+
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an OAuth2 process, which has to 
+      # be included in the HTTP header is described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommended to adjust the security schemes according to
+      # your system environments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+
+      parameters:
+        #path
+        - $ref: "#/components/parameters/card-id"
+        #query # NO QUERY PARAMETER
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        - $ref: "#/components/parameters/consentId_HEADER"
+        - $ref: "#/components/parameters/Digest"
+        - $ref: "#/components/parameters/Signature"
+        - $ref: "#/components/parameters/Signature-Certificate"
+        #optional additional PSU Information in header
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Port"
+        - $ref: "#/components/parameters/USR-Accept"
+        - $ref: "#/components/parameters/USR-Accept-Charset"
+        - $ref: "#/components/parameters/USR-Accept-Encoding"
+        - $ref: "#/components/parameters/USR-Accept-Language"
+        - $ref: "#/components/parameters/USR-User-Agent"
+        - $ref: "#/components/parameters/USR-Http-Method"
+        - $ref: "#/components/parameters/USR-Device-ID"
+        - $ref: "#/components/parameters/USR-Geo-Location"
+
+      # no request body
+      # requestBody:
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CARDDETAILS"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/cards/{card-id}/balances:
+
+    get:
+      summary: Read card balances.
+      description: |
+        Read detailed balance information about the addressed card by "card-id".
+
+        For a given card, an optional parameter "dateFrom" defines the begin of a period from which to obtain available balance related information.
+        
+        Please note, that the current line of credit of a given card might be tighter than what the balance
+        response will suggest, due to credit limits on the card account and transactions by
+        other cards to the same account.
+
+      operationId: readCardBalances
+      tags:
+        - Card Information Service (CIS)
+
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an an OAuth2 process, which has to
+      # be included inthe HTTP header ist described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommandes to adjust the security schemes according to
+      # your system enviroments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+
+      parameters:
+        #path
+        - $ref: "#/components/parameters/card-id"
+        #query
+        - $ref: "#/components/parameters/dateFrom"
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        - $ref: "#/components/parameters/consentId_HEADER"
+        - $ref: "#/components/parameters/Digest"
+        - $ref: "#/components/parameters/Signature"
+        - $ref: "#/components/parameters/Signature-Certificate"
+        #optional additional PSU Information in header
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Port"
+        - $ref: "#/components/parameters/USR-Accept"
+        - $ref: "#/components/parameters/USR-Accept-Charset"
+        - $ref: "#/components/parameters/USR-Accept-Encoding"
+        - $ref: "#/components/parameters/USR-Accept-Language"
+        - $ref: "#/components/parameters/USR-User-Agent"
+        - $ref: "#/components/parameters/USR-Http-Method"
+        - $ref: "#/components/parameters/USR-Device-ID"
+        - $ref: "#/components/parameters/USR-Geo-Location"
+
+      # no request body
+      # requestBody:
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CARDBALANCES"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/cards/{card-id}/transactions:
+
+    get:
+      summary: Read transaction list of a card.
+      description: |
+        Reads transaction list or transaction report from a given card addressed by "card-id".
+
+      operationId: readCardTransactionData
+      tags:
+        - Card Information Service (CIS)
+
+      security:
+      #####################################################
+      # REMARKS ON SECURITY IN THIS OPENAPI FILE
+      # In this file only the basic security element to transport
+      # the bearer token of an an OAuth2 process, which has to
+      # be included inthe HTTP header ist described.
+      #
+      # WARNING:
+      # If you want to use this file for a productive implementation,
+      # it is recommandes to adjust the security schemes according to
+      # your system enviroments and security policies.
+      #####################################################
+        - {}
+        - BearerAuthOAuth: []
+
+      parameters:
+        #path
+        - $ref: "#/components/parameters/card-id"
+        #query
+        - $ref: "#/components/parameters/dateFrom"
+        - $ref: "#/components/parameters/dateTo"
+        - $ref: "#/components/parameters/bookingStatus"
+        - $ref: "#/components/parameters/deltaList"
+        #header
+        #mandatory header parameter
+        - $ref: "#/components/parameters/X-Request-ID"
+        #optional header parameters
+        - $ref: "#/components/parameters/consentId_HEADER"
+        - $ref: "#/components/parameters/Digest"
+        - $ref: "#/components/parameters/Signature"
+        - $ref: "#/components/parameters/Signature-Certificate"
+        #optional additional PSU Information in header
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/USR-IP-Port"
+        - $ref: "#/components/parameters/USR-Accept"
+        - $ref: "#/components/parameters/USR-Accept-Charset"
+        - $ref: "#/components/parameters/USR-Accept-Encoding"
+        - $ref: "#/components/parameters/USR-Accept-Language"
+        - $ref: "#/components/parameters/USR-User-Agent"
+        - $ref: "#/components/parameters/USR-Http-Method"
+        - $ref: "#/components/parameters/USR-Device-ID"
+        - $ref: "#/components/parameters/USR-Geo-Location"
+
+      # no request body
+      # requestBody:
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CARDTRANSACTIONS"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+components:
+#####################################################
+# Predefined Components
+#####################################################
+
+  securitySchemes:
+  #####################################################
+  # Predefined Security Schemes:
+  #
+  # In this file only the basic security element to transport
+  # the bearer token of an OAuth2 process, which has to
+  # be included in the HTTP header is described.
+  #
+  # WARNING:
+  # If you want to use this file for a productive implementation,
+  # it is recommended to adjust the security schemes according to
+  # your system environments and security policies.
+  #####################################################
+    BearerAuthOAuth:
+      description: |
+        Bearer Token.
+
+        Is contained only, if an OAuth2 based authentication was performed in a pre-step or
+        an OAuth2 based SCA was performed in a preceding service in the same session.
+      type: http
+      scheme: bearer
+
+  schemas:
+  #####################################################
+  # Predefined Schemas
+  #####################################################
+
+    authorisationId:
+      description: Resource identification of the related SCA.
+      type: string
+      example: "123auth456"
+
+    authorization:
+      description: |
+        Authorization by OAuth2 based Protocol.
+      type: string
+
+    consentId:
+      description: |
+        ID of the corresponding consent object as returned by an account information consent request.
+      type: string
+
+    readCardListResponse-200_json:
+      description: Descriptions of the accessible cards.
+      type: object
+      required:
+        - cards
+      properties:
+        cards:
+          type: array
+          items:
+            $ref: "#/components/schemas/cardDetails"
+
+    readCardDetailsResponse-200_json:
+      description: Details of the card.
+      type: object
+      required:
+        - card
+      properties:
+        card:
+          $ref: "#/components/schemas/cardDetails"
+
+    readCardBalancesResponse-200_json:
+      description: Balances of the cards.
+      type: object
+      required:
+        - balances
+      properties:
+        card:
+          $ref: "#/components/schemas/accountReference"
+        balances:
+          $ref: "#/components/schemas/balanceList"
+
+    readCardTransactionsResponse-200_json:
+      description: Balances of the cards.
+      type: object
+      properties:
+        card:
+          $ref: "#/components/schemas/accountReference"
+        cardTransactions:
+          $ref: "#/components/schemas/cardAccountReport"
+        balances:
+          $ref: "#/components/schemas/balanceList"
+
+    cardTransactionId:
+      description: Unique end to end identity.
+      type: string
+      maxLength: 35
+
+    terminalId:
+      description: Identification of the Terminal, where the card has been used.
+      type: string
+      maxLength: 35
+    
+    hrefType:
+      description: Link to a resource.
+      type: object
+      properties:
+        href:
+          $ref: "#/components/schemas/hrefEntry"
+
+    hrefEntry:
+      description: Link to a resource.
+      type: string
+      example: "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
+
+    accountReference:
+      description: | 
+        Reference to an account by either
+          * IBAN, of a payment accounts, or
+          * BBAN, for payment accounts if there is no IBAN, or 
+          * the Primary Account Number (PAN) of a card, can be tokenised by the Bank due to PCI DSS requirements, or
+          * the Primary Account Number (PAN) of a card in a masked form, or
+          * an alias to access a payment account via a registered mobile phone number (MSISDN).
+      type: object
+      properties:
+        iban: 
+          $ref: "#/components/schemas/iban"
+        bban: 
+          $ref: "#/components/schemas/bban"
+        pan: 
+          $ref: "#/components/schemas/pan"
+        maskedPan: 
+          $ref: "#/components/schemas/maskedPan"
+        msisdn: 
+          $ref: "#/components/schemas/msisdn"
+        currency:
+          $ref: "#/components/schemas/currencyCode"
+
+    balanceType:
+      description: |
+        The following balance types are defined:
+          - "closingBooked": 
+            Balance of the account at the end of the pre-agreed account reporting period. 
+            It is the sum of the opening booked balance at the beginning of the period and all entries booked 
+            to the account during the pre-agreed account reporting period.
+            
+            For card-accounts, this is composed of
+            
+              - invoiced, but not yet paid entries
+            
+          - "expected":
+            Balance composed of booked entries and pending items known at the time of calculation, 
+            which projects the end of day balance if everything is booked on the account and no other entry is posted.
+            
+            For card accounts, this is composed of:
+              - invoiced, but not yet paid entries
+              - not yet invoiced but already booked entries and
+              - pending items (not yet booked)
+            
+            For card-accounts:
+            
+            "money to spend with the value of a pre-approved credit limit on the card account"
+            
+          - "openingBooked":
+            Book balance of the account at the beginning of the account reporting period. 
+            It always equals the closing book balance from the previous report.
+          - "interimAvailable":
+            Available balance calculated in the course of the account ?servicer?s business day, 
+            at the time specified, and subject to further changes during the business day. 
+            The interim balance is calculated on the basis of booked credit and debit items during the calculation 
+            time/period specified.
+            
+            For card-accounts, this is composed of:
+              - invoiced, but not yet paid entries
+              - not yet invoiced but already booked entries
+          - "interimBooked":
+            Balance calculated in the course of the account servicer's business day, at the time specified, 
+            and subject to further changes during the business day. 
+            The interim balance is calculated on the basis of booked credit and debit items during the calculation time/period 
+            specified.
+          - "forwardAvailable":
+            Forward available balance of money that is at the disposal of the account owner on the date specified.
+          - "nonInvoiced": 
+            Only for card accounts, to be checked yet. 
+      type: string
+      enum:
+          - "closingBooked"
+          - "expected"
+          - "openingBooked"
+          - "interimAvailable"
+          - "interimBooked"
+          - "forwardAvailable"
+          - "nonInvoiced"
+
+    accountStatus:
+      description: |
+        Account status. The value is one of the following:
+          - "enabled": account is available
+          - "deleted": account is terminated
+          - "blocked": account is blocked e.g. for legal reasons
+        If this field is not used, than the account is available in the sense of this specification.
+      type: string
+      enum:
+        - "enabled"
+        - "deleted"
+        - "blocked"
+
+    cardDetails:
+      description: |
+        Card details.
+      type: object
+      required:
+        - resourceId
+        - maskedPan
+        - currency
+        - cardholderName
+        - expDate
+      properties:
+        resourceId:
+          description: |
+            This is the data element to be used in the path when retrieving data from a dedicated account.
+            This shall be filled, if addressable resource are created by the Bank on the /cards endpoint.
+          type: string
+        maskedPan:
+          $ref: "#/components/schemas/maskedPan"
+        currency:
+          $ref: "#/components/schemas/currencyCode"
+        ownerName:
+          $ref: "#/components/schemas/ownerName"
+        ownerId:
+          type: string
+          maxLength: 35
+        expDate:
+          $ref: "#/components/schemas/expDate"
+        issueDate:
+          $ref: "#/components/schemas/issueDate"
+        cardholderName:
+          $ref: "#/components/schemas/cardholderName"
+        cardholderId:
+          type: string
+          maxLength: 35
+        panId:
+          $ref: "#/components/schemas/panId"
+        bank:
+          $ref: "#/components/schemas/bank"
+        name:
+          description: |
+            Name of the account, as assigned by the Bank,
+            in agreement with the account owner in order to provide an additional means of identification of the account.
+          type: string
+          maxLength: 70
+        displayName:
+          $ref: "#/components/schemas/displayName"
+        product:
+          description: |
+            Product Name of the Bank for this account, proprietary definition.
+          type: string
+          maxLength: 35
+        status:
+          $ref: "#/components/schemas/accountStatus"
+        usage:
+          description: |
+            Specifies the usage of the account:
+              * PRIV: private personal account
+              * ORGA: professional account
+          type: string
+          maxLength: 4
+          enum:
+            - "PRIV"
+            - "ORGA"
+        details:
+          description: |
+            Specifications that might be provided by the Bank:
+              - characteristics of the account
+              - characteristics of the relevant card
+          type: string
+          maxLength: 500
+        creditLimit:
+          $ref: "#/components/schemas/amount"
+        balances:
+          $ref: "#/components/schemas/balanceList"
+        _links:
+          $ref: "#/components/schemas/_linksCardDetails"
+        
+    cardAccountReport:
+      description: |
+        JSON based card account report.
+
+        This card account report contains transactions resulting from the query parameters.
+      type: object
+      required:
+        - booked
+        - _links
+      properties:
+        booked:
+          $ref: "#/components/schemas/cardTransactionList"
+        pending:
+          $ref: "#/components/schemas/cardTransactionList"
+        _links:
+          $ref: "#/components/schemas/_linksCardAccountReport"
+
+    cardTransactionList:
+      description: Array of transaction details.
+      type: array
+      items:
+        $ref: "#/components/schemas/cardTransaction"
+
+    cardTransaction:
+      description: Card transaction information.
+      type: object
+      required:
+        - transactionAmount
+      properties:
+        cardTransactionId:
+          $ref: "#/components/schemas/cardTransactionId"
+        terminalId:
+          $ref: "#/components/schemas/terminalId"
+        transactionDate:
+          $ref: "#/components/schemas/transactionDate"
+        acceptorTransactionDateTime:
+          description: Timestamp of the actual card transaction within the acceptance system
+          type: string
+          format: date-time
+        bookingDate:
+          $ref: "#/components/schemas/bookingDate"
+        transactionAmount:
+          $ref: "#/components/schemas/amount"
+        currencyExchange:
+          $ref: "#/components/schemas/reportExchangeRateList"
+        originalAmount:
+          $ref: "#/components/schemas/amount"
+        markupFee:
+          $ref: "#/components/schemas/amount"
+        markupFeePercentage:
+          #description: Percentage of the involved transaction fee in relation to the billing amount, e.g. "0.3" for 0,3%.
+          type: string
+          example: "0.3"
+        cardAcceptorId:
+          #description: Identification of the Card Acceptor (e.g. merchant) as given in the related card transaction.
+          type: string
+          maxLength: 35
+        cardAcceptorAddress:
+          $ref: "#/components/schemas/address"
+        cardAcceptorPhone:
+          $ref: "#/components/schemas/cardAcceptorPhone"
+        merchantCategoryCode:
+          $ref: "#/components/schemas/merchantCategoryCode"
+        maskedPAN:
+          $ref: "#/components/schemas/maskedPan"
+        transactionDetails:
+          type: string
+          maxLength: 140
+        posEntryMode:
+          $ref: "#/components/schemas/posEntryMode"
+        invoiced:
+          type: boolean
+        proprietaryBankTransactionCode:
+          $ref: "#/components/schemas/proprietaryBankTransactionCode"
+
+    reportExchangeRateList:
+      description: Array of exchange rates.
+      type: array
+      items:
+        $ref: "#/components/schemas/reportExchangeRate"
+
+    reportExchangeRate:
+      description: Exchange Rate.
+      type: object
+      required:
+        - sourceCurrency
+        - exchangeRate
+        - unitCurrency
+        - targetCurrency
+        - quotationDate
+      properties:
+        sourceCurrency:
+          $ref: "#/components/schemas/currencyCode"
+        exchangeRate:
+          type: string
+        unitCurrency:
+          type: string
+        targetCurrency:
+          $ref: "#/components/schemas/currencyCode"
+        quotationDate:
+          type: string
+          format: date
+        contractIdentification:
+          type: string
+
+    balance:
+      description: |
+        A single balance element.
+      type:
+        object
+      required:
+        - balanceAmount
+        - balanceType
+      properties:
+        balanceAmount:
+          $ref: "#/components/schemas/amount"
+        balanceType:
+          $ref: "#/components/schemas/balanceType"
+        creditLimitIncluded:
+          description: |
+            A flag indicating if the credit limit of the corresponding account
+            is included in the calculation of the balance, where applicable.
+          type: boolean
+          example: false
+        lastChangeDateTime:
+          description: |
+            This data element might be used to indicate e.g. with the expected or booked balance that no action is known
+            on the account, which is not yet booked.
+          type: string
+          format: date-time
+        referenceDate:
+          description: Reference date of the balance.
+          type: string
+          format: date
+        lastCommittedTransaction:
+          description: |
+            "entryReference" of the last commited transaction to support the intermediary service in identifying whether all
+            user's transactions are already known.
+          type: string
+          maxLength: 35
+
+    balanceList:
+      description: |
+        A list of balances regarding this account, e.g. the current balance, the last booked balance.
+        The list might be restricted to the current balance.
+      type: array
+      items:
+        $ref: "#/components/schemas/balance"
+
+    pan:
+      description: |
+        Primary Account Number according to ISO/IEC 7812.
+      type: string
+      maxLength: 35
+      #According to ISO the following should be valid.
+      #maxLength: 19
+      #minLength: 8
+      #pattern: "[0-9]{8,19}"
+      example: "5409050000000000"
+
+    maskedPan:
+      description: |
+        Masked Primary Account Number.
+      type: string
+      maxLength: 35
+      example: "123456xxxxxx1234"
+
+    bban:
+      description: |
+        Basic Bank Account Number (BBAN) Identifier.
+
+        This data element can be used in the body of the consent request.
+          Message for retrieving account access consent from this account. This
+          data elements is used for payment accounts which have no IBAN.
+          ISO20022: Basic Bank Account Number (BBAN).
+
+          Identifier used nationally by financial institutions, i.e., in individual countries,
+          generally as part of a National Account Numbering Scheme(s),
+          which uniquely identifies the account of a customer.
+      type: string
+      pattern: "[a-zA-Z0-9]{1,30}"
+      example: "BARC12345612345678"
+
+    msisdn:
+      type: string
+      maxLength: 35
+      description: Mobile phone number.
+      example: "+49 170 1234567"
+
+    iban:
+      type: string
+      description: IBAN of an account.
+      pattern: "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
+      example: "FR7612345987650123456789014"
+
+    posEntryMode:
+      description: |
+        Card transaction orginated from.
+      enum:
+        - "UNKNOWN"
+        - "MAGIC_STRIP"
+        - "CHIP"
+        - "TOUCHLESS"
+        - "RECURRING"
+        - "MANUAL"
+        - "MOTO"
+
+    expDate:
+      type: string
+      description: Experation date for a card in the form mm/yy.
+      pattern: "(0[1-9]|1[0-2])\/([0-9]{2})"
+      example: "03/23"
+
+    issueDate:
+      type: string
+      format: date
+      description: Issuing date for a card.
+      example: "2021-03-15"
+
+    cardholderName:
+      type: string
+      description: Experation date for a card.
+
+    panId:
+      type: string
+      description: Scoped identifier to be used as a replacement for the Primary Account Number when referencing card.
+
+    bank:
+      type: string
+      description: Icelandic bank number.
+      pattern: "[0-9]{3,4}"
+      example: "0999"
+
+    address:
+      type: object
+      required:
+        - country
+      properties:
+        streetName:
+          type: string
+          maxLength: 70
+        buildingNumber:
+          type: string
+        townName:
+          type: string
+        postCode:
+          type: string
+        country:
+          $ref: "#/components/schemas/countryCode"
+      example:
+        {
+          street: "rue blue",
+          buildingnNumber: "89",
+          townName: "Paris",
+          postalCode: "75000",
+          country: "FR"
+        }
+
+    countryCode:
+      description: ISO 3166 ALPHA2 country code.
+      type: string
+      pattern: "[A-Z]{2}"
+      example: "SE"
+
+    cardAcceptorPhone:
+      description: |
+        Merchant phone number
+        It consists of a "+" followed by the country code (from 1 to 3 characters) then a "-" and finally, any
+        combination of numbers, "(", ")", "+" and "-" (up to 30 characters).
+        pattern according to ISO20022 \+[0-9]{1,3}-[0-9()+\-]{1,30}
+      type: string
+      pattern: '\+[0-9]{1,3}-[0-9()+\-]{1,30}'
+
+    ownerName:
+      description: |
+        Name of the legal account owner.
+        If there is more than one owner, then e.g. two names might be noted here.
+
+        For a corporate account, the corporate name is used for this attribute.
+        Even if supported by the Bank, the provision of this field might depend on the fact whether an explicit consent to this specific additional account information has been given by the user.
+
+      type: string
+      maxLength: 140
+      example: "John Doe"
+
+    displayName:
+      description: |
+        Name of the account as defined by the user within online channels.
+      type: string
+      maxLength: 70
+
+    amount:
+      type: object
+      required:
+        - currency
+        - amount
+      properties:
+        currency:
+          $ref: "#/components/schemas/currencyCode"
+        amount:
+          $ref: "#/components/schemas/amountValue"
+      example:
+        {
+          "currency": "EUR",
+          "amount": "123"
+        }
+
+    amountValue:
+      description: |
+        The amount given with fractional digits, where fractions must be compliant to the currency definition.
+        Up to 14 significant figures. Negative amounts are signed by minus.
+        The decimal separator is a dot.
+
+        **Example:**
+        Valid representations for EUR with up to two decimals are:
+
+          * 1056
+          * 5768.2
+          * -1.50
+          * 5877.78
+      type: string
+      pattern: "-?[0-9]{1,14}(\\.[0-9]{1,3})?"
+      example: "5877.78"
+
+    #####################################################
+    # Predefined Text Formats
+    #####################################################
+
+    proprietaryBankTransactionCode:
+      description: |
+        Proprietary bank transaction code as used within a community or within an Bank e.g.
+        for MT94x based transaction reports.
+      type: string
+      maxLength: 35
+
+    merchantCategoryCode:
+      description: Merchant category code.
+      type: string
+      maxLength: 4
+      minLength: 4
+
+    #####################################################
+    # Predefined Date and Time Related Formats
+    #####################################################
+
+    transactionDate:
+      description: Date of the actual card transaction.
+      type: string
+      format: date
+
+    bookingDate:
+      description: |
+        The date when an entry is posted to an account on the Banks books.
+      type: string
+      format: date
+
+
+#####################################################
+# Content of Request Bodies
+#####################################################
+
+
+    #####################################################
+    # Content of Request Bodies - JSON
+    #####################################################
+
+  
+    #####################################################
+    # Content of Request Bodies - XML
+    #####################################################
+
+      #####################################################
+      # Content of Request Bodies - Single Part
+      #####################################################
+
+      #####################################################
+      # Content of Request Bodies - XML -Multipart
+      #####################################################
+
+
+#####################################################
+# Content of Response Bodies
+#####################################################
+
+#####################################################
+# _links
+#####################################################
+    _linksAll:
+      description: |
+        A _link object with all availabel link types.
+      type: object
+      additionalProperties: 
+        $ref: "#/components/schemas/hrefType"
+      properties:
+        scaRedirect:
+          $ref: "#/components/schemas/hrefType"
+        scaOAuth:
+          $ref: "#/components/schemas/hrefType"
+        confirmation:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisation:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithUserIdentification:
+          $ref: "#/components/schemas/hrefType"
+        updateUserIdentification:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithProprietaryData:
+          $ref: "#/components/schemas/hrefType"
+        updateProprietaryData:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithUserAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        updateUserAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithEncryptedUserAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        updateEncryptedUserAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        updateAdditionalUserAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        updateAdditionalEncryptedUserAuthentication:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithAuthenticationMethodSelection:
+          $ref: "#/components/schemas/hrefType"
+        selectAuthenticationMethod:
+          $ref: "#/components/schemas/hrefType"
+        startAuthorisationWithTransactionAuthorisation:
+          $ref: "#/components/schemas/hrefType"
+        authoriseTransaction:
+          $ref: "#/components/schemas/hrefType"
+        self:
+          $ref: "#/components/schemas/hrefType"
+        status:
+          $ref: "#/components/schemas/hrefType"
+        scaStatus:
+          $ref: "#/components/schemas/hrefType"
+        account:
+          $ref: "#/components/schemas/hrefType"
+        balances:
+          $ref: "#/components/schemas/hrefType"
+        transactions:
+          $ref: "#/components/schemas/hrefType"
+        transactionDetails:
+          $ref: "#/components/schemas/hrefType"
+        cardAccount:
+          $ref: "#/components/schemas/hrefType"
+        cardTransactions:
+          $ref: "#/components/schemas/hrefType"
+        first:
+          $ref: "#/components/schemas/hrefType"
+        next:
+          $ref: "#/components/schemas/hrefType"
+        previous:
+          $ref: "#/components/schemas/hrefType"
+        last:
+          $ref: "#/components/schemas/hrefType"
+        download:
+          $ref: "#/components/schemas/hrefType"
+
+    _linksCardDetails:
+      description: |
+        Links to the card, which can be directly used for retrieving account information from this card account.
+        
+        Links to "balances" and/or "transactions".
+
+        These links are only supported, when the corresponding consent has been already granted.
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/hrefType"
+      properties:
+        self:
+          $ref: "#/components/schemas/hrefType"
+        cardAccount:
+          $ref: "#/components/schemas/hrefType"
+        balances:
+          $ref: "#/components/schemas/hrefType"
+        cardTransactions:
+          $ref: "#/components/schemas/hrefType"
+
+    _linksCardAccountReport:
+      description: |
+        A list of hyperlinks to be recognised by the intermediary service.
+        
+        Type of links admitted in this response:
+          - "download": a link to a resource, where the transaction report might be downloaded from in 
+          case where transaction reports have a huge size.
+        
+        Remark: This feature shall only be used where camt-data is requested which has a huge size.
+
+      type: object
+      additionalProperties: 
+        $ref: "#/components/schemas/hrefType"
+      required:
+        - download
+      properties:
+        download:
+          $ref: "#/components/schemas/hrefType"
+
+
+#####################################################
+# Tpp-Messages to Communicate Error Information
+#####################################################
+
+
+  #####################################################
+  # Generic Elements
+  #####################################################
+
+    messageCategory:
+      description: Category of the intermediary service message category.
+      type: string
+      enum:
+        - "ERROR"
+        - "WARNING"
+
+
+    MessageCode400:
+      description: Message codes defined for HTTP Error code 400 (BAD_REQUEST).
+      type: string
+      enum:
+        - "FORMAT_ERROR"              #gen
+        - "PARAMETER_NOT_CONSISTENT"  #gen
+        - "PARAMETER_NOT_SUPPORTED"   #gen
+        - "SERVICE_INVALID"           #gen
+        - "RESOURCE_UNKNOWN"          #gen
+        - "RESOURCE_EXPIRED"          #gen
+        - "RESOURCE_BLOCKED"          #gen
+        - "TIMESTAMP_INVALID"         #gen
+        - "PERIOD_INVALID"            #gen
+        - "SCA_METHOD_UNKNOWN"        #gen
+        - "SCA_INVALID"               #gen
+        - "CONSENT_UNKNOWN"           #gen
+        - "SESSIONS_NOT_SUPPORTED"    #IOBWS
+
+
+
+    MessageCode401:
+      description: Message codes defined for HTTP Error code 401 (UNAUTHORIZED).
+      type: string
+      enum:
+        - "CERTIFICATE_INVALID"       #gen
+        - "ROLE_INVALID"              #gen
+        - "CERTIFICATE_EXPIRED"       #gen
+        - "CERTIFICATE_BLOCKED"       #gen
+        - "CERTIFICATE_REVOKE"        #gen
+        - "CERTIFICATE_MISSING"       #gen
+        - "SIGNATURE_INVALID"         #gen
+        - "SIGNATURE_MISSING"         #gen
+        - "CORPORATE_ID_INVALID"      #gen
+        - "USR_CREDENTIALS_INVALID"   #gen
+        - "CONSENT_INVALID"           #gen, IOBWS
+        - "CONSENT_EXPIRED"           #gen
+        - "TOKEN_UNKNOWN"             #gen
+        - "TOKEN_INVALID"             #gen
+        - "TOKEN_EXPIRED"             #gen
+
+    MessageCode403:
+      description: Message codes defined for HTTP Error code 403 (FORBIDDEN).
+      type: string
+      enum:
+        - "CONSENT_UNKNOWN"           #gen
+        - "SERVICE_BLOCKED"           #gen
+        - "RESOURCE_UNKNOWN"          #gen
+        - "RESOURCE_EXPIRED"          #gen
+
+
+    MessageCode404:
+      description: Message codes defined for HTTP Error code 404 (NOT FOUND).
+      type: string
+      enum:
+        - "RESOURCE_UNKNOWN"          #gens
+
+    MessageCode405:
+      description: Message codes defined for HTTP Error code 405 (METHOD NOT ALLOWED).
+      type: string
+      enum:
+        - "SERVICE_INVALID"           #gens
+
+
+    MessageCode406:
+      description: Message codes defined for HTTP Error code 406 (NOT ACCEPTABLE).
+      type: string
+      enum:
+        - "REQUESTED_FORMATS_INVALID"  #IOBWS
+
+    MessageCode409:
+      description: Message codes defined for HTTP Error code 409 (CONFLICT).
+      type: string
+      enum:
+        - "STATUS_INVALID"            #gen
+
+    MessageCode429:
+      description: Message codes for HTTP Error code 429 (TOO MANY REQUESTS).
+      type: string
+      enum:
+        - "ACCESS_EXCEEDED"           #IOBWS
+
+
+  #####################################################
+  # IOBWS scoped SVC-messages
+  #####################################################
+
+
+    messageText:
+      description: Additional explaining text to the intermediary service.
+      type: string
+      maxLength: 500
+
+
+    message400:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/messageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode400"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/messageText"
+          
+
+    message401:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/messageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode401"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/messageText"
+
+
+    message403:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/messageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode403"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/messageText"
+
+
+    message404:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/messageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode404"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/messageText"
+
+    message405:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/messageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode405"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/messageText"
+
+    message406:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/messageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode406"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/messageText"
+
+    message409:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/messageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode409"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/messageText"
+
+    message429:
+      type: object
+      required:
+        - category
+        - code
+      properties:
+        category:
+           $ref: "#/components/schemas/messageCategory"
+        code:
+          $ref: "#/components/schemas/MessageCode429"
+        path:
+          type: string
+        text:
+          $ref: "#/components/schemas/messageText"
+
+
+  #####################################################
+  # RFC7807 Messages
+  #####################################################
+
+    errorTitle:
+      description: |
+        Short human readable description of error type.
+        Could be in local language.
+        To be provided by Banks.
+      type: string
+      maxLength: 70
+
+    errorDetail:
+      description: |
+        Detailed human readable text specific to this instance of the error.
+        XPath might be used to point to the issue generating the error in addition.
+        Remark for Future: In future, a dedicated field might be introduced for the XPath.
+      type: string
+      maxLength: 500
+
+
+
+
+  #####################################################
+  # RFC7807 Messages
+  #####################################################
+
+
+    Error400:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 400.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by Banks.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode400"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/errorTitle"
+              detail:
+                $ref: "#/components/schemas/errorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode400"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error401:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 401.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by Banks.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode401"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/errorTitle"
+              detail:
+                $ref: "#/components/schemas/errorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode401"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error403:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 403.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by Banks.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode403"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/errorTitle"
+              detail:
+                $ref: "#/components/schemas/errorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode403"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error404:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 404.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by Banks.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode404"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/errorTitle"
+              detail:
+                $ref: "#/components/schemas/errorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode404"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error405:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 405.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by Banks.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode405"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/errorTitle"
+              detail:
+                $ref: "#/components/schemas/errorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode405"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error406:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 406.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by Banks.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode406"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/errorTitle"
+              detail:
+                $ref: "#/components/schemas/errorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode406"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+
+    Error409:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 409.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by Banks.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode409"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: This is a data element to support the declaration of additional errors in the context of [RFC7807].
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/errorTitle"
+              detail:
+                $ref: "#/components/schemas/errorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode409"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error429:
+      description: |
+        Standardised definition of reporting error information according to [RFC7807]
+        in case of a HTTP error code 429.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+            These URI will be provided by IOBWS as part of future technical specifications.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+            Could be in local language.
+            To be provided by Banks.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+            XPath might be used to point to the issue generating the error in addition.
+            Remark for Future: In future, a dedicated field might be introduced for the XPath.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode429"
+        additionalErrors:
+          description: |
+            Array of Error Information Blocks.
+
+            Might be used if more than one error is to be communicated
+          type: array
+          items: #ErrorInformation
+            description: |
+              This is a data element to support the declaration of additional errors in the context of [RFC7807]
+              in case of a HTTP error code 429 for.
+            type: object
+            required:
+              - code
+            properties:
+              title:
+                $ref: "#/components/schemas/errorTitle"
+              detail:
+                $ref: "#/components/schemas/errorDetail"
+              code:
+                $ref: "#/components/schemas/MessageCode429"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+      #example:
+        #$ref: "#/components/examples/RFC7807_ErrorInfoBody"
+
+
+    Error400_IOBWS:
+      description: |
+        IOBWS specific definition of reporting error information in case of a HTTP error code 400.
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/message400"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error401_IOBWS:
+      description: |
+        IOBWS specific definition of reporting error information in case of a HTTP error code 401.
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/message401"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error403_IOBWS:
+      description: |
+        IOBWS specific definition of reporting error information in case of a HTTP error code 403.
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/message403"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error404_IOBWS:
+      description: |
+        IOBWS specific definition of reporting error information in case of a HTTP error code 404.
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/message404"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+          
+    Error405_IOBWS:
+      description: |
+        IOBWS specific definition of reporting error information in case of a HTTP error code 401.
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/message405"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error406_IOBWS:
+      description: |
+        IOBWS specific definition of reporting error information in case of a HTTP error code 406.
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/message406"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+
+    Error409_IOBWS:
+      description: |
+        IOBWS specific definition of reporting error information in case of a HTTP error code 409.
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/message409"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+      example:
+        {
+          "category": "ERROR",
+          "code": "STATUS_INVALID",
+          "text": "additional text information of the Bank up to 500 characters"
+        }
+
+    Error429_IOBWS:
+      description: |
+        IOBWS specific definition of reporting error information in case of a HTTP error code 429.
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/message429"
+        _links:
+          $ref: "#/components/schemas/_linksAll"
+      example:
+        {
+          "category": "ERROR",
+          "code": "ACCESS_EXCEEDED",
+          "text": "additional text information of the Bank up to 500 characters"
+        }
+
+    cardId:
+      description: |
+        Uniquie identifier for card
+      type: string
+      maxLength: 35
+
+    currencyCode:
+      description: |
+        ISO 4217 Alpha 3 currency code.
+      type: string
+      pattern: '[A-Z]{3}'
+      example: "EUR"
+
+  parameters:
+  #####################################################
+  # Predefined Parameters
+  #####################################################
+    
+    consentId_HEADER:
+      name: Consent-ID
+      in: header
+      description: |
+        This data element may be contained, if the session is part of a intermediary service interaction where the user
+        has previously granted his consent for data retrieval or resource update.
+      required: false
+      schema:
+        $ref: "#/components/schemas/consentId"
+
+    card-id:
+      name: card-id
+      in: path
+      description: |
+        This identification is denoting the addressed card. The card-id is retrieved by using a "Read Card List" call.
+        The card-id is the "resourceId" attribute of the card structure. Its value is constant at least throughout the lifecycle
+        of a given consent.
+      required: true
+      schema:
+        $ref: "#/components/schemas/cardId"
+
+    Authorization:
+      name: Authorization
+      in: header
+      description: |
+        This field  might be used in case where access was granted between Bank and user through an OAuth2 based protocol,
+        optionally facilitated by an intermediary service.
+      required: false
+      schema:
+        $ref: "#/components/schemas/authorization"
+
+    dateFrom:
+      name: dateFrom
+      in: query
+      description: |
+        Conditional: Starting date (inclusive the date dateFrom) of the expected list, mandated if no delta access is required
+        and if bookingStatus does not equal "information.
+
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
+
+      required: false
+      schema:
+        type: string
+        format: date
+
+    dateTo:
+      name: dateTo
+      in: query
+      description: |
+        End date (inclusive the data dateTo) of the expected list, default is "now" if not given.
+
+        Might be ignored if a delta function is used.
+
+        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
+
+      required: false
+      schema:
+        type: string
+        format: date
+
+    bookingStatus:
+      name: bookingStatus
+      in: query
+      description: |
+        Permitted codes are
+          * "information",
+          * "booked",
+          * "pending", and
+          * "both"
+        "booked" shall be supported by the Bank.
+        To support the "pending" and "both" feature is optional for the Bank,
+        Error code if not supported in the online banking frontend
+      required: true
+      schema:
+        type: string
+        enum:
+          - "information"
+          - "booked"
+          - "pending"
+          - "both"
+
+    deltaList:
+      name: deltaList
+      in: query
+      description:
+        This data attribute is indicating that the intermediary service or user is in favour to get all transactions after the last report access
+        for this user on the addressed account.
+        This is another implementation of a delta access-report.
+
+        This delta indicator might be rejected by the Bank if this function is not supported.
+
+      schema:
+        type: boolean
+
+    X-Request-ID:
+      name: X-Request-ID
+      in: header
+      description: ID of the request, unique to the call, as determined by the initiating party.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+    
+    Digest:
+      name: Digest
+      in: header
+      description: Is contained if and only if the "Signature" element is contained in the header of the request.
+      schema:
+        type: string
+      required: false # conditional
+      example: "SHA-256=hl1/Eps8BEQW58FJhDApwJXjGY4nr1ArGDHIT25vq6A="
+
+
+    Signature:
+      name: Signature
+      in: header
+      description: |
+        A signature of the request by the TPP on application level. This might be mandated by ASPSP.
+      schema:
+        type: string
+      required: false # conditional
+      example: >
+        keyId="SN=9FA1,CA=CN=D-TRUST%20CA%202-1%202015,O=D-Trust%20GmbH,C=DE",algorithm="rsa-sha256",
+        headers="Digest X-Request-ID PSU-ID TPP-Redirect-URI Date",
+        signature="Base64(RSA-SHA256(signing string))"
+
+    Signature-Certificate:
+      name: SVC-Signature-Certificate
+      in: header
+      description: |
+        The certificate used for signing the request, in base64 encoding.
+        Must be contained if a signature is contained.
+      schema:
+        type: string
+        format: byte
+      required: false # conditional
+      
+
+    USR-IP-Address_optional:
+      name: USR-IP-Address
+      in: header
+      description: |
+        The forwarded IP Address header field consists of the corresponding http request IP Address field between user and intermediary service.
+      schema:
+        type: string
+        format: ipv4
+      required: false
+      example: 192.168.8.78
+    
+
+    USR-IP-Port:
+      name: PSU-IP-Port
+      in: header
+      description: |
+        The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.
+      schema:
+        type: string
+      required: false
+      example: "1234"
+
+    USR-Accept:
+      name: USR-Accept
+      in: header
+      description: |
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
+      schema:
+        type: string
+      required: false
+
+    USR-Accept-Charset:
+      name: USR-Accept-Charset
+      in: header
+      description: |
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
+      schema:
+        type: string
+      required: false
+
+    USR-Accept-Encoding:
+      name: USR-Accept-Encoding
+      in: header
+      description: |
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
+      schema:
+        type: string
+      required: false
+
+    USR-Accept-Language:
+      name: USR-Accept-Language
+      in: header
+      description: |
+        The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between user and intermediary service, if available.
+      schema:
+        type: string
+      required: false
+
+    USR-User-Agent:
+      name: USR-User-Agent
+      in: header
+      description: |
+        The forwarded Agent header field of the HTTP request between user and intermediary service, if available.
+      schema:
+        type: string
+      required: false
+
+    USR-Http-Method:
+      name: USR-Http-Method
+      in: header
+      description: |
+        HTTP method used at the user and intermediary service interface, if available.
+        Valid values are:
+        * GET
+        * POST
+        * PUT
+        * PATCH
+        * DELETE
+      schema:
+        type: string
+        enum:
+          - "GET"
+          - "POST"
+          - "PUT"
+          - "PATCH"
+          - "DELETE"
+      required: false
+
+    USR-Device-ID:
+      name: USR-Device-ID
+      in: header
+      description: |
+        UUID (Universally Unique Identifier) for a device, which is used by the intermediary service, if available.
+        UUID identifies either a device or a device dependant application installation.
+        In case of an installation identification this ID needs to be unaltered until removal from device.
+      schema:
+        type: string
+        format: uuid
+      required: false
+      example: "99435c7e-ad88-49ec-a2ad-99ddcb1f5555"
+
+    USR-Geo-Location:
+      name: USR-Geo-Location
+      in: header
+      description: |
+        The forwarded Geo Location of the corresponding http request between user and intermediary service if available.
+      schema:
+        type: string
+        pattern: 'GEO:-?[0-9]{1,2}\.[0-9]{6};-?[0-9]{1,3}\.[0-9]{6}'
+      required: false
+      example: GEO:52.506931;13.144558
+
+  # requestBodies:
+  #####################################################
+  # Reusable Request Bodies
+  #####################################################
+
+
+  headers:
+  #####################################################
+  # Reusable Response Header Elements
+  #####################################################
+
+    X-Request-ID:
+      description: ID of the request, unique to the call, as determined by the initiating party.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+
+    Location:
+      description: |
+        Location of the created resource.
+      schema:
+        type: string
+        format: url
+      required: false
+
+    #conditional for extended service lean push
+    IOBWS-Notification-Support:
+      description: |
+        true if the Bank supports resource status notification services.
+
+        false if the Bank supports resource status notification in general, but not for the current request.
+
+        Not used, if resource status notification services are generally not supported by the Bank.
+
+        Shall be supported if the Bank supports resource status notification services.
+      schema:
+        type: boolean
+      required: false
+  responses:
+  #####################################################
+  # Reusabale Responses
+  #####################################################
+    #####################################################
+    # Positive Responses
+    #####################################################
+
+    OK_200_CARDS:
+      description: OK
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/readCardListResponse-200_json"
+          examples:
+            example:
+              $ref: "#/components/examples/readCardListResponse-200_json_Example"
+
+    OK_200_CARDDETAILS:
+      description: OK
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/readCardDetailsResponse-200_json"
+          examples:
+            "Example 1 (standard card)":
+              $ref: "#/components/examples/readCardDetailsResponse-200_json_Example1"
+            "Example 2 (multicurrency card with balances)":
+              $ref: "#/components/examples/readCardDetailsResponse-200_json_Example2"
+
+    OK_200_CARDBALANCES:
+      description: OK
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/readCardBalancesResponse-200_json"
+          examples:
+            "Example 1: Example on current balance only":
+              $ref: "#/components/examples/readCardBalancesResponse-200_json_Example1"
+            "Example 2: Example on booked balances of the past requested in addition":
+              $ref: "#/components/examples/readCardBalancesResponse-200_json_Example2"
+
+    OK_200_CARDTRANSACTIONS:
+      description: OK
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/readCardTransactionsResponse-200_json"
+          examples:
+            example:
+              $ref: "#/components/examples/readCardTransactionsResponse-200_json_Example"
+              
+    #####################################################
+    # Negative Responses
+    #####################################################
+
+    BAD_REQUEST_400:
+      description: Bad Request
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error400_IOBWS"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error400"
+
+    UNAUTHORIZED_401:
+      description: Unauthorized
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error401_IOBWS"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error401"
+
+    FORBIDDEN_403:
+      description: Forbidden
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error403_IOBWS"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error403"
+
+    NOT_FOUND_404:
+      description: Not found
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error404_IOBWS"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error404"
+
+    METHOD_NOT_ALLOWED_405:
+      description: Method Not Allowed
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error405_IOBWS"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error405"
+
+    NOT_ACCEPTABLE_406:
+      description: Not Acceptable
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error406_IOBWS"
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error406"
+
+    REQUEST_TIMEOUT_408:
+      description: Request Timeout
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #No Response body because there are no valid message codes in case of HTTP code 408
+
+    UNSUPPORTED_MEDIA_TYPE_415:
+      description: Unsupported Media Type
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #No Response body because there are no valid message codes in case of HTTP code 415
+
+    TOO_MANY_REQUESTS_429:
+      description: Too Many Requests
+
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error429_IOBWS"
+        application/problem+json:
+
+          schema:
+             $ref: "#/components/schemas/Error429"
+
+    INTERNAL_SERVER_ERROR_500:
+      description: Internal Server Error
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #No Response body because there are no valid message codes in case of HTTP code 500
+
+    SERVICE_UNAVAILABLE_503:
+      description: Service Unavailable
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      #No Response body because there are no valid message codes in case of HTTP code 503
+
+  examples:
+  #####################################################
+  # Predefined Examples
+  #####################################################
+
+    readCardListResponse-200_json_Example:
+      description: Read card list.
+      value:
+        {
+          "cards": [
+            {
+              "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b99",
+              "maskedPan": "525412******3241",
+              "currency": "ISK",
+              "ownerName": "Ísland ÞÍ Ögrum",
+              "ownerId": "1112559009",
+              "expDate": "08/22",
+              "issueDate": "2019-08-24",
+              "cardholderName": "Ýr ÞÍ Ægisdóttir",
+              "cardholderId": "0412559009",
+              "panId": "4324234234234",
+              "bank": "0999",
+              "name": "Gold Card",
+              "displayName": "Gull kreditkort",
+              "product": "Payment Card",
+              "status": "enabled",
+              "usage": "PRIV",
+              "details": "Gullkort",
+              "creditLimit": {
+              "currency": "ISK",
+              "amount": "5000"
+            },
+              "balances": [
+                {
+                  "balanceType": "interimBooked",
+                  "balanceAmount": { "currency": "ISK", "amount": "1390.00" }
+                },
+                {
+                "balanceType": "interimAvailable",
+                "creditLimitIncluded": true,
+                "balanceAmount": { "currency": "ISK", "amount": "3609.00" }
+              }
+            ]
+          },
+          {
+            "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b98",
+            "maskedPan": "525412******3242",
+            "currency": "EUR",
+            "ownerName": "Ísland ÞÍ Ögrum",
+            "ownerId": "1112559009",
+            "expDate": "08/22",
+            "name": "Platinum Card",
+            "cardholderName": "Iða ÞÍ Örlygsdóttir",
+            "cardholderId": "0202404009",
+            "product": "Payment Card",
+            "status": "enabled",
+            "creditLimit": { "currency": "EUR", "amount": "5000" },
+            "balances": [
+              {
+                "balanceType": "interimBooked",
+                "balanceAmount": { "currency": "EUR", "amount": "559.10" }
+              },{
+                "balanceType": "interimAvailable",
+                "creditLimitIncluded": true,
+                "balanceAmount": { "currency": "EUR", "amount": "4440.90" }
+              }
+            ]
+          }
+        ]
+      }
+
+    readCardDetailsResponse-200_json_Example1:
+      description: Read card details.
+      value:
+        {
+          "card": {
+            "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b99",
+            "maskedPan": "525412******3241",
+            "currency": "ISK",
+            "ownerName": "Ýr ÞÍ Ægisdóttir",
+            "ownerId": "1112559009",
+            "expDate": "08/22",
+            "issueDate": "2019-08-24",
+            "cardholderName": "Ýr ÞÍ Ægisdóttir",
+            "cardholderId": "1112559009",
+            "panId": "4324234234234",
+            "bank": "0999",
+            "name": "Gold Card",
+            "displayName": "Gull kreditkort",
+            "product": "Payments Card",
+            "status": "enabled",
+            "usage": "PRIV",
+            "details": "Gullkort",
+            "creditLimit": {
+            "currency": "ISK",
+            "amount": "5000"
+            },
+            "balances": [
+              {
+                "balanceType": "interimBooked",
+                "balanceAmount": {
+                  "currency": "ISK",
+                  "amount": "1390.10"
+                }
+              },
+              {
+                "balanceType": "interimAvailable",
+                "creditLimitIncluded": true,
+                "balanceAmount": {
+                  "currency": "ISK",
+                  "amount": "3609.90"
+                }
+              }
+            ],
+            "_links": {
+              "self": {
+                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99"
+              },
+              "cardTransactions": {
+                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
+              }
+            }
+          }
+        }
+
+    readCardDetailsResponse-200_json_Example2:
+      description: Read card details.
+      value:
+        {
+          "card": {
+            "resourceId": "4d9a81b3-a47d-4130-8765-a9c0ff861b99",
+            "maskedPan": "525412******3241",
+            "currency": "XXX",
+            "name": "Main",
+            "expDate": "08/22",
+            "issueDate": "2019-08-24",
+            "cardholderName": "Ýr ÞÍ Ægisdóttir",
+            "product": "Basic Credit Card",
+            "status": "enabled",
+            "creditLimit": {
+              "currency": "EUR",
+              "amount": "5000"
+            },
+            "balances": [
+              {
+                "balanceType": "interimBooked",
+                "balanceAmount": {
+                  "currency": "EUR",
+                  "amount": "1390.10"
+                }
+              },
+              {
+                "balanceType": "interimAvailable",
+                "creditLimitIncluded": true,
+                "balanceAmount": {
+                  "currency": "EUR",
+                  "amount": "3155.17"
+                }
+              },
+              {
+                "balanceType": "interimBooked",
+                "balanceAmount": {
+                  "currency": "USD",
+                  "amount": "500.20"
+                }
+              },
+              {
+                "balanceType": "interimAvailable",
+                "creditLimitIncluded": true,
+                "balanceAmount": {
+                  "currency": "EUR",
+                  "amount": "3470.69"
+                }
+              }
+            ],
+            "_links": {
+              "self": {
+                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99"
+              },
+              "cardTransactions": {
+                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
+              },
+              "balances": {
+                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/balances"
+              }
+            }
+          }
+        }
+
+    readCardBalancesResponse-200_json_Example1:
+      description: |
+        Read card balances.
+        Example on current balance only
+      value:
+        {
+          "card": {"maskedPan": "525412******3241"},
+          "balances":
+            [
+              {
+                "balanceAmount":
+                  {
+                    "currency": "EUR",
+                    "amount": "5654.22"
+                  },
+                "balanceType": "interimAvailable",
+                "creditLimitIncluded": true
+              },
+              {
+                "balanceAmount":
+                  {
+                    "currency": "EUR",
+                    "amount": "-4355.78"
+                  },
+                "balanceType": "interimBooked"
+              }
+            ]
+          }
+
+    readCardBalancesResponse-200_json_Example2:
+      description: |
+        Read card balances.
+        Example on booked balances of the past requested in addition
+      value:
+        {
+          "card": {"maskedPan": "525412******3241"},
+          "balances":
+            [
+              {
+                "balanceAmount": { "currency": "EUR", "amount": "5654.22" },
+                "balanceType": "interimAvailable",
+                "creditLimitIncluded": true,
+              },
+              {
+                "balanceAmount":
+                  {
+                    "currency": "EUR",
+                    "amount": "-4355.78"
+                  },
+                "balanceType": "interimBooked"
+              },
+              {
+                "balanceAmount":
+                  {
+                    "currency": "EUR",
+                    "amount": "-2255.45"
+                  },
+                "balanceType": "closingBooked",
+                "referenceDate": "2020-06-30"
+              },
+              {
+                "balanceAmount":
+                  {
+                    "currency": "EUR",
+                    "amount": "-1234.56"
+                  },
+                "balanceType": "closingBooked",
+                "referenceDate": "2020-07-31"
+              },
+              {
+                "balanceAmount":
+                  {
+                    "currency": "EUR",
+                    "amount": "-234.01"
+                  },
+                "balanceType": "closingBooked",
+                "referenceDate": "2020-08-31"
+               }
+            ]
+        }
+
+    readCardTransactionsResponse-200_json_Example:
+      description: Read card transaction list.
+      value:
+        {
+          "card": {
+            "maskedPan": "525412******3241",
+            "currency": "ISK"
+          },
+          "cardTransactions": {
+            "booked": [
+              {
+                "cardTransactionId": "201710020036959",
+                "transactionAmount": {
+                  "currency": "EUR",
+                  "amount": "256.67"
+                },
+                "transactionDate": "2017-10-25",
+                "bookingDate": "2017-10-26",
+                "originalAmount": {
+                  "currency": "SEK",
+                  "amount": "2499"
+                },
+                "cardAcceptorAddress": {
+                  "townName": "STOCKHOLM",
+                  "country": "SE"
+                },
+                "proprietaryBankTransactionCode": "PURCHASE",
+                "invoiced": false,
+                "transactionDetails": "WIFIMARKET.SE"
+              },
+              {
+                "cardTransactionId": "201710020091863",
+                "transactionAmount": {
+                  "currency": "EUR",
+                  "amount": "10.72"
+                },
+                "transactionDate": "2017-10-25",
+                "bookingDate": "2017-10-26",
+                "originalAmount": {
+                  "currency": "SEK",
+                  "amount": "99"
+                },
+                "cardAcceptorAddress": {
+                  "townName": "STOCKHOLM",
+                  "country": "SE"
+                },
+                "proprietaryBankTransactionCode": "PURCHASE",
+                "invoiced": false,
+                "transactionDetails": "ICA SUPERMARKET SKOGHA"
+              }
+            ],
+            "pending": [],
+            "_links": {
+              "download": {
+                "href": "/v1/cards/4d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions/download"
+              }
+            }
+          }
+        }
+
+
+security:
+  #####################################################
+  # Global security options
+  #####################################################
+  - {}
+
+
+tags:
+  #####################################################
+  # Predefined Tags to Group Methods
+  #####################################################
+
+  - name: Card Information Service (CIS)
+    description: |
+      The debit and credit card details and statements information service offers the following services:
+        * A list of available cards
+        * Details for a given card
+        * Balances of a given card
+        * Transactions of a given card

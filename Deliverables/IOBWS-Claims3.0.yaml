@@ -20,6 +20,11 @@ info:
     url: https://www.stadlar.is
     email: stadlar@stadlar.is
 
+servers:
+  - url: https://claims.example.com
+    description: Example production server
+  - url: https://claims-sandbox.example.com
+    description: Sandbox server for testing
 paths:
 
   #####################################################

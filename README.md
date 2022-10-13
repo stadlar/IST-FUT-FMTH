@@ -31,6 +31,8 @@ When it came time to upgrade the standard to version 3.0 of IOBWS, the participa
 <!-- GETTING STARTED -->
 ## Getting Started
 
+The documentation for the currently published standards is to be found in the Deliverables folder of this repository. It consists of OpenAPI compatible YAML specifications for the endpoints and schema types, accompanied by the matching PDF Technical Specification documentation. 
+
 Official version of the technical standards and workshop agreements is available from Staðlaráð Íslands as follows:
 
 * [Technical specification – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-310-2022)
@@ -78,20 +80,19 @@ Redocly e.g. under Docker as an alternative to installing the NPM tool:
 docker run --rm -v $PWD:/spec redocly/openapi-cli lint 'Deliverables/IOBWS3.0.yaml'
 ```
 
-Many of the warnings generated for the IOBWS3.x.yaml are due to issues with the original Berlin Group NextGen definition. To mitigate this an ignore file has 
-been added in the root of the project to communicate to the linter which warnings can be overlooked. Please try to address all the additional issues created by your 
-additions or changes before pushing a new update.
-Also helpful when submitting changes is reviewing the API in a UI editor to determine if the presentation is transparent for the target consumers.
-One of the most approachable editors, that also offers methods for code generation, is the OSS SwaggerAPI editor, again able to run in Docker:
+Many of the warnings generated for the IOBWS3.x.yaml are due to issues with the original Berlin Group NextGen definition. To mitigate this an ignore file has been added in the root of the project to communicate to the linter which warnings can be overlooked. Please try to address all the additional issues created by your additions or changes before pushing a new update.
+Also helpful when submitting changes is reviewing the API in a UI editor to determine if the presentation is transparent for the target consumers One of the most approachable editors, that also offers methods for code generation, is the OSS SwaggerAPI editor, again able to run in Docker:
 
 ```bash
 docker run --rm -d -p 8044:8080 --name="openapigui" -e SWAGGER_FILE=/tmp/Deliverables/IOBWS3.0.yaml -v $PWD:/tmp swaggerapi/swagger-editor
 ```
 
+The text of the technical specifications is mostly maintained as Markdown documents in the docs folder and can be updated along with changes to OpenAPI specifications, as long as some basic Markdown formatting is maintained to support conversion to PDF using Pandoc and LaTeX. 
+
 <!-- LICENSE -->
 ## License and Attribution
 
-The YAML artifacts are distributed under the Creative Commons Attribution 4.0 International Public License (CC BY 4.0). See [LICENSE](LICENSE.txt) for more information. This aligns the WA 310/TS 310/TS313 OpenAPI definitions with the Berlin Group NextGenPSD2 standard that they are based on. The YAML specifications are also in part an update to the previous IOBWS technical standards that referenced the MIT license with similar open permissions for commercial use, distribution, and private use. They can therefore be used by stakeholders as long as attribution is respected. The most immediate  predecessors are as follows in the table below:
+The YAML artifacts are distributed under the Creative Commons Attribution 4.0 International Public License (CC BY 4.0). See [LICENSE](LICENSE.txt) for more information. This aligns the WA 310,TS 310 and TS 313 OpenAPI definitions with the Berlin Group NextGenPSD2 standard that they are based on. The YAML specifications are also in part an update to the previous IOBWS technical standards that referenced the MIT license with similar open permissions for commercial use, distribution, and private use. They can therefore be used by stakeholders as long as attribution is respected. The most immediate  predecessors are as follows in the table below:
 
 | Previous Specification                                         | New Specification |
 |----------------------------------------------------------------|--------------------------------|

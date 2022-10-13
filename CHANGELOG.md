@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.7] - 2022-09-XX
+## [3.0.7+update] - 2022-10-12
+
+- Claims documents had not been added and this was amended, while also cleaning up older deliverables by request of FUT.
+  
+## [3.0.7] - 2022-09-30
 
 - Point release of TS 314 after validation and updates by workgroup 8:
 - [TS 314:2022 Documents](Deliverables/%C3%8DST-TS-314_2021%20Documents.pdf) (replaces TS 314:2021)

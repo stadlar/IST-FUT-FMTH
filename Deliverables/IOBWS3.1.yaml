@@ -1,16 +1,16 @@
 openapi: 3.0.1
 info:
   title: IOBWS 3.0 Payments and accounts
-  version: "3.0"
+  version: "3.1"
   description: |
     # Summary
-    This document forms the basis for version 3.0 of the Icelandic Online Banking Services (IOBWS), released as a
+    This document forms the basis for version 3.2 of the Icelandic Online Banking Services (IOBWS), released as a
     technical specification (TS) no. 310 by the Icelandic Standards Council. Previous versions of IOBWS, released
     in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards to establish common banking
     interfaces for the Icelandic market. They specified strict security requirements involving a combination of 
     WS-Security X.509 Binary Security and Username tokens, making implementations on some platforms and frameworks
     cumbersome, especially when third party service providers are involved. In the meantime new technology standards
-    have emerged and Europe been catching up to Iceland. The aim in v3.0 is to therefore to merge with
+    have emerged and Europe been catching up to Iceland. The aim in v3.1 is to therefore to merge with
     the **NextGenPSD2** *Framework Version 1.3.8*, to offer a modern, open, harmonised and interoperable set of
     Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.
     The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards 

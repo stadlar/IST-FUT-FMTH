@@ -4,6 +4,8 @@ context_short: "domestic payments and deposits"
 finaldraft_date: "2022-03-29"
 approve_date: "2022-04-25"
 publication_date: "2022-04-25"
+yaml_definition: "IOBWS3.1.yaml"
+ts_version: "3.1"
 funding_paragraph: |
   The work on the ÍST TS was primarily funded by Arion Banki, Íslandsbanki and Landsbankinn. It is the result of the workgroup TN-FMÞ-VH-8. In part, the work is based on the earlier workshop agreement WA-310 authored by TN-FMÞ-VH-2 on Technical Requirements, and TN-FMÞ-VH-1 on Business Requirements, with the participation of an external consultant. 
   WA-310 was approved within TN-FMÞ on 2019-12-12. 

@@ -35,10 +35,10 @@ The documentation for the currently published standards is to be found in the De
 
 Official version of the technical standards and workshop agreements is available from Staðlaráð Íslands as follows:
 
-* [Technical specification – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-310-2022)
+* [Technical specification – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-310-2023)
 * [Technical specification - Debit and credit cards details and statements](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-311-2022)
 * [Technical specification - Currency exchange rates](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-312-2022)
-* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2022)
+* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2023)
 * [Technical specification - Documents](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-314-2022)
 * [Technical specification - Claims](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-315-2022)
 * [Workshop Agreement - IOBWS version 3 Technical Guidelines](https://stadlar.is/stadlabudin/vara/?ProductName=IST-WA-316-2022)
@@ -77,7 +77,7 @@ submitting a pull request. An easy way to accomplish this is using the open-sour
 Redocly e.g. under Docker as an alternative to installing the NPM tool:
 
 ```bash
-docker run --rm -v $PWD:/spec redocly/openapi-cli lint 'Deliverables/IOBWS3.0.yaml'
+docker run --rm -v $PWD:/spec redocly/openapi-cli lint 'Deliverables/IOBWS3.1.yaml'
 ```
 
 Many of the warnings generated for the IOBWS3.x.yaml are due to issues with the original Berlin Group NextGen definition. To mitigate this an ignore file has been added in the root of the project to communicate to the linter which warnings can be overlooked. Please try to address all the additional issues created by your additions or changes before pushing a new update.
@@ -97,12 +97,12 @@ The YAML artifacts are distributed under the Creative Commons Attribution 4.0 In
 | Previous Specification                                         | New Specification |
 |----------------------------------------------------------------|--------------------------------|
 | TS 160:2013 Gengi                                              | TS 312:2022 Currency (replaces TS 312:2021)         |    
-| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | TS 310:2022 Domestic payments and deposits  (replaces WA 310:2020)                |  
+| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | TS 310:2023 Domestic payments and deposits  (replaces 310:2022 and WA 310:2020)                |  
 | ---                                                            | TS 311:2022 Debit and credit cards details and statements (replaces TS 311:2021, new in IOBWS v3.0)                  |  
 | TS 162:2013 Innheimtukröfur<br>TS 163:2013 Milliinnheimta      | TS 315:2022 Claims                      |  
 | TS 165:2013 Rafræn skjöl                                       | TS 314:2022 Documents (replaces TS 314:2021)                    |  
 | TS 166:2013 Tæknilegar upplýsingar og villuboð                 | WA 316:2022 Technical Requirements       |  
-| ---                                                            | TS 313:2022 Foreign Payments  (replaces TS 313:2021)          |  
+| ---                                                            | TS 313:2022 Foreign Payments  (replaces TS 313:2022 and TS 313:2021)          |  
 
 
 <!-- CONTACT -->

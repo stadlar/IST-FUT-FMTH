@@ -1,4 +1,4 @@
-+lint:
+styleguide:
   rules:
     no-invalid-media-type-examples:
       severity: warn

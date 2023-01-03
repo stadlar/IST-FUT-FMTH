@@ -1,9 +1,9 @@
 spec_id: "TS-310"
 fulldoc_name: "ÍST TS 310_2022 Domestic payments and deposits.md"
 context_short: "domestic payments and deposits"
-finaldraft_date: "2022-03-29"
-approve_date: "2022-04-25"
-publication_date: "2022-04-25"
+finaldraft_date: "2022-11-30"
+approve_date: "2023-01-06"
+publication_date: "2023-01-14"
 yaml_definition: "IOBWS3.1.yaml"
 ts_version: "3.1"
 funding_paragraph: |

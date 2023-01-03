@@ -1,7 +1,7 @@
 ---
-title: "ÍST TS 310:2022"
+title: "ÍST TS 310:2023"
 author: ICS 35.240
-date: "Entry into force 25-03-2022"
+date: "Entry into force 06-01-2023"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 310]
 subtitle: ["Tækniforskrift - Innlendar greiðslur og innlán", "Technical Specification - Domestic payments and deposits"]
@@ -44,7 +44,7 @@ titlefont: Arial.ttf
 
 # Foreword {.unnumbered}
 <!-- ForewordStart -->
-This ÍST Technical Specification was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnustofusamþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The TS (Technical specification) was prepared by the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardization) following a public call for participation within TN-FMÞ. The final draft was approved by TN-FMÞ on the {{finaldraft_date}} approved by FUT by correspondence on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
+This ÍST Technical Specification was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnustofusamþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The TS (Technical specification) was prepared by the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardization) following a public call for participation within TN-FMÞ. The final draft was approved by TN-FMÞ on the {{finaldraft_date}} approved by FUT on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
  
 The accompanying OpenAPI 3.0.1 definition "{{yaml_definition}}" located at [https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables](https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables), should be viewed as an integral part of ÍST {{spec_id}}. 
 

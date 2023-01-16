@@ -1,7 +1,7 @@
 ---
-title: "ÍST TS 310:2022"
+title: "ÍST TS 310:2023"
 author: ICS 35.240
-date: "Entry into force 25-03-2022"
+date: "Entry into force 06-01-2023"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 310]
 subtitle: ["Tækniforskrift - Innlendar greiðslur og innlán", "Technical Specification - Domestic payments and deposits"]
@@ -44,11 +44,11 @@ titlefont: Arial.ttf
 
 # Foreword {.unnumbered}
 <!-- ForewordStart -->
-This ÍST Technical Specification was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnustofusamþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The TS (Technical specification) was prepared by the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardization) following a public call for participation within TN-FMÞ. The final draft was approved by TN-FMÞ on the {{finaldraft_date}} approved by FUT by correspondence on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
+This ÍST Technical Specification was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnustofusamþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The TS (Technical specification) was prepared by the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardization) following a public call for participation within TN-FMÞ. The final draft was approved by TN-FMÞ on the {{finaldraft_date}} approved by FUT on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
  
-The accompanying OpenAPI 3.0.1 definition "IOBWS3.0.yaml" located at [https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables](https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables), should be viewed as an integral part of ÍST {{spec_id}}. 
+The accompanying OpenAPI 3.0.1 definition "{{yaml_definition}}" located at [https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables](https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables), should be viewed as an integral part of ÍST {{spec_id}}. 
 
-The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures to be laid out in the workshop agreement ÍST WA-316, IOBWS 3.0 Technical Guidelines. The rules are outlined in the README.md accompanying the Github Git repository and are accepted by the participants in TN-FMÞ alongside this specification. These guidelines establish the workgroup TN-FMÞ-VH-7 as in charge of monitoring submitted issues and pull requests made to the repository when they fall outside the purview of other regular workgroups. TN-FMÞ-VH-7 will evaluate if changes are ready to be accepted into the repository and when or if they warrant patches or minor releases to the specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme and each minor release will require a workgroup agreement under the "ÍST reglur" referenced above.
+The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures to be laid out in the workshop agreement ÍST WA-316, IOBWS 3.x Technical Guidelines. The rules are outlined in the README.md accompanying the Github Git repository and are accepted by the participants in TN-FMÞ alongside this specification. These guidelines establish the workgroup TN-FMÞ-VH-7 as in charge of monitoring submitted issues and pull requests made to the repository when they fall outside the purview of other regular workgroups. TN-FMÞ-VH-7 will evaluate if changes are ready to be accepted into the repository and when or if they warrant patches or minor releases to the specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme and each minor release will require a workgroup agreement under the "ÍST reglur" referenced above.
 
 {{funding_paragraph}}
 
@@ -65,7 +65,9 @@ The Technical Committee's participants have made every effort to ensure the reli
 # Introduction {.unnumbered}
 
 <!-- IntroductionStart -->
-This Technical Specification (TS) presents version 3.0 of the Icelandic Online Banking Services (IOBWS) for {{context_short}}.
+This Technical Specification (TS) presents version {{ts_version}} of the Icelandic Online Banking Services (IOBWS) for {{context_short}}.
+
+Version {{ts_version}} represents a minor update to the previously released v3.0 of ÍST {{spec_id}}. The reason for the update are inconsistencies in properties within the YAML that represent the same remittanceInformationStructuredArray.
 
 Previous versions of IOBWS, released in 2007 and 2013 respectively, used the OASIS SOAP standards which were current at the time to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises, and service providers to integrate their accounting, payment, and information systems with the bank's services, allowing them to act on behalf of the customers and with full access to their data.
 <!-- IntroductionEnd -->
@@ -79,7 +81,7 @@ Meanwhile, Europe and the broader market has been catching up and the Icelandic 
 <!-- Start1 -->
 The Open Banking regulation in the UK along with the PSD2 regulation issued by the European Parliament, has triggered initiatives to standardize access to payment functionality and account information on behalf of customers by third parties. One such effort, the NextGenPSD2 Framework developed by the Berlin Group [@NextGenPSD2], has been broadly accepted in the EEA. The data model references ISO 20022 [@ISO20022] and is close enough to the direction of the Icelandic market to make it suitable as the new base for the IOBWS, instead of maintaining an independent linage of API specifications.
 
-Another goal of the IOBWS version 3.0 charter, which was set forth by TN-FMÞ and achieved by adopting the NextGenPSD2 Framework, is the transition from SOAP to a REST-like API, which is defined by a recent iteration of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this should address some of the perceived complexity in adapting IOBWS to various use cases, platforms, and programming languages that have come to the forefront after the release of the previous IOBWS versions.
+Another goal of the original IOBWS version 3.0 charter, which was set forth by TN-FMÞ and achieved by adopting the NextGenPSD2 Framework, is the transition from SOAP to a REST-like API, which is defined by a recent iteration of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this should address some of the perceived complexity in adapting IOBWS to various use cases, platforms, and programming languages that have come to the forefront after the release of the previous IOBWS versions.
 <!-- End1 -->
 
 # Scope 
@@ -92,7 +94,7 @@ Another goal of the IOBWS version 3.0 charter, which was set forth by TN-FMÞ an
 Other ÍST Technical Specifications exist which address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST WA-316. As the consumption and implementation of each part of IOBWS are optional, the documents aim to be independent of each other.
 
 However, due to the origin of the underlying OpenAPI specification in the Berlin Group NextGenPSD2 Framework, ÍST TS-310 on Domestic Payments and Deposits and ÍST TS-313 on Foreign Payments overlap quite significantly. Both are based on the
-"[IOBWS3.0.yaml](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/IOBWS3.0.yaml)" 
+"[{{yaml_definition}}](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/{{yaml_definition}})" 
 definition document and share schema type and API service definitions. They will still be treated as separate entities, but stakeholders are advised to reference the other document if more context is required.
 
 The focus in ÍST {{spec_id}} is the following: the domestic adaptations to the relevant parts of the NextGenPSD2 framework; as well as the information needed to tie that to earlier IOBWS versions or other such implementations, including the Core Banking systems involved.
@@ -104,7 +106,7 @@ Out of necessity, the previous IOBWS technical specifications largely consisted 
 The expectation for ÍST {{spec_id}} is that the technical service definitions and JSON data schemas in the accompanying OpenAPI specification can be understood using utilities that can convert them into documentation or navigatable user interfaces.
 
 <!-- ScopeEndNoteStart -->
-Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetition of information found in the technical contract [IOBWS3.0.yaml](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/IOBWS3.0.yaml). Instead, the rest of the document focuses on the information needed to understand the domestic context of services, schema types and service flows in relation to the NextGenPSD2 framework, as well as what constitutes the common core required to implement ÍST {{spec_id}}.
+Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetition of information found in the technical contract [{{yaml_definition}}](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/{{yaml_definition}}). Instead, the rest of the document focuses on the information needed to understand the domestic context of services, schema types and service flows in relation to the NextGenPSD2 framework, as well as what constitutes the common core required to implement ÍST {{spec_id}}.
 <!-- ScopeEndNoteEnd -->
 
 # Normative references, definitions and data elements 
@@ -138,7 +140,7 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 
 As the ÍST {{spec_id}} owes much of its core to the NextGenPSD2 framework, the terms found in the OpenAPI specification and this document may reflect that background. Some of the main definitions are included here for context.  
 
-- **Payment Services Directive 2** (**PSD2**) was instituted by the European Parliament as EU 2015/2366 [@EU2015/2366] and meant to further open up payment services on the internal EEA market. It was introduced to Iceland law through act no. 2021/114 [@IS2021/114]. PSD2 contains regulations of new services to be operated by so-called Third-Party Payment Service Providers on behalf of a Payment Service User, by leveraging Strong Customer Authentication. Due to the lineage connecting PSD2 with IOBWS v3.0, the main terms are described:
+- **Payment Services Directive 2** (**PSD2**) was instituted by the European Parliament as EU 2015/2366 [@EU2015/2366] and meant to further open up payment services on the internal EEA market. It was introduced to Iceland law through act no. 2021/114 [@IS2021/114]. PSD2 contains regulations of new services to be operated by so-called Third-Party Payment Service Providers on behalf of a Payment Service User, by leveraging Strong Customer Authentication. Due to the lineage connecting PSD2 with IOBWS v{{ts_version}}, the main terms are described:
   - **Account Information Service Provider** (**AISP**) are *TPPs* with permission to connect to a transaction account and use the information to provide a **Account Information Services** (**AIS**) as defined in article 67 of EU 2015/2366 [@EU2015/2366].
   - **Confirmation of the Availability of Funds Service** is used by Payment Instrument Issuing Service Provider (PIISP) TPP as defined by article 65 of EU 2015/2366 [@EU2015/2366].
   - **Payment Initiation Service Provider** (**PISP**) can, given customers' consent, initiate payments and transactions on their behalf from their bank account, thereby providing **Payment Initiation Service** (**PIS**) as defined by article 66 of EU 2015/2366 [@EU2015/2366].
@@ -472,7 +474,7 @@ The [listing in @lst:bulk_response] shows an example of such a response.
 
 <!-- paymentInitiationDomesticBody_bulk-payments_with_status_json -->
 ```{.json caption="Example of bulk status response with errors on sub-elements." #lst:bulk_response}
-!include`startLine=15038, endLine=15103, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=15038, endLine=15103, dedent=7` "Deliverables/IOBWS3.1.yaml"
 ```
 
 # Accounts Service
@@ -483,7 +485,7 @@ When querying information about domestic accounts, there is an option to request
 
 <!-- balancesDomesticExample6_RegularAccount -->
 ```{.json caption="Example of information about an account with credit limit" #lst:accexample6}
-!include`startLine=14685, endLine=14701, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14685, endLine=14701, dedent=7` "Deliverables/IOBWS3.1.yaml"
 ```
 
 The definition of the transaction details returned as a list includes elements that are applicable to the broad range of use cases covered by the NextGenPSD2. [Table @tbl:transaction_domestic] has descriptions for the elements that are applicable to the domestic context which might need further explanation.
@@ -582,7 +584,7 @@ An example of how this would look for a domestic account is provided in [listing
 
 <!-- transactionsExampleDomestic4_RegularAccount_json -->
 ``` {.json caption="Example result of a transaction detail query." #lst:transexample}
-!include`startLine=14726, endLine=14759, dedent=7` "Deliverables/IOBWS3.0.yaml"
+!include`startLine=14726, endLine=14759, dedent=7` "Deliverables/IOBWS3.1.yaml"
 ```
 
 # Confirmation of Funds
@@ -863,9 +865,9 @@ As mentioned, one of the guiding principles for ÍST {{spec_id}} was to make the
 
 To make it even easier to do, see the deltas in e.g. text comparison tools, localized version of the source NextGenPSD2 API specifications are located in the appropriate "Stuðningsefni/Berlin-group/v.1.3.8" folder. Alongside that document, an intermediary document was created with some of the most common and repeated adaptations. The relationship between these documents looks like the following, though the actual filenames are longer:
 
-> psd2-api 1.3.8 <|-- psd2-api 1.3.8 localized <|-- IOBWS3.0.yaml
+> psd2-api 1.3.8 <|-- psd2-api 1.3.8 localized <|-- {{yaml_definition}}
 
-The 'localized' document makes comparison in the final IOBWS3.0.yaml more transparent. The following sections show the breakdown of *all adaptations* made for Icelandic payments and accounts:
+The 'localized' document makes comparison in the final {{yaml_definition}} more transparent. The following sections show the breakdown of *all adaptations* made for Icelandic payments and accounts:
 
 
 ### The localized file 
@@ -878,7 +880,7 @@ Changes between "psd2-api 1.3.8 2020-12-14v2.yaml" and "psd2-api 1.3.8 2020-12-1
 
 ### The IOWBS3.0 specification document
 
-Changes between "psd2-api 1.3.8 2020-12-14v2-localized.yaml" and "IOBWS3.0.yaml"  (see final in /Deliverables).
+Changes between "psd2-api 1.3.8 2020-12-14v2-localized.yaml" and "{{yaml_definition}}"  (see final in /Deliverables).
 
 **Services:**
 

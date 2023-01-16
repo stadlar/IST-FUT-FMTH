@@ -1,9 +1,11 @@
 spec_id: "TS-313"
-fulldoc_name: "ÍST TS 313_2022 Foreign payments.md"
+fulldoc_name: "ÍST TS 313_2023 Foreign payments.md"
 context_short: "foreign payments"
-finaldraft_date: "2022-03-29"
-approve_date: "2022-04-25"
-publication_date: "2022-04-25"
+finaldraft_date: "2022-11-30"
+approve_date: "2023-01-06"
+publication_date: "2023-01-14"
+yaml_definition: "IOBWS3.1.yaml"
+ts_version: "3.1"
 funding_paragraph: |
   The work on the ÍST TS-313 was primarily funded by Arion Banki, Íslandsbanki and 
   Landsbankinn, with participation by Alskil hf, Eignaumsjón hf, 

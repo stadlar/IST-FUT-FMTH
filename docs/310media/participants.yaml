@@ -1,5 +1,5 @@
 include-before: |
-  Participants in ÍST Workshop VH-8 during the development of Innlendar greiðslur og innlán (e. Domestic payments and deposits).
+  Participants in ÍST Workshop VH-8 during the development of Innlendar greiðslur og innlán (e. Domestic payments and deposits) and the 2023 revision.
 
   | Name                          | Company                    | Name                         | Company              |                              
   | ----------------------------- | -------------------------- | ---------------------------- | -------------------- |
@@ -10,7 +10,7 @@ include-before: |
   | Kristinn Stefánsson           | Arion banki                |  Steinar Þorbjörnsson        | Arion banki          |
   | Kristján Theódór Sigurðsson   | Arion banki                |  Sigurvin Sigurjónsson       | KPMG                 |
 
-  © Icelandic Standards (IST) 2020, 2022. All Rights Reserved.
+  © Icelandic Standards (IST) 2020, 2022, 2023. All Rights Reserved.
 
   Without the written permission of the publisher,  
   this technical specification document may not  
@@ -21,4 +21,4 @@ include-before: |
   agreement be disseminated through an electronic  
   database. 
     
-  1st edition
+  2nd edition

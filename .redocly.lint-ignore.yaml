@@ -1,7 +1,7 @@
-# This file instructs Redocly's linter to ignore warnings in IOBWS 3.0.
+# This file instructs Redocly's linter to ignore warnings in IOBWS 3.1.
 # as they are orgiginate in the Vinnusvæði/Stuðningsefni/Berlin-group/v.1.3.6/
 # contract or "psd2-api 1.3.6 2020-08-14.yaml"
-Deliverables/IOBWS3.0.yaml:
+Deliverables/IOBWS3.1.yaml:
   no-invalid-media-type-examples:
     - >-
       #/components/examples/paymentInitiationSctBody_periodic-payments_json/value/startDate

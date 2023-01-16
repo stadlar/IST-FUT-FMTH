@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2022-11-30
+
+- First minor version release of TS 310 and TS 313, identifies as version 3.1
+- Fix to issue #164, usage of property name remittanceInformationStructuredArray was not consistent. 
+- IOBWS3.1.yaml renamed to match minor version.
+- Documents TS 310, TS 311 updated.
+- README.MD updated in anticipation of new Technical Specification publication. 
+
 ## [3.0.7+update] - 2022-10-12
 
 - Claims documents had not been added and this was amended, while also cleaning up older deliverables by request of FUT.

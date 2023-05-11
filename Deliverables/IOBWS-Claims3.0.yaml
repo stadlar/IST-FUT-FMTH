@@ -1502,12 +1502,12 @@ components:
           format: date-time
           example: "2022-12-31T08:05:15Z"
 
-    mergeDetailList:
+    mergeClaimDetailsList:
       description: |
-        List of claim to be altered
+        List of claims to be altered
       type: array
       items:
-        $ref: "#/components/schemas/mergeClaimDetails"
+        $ref: "#/components/schemas/mergeClaimBatchDetails"
 
     mergeClaimDetails:
       description: |
@@ -1580,6 +1580,12 @@ components:
           $ref: "#/components/schemas/collectionState"
         printing:
           $ref: "#/components/schemas/printing"
+    
+    mergeClaimBatchDetails:
+      allOf: 
+        -  $ref: "#/components/schemas/mergeClaimDetails"
+      required: 
+        -  claimKey
 
 
     createClaimDetailList:
@@ -1676,18 +1682,21 @@ components:
         printing:
           $ref: "#/components/schemas/printing"
 
-    batchInitiation:
+    batchCreateInitiation:
       properties:
         createList:
           $ref: "#/components/schemas/createClaimDetailList"
+    
+    batchMergeInitiation:
+      properties:
         mergeList:
-          $ref: "#/components/schemas/mergeDetailList"
+          $ref: "#/components/schemas/mergeClaimDetailsList"
 
     # RESPONSES
 
-    patchStatus:
+    batchStatus:
       description: | 
-        Status of an batch initiation
+        Status of a batch initiation
       properties:
         batchId:
           $ref: "#/components/schemas/batchId"
@@ -1704,7 +1713,7 @@ components:
           type: string
           enum:
             - "create"
-            - "alter"
+            - "merge"
         actions:
           $ref: "#/components/schemas/claimStatusResponse"
 
@@ -2500,12 +2509,14 @@ components:
 
     batchInitiation:
       description: |
-        JSON request body for a list of actions inition request message
+        JSON request body for a list of create actions inition request message
       required: true
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/batchInitiation"
+            oneOf: 
+              - $ref: "#/components/schemas/batchCreateInitiation"
+              - $ref: "#/components/schemas/batchMergeInitiation"
 
     templateCode:
       description: |
@@ -2572,14 +2583,14 @@ components:
     #####################################################
 
     OK_20x_ActionResponse:
-      description: Patch created
+      description: Batch created
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/patchStatus"
+            $ref: "#/components/schemas/batchStatus"
           examples:
             "Example":
               $ref: "#/components/examples/patchBatch-200_Example"

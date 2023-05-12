@@ -1153,7 +1153,7 @@ components:
 
     dayAmountItem:
       description: |
-        For whether to use fix amount or calculate by percentage from claimAmount when calculating discount or charge.
+        For whether to use fixed amount or calculate by percentage from claimAmount when calculating discount or charge.
       properties:
         chargeType:
           type: string
@@ -1165,7 +1165,7 @@ components:
           minimum: 0
           maximum: 99
         value:
-          type: integer
+          type: number
 
     discount:
       description: |
@@ -1460,10 +1460,10 @@ components:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
           description: Other costs, including determined fees paid by the payer of a collection claim.
-          type: integer
+          type: number
         otherDefaultCosts:
           description: Determined fees, e.g. intermediate collection fee.
-          type: integer
+          type: number
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
         defaultInterest:
@@ -1546,10 +1546,10 @@ components:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
           description: Other costs, including determined fees paid by the payer of a collection claim.
-          type: integer
+          type: number
         otherDefaultCosts:
           description: Determined fees, e.g. intermediate collection fee.
-          type: integer
+          type: number
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
         defaultInterest:
@@ -1645,10 +1645,10 @@ components:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
           description: Other costs, including determined fees paid by the payer of a collection claim.
-          type: integer
+          type: number
         otherDefaultCosts:
           description: Determined fees, e.g. intermediate collection fee.
-          type: integer
+          type: number
         # rules
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
@@ -1835,13 +1835,13 @@ components:
             - "Refund"
         depositedAmount:
           description: The amount deposited at the creditor's account.
-          type: integer
+          type: number
         totalAmount:
           description: Total amount paid with accrued interest and fees.
-          type: integer
+          type: number
         capitalGainsTax:
           description: Deducted capital gains tax.
-          type: integer
+          type: number
         billNumber:
           description: |
             7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
@@ -1854,21 +1854,21 @@ components:
           type: string
           maxLength: 16
         noticeChargeAmount:
-          type: integer
+          type: number
         defaultChargeAmount:
-          type: integer
+          type: number
         otherCostsAmount:
           description: Otherwise cost to pay.
-          type: integer
+          type: number
         otherDefaultCostsAmount:
           description: Other default paid.
-          type: integer
+          type: number
         defaultInterestAmount:
           description: Amount of accrued penalty interest paid.
-          type: integer
+          type: number
         discountAmount:
           description: Discount that was granted when a claim was paid.
-          type: integer
+          type: number
         currency:
           type: string
           pattern: '[A-Z]{3}'

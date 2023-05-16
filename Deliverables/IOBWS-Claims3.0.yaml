@@ -1874,8 +1874,9 @@ components:
           pattern: '[A-Z]{3}'
         currencyExchange:
           $ref: "#/components/schemas/currencyExchangeRate"
-        batchId:
-          $ref: "#/components/schemas/batchId"
+        paymentBatchId:
+          description: The Id of the payment batch
+          type: string
 
     #####################################################
     # Standard messages

@@ -1418,26 +1418,26 @@ components:
         amount:
           description: Claim amount
           type: number
-        defaultChargeAmount:
-          description: Amount of default fees to be paid
+        defaultChargeAmountDue:
+          description: Amount of default charge to be paid
           type: number
-        defaultInterestAmount:
-          description: Amount of accrued penalty interest
+        defaultInterestAmountDue:
+          description: Amount of accrued penalty interests to be paid
           type: number
-        discountAmount:
+        discountAmountOffered:
           description: Discount that will be granted when a collection claim is paid based on status
           type: number
-        noticeChargeAmount:
-          description: Amount of notification fee to be paid.
+        noticeChargeAmountDue:
+          description: Amount of notification charge to be paid.
           type: number
-        otherCostsAmount:
-          description: Current other cost to pay
+        otherCostsAmountDue:
+          description: Current other costs to be paid
           type: number
-        otherDefaultCostsAmount:
-          description: Current other default costs to pay
+        otherDefaultCostsAmountDue:
+          description: Current other default costs to be paid
           type: number
         totalAmountDue:
-          description: Total amount of payment
+          description: Total amount to be paid
           type: number
         reference:
           $ref: "#/components/schemas/reference"
@@ -1458,10 +1458,10 @@ components:
           maxLength: 16
         paymentFee:
           $ref: "#/components/schemas/paymentFee"
-        otherCosts:
+        otherCostsAmount:
           description: Other costs, including determined fees paid by the payer of a collection claim.
           type: integer
-        otherDefaultCosts:
+        otherDefaultCostsAmount:
           description: Determined fees, e.g. intermediate collection fee.
           type: integer
         defaultCharge:
@@ -1544,10 +1544,10 @@ components:
           maxLength: 16
         paymentFee:
           $ref: "#/components/schemas/paymentFee"
-        otherCosts:
+        otherCostsAmount:
           description: Other costs, including determined fees paid by the payer of a collection claim.
           type: integer
-        otherDefaultCosts:
+        otherDefaultCostsAmount:
           description: Determined fees, e.g. intermediate collection fee.
           type: integer
         defaultCharge:
@@ -1643,10 +1643,10 @@ components:
           maxLength: 16
         paymentFee:
           $ref: "#/components/schemas/paymentFee"
-        otherCosts:
+        otherCostsAmount:
           description: Other costs, including determined fees paid by the payer of a collection claim.
           type: integer
-        otherDefaultCosts:
+        otherDefaultCostsAmount:
           description: Determined fees, e.g. intermediate collection fee.
           type: integer
         # rules
@@ -2961,12 +2961,12 @@ components:
           "secondaryCollectionClaimTemplateId": "string",
           "categoryCode": "string",
           "amount": 0,
-          "defaultChargeAmount": 0,
-          "defaultInterestAmount": 0,
-          "discountAmount": 0,
-          "noticeChargeAmount": 0,
-          "otherCostsAmount": 0,
-          "otherDefaultCostsAmount": 0,
+          "defaultChargeAmountDue": 0,
+          "defaultInterestAmountDue": 0,
+          "discountAmountOffered": 0,
+          "noticeChargeAmountDue": 0,
+          "otherCostsAmountDue": 0,
+          "otherDefaultCostsAmountDue": 0,
           "totalAmountDue": 0,
           "reference": "string",
           "finalDueDate": "2022-01-31",
@@ -2976,8 +2976,8 @@ components:
             "paymentFee": 0,
             "directDebitFee": 0
           },
-          "otherCosts": 0,
-          "otherDefaultCosts": 0,
+          "otherCostsAmount": 0,
+          "otherDefaultCostsAmount": 0,
           "defaultCharge": {
             "referenceDate": "FinalDueDate",
             "first": {
@@ -3115,12 +3115,12 @@ components:
               "secondaryCollectionClaimTemplateId": "string",
               "categoryCode": "string",
               "amount": 0,
-              "defaultChargeAmount": 0,
-              "defaultInterestAmount": 0,
-              "discountAmount": 0,
-              "noticeChargeAmount": 0,
-              "otherCostsAmount": 0,
-              "otherDefaultCostsAmount": 0,
+              "defaultChargeAmountDue": 0,
+              "defaultInterestAmountDue": 0,
+              "discountAmountOffered": 0,
+              "noticeChargeAmountDue": 0,
+              "otherCostsAmountDue": 0,
+              "otherDefaultCostsAmountDue": 0,
               "totalAmountDue": 0,
               "reference": "string",
               "finalDueDate": "2022-01-31",
@@ -3130,8 +3130,8 @@ components:
                 "paymentFee": 0,
                 "directDebitFee": 0
               },
-              "otherCosts": 0,
-              "otherDefaultCosts": 0,
+              "otherCostsAmount": 0,
+              "otherDefaultCostsAmount": 0,
               "defaultCharge": {
                 "referenceDate": "FinalDueDate",
                 "first": {
@@ -3266,12 +3266,12 @@ components:
             "secondaryCollectionClaimTemplateId": "string",
             "categoryCode": "string",
             "amount": 0,
-            "defaultChargeAmount": 0,
-            "defaultInterestAmount": 0,
-            "discountAmount": 0,
-            "noticeChargeAmount": 0,
-            "otherCostsAmount": 0,
-            "otherDefaultCostsAmount": 0,
+            "defaultChargeAmountDue": 0,
+            "defaultInterestAmountDue": 0,
+            "discountAmountOffered": 0,
+            "noticeChargeAmountDue": 0,
+            "otherCostsAmountDue": 0,
+            "otherDefaultCostsAmountDue": 0,
             "totalAmountDue": 0,
             "reference": "string",
             "finalDueDate": "2022-01-31",
@@ -3281,8 +3281,8 @@ components:
               "paymentFee": 0,
               "directDebitFee": 0
             },
-            "otherCosts": 0,
-            "otherDefaultCosts": 0,
+            "otherCostsAmount": 0,
+            "otherDefaultCostsAmount": 0,
             "defaultCharge": {
               "referenceDate": "FinalDueDate",
               "first": {
@@ -3376,8 +3376,8 @@ components:
             "paymentFee": 0,
             "directDebitFee": 0
           },
-          "otherCosts": 0,
-          "otherDefaultCosts": 0,
+          "otherCostsAmount": 0,
+          "otherDefaultCostsAmount": 0,
           "defaultCharge": {
             "referenceDate": "FinalDueDate",
             "first": {

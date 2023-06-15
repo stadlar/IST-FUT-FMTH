@@ -604,7 +604,7 @@ paths:
 
         **batchCreateInitiation** - Initiates a batch with a list of claims to be created.
 
-        **batchMergeInitiation** - Initiates a batch with a list of claims to be altered.
+        **batchAlterInitiation** - Initiates a batch with a list of claims to be altered.
         
         When claim is altered:
           The patch claim method modifies a previously created claim. The patch is
@@ -1505,12 +1505,12 @@ components:
           format: date-time
           example: "2022-12-31T08:05:15Z"
 
-    mergeClaimDetailsList:
+    alterClaimDetailsList:
       description: |
         List of claims to be altered
       type: array
       items:
-        $ref: "#/components/schemas/mergeClaimBatchDetails"
+        $ref: "#/components/schemas/alterClaimBatchDetails"
 
     mergeClaimDetails:
       description: |
@@ -1584,7 +1584,7 @@ components:
         printing:
           $ref: "#/components/schemas/printing"
     
-    mergeClaimBatchDetails:
+    alterClaimBatchDetails:
       allOf: 
         -  $ref: "#/components/schemas/mergeClaimDetails"
       required: 
@@ -1690,10 +1690,10 @@ components:
         createList:
           $ref: "#/components/schemas/createClaimDetailList"
     
-    batchMergeInitiation:
+    batchAlterInitiation:
       properties:
-        mergeList:
-          $ref: "#/components/schemas/mergeClaimDetailsList"
+        alterList:
+          $ref: "#/components/schemas/alterClaimDetailsList"
 
     # RESPONSES
 
@@ -1716,7 +1716,7 @@ components:
           type: string
           enum:
             - "create"
-            - "merge"
+            - "alter"
         actions:
           $ref: "#/components/schemas/claimStatusResponse"
 
@@ -2519,7 +2519,7 @@ components:
           schema:
             oneOf: 
               - $ref: "#/components/schemas/batchCreateInitiation"
-              - $ref: "#/components/schemas/batchMergeInitiation"
+              - $ref: "#/components/schemas/batchAlterInitiation"
 
     templateCode:
       description: |

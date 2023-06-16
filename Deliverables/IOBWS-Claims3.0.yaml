@@ -1687,13 +1687,23 @@ components:
 
     batchCreateInitiation:
       properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
         createList:
           $ref: "#/components/schemas/createClaimDetailList"
     
     batchAlterInitiation:
       properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
         alterList:
           $ref: "#/components/schemas/alterClaimDetailsList"
+    
+    actionType:
+      type: string
+      enum:
+        - "create"
+        - "alter"
 
     # RESPONSES
 
@@ -1713,10 +1723,7 @@ components:
           type: integer
           description: Number of items pending processing
         actionType:
-          type: string
-          enum:
-            - "create"
-            - "alter"
+          $ref: "#/components/schemas/actionType"
         actions:
           $ref: "#/components/schemas/claimStatusResponse"
 
@@ -2517,6 +2524,11 @@ components:
       content:
         application/json:
           schema:
+            discriminator:
+              propertyName: actionType
+              mapping:
+                create: "#/components/schemas/batchCreateInitiation"
+                alter: "#/components/schemas/batchAlterInitiation"
             oneOf: 
               - $ref: "#/components/schemas/batchCreateInitiation"
               - $ref: "#/components/schemas/batchAlterInitiation"

@@ -1502,7 +1502,7 @@ components:
           format: date-time
           example: "2022-12-31T08:05:15Z"
         createdDate:
-          description: The date when the claim was created.
+          description: The creation date of the claim.
           type: string
           format: date-time
           example: "2022-12-31T08:05:15Z"

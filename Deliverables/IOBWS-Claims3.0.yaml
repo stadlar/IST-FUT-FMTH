@@ -1501,6 +1501,14 @@ components:
           type: string
           format: date-time
           example: "2022-12-31T08:05:15Z"
+        claimType:
+          description: The claim type.
+          type: string
+          enum:
+            - "NormalClaim"
+            - "OptionalPaymentClaim"
+            - "RefundClaim"
+            - "BalanceClaim"
 
     mergeDetailList:
       description: |
@@ -1675,6 +1683,21 @@ components:
           maxLength: 200
         printing:
           $ref: "#/components/schemas/printing"
+        claimType:
+          description: |
+            The type of the claim which is to be created.
+            - NormalClaim: A regular claim.
+            - OptionalPaymentClaim: An optional payment claim.
+            - RefundClaim: A refund claim.
+            - BalanceClaim: A government balance claim (only for government entities).
+
+            If the type is not specified a claim of the type NormalClaim will be created.
+          type: string
+          enum:
+            - "NormalClaim"
+            - "OptionalPaymentClaim"
+            - "RefundClaim"
+            - "BalanceClaim"
 
     batchInitiation:
       properties:
@@ -3046,7 +3069,8 @@ components:
             ]
           },
           "directPaymentClaim": true,
-          "lastChanged": "2022-01-31"
+          "lastChanged": "2022-01-31",
+          "claimType": "NormalClaim"
         }
 
     getClaimPayments-200_Example:
@@ -3351,7 +3375,8 @@ components:
               ]
             },
             "directPaymentClaim": true,
-            "lastChanged": "2022-01-31"
+            "lastChanged": "2022-01-31",
+            "claimType": "NormalClaim"
           }
         ]
 
@@ -3438,7 +3463,8 @@ components:
             "comments": [
               "string"
             ]
-          }
+          },
+          "claimType": "NormalClaim"
         }
 
     patchBatch-200_Example:

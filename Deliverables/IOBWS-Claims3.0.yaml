@@ -1690,9 +1690,8 @@ components:
             - OptionalPaymentClaim: An optional payment claim.
             - RefundClaim: A refund claim.
             - BalanceClaim: A government balance claim (only for government entities).
-
-            If the type is not specified a claim of the type NormalClaim will be created.
           type: string
+          default: "NormalClaim"
           enum:
             - "NormalClaim"
             - "OptionalPaymentClaim"

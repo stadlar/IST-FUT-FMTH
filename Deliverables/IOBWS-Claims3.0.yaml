@@ -1122,13 +1122,13 @@ components:
         Additional fee that adds to the claim amount.
       type: object
       required:
-        - printingFeeAmount
-        - paperlessFeeAmount
+        - printingFee
+        - paperlessFee
       properties:
-        printingFeeAmount:
+        printingFee:
           description: A fee that is applied if the claim is printed.
           type: number
-        paperlessFeeAmount:
+        paperlessFee:
           description: |
             A fee that is applied if the claim is paperless.
             This fee applies to payors who have opted out of receiving printed letters and to direct debit claims.
@@ -2972,8 +2972,8 @@ components:
           "billNumber": "string",
           "customerNumber": "string",
           "paymentFee": {
-            "printingFeeAmount": 0,
-            "paperlessFeeAmount": 0
+            "printingFee": 0,
+            "paperlessFee": 0
           },
           "otherCosts": 0,
           "otherDefaultCosts": 0,
@@ -3126,8 +3126,8 @@ components:
               "billNumber": "string",
               "customerNumber": "string",
               "paymentFee": {
-                "printingFeeAmount": 0,
-                "paperlessFeeAmount": 0
+                "printingFee": 0,
+                "paperlessFee": 0
               },
               "otherCosts": 0,
               "otherDefaultCosts": 0,
@@ -3277,8 +3277,8 @@ components:
             "billNumber": "string",
             "customerNumber": "string",
             "paymentFee": {
-              "printingFeeAmount": 0,
-              "paperlessFeeAmount": 0
+              "printingFee": 0,
+              "paperlessFee": 0
             },
             "otherCosts": 0,
             "otherDefaultCosts": 0,

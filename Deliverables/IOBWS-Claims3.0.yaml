@@ -1501,6 +1501,11 @@ components:
           type: string
           format: date-time
           example: "2022-12-31T08:05:15Z"
+        createdDate:
+          description: The date when the claim was created.
+          type: string
+          format: date-time
+          example: "2022-12-31T08:05:15Z"
 
     mergeDetailList:
       description: |
@@ -3351,7 +3356,8 @@ components:
               ]
             },
             "directPaymentClaim": true,
-            "lastChanged": "2022-01-31"
+            "lastChanged": "2022-01-31",
+            "createdDate": "2022-12-31 08:05:15"
           }
         ]
 

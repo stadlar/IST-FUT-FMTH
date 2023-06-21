@@ -1266,10 +1266,8 @@ components:
     defaultInterest:
       description: |
         Contains information on how penalty interest is calculated.
-          - NoDefaultInterest:
-            No penalty interest shall be required.
           - DefaultInterestAmount:
-            Indicates that penalty interest is calculated on the basis of the amount claim.
+            Indicates that penalty interest is calculated on the basis of the amount of the claim.
           - DefaultInterestAmountAndDefaultCharge:
             Indicates whether penalty interest is calculated on the basis of the amount and arrears of the claim.
         Percentage: (4 decimal, example: 12.1234 ) 

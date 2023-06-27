@@ -1268,14 +1268,6 @@ components:
     defaultInterest:
       description: |
         Contains information on how penalty interest is calculated.
-          - DefaultInterestAmount:
-            Indicates that penalty interest is calculated on the basis of the amount of the claim.
-          - DefaultInterestAmountAndDefaultCharge:
-            Indicates whether penalty interest is calculated on the basis of the amount and arrears of the claim.
-        Percentage: (4 decimal, example: 12.1234 ) 
-        Indicates the percentage of penalty interest, may not be higher than the Central Bank's maximum permitted 
-        penalty interest rate. If the penalty interest rule specifies that penalty interest is to be calculated and 
-        this value is not specified, the Central Bank's maximum penalty interest rate is used automatically.
       properties:
         referenceDate:
           description: |
@@ -1284,27 +1276,6 @@ components:
           enum:
             - "DueDate"
             - "FinalDueDate"
-        calculationPeriod:
-          description: |
-            Calculation reference time. 
-            - 24-24: The day is based on the period from 24:00 - 24:00.
-          type: string
-          enum:
-            - "24-24"
-        calculationDayRule:
-          description: |
-            Payment list for a single claim. All payments returned for requested claim id.
-          type: string
-          enum:
-            - "PaymentDay"
-        defaultInterestException:
-          description: |
-            Exemptions from penalty interest if the due date and/or due date does not fall on banking days.
-            - NoException: No exemption. If the due date is on a closed banking day, payment must be made before the 
-                         due date or the last banking day before the due date, depending on the banking day setting.
-          type: string
-          enum:
-            - "NoException"
         baseAmountType:
           description: |
             Indicates the amount by which the penalty interest is calculated.
@@ -3044,9 +3015,6 @@ components:
           },
           "defaultInterest": {
             "referenceDate": "DueDate",
-            "calculationPeriod": "24-24",
-            "calculationDayRule": "PaymentDay",
-            "defaultInterestException": "NoException",
             "baseAmountType": "Amount",
             "baseTimeType": "Daily",
             "percentage": 0
@@ -3199,9 +3167,6 @@ components:
               },
               "defaultInterest": {
                 "referenceDate": "DueDate",
-                "calculationPeriod": "24-24",
-                "calculationDayRule": "PaymentDay",
-                "defaultInterestException": "NoException",
                 "baseAmountType": "Amount",
                 "baseTimeType": "Daily",
                 "percentage": 0
@@ -3350,9 +3315,6 @@ components:
             },
             "defaultInterest": {
               "referenceDate": "DueDate",
-              "calculationPeriod": "24-24",
-              "calculationDayRule": "PaymentDay",
-              "defaultInterestException": "NoException",
               "baseAmountType": "Amount",
               "baseTimeType": "Daily",
               "percentage": 0

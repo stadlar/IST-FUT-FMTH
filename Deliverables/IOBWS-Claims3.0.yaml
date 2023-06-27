@@ -1496,6 +1496,11 @@ components:
           type: string
           format: date-time
           example: "2022-12-31T08:05:15Z"
+        createdDate:
+          description: The creation date of the claim.
+          type: string
+          format: date-time
+          example: "2022-12-31T08:05:15Z"
         claimType:
           description: The claim type.
           type: string
@@ -3373,6 +3378,7 @@ components:
             },
             "directPaymentClaim": true,
             "lastChanged": "2022-01-31",
+            "createdDate": "2022-12-31 08:05:15",
             "claimType": "NormalClaim"
           }
         ]

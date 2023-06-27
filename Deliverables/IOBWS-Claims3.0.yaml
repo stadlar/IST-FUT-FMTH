@@ -600,8 +600,11 @@ paths:
     post:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
-        Creates a list of claims defined by the request body object to be created and/or 
-        alters a list of claims defined by the same object.
+        Accepts on of two request bodies that indicate the action type:
+
+        **batchCreateInitiation** - Initiates a batch with a list of claims to be created.
+
+        **batchAlterInitiation** - Initiates a batch with a list of claims to be altered.
         
         When claim is altered:
           The patch claim method modifies a previously created claim. The patch is
@@ -1510,12 +1513,12 @@ components:
             - "RefundClaim"
             - "BalanceClaim"
 
-    mergeDetailList:
+    alterClaimDetailsList:
       description: |
-        List of claim to be altered
+        List of claims to be altered
       type: array
       items:
-        $ref: "#/components/schemas/mergeClaimDetails"
+        $ref: "#/components/schemas/alterClaimBatchDetails"
 
     mergeClaimDetails:
       description: |
@@ -1588,6 +1591,12 @@ components:
           $ref: "#/components/schemas/collectionState"
         printing:
           $ref: "#/components/schemas/printing"
+    
+    alterClaimBatchDetails:
+      allOf: 
+        -  $ref: "#/components/schemas/mergeClaimDetails"
+      required: 
+        -  claimKey
 
 
     createClaimDetailList:
@@ -1697,18 +1706,31 @@ components:
             - "RefundClaim"
             - "BalanceClaim"
 
-    batchInitiation:
+    batchCreateInitiation:
       properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
         createList:
           $ref: "#/components/schemas/createClaimDetailList"
-        mergeList:
-          $ref: "#/components/schemas/mergeDetailList"
+    
+    batchAlterInitiation:
+      properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
+        alterList:
+          $ref: "#/components/schemas/alterClaimDetailsList"
+    
+    actionType:
+      type: string
+      enum:
+        - "create"
+        - "alter"
 
     # RESPONSES
 
-    patchStatus:
+    batchStatus:
       description: | 
-        Status of an batch initiation
+        Status of a batch initiation
       properties:
         batchId:
           $ref: "#/components/schemas/batchId"
@@ -1722,10 +1744,7 @@ components:
           type: integer
           description: Number of items pending processing
         actionType:
-          type: string
-          enum:
-            - "create"
-            - "alter"
+          $ref: "#/components/schemas/actionType"
         actions:
           $ref: "#/components/schemas/claimStatusResponse"
 
@@ -2525,12 +2544,19 @@ components:
 
     batchInitiation:
       description: |
-        JSON request body for a list of actions inition request message
+        JSON request body for a list of create or alter actions inition request message
       required: true
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/batchInitiation"
+            discriminator:
+              propertyName: actionType
+              mapping:
+                create: "#/components/schemas/batchCreateInitiation"
+                alter: "#/components/schemas/batchAlterInitiation"
+            oneOf: 
+              - $ref: "#/components/schemas/batchCreateInitiation"
+              - $ref: "#/components/schemas/batchAlterInitiation"
 
     templateCode:
       description: |
@@ -2597,14 +2623,14 @@ components:
     #####################################################
 
     OK_20x_ActionResponse:
-      description: Patch created
+      description: Batch created
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/patchStatus"
+            $ref: "#/components/schemas/batchStatus"
           examples:
             "Example":
               $ref: "#/components/examples/patchBatch-200_Example"

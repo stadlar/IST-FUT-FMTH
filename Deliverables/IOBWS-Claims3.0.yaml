@@ -1853,8 +1853,8 @@ components:
         depositedAmount:
           description: The amount deposited at the creditor's account.
           type: number
-        totalAmount:
-          description: Total amount paid with accrued interest and fees.
+        totalAmountPaid:
+          description: Total amount paid with accrued interests and fees.
           type: number
         capitalGainsTax:
           description: Deducted capital gains tax.
@@ -1870,21 +1870,23 @@ components:
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
-        noticeChargeAmount:
+        noticeChargeAmountPaid:
+          description: Notice charge paid.
           type: number
-        defaultChargeAmount:
+        defaultChargeAmountPaid:
+          description: Default charge paid.
           type: number
-        otherCostsAmount:
-          description: Otherwise cost to pay.
+        otherCostsAmountPaid:
+          description: Other costs paid.
           type: number
-        otherDefaultCostsAmount:
-          description: Other default paid.
+        otherDefaultCostsAmountPaid:
+          description: Other default costs paid.
           type: number
-        defaultInterestAmount:
-          description: Amount of accrued penalty interest paid.
+        defaultInterestAmountPaid:
+          description: Amount of accrued penalty interests paid.
           type: number
-        discountAmount:
-          description: Discount that was granted when a claim was paid.
+        discountAmountGiven:
+          description: Discount that was granted when the claim was paid.
           type: number
         currency:
           type: string
@@ -3093,16 +3095,16 @@ components:
             "valueDate": "2022-01-31",
             "paymentType": "Complete",
             "depositedAmount": 0,
-            "totalAmount": 0,
+            "totalAmountPaid": 0,
             "capitalGainsTax": 0,
             "billNumber": "string",
             "customerNumber": "string",
-            "noticeChargeAmount": 0,
-            "defaultChargeAmount": 0,
-            "otherCostsAmount": 0,
-            "otherDefaultCostsAmount": 0,
-            "defaultInterestAmount": 0,
-            "discountAmount": 0,
+            "noticeChargeAmountPaid": 0,
+            "defaultChargeAmountPaid": 0,
+            "otherCostsAmountPaid": 0,
+            "otherDefaultCostsAmountPaid": 0,
+            "defaultInterestAmountPaid": 0,
+            "discountAmountGiven": 0,
             "currency": "string",
             "currencyExchange": {
               "currency": "string",
@@ -3242,16 +3244,16 @@ components:
               "valueDate": "2022-01-31",
               "paymentType": "Complete",
               "depositedAmount": 0,
-              "totalAmount": 0,
+              "totalAmountPaid": 0,
               "capitalGainsTax": 0,
               "billNumber": "string",
               "customerNumber": "string",
-              "noticeChargeAmount": 0,
-              "defaultChargeAmount": 0,
-              "otherCostsAmount": 0,
-              "otherDefaultCostsAmount": 0,
-              "defaultInterestAmount": 0,
-              "discountAmount": 0,
+              "noticeChargeAmountPaid": 0,
+              "defaultChargeAmountPaid": 0,
+              "otherCostsAmountPaid": 0,
+              "otherDefaultCostsAmountPaid": 0,
+              "defaultInterestAmountPaid": 0,
+              "discountAmountGiven": 0,
               "currency": "string",
               "currencyExchange": {
                 "currency": "string",

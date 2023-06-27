@@ -1468,7 +1468,7 @@ components:
           $ref: "#/components/schemas/defaultInterest"
         discount:
           $ref: "#/components/schemas/discount"
-        isPermitOutOfSequencePayment:
+        isOutOfSequencePaymentAllowed:
           description: Payment rule, is it allowed to pay the last payment if previous has not been paid
           type: boolean
         isPartialPaymentAllowed:
@@ -1554,7 +1554,7 @@ components:
           $ref: "#/components/schemas/defaultInterest"
         discount:
           $ref: "#/components/schemas/discount"
-        isPermitOutOfSequencePayment:
+        isOutOfSequencePaymentAllowed:
           description: Payment rule, is it allowed to pay the last payment if previous has not been paid
           type: boolean
         isPartialPaymentAllowed:
@@ -1598,8 +1598,7 @@ components:
                          the amount must be within the rules that apply according to Regulation 37/2009.
         * defaultInterest: Contains information on how penalty interest is calculated.
         * discount: Contains information about discount as constant or percent
-        * isPermitOutOfSequencePayment: Out of sequence payment allowed
-        * isPartialPaymentAllowed: Partial payment is allowed
+        * isOutOfSequencePaymentAllowed: Out of sequence payment allowed
         * isPartialPaymentAllowed: Partial payment is allowed
       type: object
       required:
@@ -1654,7 +1653,7 @@ components:
           $ref: "#/components/schemas/defaultInterest"
         discount:
           $ref: "#/components/schemas/discount"
-        isPermitOutOfSequencePayment:
+        isOutOfSequencePaymentAllowed:
           description: Payment rule, is it allowed to pay the last payment if previous has not been paid
           type: boolean
         isPartialPaymentAllowed:
@@ -3012,7 +3011,7 @@ components:
               "amount": 0
             }
           },
-          "isPermitOutOfSequencePayment": true,
+          "isOutOfSequencePaymentAllowed": true,
           "isPartialPaymentAllowed": true,
           "isPartiallyPaid": true,
           "currency": "string",
@@ -3166,7 +3165,7 @@ components:
                   "amount": 0
                 }
               },
-              "isPermitOutOfSequencePayment": true,
+              "isOutOfSequencePaymentAllowed": true,
               "isPartialPaymentAllowed": true,
               "isPartiallyPaid": true,
               "currency": "string",
@@ -3317,7 +3316,7 @@ components:
                 "amount": 0
               }
             },
-            "isPermitOutOfSequencePayment": true,
+            "isOutOfSequencePaymentAllowed": true,
             "isPartialPaymentAllowed": true,
             "isPartiallyPaid": true,
             "currency": "string",
@@ -3407,7 +3406,7 @@ components:
               "amount": 0
             }
           },
-          "isPermitOutOfSequencePayment": true,
+          "isOutOfSequencePaymentAllowed": true,
           "isPartialPaymentAllowed": true,
           "currency": "string",
           "referenceRate": "ExchangeRate",

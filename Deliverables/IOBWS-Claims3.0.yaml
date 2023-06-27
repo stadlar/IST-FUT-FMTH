@@ -1120,19 +1120,18 @@ components:
     paymentFee:
       description: |
         Additional fee that adds to the claim amount.
-
-        NoticeAndPaymentFee has been renamed from previous standard to PaymentFee
-          - Printing (Payment Fee) (is. Greiðslugjald)
-          - Paperless (Direct Debit Fee) (is. Beingreiðslugjald)
-        Both field accept number with 3 decimal places.
       type: object
       required:
-        - paymentFee
-        - directDebitFee
+        - printingFee
+        - paperlessFee
       properties:
-        paymentFeeAmount:
+        printingFee:
+          description: A fee that is applied if the claim is printed.
           type: number
-        directDebitFee:
+        paperlessFee:
+          description: |
+            A fee that is applied if the claim is paperless.
+            This fee applies to payors who have opted out of receiving printed letters and to direct debit claims.
           type: number
 
     claimKey:
@@ -1153,7 +1152,7 @@ components:
 
     dayAmountItem:
       description: |
-        For whether to use fix amount or calculate by percentage from claimAmount when calculating discount or charge.
+        For whether to use fixed amount or calculate by percentage from claimAmount when calculating discount or charge.
       properties:
         chargeType:
           type: string
@@ -1165,7 +1164,7 @@ components:
           minimum: 0
           maximum: 99
         value:
-          type: integer
+          type: number
 
     discount:
       description: |
@@ -1266,10 +1265,8 @@ components:
     defaultInterest:
       description: |
         Contains information on how penalty interest is calculated.
-          - NoDefaultInterest:
-            No penalty interest shall be required.
           - DefaultInterestAmount:
-            Indicates that penalty interest is calculated on the basis of the amount claim.
+            Indicates that penalty interest is calculated on the basis of the amount of the claim.
           - DefaultInterestAmountAndDefaultCharge:
             Indicates whether penalty interest is calculated on the basis of the amount and arrears of the claim.
         Percentage: (4 decimal, example: 12.1234 ) 
@@ -1277,11 +1274,9 @@ components:
         penalty interest rate. If the penalty interest rule specifies that penalty interest is to be calculated and 
         this value is not specified, the Central Bank's maximum penalty interest rate is used automatically.
       properties:
-        dateReference:
+        referenceDate:
           description: |
-            Calculation reference date. Indicates the date on which penalty interest is calculated. 
-            - DueDate: Due date is the reference date.
-            - FinalDueDate: The deadline is the reference date.
+            Indicates whether to use FinalDueDate or DueDate as refrence for calucation of default interests.
           type: string
           enum:
             - "DueDate"
@@ -1460,17 +1455,17 @@ components:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
           description: Other costs, including determined fees paid by the payer of a collection claim.
-          type: integer
+          type: number
         otherDefaultCosts:
           description: Determined fees, e.g. intermediate collection fee.
-          type: integer
+          type: number
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
         defaultInterest:
           $ref: "#/components/schemas/defaultInterest"
         discount:
           $ref: "#/components/schemas/discount"
-        isPermitOutOfSequencePayment:
+        isOutOfSequencePaymentAllowed:
           description: Payment rule, is it allowed to pay the last payment if previous has not been paid
           type: boolean
         isPartialPaymentAllowed:
@@ -1501,6 +1496,14 @@ components:
           type: string
           format: date-time
           example: "2022-12-31T08:05:15Z"
+        claimType:
+          description: The claim type.
+          type: string
+          enum:
+            - "NormalClaim"
+            - "OptionalPaymentClaim"
+            - "RefundClaim"
+            - "BalanceClaim"
 
     mergeDetailList:
       description: |
@@ -1546,17 +1549,17 @@ components:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
           description: Other costs, including determined fees paid by the payer of a collection claim.
-          type: integer
+          type: number
         otherDefaultCosts:
           description: Determined fees, e.g. intermediate collection fee.
-          type: integer
+          type: number
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
         defaultInterest:
           $ref: "#/components/schemas/defaultInterest"
         discount:
           $ref: "#/components/schemas/discount"
-        isPermitOutOfSequencePayment:
+        isOutOfSequencePaymentAllowed:
           description: Payment rule, is it allowed to pay the last payment if previous has not been paid
           type: boolean
         isPartialPaymentAllowed:
@@ -1600,8 +1603,7 @@ components:
                          the amount must be within the rules that apply according to Regulation 37/2009.
         * defaultInterest: Contains information on how penalty interest is calculated.
         * discount: Contains information about discount as constant or percent
-        * isPermitOutOfSequencePayment: Out of sequence payment allowed
-        * isPartialPaymentAllowed: Partial payment is allowed
+        * isOutOfSequencePaymentAllowed: Out of sequence payment allowed
         * isPartialPaymentAllowed: Partial payment is allowed
       type: object
       required:
@@ -1645,10 +1647,10 @@ components:
           $ref: "#/components/schemas/paymentFee"
         otherCosts:
           description: Other costs, including determined fees paid by the payer of a collection claim.
-          type: integer
+          type: number
         otherDefaultCosts:
           description: Determined fees, e.g. intermediate collection fee.
-          type: integer
+          type: number
         # rules
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
@@ -1656,7 +1658,7 @@ components:
           $ref: "#/components/schemas/defaultInterest"
         discount:
           $ref: "#/components/schemas/discount"
-        isPermitOutOfSequencePayment:
+        isOutOfSequencePaymentAllowed:
           description: Payment rule, is it allowed to pay the last payment if previous has not been paid
           type: boolean
         isPartialPaymentAllowed:
@@ -1675,6 +1677,20 @@ components:
           maxLength: 200
         printing:
           $ref: "#/components/schemas/printing"
+        claimType:
+          description: |
+            The type of the claim which is to be created.
+            - NormalClaim: A regular claim.
+            - OptionalPaymentClaim: An optional payment claim.
+            - RefundClaim: A refund claim.
+            - BalanceClaim: A government balance claim (only for government entities).
+          type: string
+          default: "NormalClaim"
+          enum:
+            - "NormalClaim"
+            - "OptionalPaymentClaim"
+            - "RefundClaim"
+            - "BalanceClaim"
 
     batchInitiation:
       properties:
@@ -1805,7 +1821,8 @@ components:
           description: |
             Description of the categoryCode
           type: string
-        redeemingBank:
+        transactionBank:
+          description: The bank from which the transaction originates.
           type: string
           format: '[0-9]{4}'
         transactionTimestamp:
@@ -1835,13 +1852,13 @@ components:
             - "Refund"
         depositedAmount:
           description: The amount deposited at the creditor's account.
-          type: integer
+          type: number
         totalAmountPaid:
           description: Total amount paid with accrued interests and fees.
-          type: integer
+          type: number
         capitalGainsTax:
           description: Deducted capital gains tax.
-          type: integer
+          type: number
         billNumber:
           description: |
             7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
@@ -1855,29 +1872,30 @@ components:
           maxLength: 16
         noticeChargeAmountPaid:
           description: Notice charge paid.
-          type: integer
+          type: number
         defaultChargeAmountPaid:
           description: Default charge paid.
-          type: integer
+          type: number
         otherCostsAmountPaid:
           description: Other costs paid.
-          type: integer
+          type: number
         otherDefaultCostsAmountPaid:
           description: Other default costs paid.
-          type: integer
+          type: number
         defaultInterestAmountPaid:
           description: Amount of accrued penalty interests paid.
-          type: integer
+          type: number
         discountAmountGiven:
           description: Discount that was granted when the claim was paid.
-          type: integer
+          type: number
         currency:
           type: string
           pattern: '[A-Z]{3}'
         currencyExchange:
           $ref: "#/components/schemas/currencyExchangeRate"
-        batchId:
-          $ref: "#/components/schemas/batchId"
+        transactionBatchId:
+          description: The identifier of the batch from which the transaction originates.
+          type: string
 
     #####################################################
     # Standard messages
@@ -2975,8 +2993,8 @@ components:
           "billNumber": "string",
           "customerNumber": "string",
           "paymentFee": {
-            "paymentFee": 0,
-            "directDebitFee": 0
+            "printingFee": 0,
+            "paperlessFee": 0
           },
           "otherCosts": 0,
           "otherDefaultCosts": 0,
@@ -2994,7 +3012,7 @@ components:
             }
           },
           "defaultInterest": {
-            "dateReference": "DueDate",
+            "referenceDate": "DueDate",
             "calculationPeriod": "24-24",
             "calculationDayRule": "PaymentDay",
             "defaultInterestException": "NoException",
@@ -3016,7 +3034,7 @@ components:
               "amount": 0
             }
           },
-          "isPermitOutOfSequencePayment": true,
+          "isOutOfSequencePaymentAllowed": true,
           "isPartialPaymentAllowed": true,
           "isPartiallyPaid": true,
           "currency": "string",
@@ -3048,7 +3066,8 @@ components:
             ]
           },
           "directPaymentClaim": true,
-          "lastChanged": "2022-01-31"
+          "lastChanged": "2022-01-31",
+          "claimType": "NormalClaim"
         }
 
     getClaimPayments-200_Example:
@@ -3070,7 +3089,7 @@ components:
             "secondaryCollectionClaimTemplateId": "string",
             "reference": "string",
             "categoryCode": "string",
-            "redeemingBank": "string",
+            "transactionBank": "string",
             "transactionTimestamp": "2022-02-24T23:42:20.348Z",
             "bookingDate": "2022-01-31",
             "valueDate": "2022-01-31",
@@ -3091,7 +3110,7 @@ components:
               "currency": "string",
               "rate": 0
             },
-            "batchId": "stringstringstringstringstringstring"
+            "transactionBatchId": "stringstringstringstringstringstring"
           }
         ]
 
@@ -3129,8 +3148,8 @@ components:
               "billNumber": "string",
               "customerNumber": "string",
               "paymentFee": {
-                "paymentFee": 0,
-                "directDebitFee": 0
+                "printingFee": 0,
+                "paperlessFee": 0
               },
               "otherCosts": 0,
               "otherDefaultCosts": 0,
@@ -3148,7 +3167,7 @@ components:
                 }
               },
               "defaultInterest": {
-                "dateReference": "DueDate",
+                "referenceDate": "DueDate",
                 "calculationPeriod": "24-24",
                 "calculationDayRule": "PaymentDay",
                 "defaultInterestException": "NoException",
@@ -3170,7 +3189,7 @@ components:
                   "amount": 0
                 }
               },
-              "isPermitOutOfSequencePayment": true,
+              "isOutOfSequencePaymentAllowed": true,
               "isPartialPaymentAllowed": true,
               "isPartiallyPaid": true,
               "currency": "string",
@@ -3219,7 +3238,7 @@ components:
               "secondaryCollectionClaimTemplateId": "string",
               "reference": "string",
               "categoryCode": "string",
-              "redeemingBank": "string",
+              "transactionBank": "string",
               "transactionTimestamp": "2022-02-24T23:38:43.220Z",
               "bookingDate": "2022-01-31",
               "valueDate": "2022-01-31",
@@ -3240,7 +3259,7 @@ components:
                 "currency": "string",
                 "rate": 0
               },
-              "batchId": "stringstringstringstringstringstring"
+              "transactionBatchId": "stringstringstringstringstringstring"
             },
             "transactionDate": "2022-01-31",
             "transactionType": "Creation"
@@ -3280,8 +3299,8 @@ components:
             "billNumber": "string",
             "customerNumber": "string",
             "paymentFee": {
-              "paymentFee": 0,
-              "directDebitFee": 0
+              "printingFee": 0,
+              "paperlessFee": 0
             },
             "otherCosts": 0,
             "otherDefaultCosts": 0,
@@ -3299,7 +3318,7 @@ components:
               }
             },
             "defaultInterest": {
-              "dateReference": "DueDate",
+              "referenceDate": "DueDate",
               "calculationPeriod": "24-24",
               "calculationDayRule": "PaymentDay",
               "defaultInterestException": "NoException",
@@ -3321,7 +3340,7 @@ components:
                 "amount": 0
               }
             },
-            "isPermitOutOfSequencePayment": true,
+            "isOutOfSequencePaymentAllowed": true,
             "isPartialPaymentAllowed": true,
             "isPartiallyPaid": true,
             "currency": "string",
@@ -3353,7 +3372,8 @@ components:
               ]
             },
             "directPaymentClaim": true,
-            "lastChanged": "2022-01-31"
+            "lastChanged": "2022-01-31",
+            "claimType": "NormalClaim"
           }
         ]
 
@@ -3411,7 +3431,7 @@ components:
               "amount": 0
             }
           },
-          "isPermitOutOfSequencePayment": true,
+          "isOutOfSequencePaymentAllowed": true,
           "isPartialPaymentAllowed": true,
           "currency": "string",
           "referenceRate": "ExchangeRate",
@@ -3440,7 +3460,8 @@ components:
             "comments": [
               "string"
             ]
-          }
+          },
+          "claimType": "NormalClaim"
         }
 
     patchBatch-200_Example:

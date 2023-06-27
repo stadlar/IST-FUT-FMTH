@@ -167,7 +167,7 @@ paths:
                                       - ExpirationDate: The claim cancellation date
                                       - ClosingDate:  Date when the claim was paid, cancelled or transferred.
                                       - CreationDate: When the claim was created
-                                      - LastChanged: Last claim change event date
+                                      - LastChangeDate: Last claim change event date
         - claimantIdQuery: The claim claimant
         - payorIdQuery: The claim payor
         - statusQuery: Claim has one-of ["Unpaid", "Paid", "Cancelled"] statuses
@@ -840,7 +840,7 @@ components:
           - ExpirationDate: The claim cancellation date
           - ClosingDate:  Date when the claim was paid, canceled or transferred.
           - CreationDate: When the claim was created
-          - LastChanged: Last claim change event date
+          - LastChangeDate: Last claim change event date
       type: string
       enum:
         - "DueDate"
@@ -848,7 +848,7 @@ components:
         - "ExpirationDate"
         - "ClosingDate"
         - "CreationDate"
-        - "LastChanged"
+        - "LastChangeDate"
 
     claimStatusSingleResponse:
       description: |
@@ -1493,7 +1493,7 @@ components:
         directPaymentClaim:
           description: Is the claim registered as direct payment claim
           type: boolean
-        lastChanged:
+        lastChangeDate:
           description: |
             This data element might be used to indicate e.g. last time when changed.
           type: string
@@ -3097,7 +3097,7 @@ components:
             ]
           },
           "directPaymentClaim": true,
-          "lastChanged": "2022-01-31",
+          "lastChangeDate": "2022-01-31",
           "claimType": "NormalClaim"
         }
 
@@ -3252,7 +3252,7 @@ components:
                 ]
               },
               "directPaymentClaim": true,
-              "lastChanged": "2022-01-31"
+              "lastChangeDate": "2022-01-31"
             },
             "payment": {
               "claimKey": {
@@ -3403,7 +3403,7 @@ components:
               ]
             },
             "directPaymentClaim": true,
-            "lastChanged": "2022-01-31",
+            "lastChangeDate": "2022-01-31",
             "createdDate": "2022-12-31 08:05:15",
             "claimType": "NormalClaim"
           }

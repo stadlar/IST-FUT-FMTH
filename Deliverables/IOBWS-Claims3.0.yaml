@@ -1120,19 +1120,18 @@ components:
     paymentFee:
       description: |
         Additional fee that adds to the claim amount.
-
-        NoticeAndPaymentFee has been renamed from previous standard to PaymentFee
-          - Printing (Payment Fee) (is. Greiðslugjald)
-          - Paperless (Direct Debit Fee) (is. Beingreiðslugjald)
-        Both field accept number with 3 decimal places.
       type: object
       required:
-        - paymentFee
-        - directDebitFee
+        - printingFee
+        - paperlessFee
       properties:
-        paymentFeeAmount:
+        printingFee:
+          description: A fee that is applied if the claim is printed.
           type: number
-        directDebitFee:
+        paperlessFee:
+          description: |
+            A fee that is applied if the claim is paperless.
+            This fee applies to payors who have opted out of receiving printed letters and to direct debit claims.
           type: number
 
     claimKey:
@@ -2970,8 +2969,8 @@ components:
           "billNumber": "string",
           "customerNumber": "string",
           "paymentFee": {
-            "paymentFee": 0,
-            "directDebitFee": 0
+            "printingFee": 0,
+            "paperlessFee": 0
           },
           "otherCosts": 0,
           "otherDefaultCosts": 0,
@@ -3124,8 +3123,8 @@ components:
               "billNumber": "string",
               "customerNumber": "string",
               "paymentFee": {
-                "paymentFee": 0,
-                "directDebitFee": 0
+                "printingFee": 0,
+                "paperlessFee": 0
               },
               "otherCosts": 0,
               "otherDefaultCosts": 0,
@@ -3275,8 +3274,8 @@ components:
             "billNumber": "string",
             "customerNumber": "string",
             "paymentFee": {
-              "paymentFee": 0,
-              "directDebitFee": 0
+              "printingFee": 0,
+              "paperlessFee": 0
             },
             "otherCosts": 0,
             "otherDefaultCosts": 0,

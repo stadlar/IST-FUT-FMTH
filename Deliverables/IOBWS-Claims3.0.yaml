@@ -1495,7 +1495,7 @@ components:
           type: boolean
         lastChangeDate:
           description: |
-            This data element might be used to indicate e.g. last time when changed.
+            Last claim change event date.
           type: string
           format: date-time
           example: "2022-12-31T08:05:15Z"

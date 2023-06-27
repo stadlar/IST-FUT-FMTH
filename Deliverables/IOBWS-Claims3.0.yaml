@@ -1800,7 +1800,8 @@ components:
           description: |
             Description of the categoryCode
           type: string
-        redeemingBank:
+        transactionBank:
+          description: The bank from which the transaction originates.
           type: string
           format: '[0-9]{4}'
         transactionTimestamp:
@@ -1869,8 +1870,9 @@ components:
           pattern: '[A-Z]{3}'
         currencyExchange:
           $ref: "#/components/schemas/currencyExchangeRate"
-        batchId:
-          $ref: "#/components/schemas/batchId"
+        transactionBatchId:
+          description: The identifier of the batch from which the transaction originates.
+          type: string
 
     #####################################################
     # Standard messages
@@ -3063,7 +3065,7 @@ components:
             "secondaryCollectionClaimTemplateId": "string",
             "reference": "string",
             "categoryCode": "string",
-            "redeemingBank": "string",
+            "transactionBank": "string",
             "transactionTimestamp": "2022-02-24T23:42:20.348Z",
             "bookingDate": "2022-01-31",
             "valueDate": "2022-01-31",
@@ -3084,7 +3086,7 @@ components:
               "currency": "string",
               "rate": 0
             },
-            "batchId": "stringstringstringstringstringstring"
+            "transactionBatchId": "stringstringstringstringstringstring"
           }
         ]
 
@@ -3212,7 +3214,7 @@ components:
               "secondaryCollectionClaimTemplateId": "string",
               "reference": "string",
               "categoryCode": "string",
-              "redeemingBank": "string",
+              "transactionBank": "string",
               "transactionTimestamp": "2022-02-24T23:38:43.220Z",
               "bookingDate": "2022-01-31",
               "valueDate": "2022-01-31",
@@ -3233,7 +3235,7 @@ components:
                 "currency": "string",
                 "rate": 0
               },
-              "batchId": "stringstringstringstringstringstring"
+              "transactionBatchId": "stringstringstringstringstringstring"
             },
             "transactionDate": "2022-01-31",
             "transactionType": "Creation"

@@ -1275,11 +1275,9 @@ components:
         penalty interest rate. If the penalty interest rule specifies that penalty interest is to be calculated and 
         this value is not specified, the Central Bank's maximum penalty interest rate is used automatically.
       properties:
-        dateReference:
+        referenceDate:
           description: |
-            Calculation reference date. Indicates the date on which penalty interest is calculated. 
-            - DueDate: Due date is the reference date.
-            - FinalDueDate: The deadline is the reference date.
+            Indicates whether to use FinalDueDate or DueDate as refrence for calucation of default interests.
           type: string
           enum:
             - "DueDate"
@@ -2989,7 +2987,7 @@ components:
             }
           },
           "defaultInterest": {
-            "dateReference": "DueDate",
+            "referenceDate": "DueDate",
             "calculationPeriod": "24-24",
             "calculationDayRule": "PaymentDay",
             "defaultInterestException": "NoException",
@@ -3143,7 +3141,7 @@ components:
                 }
               },
               "defaultInterest": {
-                "dateReference": "DueDate",
+                "referenceDate": "DueDate",
                 "calculationPeriod": "24-24",
                 "calculationDayRule": "PaymentDay",
                 "defaultInterestException": "NoException",
@@ -3294,7 +3292,7 @@ components:
               }
             },
             "defaultInterest": {
-              "dateReference": "DueDate",
+              "referenceDate": "DueDate",
               "calculationPeriod": "24-24",
               "calculationDayRule": "PaymentDay",
               "defaultInterestException": "NoException",

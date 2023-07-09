@@ -1452,8 +1452,7 @@ components:
           pattern: '[A-Z]{3}'
         currencyPaymentRate:
           type: string
-          enum:
-            - "DueDateRate"
+          enum:            
             - "PaymentDateRate"
         additionalInformation:
           description: Free text that will be displayed on the claim
@@ -1546,12 +1545,7 @@ components:
           type: boolean
         currency:
           type: string
-          pattern: '[A-Z]{3}'
-        currencyPaymentRate:
-          type: string
-          enum:
-            - "DueDateRate"
-            - "PaymentDateRate"
+          pattern: '[A-Z]{3}'        
         additionalInformation:
           description: Free text that will be displayed on the claim
           type: string
@@ -1650,12 +1644,7 @@ components:
           type: boolean
         currency:
           type: string
-          pattern: '[A-Z]{3}'
-        currencyPaymentRate:
-          type: string
-          enum:
-            - "DueDateRate"
-            - "PaymentDateRate"
+          pattern: '[A-Z]{3}'      
         additionalInformation:
           description: Free text that will be displayed on the claim
           type: string
@@ -3037,7 +3026,7 @@ components:
           "isPartialPaymentAllowed": true,
           "isPartiallyPaid": true,
           "currency": "string",
-          "currencyPaymentRate": "DueDateRate",
+          "currencyPaymentRate": "PaymentDateRate",
           "additionalInformation": "string",
           "printing": {
             "claimantAddress": {
@@ -3189,7 +3178,7 @@ components:
               "isPartialPaymentAllowed": true,
               "isPartiallyPaid": true,
               "currency": "string",
-              "currencyPaymentRate": "DueDateRate",
+              "currencyPaymentRate": "PaymentDateRate",
               "additionalInformation": "string",
               "printing": {
                 "claimantAddress": {
@@ -3337,7 +3326,7 @@ components:
             "isPartialPaymentAllowed": true,
             "isPartiallyPaid": true,
             "currency": "string",
-            "currencyPaymentRate": "DueDateRate",
+            "currencyPaymentRate": "PaymentDateRate",
             "additionalInformation": "string",
             "printing": {
               "claimantAddress": {

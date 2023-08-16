@@ -1173,12 +1173,6 @@ components:
       description: |
         Contains detail information about claim discount
       properties:
-        isPostRefDate:
-          description: |
-            Indicates whether the declared number of days is before or after the reference day. 
-            - True: The number of days is after reference date
-            - False: The number of days is before reference date
-          type: boolean
         referenceDate:
           type: string
           enum:
@@ -3019,8 +3013,7 @@ components:
             "baseTimeType": "Daily",
             "percentage": 0
           },
-          "discount": {
-            "isPostRefDate": true,
+          "discount": {            
             "referenceDate": "FinalDueDate",
             "first": {
               "chargeType": "Percentage",
@@ -3171,8 +3164,7 @@ components:
                 "baseTimeType": "Daily",
                 "percentage": 0
               },
-              "discount": {
-                "isPostRefDate": true,
+              "discount": {                
                 "referenceDate": "FinalDueDate",
                 "first": {
                   "chargeType": "Percentage",
@@ -3319,8 +3311,7 @@ components:
               "baseTimeType": "Daily",
               "percentage": 0
             },
-            "discount": {
-              "isPostRefDate": true,
+            "discount": {              
               "referenceDate": "FinalDueDate",
               "first": {
                 "chargeType": "Percentage",

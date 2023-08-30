@@ -1226,9 +1226,7 @@ components:
         printout of the collection claim. Changing a printout to a change entry after printing a note
         does not result in it being reprinted
       type: object
-      properties:
-        claimantAddress:
-          $ref: "#/components/schemas/address"
+      properties:       
         payorAddress:
           $ref: "#/components/schemas/address"
         itemRows:

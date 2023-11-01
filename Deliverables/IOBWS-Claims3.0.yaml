@@ -1486,9 +1486,7 @@ components:
       description: |
         Merge patch claim object
       type: object
-      properties:
-        claimKey:
-          $ref: "#/components/schemas/claimKey"
+      properties:       
         expirationDate:
           type: string
           format: date

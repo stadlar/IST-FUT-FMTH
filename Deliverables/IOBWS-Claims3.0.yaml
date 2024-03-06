@@ -1026,7 +1026,7 @@ components:
           maxLength: 16
         claimantStatementReferenceType:
           description: |
-            Indicates which value appears in the reference area on the creditor's account statement.
+            Indicates which value appears in the bill area on the creditor's account statement.
 
             This can be one of the following values:
               - DueDate - Due date of the claim in the format (yyyymmdd)

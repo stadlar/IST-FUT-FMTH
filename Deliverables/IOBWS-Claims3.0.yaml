@@ -996,46 +996,17 @@ components:
         templateCode:
           $ref: "#/components/schemas/templateCode"
         collectionType:
-          type: string
-          enum:
-            - "PrimaryCollection"
-            - "SecondaryCollection"
+          $ref: "#/components/schemas/collectionType"
         category:
           $ref: "#/components/schemas/claimTemplateCategory"
         claimantStatementExtendedReferenceType:
-          description: |
-            Indicates which value appears in the reference area of the creditor's account statement.
-
-            This can be one of the following values:
-              - ReferenceNumber - The first 12 letters of the reference number.
-              - CustomerNumber - The first 12 letters of the transaction number.
-              - ClaimId - Branch number, ledger and claim number.
-              - PayorId - Id (kennitala) of the payor
-              - DueDate - Due date of the claim in the format (yyyymmdd)
-          type: string
-          enum:
-            - ReferenceNumber
-            - CustomerNumber
-            - ClaimId
-            - PayorId
-            - DueDate
+          $ref: "#/components/schemas/claimantStatementExtendedReferenceType"
         customerNumberTemplate:
           description: Describes how the transaction number template is structured for the claim template.
           type: string
           maxLength: 16
         claimantStatementReferenceType:
-          description: |
-            Indicates which value appears in the bill area on the creditor's account statement.
-
-            This can be one of the following values:
-              - DueDate - Due date of the claim in the format (yyyymmdd)
-              - BillNumber - Bill number of the claim
-              - ClaimNumber - Claimnumber (last 6 digits)
-          type: string
-          enum:
-            - DueDate
-            - BillNumber
-            - ClaimNumber
+          $ref: "#/components/schemas/claimantStatementReferenceType"
         depositAccount:
           $ref: "#/components/schemas/depositAccount"
         secondaryCollectionClaimTemplateCode:
@@ -1062,46 +1033,17 @@ components:
         templateCode:
           $ref: "#/components/schemas/templateCode"
         collectionType:
-          type: string
-          enum:
-            - "PrimaryCollection"
-            - "SecondaryCollection"
+          $ref: "#/components/schemas/collectionType"
         category:
           $ref: "#/components/schemas/claimTemplateCategory"
         claimantStatementExtendedReferenceType:
-          description: |
-            Indicates which value appears in the reference area of the creditor's account statement.
-
-            This can be one of the following values:
-              - ReferenceNumber - The first 12 letters of the reference number.
-              - CustomerNumber - The first 12 letters of the transaction number.
-              - ClaimId - Branch number, ledger and claim number.
-              - PayorId - Id (kennitala) of the payor
-              - DueDate - Due date of the claim in the format (yyyymmdd)
-          type: string
-          enum:
-            - ReferenceNumber
-            - CustomerNumber
-            - ClaimId
-            - PayorId
-            - DueDate
+          $ref: "#/components/schemas/claimantStatementExtendedReferenceType"
         customerNumberTemplate:
           description: Describes how the transaction number template is structured for the claim template.
           type: string
           maxLength: 16
         claimantStatementReferenceType:
-          description: |
-            Indicates which value appears in the reference area on the creditor's account statement.
-
-            This can be one of the following values:
-              - DueDate - Due date of the claim in the format (yyyymmdd)
-              - BillNumber - Bill number of the claim
-              - ClaimNumber - Claimnumber (last 6 digits)
-          type: string
-          enum:
-            - DueDate
-            - BillNumber
-            - ClaimNumber
+          $ref: "#/components/schemas/claimantStatementReferenceType"
         depositAccount:
           $ref: "#/components/schemas/depositAccount"
         secondaryCollectionClaimTemplateCode:
@@ -1173,10 +1115,7 @@ components:
         Contains detail information about claim discount
       properties:
         referenceDate:
-          type: string
-          enum:
-            - "FinalDueDate"
-            - "DueDate"
+          $ref: "#/components/schemas/referenceDate"
         first:
           $ref: "#/components/schemas/dayAmountItem"
         second:
@@ -1245,12 +1184,7 @@ components:
         In case of defaultCharge charge amount is calculated from claimAmount.
       properties:
         referenceDate:
-          type: string
-          enum:
-            - "FinalDueDate"
-            - "DueDate"
-          description: |
-            Indicates whether to use FinalDueDate or DueDate as refrence for calucation of default charge.
+          $ref: "#/components/schemas/referenceDate"
         first:
           $ref: "#/components/schemas/dayAmountItem"
         second:
@@ -1261,12 +1195,7 @@ components:
         Contains information on how penalty interest is calculated.
       properties:
         referenceDate:
-          description: |
-            Indicates whether to use FinalDueDate or DueDate as refrence for calucation of default interests.
-          type: string
-          enum:
-            - "DueDate"
-            - "FinalDueDate"
+          $ref: "#/components/schemas/referenceDate"
         baseAmountType:
           description: |
             Indicates the amount by which the penalty interest is calculated.
@@ -1466,13 +1395,7 @@ components:
           format: date-time
           example: "2022-12-31T08:05:15Z"
         claimType:
-          description: The claim type.
-          type: string
-          enum:
-            - "NormalClaim"
-            - "OptionalPaymentClaim"
-            - "RefundClaim"
-            - "BalanceClaim"
+          $ref: "#/components/schemas/claimType"
 
     alterClaimDetailsList:
       description: |
@@ -1641,19 +1564,7 @@ components:
         printing:
           $ref: "#/components/schemas/printing"
         claimType:
-          description: |
-            The type of the claim which is to be created.
-            - NormalClaim: A regular claim.
-            - OptionalPaymentClaim: An optional payment claim.
-            - RefundClaim: A refund claim.
-            - BalanceClaim: A government balance claim (only for government entities).
-          type: string
-          default: "NormalClaim"
-          enum:
-            - "NormalClaim"
-            - "OptionalPaymentClaim"
-            - "RefundClaim"
-            - "BalanceClaim"
+          $ref: "#/components/schemas/claimType"
 
     batchCreateInitiation:
       properties:
@@ -1674,6 +1585,64 @@ components:
       enum:
         - "create"
         - "alter"
+
+    referenceDate:
+      description: |
+        Specifies the reference date for calculations, allowing the choice between the DueDate and the FinalDueDate as the basis.
+      type: string
+      enum:
+        - "DueDate"
+        - "FinalDueDate" 
+
+    claimType:
+      description: |
+        The type of the claim which is to be created.
+          - NormalClaim: A regular claim.
+          - OptionalPaymentClaim: An optional payment claim.
+          - RefundClaim: A refund claim.
+          - BalanceClaim: A government balance claim (only for government entities).
+      type: string
+      enum:
+        - "NormalClaim"
+        - "OptionalPaymentClaim"
+        - "RefundClaim"
+        - "BalanceClaim"
+
+    collectionType:
+      type: string
+      enum:
+        - "PrimaryCollection"
+        - "SecondaryCollection"
+
+    claimantStatementExtendedReferenceType:
+      description: |
+        Indicates which value appears in the reference area of the creditor's account statement.
+      This can be one of the following values:
+        - ReferenceNumber - The first 12 letters of the reference number.
+        - CustomerNumber - The first 12 letters of the transaction number.
+        - ClaimId - Branch number, ledger and claim number.
+        - PayorId - Id (kennitala) of the payor
+        - DueDate - Due date of the claim in the format (yyyymmdd)
+      type: string
+      enum:
+        - ReferenceNumber
+        - CustomerNumber
+        - ClaimId
+        - PayorId
+        - DueDate
+
+    claimantStatementReferenceType:
+      description: |
+        Indicates which value appears in the bill area on the creditor's account statement.
+      This can be one of the following values:
+        - DueDate - Due date of the claim in the format (yyyymmdd)
+        - BillNumber - Bill number of the claim
+        - ClaimNumber - Claimnumber (last 6 digits)
+      type: string
+      enum:
+        - DueDate
+        - BillNumber
+        - ClaimNumber
 
     # RESPONSES
 

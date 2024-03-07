@@ -1617,7 +1617,7 @@ components:
     claimantStatementExtendedReferenceType:
       description: |
         Indicates which value appears in the reference area of the creditor's account statement.
-      This can be one of the following values:
+        This can be one of the following values:
         - ReferenceNumber - The first 12 letters of the reference number.
         - CustomerNumber - The first 12 letters of the transaction number.
         - ClaimId - Branch number, ledger and claim number.
@@ -1634,7 +1634,7 @@ components:
     claimantStatementReferenceType:
       description: |
         Indicates which value appears in the bill area on the creditor's account statement.
-      This can be one of the following values:
+        This can be one of the following values:
         - DueDate - Due date of the claim in the format (yyyymmdd)
         - BillNumber - Bill number of the claim
         - ClaimNumber - Claimnumber (last 6 digits)

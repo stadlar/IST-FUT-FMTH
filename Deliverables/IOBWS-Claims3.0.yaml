@@ -2984,12 +2984,12 @@ components:
             "first": {
               "chargeType": "Percentage",
               "day": 0,
-              "amount": 0
+              "value": 0
             },
             "second": {
               "chargeType": "Percentage",
               "day": 0,
-              "amount": 0
+              "value": 0
             }
           },
           "defaultInterest": {
@@ -3003,12 +3003,12 @@ components:
             "first": {
               "chargeType": "Percentage",
               "day": 0,
-              "amount": 0
+              "value": 0
             },
             "second": {
               "chargeType": "Percentage",
               "day": 0,
-              "amount": 0
+              "value": 0
             }
           },
           "isOutOfSequencePaymentAllowed": true,
@@ -3017,14 +3017,7 @@ components:
           "currency": "string",
           "currencyPaymentRate": "PaymentDateRate",
           "additionalInformation": "string",
-          "printing": {
-            "claimantAddress": {
-              "name": "string",
-              "addressLine": "string",
-              "postalCode": "string",
-              "city": "string",
-              "country": "string"
-            },
+          "printing": {            
             "payorAddress": {
               "name": "string",
               "addressLine": "string",
@@ -3154,12 +3147,12 @@ components:
                 "first": {
                   "chargeType": "Percentage",
                   "day": 0,
-                  "amount": 0
+                  "value": 0
                 },
                 "second": {
                   "chargeType": "Percentage",
                   "day": 0,
-                  "amount": 0
+                  "value": 0
                 }
               },
               "isOutOfSequencePaymentAllowed": true,
@@ -3168,14 +3161,7 @@ components:
               "currency": "string",
               "currencyPaymentRate": "PaymentDateRate",
               "additionalInformation": "string",
-              "printing": {
-                "claimantAddress": {
-                  "name": "string",
-                  "addressLine": "string",
-                  "postalCode": "string",
-                  "city": "string",
-                  "country": "string"
-                },
+              "printing": {                
                 "payorAddress": {
                   "name": "string",
                   "addressLine": "string",
@@ -3282,12 +3268,12 @@ components:
               "first": {
                 "chargeType": "Percentage",
                 "day": 0,
-                "amount": 0
+                "value": 0
               },
               "second": {
                 "chargeType": "Percentage",
                 "day": 0,
-                "amount": 0
+                "value": 0
               }
             },
             "defaultInterest": {
@@ -3301,12 +3287,12 @@ components:
               "first": {
                 "chargeType": "Percentage",
                 "day": 0,
-                "amount": 0
+                "value": 0
               },
               "second": {
                 "chargeType": "Percentage",
                 "day": 0,
-                "amount": 0
+                "value": 0
               }
             },
             "isOutOfSequencePaymentAllowed": true,
@@ -3315,14 +3301,7 @@ components:
             "currency": "string",
             "currencyPaymentRate": "PaymentDateRate",
             "additionalInformation": "string",
-            "printing": {
-              "claimantAddress": {
-                "name": "string",
-                "addressLine": "string",
-                "postalCode": "string",
-                "city": "string",
-                "country": "string"
-              },
+            "printing": {             
               "payorAddress": {
                 "name": "string",
                 "addressLine": "string",
@@ -3375,12 +3354,12 @@ components:
             "first": {
               "chargeType": "Percentage",
               "day": 0,
-              "amount": 0
+              "value": 0
             },
             "second": {
               "chargeType": "Percentage",
               "day": 0,
-              "amount": 0
+              "value": 0
             }
           },
           "defaultInterest": {
@@ -3393,12 +3372,12 @@ components:
             "first": {
               "chargeType": "Percentage",
               "day": 0,
-              "amount": 0
+              "value": 0
             },
             "second": {
               "chargeType": "Percentage",
               "day": 0,
-              "amount": 0
+              "value": 0
             }
           },
           "isOutOfSequencePaymentAllowed": true,
@@ -3406,14 +3385,7 @@ components:
           "currency": "string",
           "referenceRate": "ExchangeRate",
           "additionalInformation": "string",
-          "printing": {
-            "claimantAddress": {
-              "name": "string",
-              "addressLine": "string",
-              "postalCode": "string",
-              "city": "string",
-              "country": "string"
-            },
+          "printing": {           
             "payorAddress": {
               "name": "string",
               "addressLine": "string",

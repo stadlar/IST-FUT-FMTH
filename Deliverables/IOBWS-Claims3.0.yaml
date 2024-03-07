@@ -936,7 +936,8 @@ components:
         id:
           $ref: "#/components/schemas/account"
         ownerId:
-          $ref: "#/components/schemas/kennitala"        
+          $ref: "#/components/schemas/kennitala"
+        type:        
           description: |
             Describes what type of additional deposit account this is.
 

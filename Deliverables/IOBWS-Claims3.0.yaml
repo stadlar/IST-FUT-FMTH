@@ -936,8 +936,7 @@ components:
         id:
           $ref: "#/components/schemas/account"
         ownerId:
-          $ref: "#/components/schemas/kennitala"
-        type:
+          $ref: "#/components/schemas/kennitala"        
           description: |
             Describes what type of additional deposit account this is.
 
@@ -951,7 +950,7 @@ components:
             - "FixedAmount" - A fixed amount is deducted from the amount of the payment and deposited in a disposable account.
             - "Percentage" - Percentage of the amount of the payment deposited in the disposable account.
             - "PrincipalDetail" - Amount of the principal of the payment deposited in a disposable account.
-
+          type: string
           enum:
             - "DefaultInterest"
             - "DefaultCharge"

@@ -1831,9 +1831,6 @@ components:
         discountAmountGiven:
           description: Discount that was granted when the claim was paid.
           type: number
-        currency:
-          type: string
-          pattern: '[A-Z]{3}'
         currencyExchange:
           $ref: "#/components/schemas/currencyExchangeRate"
         transactionBatchId:
@@ -3044,7 +3041,6 @@ components:
             "otherDefaultCostsAmountPaid": 0,
             "defaultInterestAmountPaid": 0,
             "discountAmountGiven": 0,
-            "currency": "string",
             "currencyExchange": {
               "currency": "string",
               "rate": 0
@@ -3182,7 +3178,6 @@ components:
               "otherDefaultCostsAmountPaid": 0,
               "defaultInterestAmountPaid": 0,
               "discountAmountGiven": 0,
-              "currency": "string",
               "currencyExchange": {
                 "currency": "string",
                 "rate": 0

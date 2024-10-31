@@ -6845,6 +6845,9 @@ components:
         endToEndIdentification:
           type: string
           maxLength: 35
+        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
+          type: string
+          maxLength: 35
         debtorId:
           type: string
           maxLength: 35
@@ -7748,6 +7751,9 @@ components:
         endToEndIdentification:
           type: string
           maxLength: 35
+        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
+          type: string
+          maxLength: 35
         debtorName: # N.A. for all, but can be used by ASPSP if needed
           $ref: "#/components/schemas/debtorName"
         debtorAccount: 
@@ -7805,6 +7811,9 @@ components:
         - frequency
       properties:
         endToEndIdentification:
+          type: string
+          maxLength: 35
+        instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
           type: string
           maxLength: 35
         debtorAccount: 

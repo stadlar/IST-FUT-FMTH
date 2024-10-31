@@ -6765,7 +6765,8 @@ components:
           * credit-transfers
           * claim-payments
           * payment-card-deposits
-          * foreign-payment
+          * foreign-payment-sepa
+          * foreign-payment-cross-border
 
       type: object
       required:

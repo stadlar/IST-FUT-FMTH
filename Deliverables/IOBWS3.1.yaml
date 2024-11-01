@@ -5015,6 +5015,13 @@ components:
           format: date
         contractIdentification:
           type: string
+        rateType:
+          type: string
+          enum:
+            - "SPOT"
+            - "SALE"
+            - "AGRD"
+            - "FXTX"
 
 
     paymentExchangeRate:  
@@ -6835,7 +6842,7 @@ components:
 
         Possible values:
           * credit-transfers
-          * payment-card-deposit
+          * card-deposits
 
       type: object
       required:

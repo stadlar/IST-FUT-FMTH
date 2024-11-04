@@ -63,7 +63,7 @@ paths:
       description: Upload and store new documents
       operationId: uploadDocument
       tags:
-        - Documents
+        - Document Service (DS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -115,7 +115,7 @@ paths:
         The document owner goes through the banks portal.
       operationId: searchForDocumentsProcess
       tags:
-        - Documents
+        - Document Service (DS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -170,7 +170,7 @@ paths:
         Update documents if the document type allows it. User can choose to only send new or changed files
       operationId: update
       tags:
-        - Documents
+        - Document Service (DS)
 
       security:
       #####################################################
@@ -237,7 +237,7 @@ paths:
         Get list of all document types. Document types control if document can be updated
       operationId: getDocumentTypeList
       tags:
-        - Documents
+        - Document Service (DS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -285,7 +285,7 @@ paths:
       description: Create an array of new cross-references between documents and some other objects (such as claims, credit transfers and payment requests).
       operationId: createCrossReferences
       tags:
-        - Cross-References
+        - Cross-Reference Service (CRS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -338,7 +338,7 @@ paths:
         That is, either or both the ID of the document (_documentId_) and its data storage (_documentStore_) or the key (_key_) and the type (_keyType_) of the object related to the document in question must be provided. 
       operationId: queryCrossReferences
       tags:
-        - Cross-References
+        - Cross-Reference Service (CRS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -391,11 +391,11 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
           
     put:
-      summary: Updates a cross-reference
-      description: Updates a cross-reference
+      summary: Updates cross-references
+      description:  Updates an array of new cross-references between documents and some other objects (such as claims, credit transfers and payment requests).
       operationId: updateCrossReferences
       tags:
-        - Cross-References
+        - Cross-Reference Service (CRS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -446,7 +446,7 @@ paths:
       description: Delete a cross-reference. 
       operationId: deleteCrossReference
       tags:
-        - Cross-References
+        - Cross-Reference Service (CRS)
       security:
         - {}
         - BearerAuthOAuth: []
@@ -2519,13 +2519,13 @@ tags:
   # Predefined Tags to Group Methods
   #####################################################
 
-  - name: Documents
+  - name: Document Service (DS)
     description: |
       The API interface for Documents offers the following services:
         * Initiation and update of a document request
         * Status information of a document
         * Document types
         
-  - name: Cross-References
+  - name: Cross-Reference Service (CRS)
     description: |
-      Methods on this resource offer means to create, read, update and delete cross-references between documents and other objects such as claims, credit transfers and payment requests.
+      The API interface for Cross-References offer means to create, read, update and delete cross-references between documents and other objects such as claims, credit transfers and payment requests.

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: IOBWS 3.0 Payments and accounts
-  version: "3.1"
+  version: "3.2"
   description: |
     # Summary
     This document forms the basis for version 3.2 of the Icelandic Online Banking Services (IOBWS), released as a

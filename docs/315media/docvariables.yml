@@ -1,0 +1,14 @@
+spec_id: "TS-315"
+fulldoc_name: "ÍST TS 315_2025 Claims.md"
+context_icelandic: "Kröfur"
+context_english: "Claims"
+context_short: "digital claims"
+finaldraft_date: "2025-02-01"
+approve_date: "2025-02-28"
+publication_date: "2025-02-15"
+yaml_definition: "IOBWS-Claims3.1.yaml"
+previous_spec: "TS-162"
+funding_paragraph: |
+  The work on the ÍST TS was primarily funded by Arion Banki and Íslandsbanki. It is the result of the workgroup TN-FMÞ-VH-8. In part, the work is based on the earlier technical specification TS-314 authored by TN-FMÞ-VH-2 on Technical Requirements, and TN-FMÞ-VH-1 on Business Requirements, with the participation of an external consultant. 
+  TS-314 was approved within TN-FMÞ on 13.9.2022.
+  TS-314 is the next version of the Icelandic Online Banking Services, replacing TS 165:2013 *Rafræn skjöl*.

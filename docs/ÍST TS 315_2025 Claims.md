@@ -67,16 +67,14 @@ The Technical Committee's participants have made every effort to ensure the reli
 <!-- IntroductionStart -->
 This Technical Specification (TS) presents version 3.0 of the Icelandic Online Banking Services (IOBWS) for {{context_short}}.
 
-Previous versions of IOBWS, released in 2007 and 2013 respectively, used the OASIS SOAP standards which were current at the time to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises, and service providers to integrate their accounting, payment, and information systems with the bank's services, allowing them to act on behalf of the customers and with full access to their data. 
+Previous versions of IOBWS, released in 2007 and 2013 respectively, used the OASIS SOAP standards which were current at the time to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises, and service providers to integrate their accounting, payment, and information systems with the banks’ services, allowing them to act on behalf of the customers and with full access to their data.
 
 A goal of the IOBWS version 3.0 charter, which was set forth by TN-FMÞ in the beginning, is the transition from SOAP to a REST-like API, which is defined by a recent iteration of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this addresses some of the perceived complexity in adapting IOBWS to various use cases, platforms, and programming languages that have come to the forefront after the release of the previous IOBWS versions.
 <!-- IntroductionEnd -->
 
+The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. Claims have been redesigned to align with best practices in REST architecture. Dedicated endpoints for secondary collection have been removed. Claimants (such as companies) and secondary collection agencies use the same methods but have different scopes. As a result, they have different access rights, ensuring that secondary collection agencies can view only those claims that have been forwarded to them.
 
-The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification. Claims have been redesigned to align with best practices in REST architecture. Dedicated endpoints for secondary collection have been removed. 
-Claimants (such as companies) and secondary collection agencies use the same methods but have different scopes. As a result, they have different access rights, ensuring that secondary collection agencies can view only those claims that have been forwarded to them..
-
-The ÍST {{spec_id}} specification should be viewed as standalone though part of the IOBWS version 3 framework and adapting the same REST patterns established in the OpenAPI contracts that are part of version 3. It should be emphasized that ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The patterns shared by the IOBWS version 3 specifications may however result in some of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
+The ÍST {{spec_id}} specification should be viewed as standalone though part of the IOBWS version 3 framework and adopting the same REST patterns established in the OpenAPI contracts that are part of version 3. It should be emphasized that ÍST {{spec_id}} is not part of the NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The patterns shared by the IOBWS version 3 specifications may, however, result in some of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
 
 # Scope 
 
@@ -85,18 +83,17 @@ The ÍST {{spec_id}} specification should be viewed as standalone though part of
 <!-- ScopeDocContextEnd -->
 
 <!-- ScopePaymentsDocsContextStart -->
-Other ÍST Technical Specifications exist that address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST WA 316. As the consumption and implementation of each part of IOBWS are optional, the documents aim to be independent of each other.
+Other ÍST Technical Specifications exist that address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST WA 316. As the consumption and implementation of each part of IOBWS is optional, the documents aim to be independent of each other.
 
 The focus in ÍST {{spec_id}} is the features needed to create and amend digital documents.
 
-The intended audience for the specification document ÍST {{spec_id}} is developers who will either implement banking API services or the systems that will consume them as API clients. The reader is expected to have a basic understanding of the Icelandic financial products involved. Further documentation on business aspects of those products will be available from each bank, as they may involve service agreements and the end customers' contractual preferences and benefits.
+The intended audience for the specification document ÍST {{spec_id}} is developers who will either implement banking API services or the systems that will consume them as API clients. The reader is expected to have a basic understanding of the Icelandic financial products involved. Further documentation on business aspects of those products will be available from each bank, as they may involve service agreements and the end customers’ contractual preferences and benefits.
 <!-- ScopePaymentsDocsContextEnd -->
 
-Out of necessity, the previous IOBWS technical specifications largely consisted of expressing the intent and actual content in a human-readable format, otherwise found in the associated XML Schema and SOAP definitions. 
-The expectation for ÍST {{spec_id}} is that the technical service definitions and JSON data schemas in the accompanying OpenAPI specification can be understood using utilities that can convert them into documentation or navigatable user interfaces.
+Out of necessity, the previous IOBWS technical specifications largely consisted of expressing the intent and actual content in a human-readable format, otherwise found in the associated XML Schema and SOAP definitions. The expectation for ÍST {{spec_id}} is that the technical service definitions and JSON data schemas in the accompanying OpenAPI specification can be understood using utilities that can convert them into documentation or navigable user interfaces.
 
 <!-- ScopeEndNoteStart -->
-Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetition of information found in the technical contract "[{{yaml_definition}}](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/{{yaml_definition}})". Instead, the document focuses on the information needed to understand the domestic context of services, schema types and service flows required to implement ÍST {{spec_id}}.
+Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetition of information found in the technical contract “[{{yaml_definition}}](https://github.com/stadlar/IST-FUT-FMTH/blob/master/Deliverables/{{yaml_definition}})”. Instead, the document focuses on the information needed to understand the domestic context of services, schema types, and service flows required to implement ÍST {{spec_id}}.
 <!-- ScopeEndNoteEnd -->
 
 # Normative references, definitions and data elements 
@@ -106,23 +103,25 @@ Consequently, the ÍST {{spec_id}} specification avoids the unnecessary repetiti
 
 The following documents are referenced in ÍST {{spec_id}}, as part of their content constitutes the requirements of this document. If newer editions exist, only the edition cited applies.
 
-NextGenPSD2 v1.3.8. *The Berlin Group NextGenPSD2 Access to Account Framework*.
+NextGenPSD2 v1.3.8. *The Berlin Group NextGenPSD2 Access to Account Framework.*
 
 OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Linux Foundation Collaborative Project.
 
-
 ## Terms and definitions
-- **Claim system** is the system owned and operated by Reiknistofa bankanna (RB), for storing and displaying information about Claims. This system makes it possible to track the status of claims, see which ones are in the payment process, which have been paid, and which have been sent for collection.
-- **Claimant** (often abbreviated as **KT**) is the unique national identification number issued by the Registers Iceland (ic. Þjóðskrá Íslands) and used by governmental bodies and enterprises to identify individuals, and through a comparable schema under the Iceland Revenue and Customs (ic. ríkisskattstjóri), legal entities in Iceland. It is used to identify the sender and receiver.
-- **Claim** is a request for payment from a sender to a receiver. It is stored in the Claim System and can be in Icelandic or foreign currency.
-- A claim is **uniquely identified** by the following five components:
-    1. **Claimant**
-    2. **Bank**
-    3. **Ledger** (in this case, 66)
-    4. **ID**
-    5. **Due date**
 
-- **SecondarCollection** refers to the process of forwarding an unpaid or overdue claim to a specialized collection agency after the final due date has passed. At this stage, additional fees or interest may apply, and the collection agency typically takes steps (such as contacting the debtor or negotiating new payment terms) to recover the outstanding amount.  
+- **Claims System** is the system owned and operated by Reiknistofa bankanna (RB) for storing and displaying information about claims. This system makes it possible to track the status of claims, see which ones are in the payment process, which have been paid, and which have been sent for collection.
+
+- **Claimant** (often abbreviated as **KT**) is the unique national identification number issued by Registers Iceland (ic. Þjóðskrá Íslands) for individuals, and by the Iceland Revenue and Customs (ic. ríkisskattstjóri) for legal entities in Iceland. It is used to identify both senders and receivers.
+
+- **Claim** is a request for payment from a sender to a receiver. It is stored in the Claims System that is managed by Reiknistofa Bankanna (RB)
+  A claim is **uniquely identified** by the following five components:  
+  1. **Claimant**  
+  2. **Bank**  
+  3. **Ledger** (in this case, 66)  
+  4. **ID**  
+  5. **Due date**
+
+- **Secondary Collection** refers to the process of forwarding an unpaid or overdue claim to a specialized collection agency after the final due date has passed. At this stage, additional fees or interest may apply, and the collection agency typically takes steps (such as contacting the debtor or negotiating new payment terms) to recover the outstanding amount.
 
 <!-- TerminalogyEnd -->
 
@@ -134,12 +133,11 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 
 <!-- SvcOverview|Start -->
 
-| **Service**    | **Description**                                                                                                                                        |
-|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Claims         | The Claims Service offers methods to create and update claims, retrieve the status of a claim, and access the types of claims supported by the system. |
-| Batches        | The Batches Service validates and queues bulk transactions for processing, enabling mass submission, modification, cancellation, or secondary collection of claims.|
-| Templates      | provide standardized definitions for creating claims. These methods allow you to retrieve either all available templates or the details of a specific template. |
-
+| **Service** | **Description**                                                                                                                                                         |
+|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Claims      | The Claims Service offers methods to create and update claims, retrieve the status of a claim, and access the types of claims supported by the system.                  |
+| Batches     | The Batches Service validates and queues bulk transactions for processing, enabling mass submission, modification, cancellation, or secondary collection of claims.     |
+| Templates   | Provide standardized definitions for creating claims. These methods allow you to retrieve either all available templates or the details of a specific template.         |
 
 The subsequent section describes the functionality offered by the service.
 
@@ -148,9 +146,9 @@ The subsequent section describes the functionality offered by the service.
 
 ### Claims Service 
 
-The Claims System is a central database managed by Reiknistofa Bankanna (RB) that tracks both paid and unpaid claims. Claims are recorded under ledger 66 and can be in Icelandic or foreign currency.
-As a real-time system, it allows users to create, modify, cancel, view, and resend claims instantly via web services. Batch transactions are validated and queued for processing, supporting mass submissions of claims, modifications, cancellations, and secondary collections.
-Claims are displayed in online banking systems, where users can make payments.
+The Claims System tracks both paid and unpaid claims. Claims are recorded under ledger 66 and can be in Icelandic or foreign currency. As a real-time system, it allows users to create, modify, cancel, view, and resend claims instantly via web services. 
+
+Batch transactions are validated and queued for processing, supporting mass submissions of claims, modifications, cancellations, and secondary collections. Claims are displayed in online banking systems, where users can make payments.
 
 :Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport2}
 

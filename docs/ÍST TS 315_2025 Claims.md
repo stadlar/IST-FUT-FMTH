@@ -111,16 +111,25 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 
 - **Claims System** is the system owned and operated by Reiknistofa bankanna (RB) for storing and displaying information about claims. This system makes it possible to track the status of claims, see which ones are in the payment process, which have been paid, and which have been sent for collection.
 
-- **Claimant** (often abbreviated as **KT**) is the unique national identification number issued by Registers Iceland (ic. Þjóðskrá Íslands) for individuals, and by the Iceland Revenue and Customs (ic. ríkisskattstjóri) for legal entities in Iceland. It is used to identify both senders and receivers.
-
 - **Claim** is a request for payment from a sender to a receiver. It is stored in the Claims System that is managed by Reiknistofa Bankanna (RB)
-  A claim is **uniquely identified** by the following five components:  
-  1. **Claimant**  
-  2. **Bank**  
-  3. **Ledger** (in this case, 66)  
-  4. **ID**  
-  5. **Due date**
+  A claim is **uniquely identified** by the five components of the claim key as shown below in [Table @tbl:claim_claimid].
 
+    ------------- ----------- -------- ---------- -------- --------------
+                  Claimant    Bank     Ledger     Claim    Due date      
+                              branch   ID         ID                     
+    ------------- ----------- -------- ---------- -------- --------------
+    Description   10 digit    4 digit  2 digit    6 digit  8 digits
+                  kennitala   branch   constant   number   in the pattern
+                              number   set to 66           YYYYMMDD
+
+    Example       1111111119  0001     66         007654   20250225 
+    --------------------------------------------------------------------------
+    :ClaimId with example. {#tbl:claim_claimid}  
+
+- **Claimant** (ic. kröfuhafi) is the party that is the beneficiary or payee of the claim.
+  
+- **Kennitala** (often abbreviated as **KT**) is the unique national identification number issued by Registers Iceland (ic. Þjóðskrá Íslands) for individuals, and by the Iceland Revenue and Customs (ic. ríkisskattstjóri) for legal entities in Iceland. It is used to identify both senders and receivers.
+  
 - **Secondary Collection** refers to the process of forwarding an unpaid or overdue claim to a specialized collection agency after the final due date has passed. At this stage, additional fees or interest may apply, and the collection agency typically takes steps (such as contacting the debtor or negotiating new payment terms) to recover the outstanding amount.
 
 <!-- TerminalogyEnd -->

@@ -6994,6 +6994,8 @@ components:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
         remittanceInformationStructuredArray: 
           $ref: "#/components/schemas/remittanceInformationStructuredArray"
+        partialPayment:
+          $ref: "#/components/schemas/partialPayment"
 
     iobwsAuthorisationConfirmation:
       description: |

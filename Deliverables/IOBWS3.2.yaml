@@ -5129,7 +5129,7 @@ components:
           generally as part of a National Account Numbering Scheme(s), 
           which uniquely identifies the account of a customer.
       type: string
-      pattern: '[a-zA-Z0-9\+]{1,30}'
+      pattern: "[a-zA-Z0-9]{1,30}"
       example: "BARC12345612345678"
 
 

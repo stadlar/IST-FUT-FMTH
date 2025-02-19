@@ -170,15 +170,15 @@ Description of the implementation of the checksum calculation is outside the sco
 <!-- TerminalogyEnd -->
 **The Unique Claim Identifier** references the ID of a claim based on the collection solution Kröfupotturinn. To initiate a payment to settle a claim, or relate transaction information about a previous payment, the claim ID should be formatted as a Basic Bank Account Number (BBAN). The method is shown below in [Table @tbl:ice_claim]. Claim Payments will therefore include BBAN, rather than IBAN, as a creditor account reference.
 
-----------------------------------------------------------------------------------------------------
-              Claimant      National    Branch     Fixed      Account     Delimiter   Due    
-              Id            Bank        ID         Ledger     Number                  Date    
+-------------------------------------------------------------------------------------
+              Claimant      National    Branch     Fixed      Account     Due    
+              Id            Bank        ID         Ledger     Number      Date    
               (kennitala)   Code                   Id                                 
-------------- ------------- ----------- ---------- ---------- ----------- ----------- --------------
-Description   10 digits     2 digits    2 digits   2 digits   6 digits    Plus sign   DDMMYY  
+------------- ------------- ----------- ---------- ---------- ----------- -----------
+Description   10 digits     2 digits    2 digits   2 digits   6 digits    DDMMYY  
 
-Example       5510730339    01          59         66         007654      +           311220 
-----------------------------------------------------------------------------------------------------
+Example       5510730339    01          59         66         007654      311220 
+-------------------------------------------------------------------------------------
 :Claim key transformed to BBAN with example. {#tbl:ice_claim} 
 
 \newpage

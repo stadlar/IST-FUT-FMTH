@@ -1,9 +1,9 @@
 ---
-title: "ÍST WA 316:2022"
+title: "ÍST TS 316:2022"
 author: ICS 35.240
 date: "Entry into force 29-03-2022"
 subject: "Icelandic Online Banking Webservices "
-keywords: [IOBWS, ÍST, WA, 316]
+keywords: [IOBWS, ÍST, TS, 316]
 subtitle: ["Vinnustofusamþykkt - IOBWS útgáfa\_3 tæknilegar viðmiðanir", "Workshop Agreement - IOBWS version 3 Technical Guidelines"]
 lang: "en"
 titlepage: true,
@@ -44,9 +44,9 @@ titlefont: Arial.ttf
 
 # Foreword {.unnumbered}
 <!-- ForewordStart -->
-This ÍST workshop agreement was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnu­stofu­samþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The WA (Workshop Agreement) was prepared by working groups VH-7 and VH-8, with input from VH-1 and VH-2 under the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardisation) following a public call for participation within TN-FMÞ. The final draft was sent to the TN-FMÞ on the {{finaldraft_date}} and approved by correspondence on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
+This ÍST Technical Specification was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnu­stofu­samþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The TS (Technical Specification) was prepared by working groups VH-7 and VH-8, with input from VH-1 and VH-2 under the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardisation) following a public call for participation within TN-FMÞ. The final draft was sent to the TN-FMÞ on the {{finaldraft_date}} and approved by correspondence on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
 
-The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures laid out in the workshop agreement.
+The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures laid out by the working groups.
 
 {{funding_paragraph}}
 
@@ -62,7 +62,7 @@ The Technical Committee's participants have made every effort to ensure the reli
 # Introduction {.unnumbered}
 
 <!-- IntroductionStart -->
-This Workshop Agreement (WA) presents aspects of the framework for maintaining and implementing API service in version 3.0 of the Icelandic Online Banking Services (IOBWS).
+This Technical Specifications (TS) presents aspects of the framework for maintaining and implementing API service in version 3.0 of the Icelandic Online Banking Services (IOBWS).
 
 Previous versions of IOBWS, released in 2007 and 2013 respectively, used the most recent OASIS SOAP standards at the time, to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises and service providers to integrate their accounting, payment, and information systems with the bank's services, to act on behalf of the customers and with full access to their data.
 Further examples of usage are discussed in the section on [Use Cases](#main-use-cases).
@@ -73,7 +73,7 @@ The Open Banking regulation in the UK and the PSD2 regulation issued by the Euro
 
 Another goal achieved by adopting the NextGenPSD2 Framework is the transition from SOAP to a REST-like API defined by a version of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this addresses some of the perceived complexity in adapting IOBWS to use cases, platforms and programming languages that have come to the fore after the release of the previous IOBWS versions.
 
-ÍST {{spec_id}} includes information on common implementation details and cross-cutting concerns related to the technical specifications that together form IOBWS version 3. It is intended to be an evolving document with each minor version issued as a new workshop agreement. The process for this is described in [section @sec:ws_maintainance].
+ÍST {{spec_id}} includes information on common implementation details and cross-cutting concerns related to the technical specifications that together form IOBWS version 3. It is intended to be an evolving document with each minor version issued as a new Technical Specification. The process for this is described in [section @sec:ws_maintainance].
 
 # Scope 
 

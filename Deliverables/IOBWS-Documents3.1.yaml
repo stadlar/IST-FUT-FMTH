@@ -2439,7 +2439,7 @@ components:
               "keyType": Claim,
               "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
               "documentStore": Ark,
-              "documentCategory ": Bill,
+              "documentCategory": Bill,
               "documentDescription": "Bill for services rendered.",
               "documentEffectiveDate": "2024-04-01T00:00:00",
               "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
@@ -2449,7 +2449,7 @@ components:
               "keyType": Claim,
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
               "documentStore": RBS,
-              "documentCategory ": CollectionLetter,
+              "documentCategory": CollectionLetter,
               "documentDescription": "Collection letter.",
               "documentEffectiveDate": "2024-05-01T00:00:00",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
@@ -2465,7 +2465,7 @@ components:
               "keyType": Claim,
               "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
               "documentStore": Ark,
-              "documentCategory ": Bill,
+              "documentCategory": Bill,
               "documentDescription": "Bill for services rendered.",
               "documentEffectiveDate": "2024-04-01T00:00:00",
               "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
@@ -2475,7 +2475,7 @@ components:
               "keyType": Claim,
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
               "documentStore": RBS,
-              "documentCategory ": CollectionLetter,
+              "documentCategory": CollectionLetter,
               "documentDescription": "Collection letter.",
               "documentEffectiveDate": "2024-05-01T00:00:00",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
@@ -2491,7 +2491,7 @@ components:
               "keyType": Claim,
               "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
               "documentStore": Ark,
-              "documentCategory ": Bill,
+              "documentCategory": Bill,
               "documentDescription": "Bill for services rendered.",
               "documentEffectiveDate": "2024-04-01T00:00:00",
               "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
@@ -2501,9 +2501,9 @@ components:
               "keyType": Claim,
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
               "documentStore": RBS,
-              "documentCategory ": CollectionLetter,
+              "documentCategory": CollectionLetter,
               "documentDescription": "Collection letter.",
-              "DocumentEffectiveDate": "2024-05-01T00:00:00",
+              "documentEffectiveDate": "2024-05-01T00:00:00",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
           }
         ]

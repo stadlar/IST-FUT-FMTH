@@ -101,7 +101,7 @@ The YAML artifacts are distributed under the Creative Commons Attribution 4.0 In
 | ---                                                            | TS 311:2022 Debit and credit cards details and statements (replaces TS 311:2021, new in IOBWS v3.0)                  |  
 | TS 162:2013 Innheimtukröfur<br>TS 163:2013 Milliinnheimta      | TS 315:2025 Claims                      |  
 | TS 165:2013 Rafræn skjöl                                       | TS 314:2022 Documents (replaces TS 314:2021)                    |  
-| TS 166:2013 Tæknilegar upplýsingar og villuboð                 | WA 316:2022 Technical Requirements       |  
+| TS 166:2013 Tæknilegar upplýsingar og villuboð                 | TS 316:2022 Technical Requirements       |  
 | ---                                                            | TS 313:2023 Foreign Payments  (replaces TS 313:2022 and TS 313:2021)          |  
 
 

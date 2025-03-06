@@ -14840,6 +14840,7 @@ components:
             "iban": "IS40100100103307118608"
           },
           "creditorId": "0208714669",
+          "creditorName": "Will be ignored",
           "icelandicPurposeCode": "03",
           "remittanceInformationUnstructured": "My description"
         }

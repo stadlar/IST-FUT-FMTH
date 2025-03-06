@@ -1,10 +1,9 @@
-spec_id: "WA-316"
-fulldoc_name: "ÍST WA 316_2022 IOBWS 3.0 Technical Guidelines"
+spec_id: "TS-316"
+fulldoc_name: "ÍST TS 316_2025 IOBWS 3.1 Technical Guidelines"
 context_short: "technical guidelines"
-finaldraft_date: "2022-03-29"
-approve_date: "2022-03-29"
-publication_date: "2022-03-29"
+finaldraft_date: "2025-03-06"
+approve_date: "2025-03-06"
+publication_date: "2025-03-06"
 funding_paragraph: |
-  The work on the ÍST WA-316 was primarily funded by Íslandsbanki, Arion Banki and 
-  Landsbankinn, with participation by Alskil hf, Eignaumsjón hf, 
+  The work on the ÍST TS-316 was primarily funded by Íslandsbanki, and Arion Banki, with participation by Alskil hf, Eignaumsjón hf, 
   Payday ehf, Wise lausnir ehf and Seðlabanki Íslands. 

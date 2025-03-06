@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [TS 316 3.1] - 2022-03-25
+
+- Update of WA 316, from a workshop agreement to a technical specification.
+
 ## [3.1.0] - 2022-11-30
 
 - First minor version release of TS 310 and TS 313, identifies as version 3.1
@@ -28,7 +32,7 @@ All notable changes to this project will be documented in this file. The project
 ## [3.0.6] - 2022-03-25
 
 - First release of WA 316, a workshop agreement that contains technical guidelines for some of the subdocuments.
-- [ÍST TS 316:2022 Domestic payments and deposits](Deliverables/ÍST%20WA%20316_2022%20IOBWS%203.0%20Technical%20Guidelines.pdf)
+- [ÍST WA 316:2022 Technical Guidelines](Deliverables/ÍST%20WA%20316_2022%20IOBWS%203.0%20Technical%20Guidelines.pdf)
 
 ## [3.0.5] - 2022-03-25
 

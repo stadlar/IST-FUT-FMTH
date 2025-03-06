@@ -53,7 +53,7 @@ Parties wishing to participate in the work of TN FMÞ are expected to know and u
 Additional information on the implementation and consumption of APIs described in the technical specifications listed here, 
 can be found in the following document. It also contains some further information on the maintenance of this repository.  
 
-* [Workshop agreement WA 316 – IOBWS Technical Guidelines](Deliverables/%C3%8DST%20WA%20316_2022%20IOBWS%203.0%20Technical%20Guidelines.pdf)
+* [Workshop agreement TS 316 – IOBWS Technical Guidelines](Deliverables/%C3%8DST%20TS%20316_2025%20IOBWS%203.0%20Technical%20Guidelines.pdf)
 
 <!-- CONTRIBUTING -->
 ## Contributing

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: IOBWS 3.0 Domestic Claims
-  version: "3.0"
+  version: "3.1"
   description: |
     The claim service is focused on two parties. First is the company (claimant) who creates claims and then
     the collection company.  

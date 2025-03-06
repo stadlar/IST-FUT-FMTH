@@ -1,0 +1,24 @@
+include-before: |
+  Participants in ÍST Workshop VH-8 during the development of "*{{context_icelandic}}*" (e. {{context_english}}).
+
+  | Name                          | Company                    | Name                         | Company              |                              
+  | ----------------------------- | -------------------------- | ---------------------------- | -------------------- |
+  | Halldór Vagn Hreinsson        | Íslandsbanki               |  Snorri Karlsson             | Íslandsbanki         |   
+  | Jóhannes Þór Ágústarson       | Íslandsbanki               |  Sigurvin Frank Garðarsson   | Íslandsbanki         |  
+  | Kristinn Stefánsson           | Arion banki                |  Kristján Theódór Sigurðsson | Arion banki          |
+  | Björn Ingi Björnsson          | Arion banki                |  Daníel Sveinsson            | Arion banki          |
+  | Haukur Hrafn Þorsteinsson     | Atburðarás                 |  Fjölnir Sveinssson          | Arion banki          |  
+  | Ármann Jónsson                | Arion banki                |  Atli Mar Gunnarsson         | Arion banki          |       
+
+  © Icelandic Standards (IST) 2021, 2022, 2025. All Rights Reserved.
+
+  Without the written permission of the publisher,  
+  this technical specification document may not  
+  be reprinted or reproduced in any form by any  
+  means, mechanical or electronic, such as by  
+  photocopying, sound recording or other means,  
+  currently known or later invented, nor may the   
+  agreement be disseminated through an electronic  
+  database. 
+    
+  2nd edition

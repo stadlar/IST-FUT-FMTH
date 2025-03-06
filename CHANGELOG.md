@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+  
+## [Documents 3.1] - 2025-03-06
+
+- Point release of TS 314 after validation and updates by workgroup 8:
+- [TS 314:2025 Documents](Deliverables/%C3%8DST-TS-314_2025%20Documents.pdf) (replaces TS 314:2022)
 
 ## [3.1.0] - 2022-11-30
 

@@ -6,7 +6,7 @@ function doc()
   outext=$1
   export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct "docs/${fullname}.md")
   echo "$SOURCE_DATE_EPOCH"
-  docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) -e SOURCE_DATE_EPOCH="$SOURCE_DATE_EPOCH" artifactory.arionbanki.is/docker-curated-dev/arion/pandocker:buster-full-latest "docs/${fullname}.md" -o "Deliverables/${fullname}.${outext}" \
+  docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) -e SOURCE_DATE_EPOCH="$SOURCE_DATE_EPOCH" arionbank/pandocker:buster-full-latest "docs/${fullname}.md" -o "Deliverables/${fullname}.${outext}" \
     --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache \
     --citeproc --top-level-division=chapter --pdf-engine=xelatex \
     --variable 'mainfont:Arial' --variable 'mainfontoptions:Scale=0.94, Extension=.ttf, UprightFont=*, BoldFont=*_Bold, ItalicFont=*_Italic, BoldItalicFont=*_Bold_Italic' \
@@ -28,8 +28,8 @@ then
   cp "out/docs/310and313media/AuthFlow1/AuthFlow1.eps" "lib/media/authtflow1.eps"
 fi
 # ex "ÍST WA 316_2022 IOBWS 3.0 Technical Guidelines"
-ex "ÍST TS 313_2023 Foreign payments"
-ex "ÍST TS 310_2023 Domestic payments and deposits"
+# ex "ÍST TS 313_2023 Foreign payments"
+ex "ÍST TS 310_2025 Domestic payments and deposits"
 # ex "ÍST TS 311_2022 Debit and credit cards details and statements"
 # ex "ÍST TS 312_2022 Currency Exchange Rates"
 # ex "ÍST TS 314_2022 Digital Documents"

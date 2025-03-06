@@ -65,9 +65,9 @@ The Technical Committee's participants have made every effort to ensure the reli
 # Introduction {.unnumbered}
 
 <!-- IntroductionStart -->
-This Technical Specification (TS) presents version 3.0 of the Icelandic Online Banking Services (IOBWS) for {{context_short}}.
+This Technical Specification (TS) presents version 3.1 of the Claims specifiation that is part of the Icelandic Online Banking Services (IOBWS) for {{context_short}}.
 
-Previous versions of IOBWS, released in 2007 and 2013 respectively, used the OASIS SOAP standards which were current at the time to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises, and service providers to integrate their accounting, payment, and information systems with the banks’ services, allowing them to act on behalf of the customers and with full access to their data.
+Previous versions of IOBWS Claims, released in 2007 and 2013 respectively, used the OASIS SOAP standards which were current at the time to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises, and service providers to integrate their accounting, payment, and information systems with the banks’ services, allowing them to act on behalf of the customers and with full access to their data.
 
 A goal of the IOBWS version 3.0 charter, which was set forth by TN-FMÞ in the beginning, is the transition from SOAP to a REST-like API, which is defined by a recent iteration of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this addresses some of the perceived complexity in adapting IOBWS to various use cases, platforms, and programming languages that have come to the forefront after the release of the previous IOBWS versions.
 <!-- IntroductionEnd -->

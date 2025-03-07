@@ -1,14 +1,14 @@
 include-before: |
-  Participants in ÍST Workshop VH-8 during the development of "*{{context_icelandic}}*" (e. {{context_english}}).
+  Participants in ÍST Workshop VH-2 during the development of "*{{context_icelandic}}*" (e. {{context_english}}).
 
-  | Name                          | Company                    | Name                         | Company              |                              
-  | ----------------------------- | -------------------------- | ---------------------------- | -------------------- |
-  |                               |                            |                              |                      |
-  |                               |                            |                              |                      |
-  |                               |                            |                              |                      |
-  |                               |                            |                              |                      |
-  |                               |                            |                              |                      |
-  |                               |                            |                              |                      |
+  | Name                         | Company                  | Name                        | Company          |                              
+  | ---------------------------- | ------------------------ | --------------------------- | ---------------- |
+  | Guðmundur Andri Hjálmarsson  | Reiknistofa bankanna hf. | Kristján Theódór Sigurðsson |  Arion banki hf. |
+  | Þórný Pétursdóttir           | Reiknistofa bankanna hf. | Kristinn Stefánsson         |  Arion banki hf. |
+  | Halldór Vagn Hreinsson       | Íslandsbanki hf.         |                             |                  |
+  |                              |                          |                             |                  |
+  |                              |                          |                             |                  |
+  |                              |                          |                             |                  |
  
   © Icelandic Standards (IST) 2021, 2022, 2025. All Rights Reserved.
 
@@ -21,4 +21,4 @@ include-before: |
   agreement be disseminated through an electronic  
   database. 
     
-  2nd edition
+  3rd edition

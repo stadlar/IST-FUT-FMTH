@@ -1,7 +1,7 @@
 ---
 title: "ÍST TS 314:2025"
 author: ICS 35.240, 3.060
-date: "Entry into force 28.03.2025"
+date: "Entry into force 21.03.2025"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 314]
 subtitle: ["Tækniforskrift - Rafræn skjöl", "Technical specification - Digital Documents"]
@@ -43,17 +43,18 @@ titlefont: Arial.ttf
 \newpage
 
 # Foreword {.unnumbered}
-!include`snippetStart="<!-- ForewordStart -->", snippetEnd="<!-- ForewordEnd -->"` "docs/ÍST TS 312_2022 Currency Exchange Rates.md"
+
+!include`snippetStart="<!-- ForewordStart -->", snippetEnd="<!-- ForewordEnd -->"` "docs/commonMedia/preliminary.md"
 
 # Introduction {.unnumbered}
 
-!include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "docs/ÍST TS 312_2022 Currency Exchange Rates.md"
+!include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "docs/commonMedia/preliminary.md"
 
 The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification, defining services that encapsulated the system previously known as *Birtingur* and now as *ARK-kerfið*. This system has since the year 2000 enabled enterprises in Iceland to upload information for display based on templates in all of the domestic banks' online user interfaces. The TN-FMÞ did not substantially alter the functionality available in the previous service but made some possibilities more explicit such as altering or adding a version to a batch of digital documents, and opening up the possibility of more other document storage locations besides *ARK*. See [subsection @sec:svc_overview] for further details.
 
 The ÍST {{spec_id}} specification should be viewed as standalone though part of the IOBWS version 3 framework and adapting the same REST patterns established in the OpenAPI contracts that are part of version 3. It should be emphasized that ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The patterns shared by the IOBWS version 3 specifications may however result in some of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
 
-# Scope 
+# Scope
 
 <!-- ScopeDocContextStart -->
 ÍST {{spec_id}} defines web application programming interfaces implemented by Icelandic commercial and savings banks to expose shared functionality and information for {{context_short}}, under the Icelandic Online Banking Web Services (IOBWS) framework of specifications.
@@ -85,8 +86,8 @@ NextGenPSD2 v1.3.8. *The Berlin Group NextGenPSD2 Access to Account Framework*.
 
 OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Linux Foundation Collaborative Project.
 
-
 ## Terms and definitions
+
 - **ARK-kerfið** is the system owned and operated by Reiknistofa bankanna (RB), for storing and displaying data based on specified templates or whole documents. Previously the system was owned by Greiðsluveitan ehf and known domestically under the name Birtingur.
 - **Birtingur**: see *ARK-kerfi*.
 - **Checkfree**: see *ARK-kerfi*.
@@ -143,7 +144,7 @@ documents\/{document-store-location}\/{sender-kennitala}\/{documents-id}       G
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 :Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport2}  
 
-### Cross-Reference Service 
+### Cross-Reference Service
 
 The [table @tbl:tbl_crossreferences] describes the resources found in the NextGenPSD2 based {{yaml_definition}}.
 

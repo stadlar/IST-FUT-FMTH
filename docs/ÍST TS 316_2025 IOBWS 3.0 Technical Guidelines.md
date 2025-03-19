@@ -335,12 +335,10 @@ business logic can of course apply as indicated by documentation provided by the
 | /v1/claims/{claimId}                                                                                | claims.read, claims.write   |
 | /v1/claims/{claimId}/transactions                                                                   | claims.read                 |
 | /v1/claims/{claimId}/history                                                                        | claims.read                 |
-| /v1/claims/{claimId}/collection                                                                     | claims.read, claims.write   |
 | /v1/claims                                                                                          | claims.read, claims.write   |
 | /v1/batches                                                                                         | claims.read, claims.write   |
 | /v1/batches/{batchId}                                                                               | claims.read, claims.write   |
 | /v1/claims/transactions                                                                             | claims.read, claims.write   |               
-| /v1/claimscollection/{claimId}:                                                                     | claimscollection.read, claimscollection.write |                                          
 : Required claim scopes. 
 
 # Idempotency

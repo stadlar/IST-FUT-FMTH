@@ -317,8 +317,8 @@ Claim templates can only be queried, so the scope is read-only.
 
 |              Claim Templates EndPoint                                                               | Scope                       |              
 |-----------------------------------------------------------------------------------------------------|---------------------        |                    
-| /v1/claimtemplates:                                                                                 | claimtemplates.read         |                 
-| /v1/claimtemplates/{templateId}:                                                                    | claimtemplates.read         |                                                                       
+| /v1/claimtemplates                                                                                  | claimtemplates.read         |                 
+| /v1/claimtemplates/{claimTemplateId}                                                                | claimtemplates.read         |                                                                       
 : Required claim template scopes. 
 
 ### Claim endpoints

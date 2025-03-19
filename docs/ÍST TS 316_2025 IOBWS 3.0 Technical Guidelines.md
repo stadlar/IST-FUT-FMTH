@@ -197,8 +197,8 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-1. When I log in as a secondary collection role, I identify using a client ID that is related to that role. 
-2. When I log in as the parent enterprise to create claims as a primary claims collector, I identify using a client ID that is related to that role. 
+1. When I log in as a secondary collection role, I can choose to identify using a client ID that is related to that role. 
+2. When I log in as the parent enterprise to create claims as a primary claims collector, I can choose to identify using a client ID that is related to that role. 
 
 ### Claim Collection Agency
 

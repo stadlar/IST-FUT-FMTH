@@ -120,7 +120,7 @@ Further notes on contributing and details on how to adhere to these rules are in
 
 The API specifications for IOBWS reference OAuth2 based authorization, with the NextGenPSD2 ancestry of parts of the specification, occasionally showing through as references to consents. It is the intention here to further elaborate on the ways the most common use cases should be handled as the common dominator among implementors and consumers of the APIs.  
 
-It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication, will continue to be supported by all those who. They will not require the usage of usernames and passwords as in the previous IOBWS specifications, though implementers may use other standard mechanisms such as client IDs and secrets to distinquish between different roles (see U[section @sec:use_cases]).  
+It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication, will continue to be supported. They will not require the usage of usernames and passwords as in the previous IOBWS specifications, though implementers may use other standard mechanisms such as client IDs and secrets to distinquish between different roles (see U[section @sec:use_cases]).  
 
 Additionally, OpenID Code Flow with PKCE will be part of the common support to handle the various scenarios.
 
@@ -310,16 +310,6 @@ For consents, scopes can specify either read or write.
 |-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
 | /v1/consents/                                                                                       | consents.read, consents.write                 |                                                                    
 : Required consents scopes. 
-
-### Claim template endpoints
-      
-Claim templates can only be queried, so the scope is read-only.
-
-|              Claim Templates EndPoint                                                               | Scope                       |              
-|-----------------------------------------------------------------------------------------------------|---------------------        |                    
-| /v1/claimtemplates                                                                                  | claimtemplates.read         |                 
-| /v1/claimtemplates/{claimTemplateId}                                                                | claimtemplates.read         |                                                                       
-: Required claim template scopes. 
 
 ### Claim endpoints
 

@@ -311,6 +311,16 @@ For consents, scopes can specify either read or write.
 | /v1/consents/                                                                                       | consents.read, consents.write                 |                                                                    
 : Required consents scopes. 
 
+### Claim template endpoints
+      
+Claim templates can only be queried, so the scope is read-only.
+
+|              Claim Templates EndPoint                                                               | Scope                       |              
+|-----------------------------------------------------------------------------------------------------|---------------------        |                    
+| /v1/claimtemplates                                                                                  | claims.read         |                 
+| /v1/claimtemplates/{claimTemplateId}                                                                | claims.read         |                                                                       
+: Required claim template scopes. 
+
 ### Claim endpoints
 
 For endpoints related to claim resources, the users can either be primary claimants or in the role 

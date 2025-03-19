@@ -206,7 +206,7 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-1. When I log in, my token reflects the css.read and css.write scopes. 
+1. When I log in, my token reflects the claimscollection.read and claimscollection.write scopes. 
 2. The token claims as per each service rule, will not allow me to create claims on the /claims endpoint.
 
 ## Scopes

@@ -120,11 +120,11 @@ Further notes on contributing and details on how to adhere to these rules are in
 
 The API specifications for IOBWS reference OAuth2 based authorization, with the NextGenPSD2 ancestry of parts of the specification, occasionally showing through as references to consents. It is the intention here to further elaborate on the ways the most common use cases should be handled as the common dominator among implementors and consumers of the APIs.  
 
-It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication will continue to be supported. They will not require the usage of usernames and passwords as in the previous IOBWS specifications.  
+It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication, will continue to be supported by all those who. They will not require the usage of usernames and passwords as in the previous IOBWS specifications, though implementers may use other standard mechanisms such as client IDs and secrets to distinquish between different roles (see U[section @sec:use_cases]).  
 
 Additionally, OpenID Code Flow with PKCE will be part of the common support to handle the various scenarios.
 
-## Main Use Cases 
+## Main Use Cases [section @sec:use_cases]
 
 To harmonize technical expectations, some basic use cases are considered and the acceptance criteria should guide implementors towards selecting the correct solution.
 

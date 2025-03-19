@@ -202,13 +202,12 @@ Acceptance criteria:
 
 ### Claim Collection Agency
 
-> As a **Claim Collection Agency**, I want my system to be able to interact with the endpoints to manipulate claims whose status is in the secondary collection and transferred to a claim template in my ownership. 
+> As a **Claim Collection Agency**, I want my system to be able to interact with the endpoints to manipulate claims whose status is in the secondary collection and transferred to a claim template in my ownership.
 
 Acceptance criteria:
 
 1. When I log in, my token reflects the css.read and css.write scopes. 
-2. The token claims as per each service rule, will not allow me to create claims on the /claims endpoint. 
-3. The token claims will allow me to invoke claimsRecreationBatch(sic) that will be renamed to claimsRecreateBatch. 
+2. The token claims as per each service rule, will not allow me to create claims on the /claims endpoint.
 
 ## Scopes
 

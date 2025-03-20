@@ -221,7 +221,6 @@ The authorization mechanism in each bank will, of course, further define access 
 | pis:{PaymentId}              | Prefix for payment scope, when dynamic scopes are supported by provider                            |
 | accounts                     | Account scope without prefix, when user access is not specified by the optional consent endpoint   |
 | ais:{ConsentId}              | Account consent scope                                                                              |
-| claimtemplates               | Claim template scope                                                                               |
 | claims                       | Claim scope                                                                                        |
 | claimscollection             | Collection Claims scope                                                                            |
 | documents                    | Document scope                                                                                     |

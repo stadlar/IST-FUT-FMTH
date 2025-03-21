@@ -62,7 +62,7 @@ The Technical Committee's participants have made every effort to ensure the reli
 # Introduction {.unnumbered}
 
 <!-- IntroductionStart -->
-This Technical Specifications (TS) presents aspects of the framework for maintaining and implementing API service in version 3.0 of the Icelandic Online Banking Services (IOBWS).
+This Technical Specifications (TS) presents aspects of the framework for maintaining and implementing API service in version 3.x of the Icelandic Online Banking Services (IOBWS).
 
 Previous versions of IOBWS, released in 2007 and 2013 respectively, used the most recent OASIS SOAP standards at the time, to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises and service providers to integrate their accounting, payment, and information systems with the bank's services, to act on behalf of the customers and with full access to their data.
 Further examples of usage are discussed in the section on [Use Cases](#main-use-cases).
@@ -394,6 +394,19 @@ An example of a header submitted with the idempotent key element:
     Authorization: Bearer oauth2_token
     Idempotent-Key: 123e4567-e89b-12d3-a456-336655440000
 ```
+
+# Merge Patching
+
+RFC 7396 [@RFC7396] defines a simple format for describing modifications to a JSON document. It is primarily designed for use with the HTTP PATCH method and is especially suited to JSON documents that are structured as objects. The RFC should be considered as a reference for how patching is used in the API specifications that are part of the version 3.x series of the Icelandic Online Banking Services (IOBWS) APIs. Some of the key points in how patching should be applied focus on describing changes by "merging" a patch document with the target JSON document, rather than listing a series of operations:
+
+* Addition/Replacement:
+  If a key in the patch does not exist in the target, it is added. If it exists, its value is replaced with the one from the patch.
+* Deletion:
+  If a key’s value in the patch is null, the key is removed from the target.
+* Recursive Merging:
+  If a key’s value is an object, the patch is applied recursively to merge with the target’s object value.
+
+  Further instructions, explanations and examples can be found in the RFC document.
 
 # Bibliography {.unnumbered}
 \ 

@@ -327,18 +327,18 @@ of a secondary collection agent. It is not expected that service providers suppo
 but all authorization servers should accept either as appropriate per endpoint. Additional access restrictions and 
 business logic can of course apply as indicated by documentation provided by the service provider.
 
-|              Claims EndPoint                                                                        | Scope                       |              
-|-----------------------------------------------------------------------------------------------------|---------------------        |                                           
-| /v1/claimtemplates                                                                                  | claims.read                 |
-| /v1/claimtemplates/{claimTemplateId}                                                                | claims.read                 |   
-| /v1/claims/{claimId}                                                                                | claims.read, claims.write   |
-| /v1/claims/{claimId}/transactions                                                                   | claims.read                 |
-| /v1/claims/{claimId}/history                                                                        | claims.read                 |
-| /v1/claims                                                                                          | claims.read, claims.write   |
-| /v1/batches                                                                                         | claims.read, claims.write   |
-| /v1/batches/{batchId}                                                                               | claims.read, claims.write   |
-| /v1/claims/transactions                                                                             | claims.read, claims.write   |               
-: Required claim scopes. 
+|              Claims EndPoint                                                                        | Scope                                                                   |
+|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| /v1/claimtemplates                                                                                  | claims.read                                                             |
+| /v1/claimtemplates/{claimTemplateId}                                                                | claims.read                                                             |
+| /v1/claims/{claimId}                                                                                | claims.read, claims.write, claimscollection.read, claimscollection.write|
+| /v1/claims/{claimId}/transactions                                                                   | claims.read, claimscollection.read                                      |
+| /v1/claims/{claimId}/history                                                                        | claims.read, claimscollection.read                                      |
+| /v1/claims                                                                                          | claims.read, claims.write, claimscollection.read                        |
+| /v1/batches                                                                                         | claims.write, claimscollection.write                                    |
+| /v1/batches/{batchId}                                                                               | claims.read, claimscollection.read                                      |
+| /v1/claims/transactions                                                                             | claims.read, claimscollection.read                                      |
+: Required claim scopes.
 
 # Idempotency
 

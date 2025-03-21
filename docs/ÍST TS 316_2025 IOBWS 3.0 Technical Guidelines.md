@@ -100,6 +100,7 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 Project.
 
 ## Terms and definitions
+
 - **Berlin Group** is a pan-European payments interoperability standards and harmonisation initiative with the primary objective of defining open and common scheme- and processor-independent standards in the interbanking domain between Creditor Bank (Acquirer) and Debtor Bank (Issuer), complementing the work carried out by e.g. the European Payments Council. As such, the Berlin Group has been established as a pure technical standardisation body, focusing on detailed technical and organisational requirements to achieve this primary objective.
 - **Electronic IDentification, Authentication and trust Services** (**eIDAS**) refers to regulation 910/2014 [@EU910/2014], which replaced previous directive 1999/93/EC. It was introduced to Iceland law through act no. 2019/55 [@IS2019/55].
 - **The OpenAPI Specification** (**OAS**) defines a programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic.
@@ -235,16 +236,16 @@ Depending on the implementation, the endpoints for payments can require either a
 dynamic scopes that dynamically link this particular request to a known context. In the latter case, the NextGenAPI *pis* pattern is
 used for overall compatibility.
 
-|  Payments EndPoint                                                                                  | Scope                       |              
+|  Payments EndPoint                                                                                  | Scope                       |
 |---------------------------------------------------------------------------------------              |---------------------        |
-| /v1/{payment-service}/{payment-product}:                                                            | payments                    |            
-| /v1/{payment-service}/{payment-product}/{paymentId}:                                                | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/info/{Query-X-Request-ID}:                                  | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/status:                                         | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations:                                 | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}:               | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations:                    | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}:  | payments, pis:{paymentId}   |                                                                                 
+| /v1/{payment-service}/{payment-product}:                                                            | payments                    |
+| /v1/{payment-service}/{payment-product}/{paymentId}:                                                | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/info/{Query-X-Request-ID}:                                  | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/status:                                         | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations:                                 | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}:               | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations:                    | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}:  | payments, pis:{paymentId}   |
 : Payments and possible scopes. 
 
 ### Accounts endpoints
@@ -253,27 +254,27 @@ Depending on the implementation, the endpoints for accounts can require either a
 dynamic scopes that dynamically link this particular request to a known consent. In the latter case, the NextGenAPI *ais* pattern is
 used for overall compatibility.
 
-|              Accounts EndPoint                                                                      | Scope                       |              
+|              Accounts EndPoint                                                                      | Scope                       |
 |-----------------------------------------------------------------------------------------------------|---------------------        |
-| /v1/accounts:                                                                                       | accounts, ais:{consentId}   |                        
-| /v1/accounts/{account-id}:                                                                          | accounts, ais:{consentId}   |                        
-| /v1/accounts/{account-id}/balances:                                                                 | accounts, ais:{consentId}   |                        
-| /v1/accounts/{account-id}/transactions:                                                             | accounts, ais:{consentId}   |                        
-| /v1/accounts/{account-id}/transactions/{transactionId}:                                             | accounts, ais:{consentId}   |                                                                                   
+| /v1/accounts:                                                                                       | accounts, ais:{consentId}   |
+| /v1/accounts/{account-id}:                                                                          | accounts, ais:{consentId}   |
+| /v1/accounts/{account-id}/balances:                                                                 | accounts, ais:{consentId}   |
+| /v1/accounts/{account-id}/transactions:                                                             | accounts, ais:{consentId}   |
+| /v1/accounts/{account-id}/transactions/{transactionId}:                                             | accounts, ais:{consentId}   |
 : Accounts and possible scopes. 
 
 ### Card endpoints
-                    
+
 Depending on the implementation, the endpoints for accounts can require either a general accounts scope, as for the root resource, or
 dynamic scopes that dynamically link this particular request to a known consent. In the latter case, the NextGenAPI *ais* pattern is
 used for overall compatibility.
 
-|  Card EndPoints                                                                                     | Scope                       |            
+|  Card EndPoints                                                                                     | Scope                       |
 |-----------------------------------------------------------------------------------------------------|---------------------------- |
-| /v1/card-accounts:                                                                                  | accounts, ais:{consentId}   |                        
-| /v1/card-accounts/{account-id}:                                                                     | accounts, ais:{consentId}   |                        
-| /v1/card-accounts/{account-id}/balances:                                                            | accounts, ais:{consentId}   |                        
-| /v1/card-accounts/{account-id}/transactions:                                                        | accounts, ais:{consentId}   |                                                                    
+| /v1/card-accounts:                                                                                  | accounts, ais:{consentId}   |
+| /v1/card-accounts/{account-id}:                                                                     | accounts, ais:{consentId}   |
+| /v1/card-accounts/{account-id}/balances:                                                            | accounts, ais:{consentId}   |
+| /v1/card-accounts/{account-id}/transactions:                                                        | accounts, ais:{consentId}   |
 : Card accounts and scopes. 
 
 ### Currency endpoints
@@ -281,43 +282,43 @@ used for overall compatibility.
 Currencies are an example of an open data endpoint that does not require a particular scope, and 
 only included here for completeness to make that clear.
 
-|              Currency EndPoint                                                                      | Scope                       |              
-|-----------------------------------------------------------------------------------------------------|---------------------        |                    
-| /v1/currencies:                                                                                     |     NA                      |        
-| /v1/currencies/sources:                                                                             |     NA                      |        
-| /v1/currencies/{base-currency}/rates:                                                               |     NA                      |        
-| /v1/currencies/{quote-currency}/rates/{base-currency}:                                              |     NA                      |        
-| /v1/currencies/{quote-currency}/rates/{base-currency}/history:                                      |     NA                      |                                                                      
-: Currency endpoints.           
+|              Currency EndPoint                                                                      | Scope                       |
+|-----------------------------------------------------------------------------------------------------|---------------------        |
+| /v1/currencies:                                                                                     |     NA                      |
+| /v1/currencies/sources:                                                                             |     NA                      |
+| /v1/currencies/{base-currency}/rates:                                                               |     NA                      |
+| /v1/currencies/{quote-currency}/rates/{base-currency}:                                              |     NA                      |
+| /v1/currencies/{quote-currency}/rates/{base-currency}/history:                                      |     NA                      |
+: Currency endpoints. 
 
 ### Documents endpoints
 
 For endpoints related to documents, two scopes are possible for read or write. 
 
-|              Documents EndPoint                                                                     | Scope                                         |              
-|-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
-| /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:                          | documents.read, documents.write               |                            
-| /v1/documents/{documentStoreLocation}:                                                              | documents.read, documents.write               |                            
-| /v1/documents/{documentStoreLocation}/types:                                                        | documents.read                                |                                                                    
+|              Documents EndPoint                                                                     | Scope                                         |
+|-----------------------------------------------------------------------------------------------------|---------------------                          |
+| /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:                          | documents.read, documents.write               |
+| /v1/documents/{documentStoreLocation}:                                                              | documents.read, documents.write               |
+| /v1/documents/{documentStoreLocation}/types:                                                        | documents.read                                |
 : Required document scopes. 
 
-### Consents endpoints         
+### Consents endpoints
 
 For consents, scopes can specify either read or write. 
  
-|              Consents EndPoint                                                                      | Scope                                         |              
-|-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
-| /v1/consents/                                                                                       | consents.read, consents.write                 |                                                                    
-: Required consents scopes. 
+|              Consents EndPoint                                                                      | Scope                                         |
+|-----------------------------------------------------------------------------------------------------|---------------------                          |
+| /v1/consents/                                                                                       | consents.read, consents.write                 |
+: Required consents scopes.
 
 ### Claim template endpoints
-      
+
 Claim templates can only be queried, so the scope is read-only.
 
-|              Claim Templates EndPoint                                                               | Scope                       |              
-|-----------------------------------------------------------------------------------------------------|---------------------        |                    
-| /v1/claimtemplates                                                                                  | claims.read         |                 
-| /v1/claimtemplates/{claimTemplateId}                                                                | claims.read         |                                                                       
+|              Claim Templates EndPoint                                                               | Scope                       |
+|-----------------------------------------------------------------------------------------------------|---------------------        |
+| /v1/claimtemplates                                                                                  | claims.read         |
+| /v1/claimtemplates/{claimTemplateId}                                                                | claims.read         |
 : Required claim template scopes. 
 
 ### Claim endpoints

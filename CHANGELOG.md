@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Payments & Deposits 3.2.0] - 2025-06-03
+## [Payments & Deposits 3.2.0] - 2025-03-19
 
 - Minor version release of TS 310, identifies as version 3.2
 - Fix for issue #207, Foreign-payment tegund í domestic greiðslum

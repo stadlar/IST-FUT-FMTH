@@ -77,7 +77,7 @@ submitting a pull request. An easy way to accomplish this is using the open-sour
 Redocly e.g. under Docker as an alternative to installing the NPM tool:
 
 ```bash
-docker run --rm -v $PWD:/spec redocly/openapi-cli lint 'Deliverables/IOBWS3.1.yaml'
+docker run --rm -v $PWD:/spec redocly/openapi-cli lint 'Deliverables/IOBWS3.2.yaml'
 ```
 
 Many of the warnings generated for the IOBWS3.x.yaml are due to issues with the original Berlin Group NextGen definition. To mitigate this an ignore file has been added in the root of the project to communicate to the linter which warnings can be overlooked. Please try to address all the additional issues created by your additions or changes before pushing a new update.
@@ -97,7 +97,7 @@ The YAML artifacts are distributed under the Creative Commons Attribution 4.0 In
 | Previous Specification                                         | New Specification |
 |----------------------------------------------------------------|--------------------------------|
 | TS 160:2013 Gengi                                              | TS 312:2022 Currency (replaces TS 312:2021)         |    
-| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | TS 310:2023 Domestic payments and deposits  (replaces 310:2022 and WA 310:2020)                |  
+| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | TS 310:2025 Domestic payments and deposits  (replaces TS 310:2023, 310:2022 and WA 310:2020)                |  
 | ---                                                            | TS 311:2022 Debit and credit cards details and statements (replaces TS 311:2021, new in IOBWS v3.0)                  |  
 | TS 162:2013 Innheimtukröfur<br>TS 163:2013 Milliinnheimta      | TS 315:2022 Claims                      |  
 | TS 165:2013 Rafræn skjöl                                       | TS 314:2025 Documents (replaces TS 314:2021)                    |  

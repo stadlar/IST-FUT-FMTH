@@ -2,12 +2,12 @@ spec_id: "TS-310"
 fulldoc_name: "ÍST TS 310_2025 Domestic payments and deposits.md"
 context_short: "domestic payments and deposits"
 finaldraft_date: "2025-03-06"
-approve_date: "2025-03-06"
-publication_date: "2025-03-06"
+approve_date: "2025-03-05"
+publication_date: "2025-03-21"
 yaml_definition: "IOBWS3.2.yaml"
 ts_version: "3.2"
 funding_paragraph: |
-  The work on the ÍST TS was primarily funded by Arion Banki, Íslandsbanki and Landsbankinn. It is the result of the workgroup TN-FMÞ-VH-8. In part, the work is based on the earlier workshop agreement WA-310 authored by TN-FMÞ-VH-2 on Technical Requirements, and TN-FMÞ-VH-1 on Business Requirements, with the participation of an external consultant. 
+  The work on the ÍST TS was primarily funded by Arion Banki, Íslandsbanki and Landsbankinn. It is the result of the original workgroup TN-FMÞ-VH-8 and the maintainance efforts of TN-FMÞ-VH-7. In part, the work is based on the earlier workshop agreement WA-310 authored by TN-FMÞ-VH-2 on Technical Requirements, and TN-FMÞ-VH-1 on Business Requirements, with the participation of an external consultant. 
   WA-310 was approved within TN-FMÞ on 2019-12-12. 
   ÍST TS-310 should, however, not be viewed as a direct successor to that agreement, which focused on laying groundwork for PSD2 compliance. 
   ÍST TS-310 is not related to PSD2 compliance, though it could be used by participants as a foundation for their dedicated interface, if so desired. 

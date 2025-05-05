@@ -1,16 +1,16 @@
 include-before: |
-  Participants in the TN-FMÞ Workshop held on the 2022-03-29 when the "IOBWS útgáfa 3 tæknilegar viðmiðanir" (IOBWS version 3 Technical Guidelines) was approved:
+  Participants in ÍST Workshop VH-7 during the development of ÍST TS 316_2025 IOBWS 3.1 Technical Guidelines.
 
-  | Name                          | Company                    |                              
-  | ----------------------------- | -------------------------- |
-  | Edda Dan Róbertsdóttir        | Íslandsbanki               |          
-  | Eiríkur Gestsson              | Creditinfo                 |
-  | Guðmundur Jón Halldórsson     | CTL                        |
-  | Halldór Vagn Hreinsson        | Íslandsbanki               |  
-  | Kristinn Stefánsson           | Arion banki                |
-  | Sigurður Gauti Hauksson       | Alskil                     |
+  | Name                          | Company                    | Name                         | Company              |                              
+  | ----------------------------- | -------------------------- | ---------------------------- | -------------------- |
+  | Valdimar Valdemarsson         | Origo                      |  Daníel Sveinsson            | Arion banki          |  
+  | Halldór Vagn Hreinsson        | Íslandsbanki               |  Sigurvin Frank Garðarsson   | Íslandsbanki         |  
+  | Jóhannes Þór Ágústarson       | Íslandsbanki               |  Steinar Logi Sigþórsson     | Arion banki          |  
+  | Kristinn Stefánsson           | Arion banki                |  Guðmundur Andri Hjálmarsson | RB                   |
+  | Kristján Theódór Sigurðsson   | Arion banki                |  Þórný Pétursdóttir          | RB                   |
+  | Björn Ingi Björnsson          | Arion banki                |                              |                      |
 
-  © Icelandic Standards (IST) 2022. All Rights Reserved.
+  © Icelandic Standards (IST) 2020, 2022, 2023, 2025. All Rights Reserved.
 
   Without the written permission of the publisher,  
   this technical specification document may not  
@@ -21,4 +21,4 @@ include-before: |
   agreement be disseminated through an electronic  
   database. 
     
-  1st edition
+  2nd edition

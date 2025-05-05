@@ -165,3 +165,22 @@ references:
     url: https://www.sedlabanki.is/library/Skraarsafn/Gjaldeyrismal/GV-flokkunarlyklakerfi_Sedlabankans.pdf
     title-short: 'Flokkunarlyklar Seðlabankans'
     title: Flokkunarlyklar Seðlabankans um tilefni gjaldeyrisviðskipta
+  - type: bill
+    id: RFC7396
+    ISSN: '2070-1721'
+    language: English
+    number-of-pages: 9
+    author:
+    - family: Snell
+      given: James M.
+      suffix: 
+    - family: Hoffman
+      given: Paul E.
+      suffix: 
+    issued:
+      date-parts:
+      - - 2014
+        - 10
+    title-short: 'RFC 7396'
+    title: RFC 7396 - JSON Merge Patch
+    institution: Internet Engineering Task Force (IETF)

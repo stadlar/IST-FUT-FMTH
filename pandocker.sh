@@ -6,7 +6,7 @@ function doc()
   outext=$1
   export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct "docs/${fullname}.md")
   echo "$SOURCE_DATE_EPOCH"
-  docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) -e SOURCE_DATE_EPOCH="$SOURCE_DATE_EPOCH" arionbank/pandocker:buster-full-latest "docs/${fullname}.md" -o "Deliverables/${fullname}.${outext}" \
+    docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) -e SOURCE_DATE_EPOCH="$SOURCE_DATE_EPOCH" arionbank/pandocker:buster-full-latest "docs/${fullname}.md" -o "Deliverables/${fullname}.${outext}" \
     --from markdown --filter pandoc-include --template 'lib/ist.tex' --listings --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache \
     --citeproc --top-level-division=chapter --pdf-engine=xelatex \
     --variable 'mainfont:Arial' --variable 'mainfontoptions:Scale=0.94, Extension=.ttf, UprightFont=*, BoldFont=*_Bold, ItalicFont=*_Italic, BoldItalicFont=*_Bold_Italic' \

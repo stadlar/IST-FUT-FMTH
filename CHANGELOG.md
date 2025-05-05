@@ -6,6 +6,26 @@ All notable changes to this project will be documented in this file. The project
 
 - Update of WA 316, from a workshop agreement to a technical specification.
 
+## [Payments & Deposits 3.2.0] - 2025-03-19
+
+- Minor version release of TS 310, identifies as version 3.2
+- Fix for issue #207, Foreign-payment tegund í domestic greiðslum
+- Fix for issue #208, Domestic greiðslur - instructionIdentification 
+- Fix for issue #213, Domestic greiðslur - breyting á payment-card-deposits í carddeposits
+- Fix for issue #223, BBAN pattern rangt fyrir claim-payments 
+- Fix for issue #209, Staðla gengishagnaðarskatt sem tegund í innlánahreyfingu
+- Fix for issue #231, Partial payment vantar fyrir paymentInitiationBulkElementDomestic_json
+- IOBWS3.2.yaml renamed to match minor version.
+- Documents TS 310 updated.
+- README.MD updated in anticipation of new Technical Specification publication. 
+
+## [Documents 3.1] - 2025-03-06
+
+- Point release of TS 314 after validation and updates by workgroup 7.
+- Implements the proposed changes in #227, originated by RB.
+- See [TS 314:2025 Documents](Deliverables/%C3%8DST-TS-314_2025%20Documents.pdf) (replaces TS 314:2022)
+
+  
 ## [3.1.0] - 2022-11-30
 
 - First minor version release of TS 310 and TS 313, identifies as version 3.1

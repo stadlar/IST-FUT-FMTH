@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Claims 3.1] - 2025-03-19
+
+- Point release of TS 316 after updates by workgroup 7.
+- Implements the changes in PR #198, with references to issues:
+  - #194 Fixed the description for default interests (#194)
+  - #182 Changed all amount properties that were defined as integers to number
+  - #183 Renamed isPermitOutOfSequencePayment to isOutOfSequencePaymentAllowed
+  - #185 dateReference to referenceDate
+  - #186 Payment batch id in claim transaction 
+  - #191 PaymentFee terminology
+  - #192 Feature/include claim type
+  - #184 Renamed amount properties using *Amount and *AmountDue postfixes
+  - #187 Renamed a few properties in claimTransaction to be more descriptive
+  - #193 Creation date included in caimDetails
+  - #181 Claims - Use different schemas for batch initiation
+  - #199 Renamed lastChanged property
+  - #200 Removed unnecessary properties from defaultInterest
+  - #206 Remove IsPostRefDate
+  - #205 Remove DueDateRate from CurrencyPaymentRate
+  - #204 Remove Claimant Address from printing object
+  - #220 Fix examples
+  - #218 Fix #215 - EnumType 
+  - #217 Feature/fix214 description
+  - #221 Fix #216 missing references
+  - #232 Feature/update316and315
+  - See [TS 314:2025 Documents](Deliverables/%C3%8DST-TS-314_2025%20Documents.pdf) (replaces TS 314:2022)
+
 ## [TS 316 3.1] - 2025-03-19
 
 - Update of WA 316, from a workshop agreement to a technical specification.

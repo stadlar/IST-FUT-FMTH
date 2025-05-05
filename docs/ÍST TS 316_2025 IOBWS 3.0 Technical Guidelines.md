@@ -1,7 +1,7 @@
 ---
-title: "ÍST TS 316:2022"
+title: "ÍST TS 316:2025"
 author: ICS 35.240
-date: "Entry into force 29-03-2022"
+date: "Entry into force 21.03.2025"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 316]
 subtitle: ["Vinnustofusamþykkt - IOBWS útgáfa\_3 tæknilegar viðmiðanir", "Workshop Agreement - IOBWS version 3 Technical Guidelines"]

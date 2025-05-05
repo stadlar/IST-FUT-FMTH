@@ -1,12 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-  
-## [Documents 3.1] - 2025-03-06
 
-- Point release of TS 314 after validation and updates by workgroup 7.
-- Implements the proposed changes in #227, originated by RB.
-- See [TS 314:2025 Documents](Deliverables/%C3%8DST-TS-314_2025%20Documents.pdf) (replaces TS 314:2022)
+## [TS 316 3.1] - 2025-03-19
+
+- Update of WA 316, from a workshop agreement to a technical specification.
 
 ## [Payments & Deposits 3.2.0] - 2025-03-19
 
@@ -20,7 +18,13 @@ All notable changes to this project will be documented in this file. The project
 - IOBWS3.2.yaml renamed to match minor version.
 - Documents TS 310 updated.
 - README.MD updated in anticipation of new Technical Specification publication. 
-  
+
+## [Documents 3.1] - 2025-03-06
+
+- Point release of TS 314 after validation and updates by workgroup 7.
+- Implements the proposed changes in #227, originated by RB.
+- See [TS 314:2025 Documents](Deliverables/%C3%8DST-TS-314_2025%20Documents.pdf) (replaces TS 314:2022)
+
 ## [3.1.0] - 2022-11-30
 
 - First minor version release of TS 310 and TS 313, identifies as version 3.1
@@ -47,7 +51,7 @@ All notable changes to this project will be documented in this file. The project
 ## [3.0.6] - 2022-03-25
 
 - First release of WA 316, a workshop agreement that contains technical guidelines for some of the subdocuments.
-- [ÍST TS 316:2022 Domestic payments and deposits](Deliverables/ÍST%20WA%20316_2022%20IOBWS%203.0%20Technical%20Guidelines.pdf)
+- [ÍST WA 316:2022 Technical Guidelines](Deliverables/ÍST%20WA%20316_2022%20IOBWS%203.0%20Technical%20Guidelines.pdf)
 
 ## [3.0.5] - 2022-03-25
 

@@ -1,9 +1,9 @@
 ---
-title: "ÍST WA 316:2022"
+title: "ÍST TS 316:2022"
 author: ICS 35.240
 date: "Entry into force 29-03-2022"
 subject: "Icelandic Online Banking Webservices "
-keywords: [IOBWS, ÍST, WA, 316]
+keywords: [IOBWS, ÍST, TS, 316]
 subtitle: ["Vinnustofusamþykkt - IOBWS útgáfa\_3 tæknilegar viðmiðanir", "Workshop Agreement - IOBWS version 3 Technical Guidelines"]
 lang: "en"
 titlepage: true,
@@ -44,9 +44,9 @@ titlefont: Arial.ttf
 
 # Foreword {.unnumbered}
 <!-- ForewordStart -->
-This ÍST workshop agreement was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnu­stofu­samþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The WA (Workshop Agreement) was prepared by working groups VH-7 and VH-8, with input from VH-1 and VH-2 under the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardisation) following a public call for participation within TN-FMÞ. The final draft was sent to the TN-FMÞ on the {{finaldraft_date}} and approved by correspondence on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
+This ÍST Technical Specification was developed in accordance with "ÍST Reglur um tækniforskriftir, tækniskýrslur og vinnu­stofu­samþykktir" (*e.* IST rules on Technical Specifications, Technical Reports and Workshop Agreements). The TS (Technical Specification) was prepared by working groups VH-7 and VH-8, with input from VH-1 and VH-2 under the technical committee TN-FMÞ (The Technical Committee on Financial Services) that operates within FUT (Sector committee for ICT standardisation) following a public call for participation within TN-FMÞ. The final draft was sent to the TN-FMÞ on the {{finaldraft_date}} and approved by correspondence on the {{approve_date}}. The text of ÍST {{spec_id}} was submitted to IST for publication on {{publication_date}}.
 
-The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures laid out in the workshop agreement.
+The document "{{fulldoc_name}}" is the source of this rendition, and versions of that document will be used for future errata and clarifications per the procedures laid out by the working groups.
 
 {{funding_paragraph}}
 
@@ -62,7 +62,7 @@ The Technical Committee's participants have made every effort to ensure the reli
 # Introduction {.unnumbered}
 
 <!-- IntroductionStart -->
-This Workshop Agreement (WA) presents aspects of the framework for maintaining and implementing API service in version 3.0 of the Icelandic Online Banking Services (IOBWS).
+This Technical Specifications (TS) presents aspects of the framework for maintaining and implementing API service in version 3.x of the Icelandic Online Banking Services (IOBWS).
 
 Previous versions of IOBWS, released in 2007 and 2013 respectively, used the most recent OASIS SOAP standards at the time, to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises and service providers to integrate their accounting, payment, and information systems with the bank's services, to act on behalf of the customers and with full access to their data.
 Further examples of usage are discussed in the section on [Use Cases](#main-use-cases).
@@ -73,7 +73,7 @@ The Open Banking regulation in the UK and the PSD2 regulation issued by the Euro
 
 Another goal achieved by adopting the NextGenPSD2 Framework is the transition from SOAP to a REST-like API defined by a version of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this addresses some of the perceived complexity in adapting IOBWS to use cases, platforms and programming languages that have come to the fore after the release of the previous IOBWS versions.
 
-ÍST {{spec_id}} includes information on common implementation details and cross-cutting concerns related to the technical specifications that together form IOBWS version 3. It is intended to be an evolving document with each minor version issued as a new workshop agreement. The process for this is described in [section @sec:ws_maintainance].
+ÍST {{spec_id}} includes information on common implementation details and cross-cutting concerns related to the technical specifications that together form IOBWS version 3. It is intended to be an evolving document with each minor version issued as a new Technical Specification. The process for this is described in [section @sec:ws_maintainance].
 
 # Scope 
 
@@ -100,6 +100,7 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 Project.
 
 ## Terms and definitions
+
 - **Berlin Group** is a pan-European payments interoperability standards and harmonisation initiative with the primary objective of defining open and common scheme- and processor-independent standards in the interbanking domain between Creditor Bank (Acquirer) and Debtor Bank (Issuer), complementing the work carried out by e.g. the European Payments Council. As such, the Berlin Group has been established as a pure technical standardisation body, focusing on detailed technical and organisational requirements to achieve this primary objective.
 - **Electronic IDentification, Authentication and trust Services** (**eIDAS**) refers to regulation 910/2014 [@EU910/2014], which replaced previous directive 1999/93/EC. It was introduced to Iceland law through act no. 2019/55 [@IS2019/55].
 - **The OpenAPI Specification** (**OAS**) defines a programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic.
@@ -120,11 +121,11 @@ Further notes on contributing and details on how to adhere to these rules are in
 
 The API specifications for IOBWS reference OAuth2 based authorization, with the NextGenPSD2 ancestry of parts of the specification, occasionally showing through as references to consents. It is the intention here to further elaborate on the ways the most common use cases should be handled as the common dominator among implementors and consumers of the APIs.  
 
-It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication will continue to be supported. They will not require the usage of usernames and passwords as in the previous IOBWS specifications.  
+It is established here that the usage of "Búnaðarskilríki" issued under Fullgilt Auðkenni as the current gold standard for authentication, will continue to be supported. They will not require the usage of usernames and passwords as in the previous IOBWS specifications, though implementers may use other standard mechanisms such as client IDs and secrets to distinquish between different roles (see U[section @sec:use_cases]).  
 
 Additionally, OpenID Code Flow with PKCE will be part of the common support to handle the various scenarios.
 
-## Main Use Cases 
+## Main Use Cases [section @sec:use_cases]
 
 To harmonize technical expectations, some basic use cases are considered and the acceptance criteria should guide implementors towards selecting the correct solution.
 
@@ -197,18 +198,17 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-1. When I log in as a secondary collection role, I identify using a client ID that is related to that role. 
-2. When I log in as the parent enterprise to create claims as a primary claims collector, I identify using a client ID that is related to that role. 
+1. When I log in as a secondary collection role, I can choose to identify using a client ID that is related to that role. 
+2. When I log in as the parent enterprise to create claims as a primary claims collector, I can choose to identify using a client ID that is related to that role. 
 
 ### Claim Collection Agency
 
-> As a **Claim Collection Agency**, I want my system to be able to interact with the endpoints to manipulate claims whose status is in the secondary collection and transferred to a claim template in my ownership. 
+> As a **Claim Collection Agency**, I want my system to be able to interact with the endpoints to manipulate claims whose status is in the secondary collection and transferred to a claim template in my ownership.
 
 Acceptance criteria:
 
-1. When I log in, my token reflects the css.read and css.write scopes. 
-2. The token claims as per each service rule, will not allow me to create claims on the /claims endpoint. 
-3. The token claims will allow me to invoke claimsRecreationBatch(sic) that will be renamed to claimsRecreateBatch. 
+1. When I log in, my token reflects the claimscollection.read and claimscollection.write scopes. 
+2. The token claims as per each service rule, will not allow me to create claims on the /claims endpoint.
 
 ## Scopes
 
@@ -222,7 +222,6 @@ The authorization mechanism in each bank will, of course, further define access 
 | pis:{PaymentId}              | Prefix for payment scope, when dynamic scopes are supported by provider                            |
 | accounts                     | Account scope without prefix, when user access is not specified by the optional consent endpoint   |
 | ais:{ConsentId}              | Account consent scope                                                                              |
-| claimtemplates               | Claim template scope                                                                               |
 | claims                       | Claim scope                                                                                        |
 | claimscollection             | Collection Claims scope                                                                            |
 | documents                    | Document scope                                                                                     |
@@ -237,16 +236,16 @@ Depending on the implementation, the endpoints for payments can require either a
 dynamic scopes that dynamically link this particular request to a known context. In the latter case, the NextGenAPI *pis* pattern is
 used for overall compatibility.
 
-|  Payments EndPoint                                                                                  | Scope                       |              
+|  Payments EndPoint                                                                                  | Scope                       |
 |---------------------------------------------------------------------------------------              |---------------------        |
-| /v1/{payment-service}/{payment-product}:                                                            | payments                    |            
-| /v1/{payment-service}/{payment-product}/{paymentId}:                                                | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/info/{Query-X-Request-ID}:                                  | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/status:                                         | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations:                                 | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}:               | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations:                    | payments, pis:{paymentId}   |                        
-| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}:  | payments, pis:{paymentId}   |                                                                                 
+| /v1/{payment-service}/{payment-product}:                                                            | payments                    |
+| /v1/{payment-service}/{payment-product}/{paymentId}:                                                | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/info/{Query-X-Request-ID}:                                  | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/status:                                         | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations:                                 | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}:               | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations:                    | payments, pis:{paymentId}   |
+| /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}:  | payments, pis:{paymentId}   |
 : Payments and possible scopes. 
 
 ### Accounts endpoints
@@ -255,27 +254,27 @@ Depending on the implementation, the endpoints for accounts can require either a
 dynamic scopes that dynamically link this particular request to a known consent. In the latter case, the NextGenAPI *ais* pattern is
 used for overall compatibility.
 
-|              Accounts EndPoint                                                                      | Scope                       |              
+|              Accounts EndPoint                                                                      | Scope                       |
 |-----------------------------------------------------------------------------------------------------|---------------------        |
-| /v1/accounts:                                                                                       | accounts, ais:{consentId}   |                        
-| /v1/accounts/{account-id}:                                                                          | accounts, ais:{consentId}   |                        
-| /v1/accounts/{account-id}/balances:                                                                 | accounts, ais:{consentId}   |                        
-| /v1/accounts/{account-id}/transactions:                                                             | accounts, ais:{consentId}   |                        
-| /v1/accounts/{account-id}/transactions/{transactionId}:                                             | accounts, ais:{consentId}   |                                                                                   
+| /v1/accounts:                                                                                       | accounts, ais:{consentId}   |
+| /v1/accounts/{account-id}:                                                                          | accounts, ais:{consentId}   |
+| /v1/accounts/{account-id}/balances:                                                                 | accounts, ais:{consentId}   |
+| /v1/accounts/{account-id}/transactions:                                                             | accounts, ais:{consentId}   |
+| /v1/accounts/{account-id}/transactions/{transactionId}:                                             | accounts, ais:{consentId}   |
 : Accounts and possible scopes. 
 
 ### Card endpoints
-                    
+
 Depending on the implementation, the endpoints for accounts can require either a general accounts scope, as for the root resource, or
 dynamic scopes that dynamically link this particular request to a known consent. In the latter case, the NextGenAPI *ais* pattern is
 used for overall compatibility.
 
-|  Card EndPoints                                                                                     | Scope                       |            
+|  Card EndPoints                                                                                     | Scope                       |
 |-----------------------------------------------------------------------------------------------------|---------------------------- |
-| /v1/card-accounts:                                                                                  | accounts, ais:{consentId}   |                        
-| /v1/card-accounts/{account-id}:                                                                     | accounts, ais:{consentId}   |                        
-| /v1/card-accounts/{account-id}/balances:                                                            | accounts, ais:{consentId}   |                        
-| /v1/card-accounts/{account-id}/transactions:                                                        | accounts, ais:{consentId}   |                                                                    
+| /v1/card-accounts:                                                                                  | accounts, ais:{consentId}   |
+| /v1/card-accounts/{account-id}:                                                                     | accounts, ais:{consentId}   |
+| /v1/card-accounts/{account-id}/balances:                                                            | accounts, ais:{consentId}   |
+| /v1/card-accounts/{account-id}/transactions:                                                        | accounts, ais:{consentId}   |
 : Card accounts and scopes. 
 
 ### Currency endpoints
@@ -283,43 +282,43 @@ used for overall compatibility.
 Currencies are an example of an open data endpoint that does not require a particular scope, and 
 only included here for completeness to make that clear.
 
-|              Currency EndPoint                                                                      | Scope                       |              
-|-----------------------------------------------------------------------------------------------------|---------------------        |                    
-| /v1/currencies:                                                                                     |     NA                      |        
-| /v1/currencies/sources:                                                                             |     NA                      |        
-| /v1/currencies/{base-currency}/rates:                                                               |     NA                      |        
-| /v1/currencies/{quote-currency}/rates/{base-currency}:                                              |     NA                      |        
-| /v1/currencies/{quote-currency}/rates/{base-currency}/history:                                      |     NA                      |                                                                      
-: Currency endpoints.           
+|              Currency EndPoint                                                                      | Scope                       |
+|-----------------------------------------------------------------------------------------------------|---------------------        |
+| /v1/currencies:                                                                                     |     NA                      |
+| /v1/currencies/sources:                                                                             |     NA                      |
+| /v1/currencies/{base-currency}/rates:                                                               |     NA                      |
+| /v1/currencies/{quote-currency}/rates/{base-currency}:                                              |     NA                      |
+| /v1/currencies/{quote-currency}/rates/{base-currency}/history:                                      |     NA                      |
+: Currency endpoints. 
 
 ### Documents endpoints
 
 For endpoints related to documents, two scopes are possible for read or write. 
 
-|              Documents EndPoint                                                                     | Scope                                         |              
-|-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
-| /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:                          | documents.read, documents.write               |                            
-| /v1/documents/{documentStoreLocation}:                                                              | documents.read, documents.write               |                            
-| /v1/documents/{documentStoreLocation}/types:                                                        | documents.read                                |                                                                    
+|              Documents EndPoint                                                                     | Scope                                         |
+|-----------------------------------------------------------------------------------------------------|---------------------                          |
+| /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:                          | documents.read, documents.write               |
+| /v1/documents/{documentStoreLocation}:                                                              | documents.read, documents.write               |
+| /v1/documents/{documentStoreLocation}/types:                                                        | documents.read                                |
 : Required document scopes. 
 
-### Consents endpoints         
+### Consents endpoints
 
 For consents, scopes can specify either read or write. 
  
-|              Consents EndPoint                                                                      | Scope                                         |              
-|-----------------------------------------------------------------------------------------------------|---------------------                          |                                           
-| /v1/consents/                                                                                       | consents.read, consents.write                 |                                                                    
-: Required consents scopes. 
+|              Consents EndPoint                                                                      | Scope                                         |
+|-----------------------------------------------------------------------------------------------------|---------------------                          |
+| /v1/consents/                                                                                       | consents.read, consents.write                 |
+: Required consents scopes.
 
 ### Claim template endpoints
-      
+
 Claim templates can only be queried, so the scope is read-only.
 
-|              Claim Templates EndPoint                                                               | Scope                       |              
-|-----------------------------------------------------------------------------------------------------|---------------------        |                    
-| /v1/claimtemplates:                                                                                 | claimtemplates.read         |                 
-| /v1/claimtemplates/{templateId}:                                                                    | claimtemplates.read         |                                                                       
+|              Claim Templates EndPoint                                                               | Scope                       |
+|-----------------------------------------------------------------------------------------------------|---------------------        |
+| /v1/claimtemplates                                                                                  | claims.read         |
+| /v1/claimtemplates/{claimTemplateId}                                                                | claims.read         |
 : Required claim template scopes. 
 
 ### Claim endpoints
@@ -329,20 +328,18 @@ of a secondary collection agent. It is not expected that service providers suppo
 but all authorization servers should accept either as appropriate per endpoint. Additional access restrictions and 
 business logic can of course apply as indicated by documentation provided by the service provider.
 
-|              Claims EndPoint                                                                        | Scope                       |              
-|-----------------------------------------------------------------------------------------------------|---------------------        |                                           
-| /v1/claimtemplates                                                                                  | claims.read                 |
-| /v1/claimtemplates/{claimTemplateId}                                                                | claims.read                 |   
-| /v1/claims/{claimId}                                                                                | claims.read, claims.write   |
-| /v1/claims/{claimId}/transactions                                                                   | claims.read                 |
-| /v1/claims/{claimId}/history                                                                        | claims.read                 |
-| /v1/claims/{claimId}/collection                                                                     | claims.read, claims.write   |
-| /v1/claims                                                                                          | claims.read, claims.write   |
-| /v1/batches                                                                                         | claims.read, claims.write   |
-| /v1/batches/{batchId}                                                                               | claims.read, claims.write   |
-| /v1/claims/transactions                                                                             | claims.read, claims.write   |               
-| /v1/claimscollection/{claimId}:                                                                     | claimscollection.read, claimscollection.write |                                          
-: Required claim scopes. 
+|              Claims EndPoint                                                                        | Scope                                                                   |
+|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| /v1/claimtemplates                                                                                  | claims.read                                                             |
+| /v1/claimtemplates/{claimTemplateId}                                                                | claims.read                                                             |
+| /v1/claims/{claimId}                                                                                | claims.read, claims.write, claimscollection.read, claimscollection.write|
+| /v1/claims/{claimId}/transactions                                                                   | claims.read, claimscollection.read                                      |
+| /v1/claims/{claimId}/history                                                                        | claims.read, claimscollection.read                                      |
+| /v1/claims                                                                                          | claims.read, claims.write, claimscollection.read                        |
+| /v1/batches                                                                                         | claims.write, claimscollection.write                                    |
+| /v1/batches/{batchId}                                                                               | claims.read, claimscollection.read                                      |
+| /v1/claims/transactions                                                                             | claims.read, claimscollection.read                                      |
+: Required claim scopes.
 
 # Idempotency
 
@@ -397,6 +394,19 @@ An example of a header submitted with the idempotent key element:
     Authorization: Bearer oauth2_token
     Idempotent-Key: 123e4567-e89b-12d3-a456-336655440000
 ```
+
+# Merge Patching
+
+RFC 7396 [@RFC7396] defines a simple format for describing modifications to a JSON document. It is primarily designed for use with the HTTP PATCH method and is especially suited to JSON documents that are structured as objects. The RFC should be considered as a reference for how patching is used in the API specifications that are part of the version 3.x series of the Icelandic Online Banking Services (IOBWS) APIs. Some of the key points in how patching should be applied focus on describing changes by "merging" a patch document with the target JSON document, rather than listing a series of operations:
+
+* Addition/Replacement:
+  If a key in the patch does not exist in the target, it is added. If it exists, its value is replaced with the one from the patch.
+* Deletion:
+  If a key’s value in the patch is null, the key is removed from the target.
+* Recursive Merging:
+  If a key’s value is an object, the patch is applied recursively to merge with the target’s object value.
+
+  Further instructions, explanations and examples can be found in the RFC document.
 
 # Bibliography {.unnumbered}
 \ 

@@ -61,7 +61,7 @@ The ÍST {{spec_id}} specification should be viewed as standalone though part of
 <!-- ScopeDocContextEnd -->
 
 <!-- ScopePaymentsDocsContextStart -->
-Other ÍST Technical Specifications exist that address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST WA 316. As the consumption and implementation of each part of IOBWS are optional, the documents aim to be independent of each other.
+Other ÍST Technical Specifications exist that address related but discrete units of the overall IOBWS framework, either as new additions or upgrades to the previous specifications. Some crosscutting guidelines and shared concerns are addressed in the workshop agreement ÍST TS 316. As the consumption and implementation of each part of IOBWS are optional, the documents aim to be independent of each other.
 
 The focus in ÍST {{spec_id}} is the features needed to create and amend digital documents.
 

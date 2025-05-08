@@ -50,7 +50,7 @@ The document "{{fulldoc_name}}" is the source of this rendition, and versions of
 
 {{funding_paragraph}}
 
-ÍST {{spec_id}} is not subject to any patent rights. The underlying OpenAPI specifications that the guidelines apply to are in part derived from versions 1.3.5 through 1.3.8 of the 
+ÍST {{spec_id}} is not subject to any patent rights. The underlying OpenAPI specifications that the guidelines apply to are in part derived from versions 1.3.5 through 1.3.8 of the
 [Berlin Group's NextGenPSD2 Framework](https://www.berlin-group.org/nextgenpsd2-downloads)
 , and therefore also distributed under a 
 [Creative Commons Attribution 4.0 International Public License (CC BY)](https://creativecommons.org/licenses/by/4.0/#).
@@ -69,26 +69,28 @@ Further examples of usage are discussed in the section on [Use Cases](#main-use-
 
 When initiating work on the previous versions, the participants in the TN-FMÞ reviewed existing and emerging specifications in the global or mostly European financial industry. None were deemed a good fit at the time for local adaptation, as they reflected inherent the legacy in inter-bank communications outside of Iceland.
 
-The Open Banking regulation in the UK and the PSD2 regulation issued by the European Parliament has triggered initiatives to standardize access to payment functionality and account information, on behalf of customers by third parties. One such effort, the NextGenPSD2 Framework developed by the Berlin Group [@NextGenPSD2], has met broad acceptance in the EEA. The data model references ISO 20022 [@ISO20022] and is close enough to the direction of the Icelandic market to make it relatively straightforward to adapt it as the new base for the IOBWS, instead of continuing to maintain an independent linage of API specifications. 
+The Open Banking regulation in the UK and the PSD2 regulation issued by the European Parliament has triggered initiatives to standardize access to payment functionality and account information, on behalf of customers by third parties. One such effort, the NextGenPSD2 Framework developed by the Berlin Group [@NextGenPSD2], has met broad acceptance in the EEA. The data model references ISO 20022 [@ISO20022] and is close enough to the direction of the Icelandic market to make it relatively straightforward to adapt it as the new base for the IOBWS, instead of continuing to maintain an independent linage of API specifications.
 
 Another goal achieved by adopting the NextGenPSD2 Framework is the transition from SOAP to a REST-like API defined by a version of the [Open API Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) [@OpenAPISpecification]. Along with support for modern authentication and authorization standards, this addresses some of the perceived complexity in adapting IOBWS to use cases, platforms and programming languages that have come to the fore after the release of the previous IOBWS versions.
 
 ÍST {{spec_id}} includes information on common implementation details and cross-cutting concerns related to the technical specifications that together form IOBWS version 3. It is intended to be an evolving document with each minor version issued as a new Technical Specification. The process for this is described in [section @sec:ws_maintainance].
 
-# Scope 
+# Scope
 
-The document addresses specifics related to authentication and authorization, as well as idempotency. Also defined are the processes for maintaining the overall framework of IOBWS version 3.0, documents as well as the associated git repository. Under scope are the following technical specification documents:
+The document addresses specifics related to authentication and authorization, as well as idempotency. Also defined are the processes for maintaining the overall framework of IOBWS version 3 documents as well as the associated git repository. Under scope are the following technical specification documents:
 
-* TS 312:2021 Currency
-* TS 310:2022 Domestic payments and deposits
-* TS 311:2021 Debit and credit cards details and statements
-* TS 315 Claims
-* TS 314:2021 Documents
-* TS 313:2021 Foreign Payments
+* ÍST TS 310:2025 Domestic payments and deposits
+* ÍST TS 311:2022 Debit and credit cards details and statements
+* ÍST TS 312:2022 Currency
+* ÍST TS 313:2023 Foreign Payments
+* ÍST TS 314:2025 Documents
+* ÍST TS 315:2025 Claims
+
+The successors to these documents should also be considered in scope, as long as a newer version of ÍST {{spec_id}} has not taken effect.
 
 \newpage
 
-# Normative references, definitions and data elements 
+# Normative references, definitions and data elements
 
 <!-- TerminalogyStart -->
 ## Normative references
@@ -111,7 +113,7 @@ The rules outlined in this section are accepted by the participants in TN-FMÞ a
 
 They establish the Github Git repository [IST-FUT-FMTH](https://github.com/stadlar/IST-FUT-FMTH) created and supervised by the Icelandic Standards Council as the master source for the associated OpenAPI specifications, as well as those workgroup agreements and technical specifications that have been codified into Markdown markup language and stored in the repository. All updates to the main branch shall be done through pull requests and the merging of said pull requests after review.
 
-The participants in TN-FMÞ agree that workgroup TN-FMÞ-VH-7 is in charge of monitoring submitted issues made to the repository when they fall outside the permit of other regular workgroups. VH-7 will regularly review those issues, give feedback, close or potentially classify them as part of larger initiatives or projects. TN-FMÞ-VH-7 will evaluate if changes submitted in the form of pull requests are fit to be accepted into the repository and when or if they warrant a patch or minor releases to the overall specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme but each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above. 
+The participants in TN-FMÞ agree that workgroup TN-FMÞ-VH-7 is in charge of monitoring submitted issues made to the repository when they fall outside the permit of other regular workgroups. VH-7 will regularly review those issues, give feedback, close or potentially classify them as part of larger initiatives or projects. TN-FMÞ-VH-7 will evaluate if changes submitted in the form of pull requests are fit to be accepted into the repository and when or if they warrant a patch or minor releases to the overall specification. Versioning will adhere to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html)[@semver2] scheme but each minor release will require a Workgroup agreement under the "ÍST reglur" referenced above.
 
 Should TN-FMÞ form future workgroups around larger initiatives, they will adhere to the same rules for change management. Specific development branches will be created for the work and the groups be in charge of accepting individual pull requests into their branch. The acceptance or rather a pull-request merge into the main branch will be handled by VH-7 based on the final approval of the initiative in question. A workgroup agreement or technical specification update will be required as part of such approval, when not otherwise decided by VH-7.
 
@@ -145,7 +147,7 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-1. Support for OIDC and OAuth 2.0, code flow with offline_access, using MTLS to identify the client/server using Búnaðarskilríki issued under Fullgilt Auðkenni. 
+1. Support for OIDC and OAuth 2.0, code flow with offline_access, using MTLS to identify the client/server using Búnaðarskilríki issued under Fullgilt Auðkenni.
 
 ### On-premise employee
 
@@ -154,7 +156,7 @@ Acceptance criteria:
 Acceptance criteria:
 
 1. Support for OIDC and OAuth 2.0, code flow with PKCE as the common denominator.
-1. Support for user authentication with Qualified Certificates. 
+1. Support for user authentication with Qualified Certificates.
 
 ### Financial Services
 
@@ -164,8 +166,8 @@ Acceptance criteria:
 
 1. Support for assuming multiple identities.
 1. Support for OIDC and OAuth 2.0, code flow with PKCE as the common denominator.
-1. Support for user authentication with Qualified Certificates. 
-1. The scopes should be known, based on the endpoints defined in IOBWS 3.0. 
+1. Support for user authentication with Qualified Certificates.
+1. The scopes should be known, based on the endpoints defined in IOBWS 3.0.
 
 ### Financial Software as a Service
 
@@ -173,9 +175,9 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-1. This should address the scenario where companies offering e.g. Dynamics 365 or more custom apps need to act on behalf of bank customers. 
+1. This should address the scenario where companies offering e.g. Dynamics 365 or more custom apps need to act on behalf of bank customers.
 1. Support for OIDC and OAuth 2.0, code flow with PKCE as the common denominator.
-1. Support for user authentication with Qualified Certificates. 
+1. Support for user authentication with Qualified Certificates.
 
 ### Software Vendor
 
@@ -183,23 +185,23 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-1. There exist code samples that show how to connect using common platforms and frameworks. 
-1. The possible variations between banks do not affect the protocol exchanges between the client, authorization server, and API endpoint. 
+1. There exist code samples that show how to connect using common platforms and frameworks.
+1. The possible variations between banks do not affect the protocol exchanges between the client, authorization server, and API endpoint.
 1. Possible variations in methods that still are offered by more than one bank are made part of the standard, as long as a common fallback exists.
 
 ### User of open endpoints
 
-> As a **Consumer of open services** such as currency data, I want my system to be able to interact with the endpoints without authentication but identify my client as to 
+> As a **Consumer of open services** such as currency data, I want my system to be able to interact with the endpoints without authentication but identify my client as to
 Acceptance criteria:
 
 ### Enterprise with the Claim Collection Agency role logs in for the first time
 
-> As a **Claim Collection Agency**, I want my system to be able to login into the system and separate my authentication as a secondary collection agency vs. my use as a primary claims collector. 
+> As a **Claim Collection Agency**, I want my system to be able to login into the system and separate my authentication as a secondary collection agency vs. my use as a primary claims collector.
 
 Acceptance criteria:
 
-1. When I log in as a secondary collection role, I can choose to identify using a client ID that is related to that role. 
-2. When I log in as the parent enterprise to create claims as a primary claims collector, I can choose to identify using a client ID that is related to that role. 
+1. When I log in as a secondary collection role, I can choose to identify using a client ID that is related to that role.
+2. When I log in as the parent enterprise to create claims as a primary claims collector, I can choose to identify using a client ID that is related to that role.
 
 ### Claim Collection Agency
 
@@ -207,14 +209,14 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-1. When I log in, my token reflects the claimscollection.read and claimscollection.write scopes. 
+1. When I log in, my token reflects the claimscollection.read and claimscollection.write scopes.
 2. The token claims as per each service rule, will not allow me to create claims on the /claims endpoint.
 
 ## Scopes
 
 In general, scopes should reflect and communicate transparently the owner's intent at the highest level, as to what kind of access to the endpoint she is consenting an application to have.  
 The scopes described here are the least common denominator for scopes that requesting applications can ask to receive through a participating bank's authorization server, directly in code in the appropriate use cases, or with the resource owner potentially involved in others. If the latter, the client implementation must expect the final granted scopes to possibly reflect a subset of those originally requested.  
-The authorization mechanism in each bank will, of course, further define access based on internal rules, e.g. their specific product offerings or service agreements. 
+The authorization mechanism in each bank will, of course, further define access based on internal rules, e.g. their specific product offerings or service agreements.
 
 | Scope                        | Description                                                                                        |
 |------------------------------|--------------------                                                                                |
@@ -246,7 +248,7 @@ used for overall compatibility.
 | /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}:               | payments, pis:{paymentId}   |
 | /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations:                    | payments, pis:{paymentId}   |
 | /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}:  | payments, pis:{paymentId}   |
-: Payments and possible scopes. 
+: Payments and possible scopes.
 
 ### Accounts endpoints
 
@@ -261,7 +263,7 @@ used for overall compatibility.
 | /v1/accounts/{account-id}/balances:                                                                 | accounts, ais:{consentId}   |
 | /v1/accounts/{account-id}/transactions:                                                             | accounts, ais:{consentId}   |
 | /v1/accounts/{account-id}/transactions/{transactionId}:                                             | accounts, ais:{consentId}   |
-: Accounts and possible scopes. 
+: Accounts and possible scopes.
 
 ### Card endpoints
 
@@ -275,11 +277,11 @@ used for overall compatibility.
 | /v1/card-accounts/{account-id}:                                                                     | accounts, ais:{consentId}   |
 | /v1/card-accounts/{account-id}/balances:                                                            | accounts, ais:{consentId}   |
 | /v1/card-accounts/{account-id}/transactions:                                                        | accounts, ais:{consentId}   |
-: Card accounts and scopes. 
+: Card accounts and scopes.
 
 ### Currency endpoints
 
-Currencies are an example of an open data endpoint that does not require a particular scope, and 
+Currencies are an example of an open data endpoint that does not require a particular scope, and
 only included here for completeness to make that clear.
 
 |              Currency EndPoint                                                                      | Scope                       |
@@ -289,22 +291,22 @@ only included here for completeness to make that clear.
 | /v1/currencies/{base-currency}/rates:                                                               |     NA                      |
 | /v1/currencies/{quote-currency}/rates/{base-currency}:                                              |     NA                      |
 | /v1/currencies/{quote-currency}/rates/{base-currency}/history:                                      |     NA                      |
-: Currency endpoints. 
+: Currency endpoints.
 
 ### Documents endpoints
 
-For endpoints related to documents, two scopes are possible for read or write. 
+For endpoints related to documents, two scopes are possible for read or write.
 
 |              Documents EndPoint                                                                     | Scope                                         |
 |-----------------------------------------------------------------------------------------------------|---------------------                          |
 | /v1/documents/{document-store-location}/{sender-kennitala}/{documents-id}:                          | documents.read, documents.write               |
 | /v1/documents/{documentStoreLocation}:                                                              | documents.read, documents.write               |
 | /v1/documents/{documentStoreLocation}/types:                                                        | documents.read                                |
-: Required document scopes. 
+: Required document scopes.
 
 ### Consents endpoints
 
-For consents, scopes can specify either read or write. 
+For consents, scopes can specify either read or write.
  
 |              Consents EndPoint                                                                      | Scope                                         |
 |-----------------------------------------------------------------------------------------------------|---------------------                          |
@@ -319,13 +321,13 @@ Claim templates can only be queried, so the scope is read-only.
 |-----------------------------------------------------------------------------------------------------|---------------------        |
 | /v1/claimtemplates                                                                                  | claims.read         |
 | /v1/claimtemplates/{claimTemplateId}                                                                | claims.read         |
-: Required claim template scopes. 
+: Required claim template scopes.
 
 ### Claim endpoints
 
-For endpoints related to claim resources, the users can either be primary claimants or in the role 
-of a secondary collection agent. It is not expected that service providers support combining these two roles, 
-but all authorization servers should accept either as appropriate per endpoint. Additional access restrictions and 
+For endpoints related to claim resources, the users can either be primary claimants or in the role
+of a secondary collection agent. It is not expected that service providers support combining these two roles,
+but all authorization servers should accept either as appropriate per endpoint. Additional access restrictions and
 business logic can of course apply as indicated by documentation provided by the service provider.
 
 |              Claims EndPoint                                                                        | Scope                                                                   |

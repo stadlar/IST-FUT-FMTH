@@ -31,7 +31,7 @@ paths:
   # Claim Templates Service
   #####################################################
 
-  /v1/claimtemplates:
+  /v1/templates:
 
     get:
       summary: Get a list of claim templates
@@ -92,7 +92,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimtemplates/{templateId}:
+  /v1/templates/{templateId}:
 
     get:
       summary: Get a single claim template

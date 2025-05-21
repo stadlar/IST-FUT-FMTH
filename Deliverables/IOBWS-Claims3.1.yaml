@@ -38,7 +38,7 @@ paths:
       description: |
         Returns a list of claim templates according to the filters provided. Claim template describes many 
         attributes of the claim process and gives the consumer key information needed.
-      operationId: getClaimTemplateList
+      operationId: getTemplateList
       tags:
         - Claim Service
       security:
@@ -98,7 +98,7 @@ paths:
       summary: Get a single claim template
       description: |
         Returns a single claim templates by supplied template id
-      operationId: getClaimTemplate
+      operationId: getTemplate
       tags:
         - Claim Service
       security:
@@ -2712,7 +2712,7 @@ components:
             $ref: "#/components/schemas/templateList"
           examples:
             "Example":
-              $ref: "#/components/examples/getClaimTemplateList-200_Example"
+              $ref: "#/components/examples/getTemplateList-200_Example"
 
     OK_200_ClaimTemplate:
       description: |
@@ -2726,7 +2726,7 @@ components:
             $ref: "#/components/schemas/templateDetails"
           examples:
             "Example":
-              $ref: "#/components/examples/getClaimTemplate-200_Example"
+              $ref: "#/components/examples/getTemplate-200_Example"
 
     #####################################################
     # Negative Responses
@@ -2848,7 +2848,7 @@ components:
   # Predefined Examples
   #####################################################
 
-    getClaimTemplateList-200_Example:
+    getTemplateList-200_Example:
       description: Example of claim templates.
       value:
         [
@@ -2874,7 +2874,7 @@ components:
           }
         ]
 
-    getClaimTemplate-200_Example:
+    getTemplate-200_Example:
       description: Example of claim template
       value:
         {

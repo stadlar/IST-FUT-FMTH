@@ -361,7 +361,7 @@ paths:
         
         To cancel a claim change status to Cancelled
         
-        To move to different collection change collectionState
+        To move to different collection change collectionStatus
         - SecondaryCollection (for secondary)
         - PrimaryCollection (for primary)        
         
@@ -615,7 +615,7 @@ paths:
         
           Claim is cancelled by changing the claim status to "Cancelled".
         
-          Claim is moved between collection status by changing collectionState to
+          Use the collectionStatus field to transition a claim between different stages of the collection process
           - SecondaryCollection (for secondary)
           - PrimaryCollection (for primary)
       operationId: postBatch
@@ -1234,7 +1234,7 @@ components:
         - "Paid"
         - "Cancelled"
 
-    collectionState:
+    collectionStatus:
       description: Claim billing process status
       type: string
       enum:
@@ -1277,8 +1277,8 @@ components:
           $ref: "#/components/schemas/kennitala"
         claimStatus:
           $ref: "#/components/schemas/claimStatus"
-        collectionState:
-          $ref: "#/components/schemas/collectionState"
+        collectionStatus:
+          $ref: "#/components/schemas/collectionStatus"
         expirationDate:
           type: string
           format: date
@@ -1465,8 +1465,8 @@ components:
           maxLength: 200
         claimStatus:
           $ref: "#/components/schemas/claimStatus"
-        collectionState:
-          $ref: "#/components/schemas/collectionState"
+        collectionStatus:
+          $ref: "#/components/schemas/collectionStatus"
         printing:
           $ref: "#/components/schemas/printing"
     
@@ -2432,12 +2432,12 @@ components:
         $ref: "#/components/schemas/claimStatus"
 
     stateQuery:
-      name: collectionState
+      name: collectionStatus
       in: query
       description: |
-        The claim state to search for
+        The collection status to search for
       schema:
-        $ref: "#/components/schemas/collectionState"
+        $ref: "#/components/schemas/collectionStatus"
 
     isActiveQuery:
       name: isActive
@@ -2922,7 +2922,7 @@ components:
           },
           "payorId": "0208715009",
           "claimStatus": "Unpaid",
-          "collectionState": "PrimaryCollection",
+          "collectionStatus": "PrimaryCollection",
           "expirationDate": "2022-01-31",
           "closingDate": "2022-01-31",
           "templateCode": "001",
@@ -3066,7 +3066,7 @@ components:
               },
               "payorId": "0208715009",
               "claimStatus": "Unpaid",
-              "collectionState": "PrimaryCollection",
+              "collectionStatus": "PrimaryCollection",
               "expirationDate": "2022-01-31",
               "closingDate": "2022-01-31",
               "templateCode": "001",
@@ -3206,7 +3206,7 @@ components:
             },
             "payorId": "0208715009",
             "claimStatus": "Unpaid",
-            "collectionState": "PrimaryCollection",
+            "collectionStatus": "PrimaryCollection",
             "expirationDate": "2022-01-31",
             "closingDate": "2022-01-31",
             "templateCode": "001",

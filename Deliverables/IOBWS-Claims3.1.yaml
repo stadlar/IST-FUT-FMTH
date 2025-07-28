@@ -1504,6 +1504,7 @@ components:
         - templateCode
         - amount
         - finalDueDate
+        - expirationDate
       properties:
         claimKey:
           $ref: "#/components/schemas/claimKey"

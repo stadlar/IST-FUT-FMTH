@@ -1404,7 +1404,79 @@ components:
         List of claims to be altered
       type: array
       items:
-        $ref: "#/components/schemas/alterClaimBatchDetails"
+        $ref: "#/components/schemas/alterClaimDetails"
+
+    alterClaimDetails:
+      description: |
+        Full replacement object for batch alter operations.
+
+        Usage:
+          - Client fetches the current claim, updates one or more values (e.g. amount, finalDueDate, expirationDate), and submits the full object.
+          - All required fields MUST be present.
+          - Optional fields that are omitted are treated as intentionally cleared (removed/reset) if allowed by business rules. To avoid accidental clearing always send the full current state.
+
+        Notes:
+          - claimKey identifies the claim and cannot change.
+          - Fields not listed as required may still be mandatory under specific business rules (validation occurs server-side).
+          - If a field cannot be cleared but is omitted, the server may reject the request.
+
+      type: object
+      required:
+        - claimKey
+        - templateCode
+        - amount
+        - finalDueDate
+        - expirationDate
+      properties:
+        claimKey:
+          $ref: "#/components/schemas/claimKey"
+        expirationDate:
+          type: string
+          format: date
+        templateCode:
+          $ref: "#/components/schemas/templateCode"
+        amount:
+          type: number
+        reference:
+          $ref: "#/components/schemas/reference"
+        finalDueDate:
+          type: string
+          format: date
+        billNumber:
+          type: string
+          maxLength: 7
+        customerNumber:
+          type: string
+          maxLength: 16
+        paymentFee:
+          $ref: "#/components/schemas/paymentFee"
+        otherCostsAmount:
+          type: number
+        otherDefaultCostsAmount:
+          type: number
+        defaultCharge:
+          $ref: "#/components/schemas/defaultCharge"
+        defaultInterest:
+          $ref: "#/components/schemas/defaultInterest"
+        discount:
+          $ref: "#/components/schemas/discount"
+        isOutOfSequencePaymentAllowed:
+          type: boolean
+        isPartialPaymentAllowed:
+          type: boolean
+        currency:
+          type: string
+          pattern: '[A-Z]{3}'
+        additionalInformation:
+          type: string
+          maxLength: 200
+        claimStatus:
+          $ref: "#/components/schemas/claimStatus"
+        collectionState:
+          $ref: "#/components/schemas/collectionState"
+        printing:
+          $ref: "#/components/schemas/printing"
+
 
     mergeClaimDetails:
       description: |

@@ -600,24 +600,25 @@ paths:
     post:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
-        Accepts on of two request bodies that indicate the action type:
+        Accepts on of five request bodies that indicate the action type:
 
         **batchCreateInitiation** - Initiates a batch with a list of claims to be created.
 
         **batchAlterInitiation** - Initiates a batch with a list of claims to be altered.
+ 
+        **batchCancelInitiation** - Initiates a batch with a list of claims to be cancelled.
+
+        **batchSecondaryCollectionInitiation** - Initiates a batch with a list of claims to be moved to secondary collection.
+
+        **batchReturnSecondaryCollectionInitiation** - Initiates a batch with a list of claims to be returned from secondary collection back to primary collection.
         
-        When claim is altered:
-          The patch claim method modifies a previously created claim. The patch is
-          then submitted and amended according to new information.
+        Claim handling guidelines:
+          Claim is modified by submitting the complete claim object with all intended values. Partial updates are not supported.
+          Fields that must remain unchanged need to be included.
          
-          Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
-          from cancelled the recreate is triggered. Recreating a claim keeps existing history.
+          Reacreating a previously cancelled claim must be done by calling the create operation.   
+                  
         
-          Claim is cancelled by changing the claim status to "Cancelled".
-        
-          Claim is moved between collection status by changing collectionState to
-          - SecondaryCollection (for secondary)
-          - PrimaryCollection (for primary)
       operationId: postBatch
       tags:
         - Claim Service
@@ -1586,6 +1587,9 @@ components:
       enum:
         - "create"
         - "alter"
+        - "cancel"
+        - "secondaryCollection"
+        - "returnSecondaryCollection"
 
     referenceDate:
       description: |
@@ -2473,9 +2477,16 @@ components:
               mapping:
                 create: "#/components/schemas/batchCreateInitiation"
                 alter: "#/components/schemas/batchAlterInitiation"
+                cancel: "#/components/schemas/batchCancelInitiation"
+                secondaryCollection: "#/components/schemas/batchSecondaryCollectionInitiation"
+                returnSecondaryCollection: "#/components/schemas/batchReturnSecondaryCollectionInitiation"                            
+
             oneOf: 
               - $ref: "#/components/schemas/batchCreateInitiation"
               - $ref: "#/components/schemas/batchAlterInitiation"
+              - $ref: "#/components/schemas/batchCancelInitiation"
+              - $ref: "#/components/schemas/batchSecondaryCollectionInitiation"
+              - $ref: "#/components/schemas/batchReturnSecondaryCollectionInitiation"
 
     templateCode:
       description: |

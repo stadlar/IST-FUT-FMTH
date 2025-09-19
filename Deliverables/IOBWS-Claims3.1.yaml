@@ -1414,6 +1414,30 @@ components:
       items:
         $ref: "#/components/schemas/claimKey"
 
+    secondaryCollection:
+      description: |
+        This object represents one claim that is being sent to secondary collection.
+        - claimKey: identifies the claim (required)
+        - templateCode: optional target secondary collection template (overrides default if supplied)
+        - otherDefaultCostsAmount: optional additional other default cost applied during transfer
+      type: object
+      required:
+        - claimKey
+      properties:
+        claimKey:
+          $ref: "#/components/schemas/claimKey"
+        templateCode:
+            $ref: "#/components/schemas/templateCode"
+        otherDefaultCosts:
+          description: Additional other default cost to apply when moving to secondary collection.
+          type: number
+
+    secondaryCollectionList:
+      description: |
+        List of items to move to secondary collection.
+      type: array
+      items:
+        $ref: "#/components/schemas/secondaryCollection"
 
     alterClaimDetails:
       description: |
@@ -1669,6 +1693,13 @@ components:
           $ref: "#/components/schemas/actionType"
         cancelList:
           $ref: "#/components/schemas/cancelList"
+
+    batchSecondaryCollectionInitiation:
+      properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
+        secondaryCollectionList:
+          $ref: "#/components/schemas/secondaryCollectionList"
     
     actionType:
       type: string

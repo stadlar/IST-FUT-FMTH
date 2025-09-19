@@ -1419,7 +1419,7 @@ components:
         This object represents one claim that is being sent to secondary collection.
         - claimKey: identifies the claim (required)
         - templateCode: optional target secondary collection template (overrides default if supplied)
-        - otherDefaultCostsAmount: optional additional other default cost applied during transfer
+        - otherDefaultCostsAmount: optional additional other default costs applied during transfer
       type: object
       required:
         - claimKey
@@ -1428,8 +1428,8 @@ components:
           $ref: "#/components/schemas/claimKey"
         templateCode:
             $ref: "#/components/schemas/templateCode"
-        otherDefaultCosts:
-          description: Additional other default cost to apply when moving to secondary collection.
+        otherDefaultCostsAmount:
+          description: Additional other default costs to apply when moving to secondary collection.
           type: number
 
     secondaryCollectionList:
@@ -1437,7 +1437,7 @@ components:
         List of items to move to secondary collection.
       type: array
       items:
-        $ref: "#/components/schemas/secondaryCollection"
+        $ref: "#/components/schemas/secondaryCollection"  
 
     alterClaimDetails:
       description: |
@@ -1575,12 +1575,6 @@ components:
           $ref: "#/components/schemas/collectionState"
         printing:
           $ref: "#/components/schemas/printing"
-    
-    alterClaimBatchDetails:
-      allOf: 
-        -  $ref: "#/components/schemas/mergeClaimDetails"
-      required: 
-        -  claimKey
 
 
     createClaimDetailList:
@@ -1695,6 +1689,13 @@ components:
           $ref: "#/components/schemas/cancelList"
 
     batchSecondaryCollectionInitiation:
+      properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
+        secondaryCollectionList:
+          $ref: "#/components/schemas/secondaryCollectionList"
+
+    batchReturnSecondaryCollectionInitiation:
       properties:
         actionType:
           $ref: "#/components/schemas/actionType"
@@ -2586,7 +2587,7 @@ components:
 
     batchInitiation:
       description: |
-        JSON request body for a list of create or alter actions inition request message
+        JSON request body for a list of create or alter actions initiation request message
       required: true
       content:
         application/json:

@@ -2682,8 +2682,8 @@ components:
           schema:
             $ref: "#/components/schemas/batchStatus"
           examples:
-            "Example":
-              $ref: "#/components/examples/patchBatch-200_Example"
+            Example:
+              $ref: "#/components/examples/alterBatch-200_Example"
 
     OK_201_ActionSingleResponse:
       description: Patch created for single item reponse
@@ -3506,23 +3506,24 @@ components:
           "claimType": "NormalClaim"
         }
 
-    patchBatch-200_Example:
-      description: Example of patch >
+    alterBatch-200_Example:
+      description: Example of alter batch result (actionType = alter)
       value:
         {
-          "batchId": "stringstringstringstringstringstring",
-          "success": 0,
-          "failed": 0,
+          "batchId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+          "success": 1,
+          "failed": 1,
           "pending": 0,
-          "actionType": "create",
+          "actionType": "alter",
           "actions": {
             "successes": [
               {
                 "claimKey": {
                   "claimantId": "0208715009",
                   "account": "000166123456",
-                  "dueDate": "2022-01-31"
+                  "dueDate": "2025-11-30"
                 },
+                "claimId": "0208715009000166001234+20251130",
                 "directPaymentClaim": true
               }
             ],
@@ -3531,25 +3532,76 @@ components:
                 "claimKey": {
                   "claimantId": "0208715009",
                   "account": "000166123456",
-                  "dueDate": "2022-01-31"
+                  "dueDate": "2025-12-15"
                 },
-                "errorCode": "string",
-                "errorMessage": "string"
+                "claimId": "0208715009000166005678+20251215",
+                "resultCode": "CLAIM_NOT_FOUND",
+                "resultSubCode": "MISSING_OR_CANCELLED",
+                "resultMessage": "Claim not found or previously cancelled"
               }
             ]
           }
         }
 
-security:
-  #####################################################
-  # Global security options
-  #####################################################
-  - BearerAuthOAuth: []
+    secondaryCollectionBatch-201_RequestExample:
+      description: Request example for sending claims to secondary collection (actionType = secondaryCollection)
+      value:
+        {
+          "actionType": "secondaryCollection",
+          "secondaryCollectionList": [
+            {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000166123456",
+                "dueDate": "2025-11-30"
+              },
+              "templateCode": "SC1",
+              "otherDefaultCostsAmount": 1500
+            },
+            {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000166123789",
+                "dueDate": "2025-12-15"
+              }
+              # templateCode omitted -> use default secondary collection template
+            }
+          ]
+        }
 
-tags:
-  #####################################################
-  # Predefined Tags to Group Methods
-  #####################################################
-
-  - name: Claim Service
-    description: Common Claim operations for icelandic banks
+    secondaryCollectionBatch-200_Example:
+      description: Batch status example for secondary collection initiation (actionType = secondaryCollection)
+      value:
+        {
+          "batchId": "5c7f4db2-8d8c-4ac7-9d3e-6b1b3b4f1c21",
+          "success": 1,
+          "failed": 1,
+          "pending": 0,
+          "actionType": "secondaryCollection",
+          "actions": {
+            "successes": [
+              {
+                "claimKey": {
+                  "claimantId": "0208715009",
+                  "account": "000166123456",
+                  "dueDate": "2025-11-30"
+                },
+                "claimId": "0208715009000166001234+20251130",
+                "directPaymentClaim": true
+              }
+            ],
+            "errors": [
+              {
+                "claimKey": {
+                  "claimantId": "0208715009",
+                  "account": "000166123789",
+                  "dueDate": "2025-12-15"
+                },
+                "claimId": "0208715009000166005678+20251215",
+                "resultCode": "CLAIM_NOT_FOUND",
+                "resultSubCode": "MISSING_OR_CANCELLED",
+                "resultMessage": "Claim not found or previously cancelled"
+              }
+            ]
+          }
+        }

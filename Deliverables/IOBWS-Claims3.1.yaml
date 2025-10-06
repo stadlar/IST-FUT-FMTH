@@ -127,7 +127,7 @@ paths:
 
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_ClaimTemplate"
+          $ref: "#/components/responses/OK_200_Template"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -988,7 +988,7 @@ components:
       type: object
       properties:
         templateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         claimantId:
           $ref: "#/components/schemas/claimantId"
@@ -1025,7 +1025,7 @@ components:
       type: object
       properties:
         templateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         claimantId:
           $ref: "#/components/schemas/claimantId"
@@ -1291,12 +1291,12 @@ components:
         templateCode:
           $ref: "#/components/schemas/templateCode"
         templateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         secondaryCollectionTemplateCode:
           $ref: "#/components/schemas/templateCode"
         secondaryCollectionTemplateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         categoryCode:
           description: Creditors' text key, explanation of payment. Optional attribute on claim
@@ -1747,12 +1747,12 @@ components:
         templateCode:
           $ref: "#/components/schemas/templateCode"
         templateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         secondaryCollectionTemplateCode:
           $ref: "#/components/schemas/templateCode"
         secondaryCollectionTemplateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         reference:
           $ref: "#/components/schemas/reference"
@@ -2714,7 +2714,7 @@ components:
             "Example":
               $ref: "#/components/examples/getTemplateList-200_Example"
 
-    OK_200_ClaimTemplate:
+    OK_200_Template:
       description: |
         Claim template.
       headers:

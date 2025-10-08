@@ -882,6 +882,8 @@ components:
           $ref: "#/components/schemas/claimId"
         directPaymentClaim:
           type: boolean
+        print:
+          type: boolean
 
     claimStatusError:
       description: |

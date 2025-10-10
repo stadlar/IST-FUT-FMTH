@@ -1190,7 +1190,7 @@ components:
           maximum: 99
         value:
           type: number
-
+                    
     discount:
       description: |
         Contains detail information about claim discount
@@ -1883,11 +1883,11 @@ components:
         but the daily account of the Claim Pot's expense items is not shown. The Claim class contains the appearance
         of the claim as it was after the movement. If payment information is related to the movement, it is returned
         in the Payment class.
-      required:
-        - claim
+      type: object      
+      required: [claim, transactionDate, transactionType]
       properties:
         claim:
-          $ref: "#/components/schemas/claimDetails"
+          $ref: "#/components/schemas/claimEvent"
         payment:
           $ref: "#/components/schemas/claimTransaction"
         transactionDate:
@@ -1924,6 +1924,81 @@ components:
             - "ReversedClaim"
             - "TransferFromBank"
             - "TransferToBank"
+
+        userName:
+          type: string
+        updatedFields:
+          type: array
+          items:
+            type: string
+
+
+    claimEvent:
+      description: |        
+         Describes an event related to a claim. 
+         Contains optional details about the claim state, changes, 
+         or other relevant information captured at the time of the event.
+      type: object
+      properties:
+        claimKey:
+          $ref: "#/components/schemas/claimKey"
+        payorId:
+          $ref: "#/components/schemas/kennitala"
+
+        # details
+        expirationDate:
+          type: string
+          format: date
+          example: "2022-01-31"
+        templateCode:
+          $ref: "#/components/schemas/templateCode"
+        amount:
+          type: number
+        reference:
+          $ref: "#/components/schemas/reference"
+        finalDueDate:
+          type: string
+          format: date
+          example: "2022-01-31"
+        billNumber:
+          description: 7 character reference shown on payer statement
+          type: string
+          maxLength: 7
+        customerNumber:
+          description: Payer transaction number (unique per claimant, needed for direct payment agreements)
+          type: string
+          maxLength: 16
+        paymentFee:
+          $ref: "#/components/schemas/paymentFee"
+        otherCostsAmount:
+          description: Other costs, including determined fees paid by the payer of a collection claim.
+          type: number
+        otherDefaultCostsAmount:
+          description: Determined fees, e.g. intermediate collection fee.
+          type: number     
+        defaultCharge:
+          $ref: "#/components/schemas/defaultCharge"
+        defaultInterest:
+          $ref: "#/components/schemas/defaultInterest"
+        discount:
+          $ref: "#/components/schemas/discount"
+        isOutOfSequencePaymentAllowed:
+          description: Allow last payment if previous is unpaid
+          type: boolean
+        isPartialPaymentAllowed:
+          type: boolean
+        currency:
+          type: string
+          pattern: '^[A-Z]{3}'
+        additionalInformation:
+          description: Free text displayed on the claim
+          type: string
+          maxLength: 200
+        printing:
+          $ref: "#/components/schemas/printing"
+        claimType:
+
+          $ref: "#/components/schemas/claimType"
 
     claimTransactionList:
       description: |
@@ -3271,7 +3346,7 @@ components:
             ]
           },
           "directPaymentClaim": true,
-          "lastChangeDate": "2022-01-31",
+          "lastChangeDate": "2022-01-31",        
           "claimType": "NormalClaim"
         }
 
@@ -3331,23 +3406,9 @@ components:
                 "dueDate": "2022-01-31"
               },
               "payorId": "0208715009",
-              "claimStatus": "Unpaid",
-              "collectionState": "PrimaryCollection",
               "expirationDate": "2022-01-31",
-              "closingDate": "2022-01-31",
               "templateCode": "001",
-              "claimTemplateId": "string",
-              "secondaryCollectionTemplateCode": "001",
-              "secondaryCollectionClaimTemplateId": "string",
-              "categoryCode": "string",
               "amount": 0,
-              "defaultChargeAmountDue": 0,
-              "defaultInterestAmountDue": 0,
-              "discountAmountOffered": 0,
-              "noticeChargeAmountDue": 0,
-              "otherCostsAmountDue": 0,
-              "otherDefaultCostsAmountDue": 0,
-              "totalAmountDue": 0,
               "reference": "string",
               "finalDueDate": "2022-01-31",
               "billNumber": "string",
@@ -3363,12 +3424,12 @@ components:
                 "first": {
                   "chargeType": "Percentage",
                   "day": 0,
-                  "amount": 0
+                  "value": 0
                 },
                 "second": {
                   "chargeType": "Percentage",
                   "day": 0,
-                  "amount": 0
+                  "value": 0
                 }
               },
               "defaultInterest": {
@@ -3377,7 +3438,7 @@ components:
                 "baseTimeType": "Daily",
                 "percentage": 0
               },
-              "discount": {                
+              "discount": {
                 "referenceDate": "FinalDueDate",
                 "first": {
                   "chargeType": "Percentage",
@@ -3392,11 +3453,8 @@ components:
               },
               "isOutOfSequencePaymentAllowed": true,
               "isPartialPaymentAllowed": true,
-              "isPartiallyPaid": true,
               "currency": "string",
-              "currencyPaymentRate": "PaymentDateRate",
-              "additionalInformation": "string",
-              "printing": {                
+              "printing": {
                 "payorAddress": {
                   "name": "string",
                   "addressLine": "string",
@@ -3405,17 +3463,30 @@ components:
                   "country": "string"
                 },
                 "itemRows": [
-                  {
-                    "text": "string",
-                    "amount": 0
-                  }
+                  { "text": "string", "amount": 0 }
                 ],
-                "comments": [
-                  "string"
-                ]
+                "comments": [ "string" ]
               },
-              "directPaymentClaim": true,
-              "lastChangeDate": "2022-01-31"
+              "claimType": "NormalClaim"
+            },
+            "transactionDate": "2022-01-31T00:00:00Z",
+            "transactionType": "Creation",
+            "userName": "string",
+            "updatedFields": []
+          },
+          {
+            "claim": {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000166123456",
+                "dueDate": "2022-01-31"
+              },
+              "payorId": "0208715009",
+              "templateCode": "001",
+              "amount": 0,
+              "finalDueDate": "2022-02-15",
+              "currency": "string",
+              "claimType": "NormalClaim"
             },
             "payment": {
               "claimKey": {
@@ -3455,8 +3526,10 @@ components:
               },
               "transactionBatchId": "stringstringstringstringstringstring"
             },
-            "transactionDate": "2022-01-31",
-            "transactionType": "Creation"
+            "transactionDate": "2022-02-24T23:38:43.220Z",
+            "transactionType": "Payment",
+            "userName": "string",
+            "updatedFields": [ "amount", "expirationDate" ]
           }
         ]
 
@@ -3536,7 +3609,7 @@ components:
             "currency": "string",
             "currencyPaymentRate": "PaymentDateRate",
             "additionalInformation": "string",
-            "printing": {             
+            "printing": {            
               "payorAddress": {
                 "name": "string",
                 "addressLine": "string",

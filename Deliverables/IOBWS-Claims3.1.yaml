@@ -598,24 +598,25 @@ paths:
     post:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
-        Accepts on of two request bodies that indicate the action type:
+        Accepts on of five request bodies that indicate the action type:
 
         **batchCreateInitiation** - Initiates a batch with a list of claims to be created.
 
         **batchAlterInitiation** - Initiates a batch with a list of claims to be altered.
+ 
+        **batchCancelInitiation** - Initiates a batch with a list of claims to be cancelled.
+
+        **batchSecondaryCollectionInitiation** - Initiates a batch with a list of claims to be moved to secondary collection.
+
+        **batchReturnSecondaryCollectionInitiation** - Initiates a batch with a list of claims to be returned from secondary collection back to primary collection.
         
-        When claim is altered:
-          The patch claim method modifies a previously created claim. The patch is
-          then submitted and amended according to new information.
+        Claim handling guidelines:
+          Claim is modified by submitting the complete claim object with all intended values. Partial updates are not supported.
+          Fields that must remain unchanged need to be included.
          
-          Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
-          from cancelled the recreate is triggered. Recreating a claim keeps existing history.
+          Reacreating a previously cancelled claim must be done by calling the create operation.   
+                  
         
-          Claim is cancelled by changing the claim status to "Cancelled".
-        
-          Claim is moved between collection status by changing collectionState to
-          - SecondaryCollection (for secondary)
-          - PrimaryCollection (for primary)
       operationId: postBatch
       tags:
         - Claim Service
@@ -877,6 +878,8 @@ components:
           $ref: "#/components/schemas/claimId"
         directPaymentClaim:
           type: boolean
+        print:
+          type: boolean
 
     claimStatusError:
       description: |
@@ -1056,6 +1059,83 @@ components:
             $ref: "#/components/schemas/depositAccountWithDetails"
         isActive:
           type: boolean
+        settings:
+          $ref: "#/components/schemas/claimTemplateSettings"
+
+    claimTemplateSettings:
+      description: |
+        Default claim settings applied when creating claims for this template. 
+        Individual claims may override these values where the claim schema permits.
+      type: object
+      properties:
+        amount:
+          description: Default claim amount.
+          type: number
+        reference:
+          $ref: "#/components/schemas/reference"
+        defaultInterest:
+          $ref: "#/components/schemas/defaultInterest"
+        defaultCharge:
+          $ref: "#/components/schemas/defaultCharge"
+        paymentFee:
+          $ref: "#/components/schemas/paymentFee"
+        discount:
+          $ref: "#/components/schemas/discount"
+        otherCostsAmount:
+          description: Default other costs (added to claim).
+          type: number
+        otherDefaultCostsAmount:
+          description: Default other default costs (e.g. intermediate collection fee).
+          type: number
+        currency:
+          description: Default ISO 4217 currency code.
+          type: string
+          pattern: '[A-Z]{3}'
+        isOutOfSequencePaymentAllowed:
+          description: Payment rule, allow paying later installments before earlier ones.
+          type: boolean
+        isPartialPaymentAllowed:
+          description: Partial payment is allowed.
+          type: boolean
+        claimType:
+          $ref: "#/components/schemas/claimType"
+        billNumber:
+          description: 7 character bill number shown on payer account statement.
+          type: string
+          maxLength: 7
+        dueDateRule:
+          $ref: "#/components/schemas/dateRuleDayOfMonth"
+        finalDueDateRule:
+          $ref: "#/components/schemas/dateRuleNumberOfDays"
+        cancellationDateRule:
+          $ref: "#/components/schemas/dateRuleNumberOfDays"
+
+
+    dateRuleDayOfMonth:
+      description: |
+        Rule that sets a date to a fixed day within the calendar month (e.g. 15th of each month).
+      type: object
+      required:
+        - dayOfMonth
+      properties:
+        dayOfMonth:
+          description: Day of month (1-31). If a month has fewer days, business logic decides adjustment.
+          type: integer
+          minimum: 1
+          maximum: 31
+
+    dateRuleNumberOfDays:
+      description: |
+        Rule that calculates a target date by adding an offset in days to another base date (e.g. +10 days from dueDate).
+      type: object
+      required:
+        - daysOffset
+      properties:
+        daysOffset:
+          description: Number of days to add (0 means same day).
+          type: integer
+          minimum: 0
+          maximum: 365
 
     paymentFee:
       description: |
@@ -1105,7 +1185,7 @@ components:
           maximum: 99
         value:
           type: number
-
+                    
     discount:
       description: |
         Contains detail information about claim discount
@@ -1398,7 +1478,112 @@ components:
         List of claims to be altered
       type: array
       items:
-        $ref: "#/components/schemas/alterClaimBatchDetails"
+        $ref: "#/components/schemas/alterClaimDetails"
+
+    cancelList:
+      description: |
+        List of claims to be cancelled. Each array item is the composite claimKey
+        (claimantId, account, dueDate). Only identification data is supplied.
+      type: array
+      items:
+        $ref: "#/components/schemas/claimKey"
+
+    secondaryCollection:
+      description: |
+        This object represents one claim that is being sent to secondary collection.
+        - claimKey: identifies the claim (required)
+        - templateCode: optional target secondary collection template (overrides default if supplied)
+        - otherDefaultCostsAmount: optional additional other default costs applied during transfer
+      type: object
+      required:
+        - claimKey
+      properties:
+        claimKey:
+          $ref: "#/components/schemas/claimKey"
+        templateCode:
+            $ref: "#/components/schemas/templateCode"
+        otherDefaultCostsAmount:
+          description: Additional other default costs to apply when moving to secondary collection.
+          type: number
+
+    secondaryCollectionList:
+      description: |
+        List of items to move to secondary collection.
+      type: array
+      items:
+        $ref: "#/components/schemas/secondaryCollection"  
+
+    alterClaimDetails:
+      description: |
+        Full replacement object for batch alter operations.
+
+        Usage:
+          - Client fetches the current claim, updates one or more values (e.g. amount, finalDueDate, expirationDate), and submits the full object.
+          - All required fields MUST be present.
+          - Optional fields that are omitted are treated as intentionally cleared (removed/reset) if allowed by business rules. To avoid accidental clearing always send the full current state.
+
+        Notes:
+          - claimKey identifies the claim and cannot change.
+          - Fields not listed as required may still be mandatory under specific business rules (validation occurs server-side).
+          - If a field cannot be cleared but is omitted, the server may reject the request.
+
+      type: object
+      required:
+        - claimKey
+        - templateCode
+        - amount
+        - finalDueDate
+        - expirationDate
+      properties:
+        claimKey:
+          $ref: "#/components/schemas/claimKey"
+        expirationDate:
+          type: string
+          format: date
+        templateCode:
+          $ref: "#/components/schemas/templateCode"
+        amount:
+          type: number
+        reference:
+          $ref: "#/components/schemas/reference"
+        finalDueDate:
+          type: string
+          format: date
+        billNumber:
+          type: string
+          maxLength: 7
+        customerNumber:
+          type: string
+          maxLength: 16
+        paymentFee:
+          $ref: "#/components/schemas/paymentFee"
+        otherCostsAmount:
+          type: number
+        otherDefaultCostsAmount:
+          type: number
+        defaultCharge:
+          $ref: "#/components/schemas/defaultCharge"
+        defaultInterest:
+          $ref: "#/components/schemas/defaultInterest"
+        discount:
+          $ref: "#/components/schemas/discount"
+        isOutOfSequencePaymentAllowed:
+          type: boolean
+        isPartialPaymentAllowed:
+          type: boolean
+        currency:
+          type: string
+          pattern: '[A-Z]{3}'
+        additionalInformation:
+          type: string
+          maxLength: 200
+        claimStatus:
+          $ref: "#/components/schemas/claimStatus"
+        collectionState:
+          $ref: "#/components/schemas/collectionState"
+        printing:
+          $ref: "#/components/schemas/printing"
+
 
     mergeClaimDetails:
       description: |
@@ -1465,12 +1650,6 @@ components:
         printing:
           $ref: "#/components/schemas/printing"
 
-    alterClaimBatchDetails:
-      allOf: 
-        -  $ref: "#/components/schemas/mergeClaimDetails"
-      required: 
-        -  claimKey
-
 
     createClaimDetailList:
       description: |
@@ -1499,6 +1678,7 @@ components:
         - templateCode
         - amount
         - finalDueDate
+        - expirationDate
       properties:
         claimKey:
           $ref: "#/components/schemas/claimKey"
@@ -1576,11 +1756,35 @@ components:
         alterList:
           $ref: "#/components/schemas/alterClaimDetailsList"
 
+    batchCancelInitiation:
+      properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
+        cancelList:
+          $ref: "#/components/schemas/cancelList"
+
+    batchSecondaryCollectionInitiation:
+      properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
+        secondaryCollectionList:
+          $ref: "#/components/schemas/secondaryCollectionList"
+
+    batchReturnSecondaryCollectionInitiation:
+      properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
+        secondaryCollectionList:
+          $ref: "#/components/schemas/secondaryCollectionList"
+    
     actionType:
       type: string
       enum:
         - "create"
         - "alter"
+        - "cancel"
+        - "secondaryCollection"
+        - "returnSecondaryCollection"
 
     referenceDate:
       description: |
@@ -1675,11 +1879,11 @@ components:
         but the daily account of the Claim Pot's expense items is not shown. The Claim class contains the appearance
         of the claim as it was after the movement. If payment information is related to the movement, it is returned
         in the Payment class.
-      required:
-        - claim
+      type: object      
+      required: [claim, transactionDate, transactionType]
       properties:
         claim:
-          $ref: "#/components/schemas/claimDetails"
+          $ref: "#/components/schemas/claimEvent"
         payment:
           $ref: "#/components/schemas/claimTransaction"
         transactionDate:
@@ -1716,6 +1920,81 @@ components:
             - "ReversedClaim"
             - "TransferFromBank"
             - "TransferToBank"
+
+        userName:
+          type: string
+        updatedFields:
+          type: array
+          items:
+            type: string
+
+
+    claimEvent:
+      description: |        
+         Describes an event related to a claim. 
+         Contains optional details about the claim state, changes, 
+         or other relevant information captured at the time of the event.
+      type: object
+      properties:
+        claimKey:
+          $ref: "#/components/schemas/claimKey"
+        payorId:
+          $ref: "#/components/schemas/kennitala"
+
+        # details
+        expirationDate:
+          type: string
+          format: date
+          example: "2022-01-31"
+        templateCode:
+          $ref: "#/components/schemas/templateCode"
+        amount:
+          type: number
+        reference:
+          $ref: "#/components/schemas/reference"
+        finalDueDate:
+          type: string
+          format: date
+          example: "2022-01-31"
+        billNumber:
+          description: 7 character reference shown on payer statement
+          type: string
+          maxLength: 7
+        customerNumber:
+          description: Payer transaction number (unique per claimant, needed for direct payment agreements)
+          type: string
+          maxLength: 16
+        paymentFee:
+          $ref: "#/components/schemas/paymentFee"
+        otherCostsAmount:
+          description: Other costs, including determined fees paid by the payer of a collection claim.
+          type: number
+        otherDefaultCostsAmount:
+          description: Determined fees, e.g. intermediate collection fee.
+          type: number     
+        defaultCharge:
+          $ref: "#/components/schemas/defaultCharge"
+        defaultInterest:
+          $ref: "#/components/schemas/defaultInterest"
+        discount:
+          $ref: "#/components/schemas/discount"
+        isOutOfSequencePaymentAllowed:
+          description: Allow last payment if previous is unpaid
+          type: boolean
+        isPartialPaymentAllowed:
+          type: boolean
+        currency:
+          type: string
+          pattern: '^[A-Z]{3}'
+        additionalInformation:
+          description: Free text displayed on the claim
+          type: string
+          maxLength: 200
+        printing:
+          $ref: "#/components/schemas/printing"
+        claimType:
+
+          $ref: "#/components/schemas/claimType"
 
     claimTransactionList:
       description: |
@@ -2442,7 +2721,7 @@ components:
 
     batchInitiation:
       description: |
-        JSON request body for a list of create or alter actions inition request message
+        JSON request body for a list of create or alter actions initiation request message
       required: true
       content:
         application/json:
@@ -2452,10 +2731,17 @@ components:
               mapping:
                 create: "#/components/schemas/batchCreateInitiation"
                 alter: "#/components/schemas/batchAlterInitiation"
+                cancel: "#/components/schemas/batchCancelInitiation"
+                secondaryCollection: "#/components/schemas/batchSecondaryCollectionInitiation"
+                returnSecondaryCollection: "#/components/schemas/batchReturnSecondaryCollectionInitiation"                            
+
             oneOf: 
               - $ref: "#/components/schemas/batchCreateInitiation"
               - $ref: "#/components/schemas/batchAlterInitiation"
-  
+              - $ref: "#/components/schemas/batchCancelInitiation"
+              - $ref: "#/components/schemas/batchSecondaryCollectionInitiation"
+              - $ref: "#/components/schemas/batchReturnSecondaryCollectionInitiation"
+
     templateCode:
       description: |
         JSON request body for a claim request message
@@ -2530,8 +2816,8 @@ components:
           schema:
             $ref: "#/components/schemas/batchStatus"
           examples:
-            "Example":
-              $ref: "#/components/examples/patchBatch-200_Example"
+            Example:
+              $ref: "#/components/examples/alterBatch-200_Example"
 
     OK_201_ActionSingleResponse:
       description: Patch created for single item reponse
@@ -2858,36 +3144,92 @@ components:
       value:
         {
           "claimTemplateId": "string",
-          "claimantId": "string",
-          "bank": "0001",
-          "templateCode": "001",
-          "collectionType": "PrimaryCollection",
-          "category": {
-            "code": "st",
-            "name": "string"
-          },
-          "claimantStatementExtendedReferenceType": "ReferenceNumber",
-          "customerNumberTemplate": "string",
-          "claimantStatementReferenceType": "DueDate",
-          "depositAccount": {
-            "id": "000166123456",
-            "ownerId": "0208715009"
-          },
-          "secondaryCollectionClaimTemplateCode": "MI1",
-          "withdrawalAccount": "000166123456",
-          "additionalDepositAccounts": [
-            {
+            "claimantId": "string",
+            "bank": "0001",
+            "templateCode": "001",
+            "collectionType": "PrimaryCollection",
+            "category": {
+              "code": "st",
+              "name": "string"
+            },
+            "claimantStatementExtendedReferenceType": "ReferenceNumber",
+            "customerNumberTemplate": "string",
+            "claimantStatementReferenceType": "DueDate",
+            "depositAccount": {
               "id": "000166123456",
-              "ownerId": "0208715009",
-              "type": "DefaultInterest",
-              "priority": 0,
-              "depositAmount": {
-                "value": 0,
-                "valueType": "FixedAmount"
+              "ownerId": "0208715009"
+            },
+            "secondaryCollectionClaimTemplateCode": "MI1",
+            "withdrawalAccount": "000166123456",
+            "additionalDepositAccounts": [
+              {
+                "id": "000166123456",
+                "ownerId": "0208715009",
+                "type": "DefaultInterest",
+                "priority": 0,
+                "depositAmount": {
+                  "value": 0,
+                  "valueType": "FixedAmount"
+                }
+              }
+            ],
+            "isActive": true,
+            "settings": {
+              "amount": 15000,
+              "reference": "REF987654",
+              "defaultInterest": {
+                "referenceDate": "DueDate",
+                "baseAmountType": "AmountAndDefaultCharge",
+                "baseTimeType": "360",
+                "percentage": 7.25
+              },
+              "defaultCharge": {
+                "referenceDate": "FinalDueDate",
+                "first": {
+                  "chargeType": "Percentage",
+                  "day": 7,
+                  "value": 1.5
+                },
+                "second": {
+                  "chargeType": "Percentage",
+                  "day": 20,
+                  "value": 3
+                }
+              },
+              "paymentFee": {
+                "printingFee": 125,
+                "paperlessFee": 40
+              },
+              "discount": {
+                "referenceDate": "FinalDueDate",
+                "first": {
+                  "chargeType": "Percentage",
+                  "day": 0,
+                  "value": 4
+                },
+                "second": {
+                  "chargeType": "Percentage",
+                  "day": 12,
+                  "value": 2
+                }
+              },
+              "otherCostsAmount": 500,
+              "otherDefaultCostsAmount": 0,
+              "currency": "ISK",
+              "isOutOfSequencePaymentAllowed": true,
+              "isPartialPaymentAllowed": true,
+              "claimType": "NormalClaim",
+              "billNumber": "B765432",
+              "dueDateRule": {
+                "dayOfMonth": 28
+              },
+              "finalDueDateRule": {
+                "daysOffset": 14
+              },
+              "cancellationDateRule": {
+                "daysOffset": 45
               }
             }
-          ],
-          "isActive": true
         }
 
     getClaim-200_Example:
@@ -2984,7 +3326,7 @@ components:
             ]
           },
           "directPaymentClaim": true,
-          "lastChangeDate": "2022-01-31",
+          "lastChangeDate": "2022-01-31",        
           "claimType": "NormalClaim"
         }
 
@@ -3044,23 +3386,9 @@ components:
                 "dueDate": "2022-01-31"
               },
               "payorId": "0208715009",
-              "claimStatus": "Unpaid",
-              "collectionState": "PrimaryCollection",
               "expirationDate": "2022-01-31",
-              "closingDate": "2022-01-31",
               "templateCode": "001",
-              "claimTemplateId": "string",
-              "secondaryCollectionTemplateCode": "001",
-              "secondaryCollectionClaimTemplateId": "string",
-              "categoryCode": "string",
               "amount": 0,
-              "defaultChargeAmountDue": 0,
-              "defaultInterestAmountDue": 0,
-              "discountAmountOffered": 0,
-              "noticeChargeAmountDue": 0,
-              "otherCostsAmountDue": 0,
-              "otherDefaultCostsAmountDue": 0,
-              "totalAmountDue": 0,
               "reference": "string",
               "finalDueDate": "2022-01-31",
               "billNumber": "string",
@@ -3076,12 +3404,12 @@ components:
                 "first": {
                   "chargeType": "Percentage",
                   "day": 0,
-                  "amount": 0
+                  "value": 0
                 },
                 "second": {
                   "chargeType": "Percentage",
                   "day": 0,
-                  "amount": 0
+                  "value": 0
                 }
               },
               "defaultInterest": {
@@ -3090,7 +3418,7 @@ components:
                 "baseTimeType": "Daily",
                 "percentage": 0
               },
-              "discount": {                
+              "discount": {
                 "referenceDate": "FinalDueDate",
                 "first": {
                   "chargeType": "Percentage",
@@ -3105,11 +3433,8 @@ components:
               },
               "isOutOfSequencePaymentAllowed": true,
               "isPartialPaymentAllowed": true,
-              "isPartiallyPaid": true,
               "currency": "string",
-              "currencyPaymentRate": "PaymentDateRate",
-              "additionalInformation": "string",
-              "printing": {                
+              "printing": {
                 "payorAddress": {
                   "name": "string",
                   "addressLine": "string",
@@ -3118,17 +3443,30 @@ components:
                   "country": "string"
                 },
                 "itemRows": [
-                  {
-                    "text": "string",
-                    "amount": 0
-                  }
+                  { "text": "string", "amount": 0 }
                 ],
-                "comments": [
-                  "string"
-                ]
+                "comments": [ "string" ]
               },
-              "directPaymentClaim": true,
-              "lastChangeDate": "2022-01-31"
+              "claimType": "NormalClaim"
+            },
+            "transactionDate": "2022-01-31T00:00:00Z",
+            "transactionType": "Creation",
+            "userName": "string",
+            "updatedFields": []
+          },
+          {
+            "claim": {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000166123456",
+                "dueDate": "2022-01-31"
+              },
+              "payorId": "0208715009",
+              "templateCode": "001",
+              "amount": 0,
+              "finalDueDate": "2022-02-15",
+              "currency": "string",
+              "claimType": "NormalClaim"
             },
             "payment": {
               "claimKey": {
@@ -3168,8 +3506,10 @@ components:
               },
               "transactionBatchId": "stringstringstringstringstringstring"
             },
-            "transactionDate": "2022-01-31",
-            "transactionType": "Creation"
+            "transactionDate": "2022-02-24T23:38:43.220Z",
+            "transactionType": "Payment",
+            "userName": "string",
+            "updatedFields": [ "amount", "expirationDate" ]
           }
         ]
 
@@ -3249,7 +3589,7 @@ components:
             "currency": "string",
             "currencyPaymentRate": "PaymentDateRate",
             "additionalInformation": "string",
-            "printing": {             
+            "printing": {            
               "payorAddress": {
                 "name": "string",
                 "addressLine": "string",
@@ -3354,23 +3694,24 @@ components:
           "claimType": "NormalClaim"
         }
 
-    patchBatch-200_Example:
-      description: Example of patch >
+    alterBatch-200_Example:
+      description: Example of alter batch result (actionType = alter)
       value:
         {
-          "batchId": "stringstringstringstringstringstring",
-          "success": 0,
-          "failed": 0,
+          "batchId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+          "success": 1,
+          "failed": 1,
           "pending": 0,
-          "actionType": "create",
+          "actionType": "alter",
           "actions": {
             "successes": [
               {
                 "claimKey": {
                   "claimantId": "0208715009",
                   "account": "000166123456",
-                  "dueDate": "2022-01-31"
+                  "dueDate": "2025-11-30"
                 },
+                "claimId": "0208715009000166001234+20251130",
                 "directPaymentClaim": true
               }
             ],
@@ -3379,25 +3720,76 @@ components:
                 "claimKey": {
                   "claimantId": "0208715009",
                   "account": "000166123456",
-                  "dueDate": "2022-01-31"
+                  "dueDate": "2025-12-15"
                 },
-                "errorCode": "string",
-                "errorMessage": "string"
+                "claimId": "0208715009000166005678+20251215",
+                "resultCode": "CLAIM_NOT_FOUND",
+                "resultSubCode": "MISSING_OR_CANCELLED",
+                "resultMessage": "Claim not found or previously cancelled"
               }
             ]
           }
         }
 
-security:
-  #####################################################
-  # Global security options
-  #####################################################
-  - BearerAuthOAuth: []
+    secondaryCollectionBatch-201_RequestExample:
+      description: Request example for sending claims to secondary collection (actionType = secondaryCollection)
+      value:
+        {
+          "actionType": "secondaryCollection",
+          "secondaryCollectionList": [
+            {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000166123456",
+                "dueDate": "2025-11-30"
+              },
+              "templateCode": "SC1",
+              "otherDefaultCostsAmount": 1500
+            },
+            {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000166123789",
+                "dueDate": "2025-12-15"
+              }
+              # templateCode omitted -> use default secondary collection template
+            }
+          ]
+        }
 
-tags:
-  #####################################################
-  # Predefined Tags to Group Methods
-  #####################################################
-
-  - name: Claim Service
-    description: Common Claim operations for icelandic banks
+    secondaryCollectionBatch-200_Example:
+      description: Batch status example for secondary collection initiation (actionType = secondaryCollection)
+      value:
+        {
+          "batchId": "5c7f4db2-8d8c-4ac7-9d3e-6b1b3b4f1c21",
+          "success": 1,
+          "failed": 1,
+          "pending": 0,
+          "actionType": "secondaryCollection",
+          "actions": {
+            "successes": [
+              {
+                "claimKey": {
+                  "claimantId": "0208715009",
+                  "account": "000166123456",
+                  "dueDate": "2025-11-30"
+                },
+                "claimId": "0208715009000166001234+20251130",
+                "directPaymentClaim": true
+              }
+            ],
+            "errors": [
+              {
+                "claimKey": {
+                  "claimantId": "0208715009",
+                  "account": "000166123789",
+                  "dueDate": "2025-12-15"
+                },
+                "claimId": "0208715009000166005678+20251215",
+                "resultCode": "CLAIM_NOT_FOUND",
+                "resultSubCode": "MISSING_OR_CANCELLED",
+                "resultMessage": "Claim not found or previously cancelled"
+              }
+            ]
+          }
+        }

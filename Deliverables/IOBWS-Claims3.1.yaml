@@ -600,24 +600,25 @@ paths:
     post:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
-        Accepts on of two request bodies that indicate the action type:
+        Accepts on of five request bodies that indicate the action type:
 
         **batchCreateInitiation** - Initiates a batch with a list of claims to be created.
 
         **batchAlterInitiation** - Initiates a batch with a list of claims to be altered.
+ 
+        **batchCancelInitiation** - Initiates a batch with a list of claims to be cancelled.
+
+        **batchSecondaryCollectionInitiation** - Initiates a batch with a list of claims to be moved to secondary collection.
+
+        **batchReturnSecondaryCollectionInitiation** - Initiates a batch with a list of claims to be returned from secondary collection back to primary collection.
         
-        When claim is altered:
-          The patch claim method modifies a previously created claim. The patch is
-          then submitted and amended according to new information.
+        Claim handling guidelines:
+          Claim is modified by submitting the complete claim object with all intended values. Partial updates are not supported.
+          Fields that must remain unchanged need to be included.
          
-          Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
-          from cancelled the recreate is triggered. Recreating a claim keeps existing history.
+          Reacreating a previously cancelled claim must be done by calling the create operation.   
+                  
         
-          Claim is cancelled by changing the claim status to "Cancelled".
-        
-          Claim is moved between collection status by changing collectionState to
-          - SecondaryCollection (for secondary)
-          - PrimaryCollection (for primary)
       operationId: postBatch
       tags:
         - Claim Service
@@ -1482,7 +1483,112 @@ components:
         List of claims to be altered
       type: array
       items:
-        $ref: "#/components/schemas/alterClaimBatchDetails"
+        $ref: "#/components/schemas/alterClaimDetails"
+
+    cancelList:
+      description: |
+        List of claims to be cancelled. Each array item is the composite claimKey
+        (claimantId, account, dueDate). Only identification data is supplied.
+      type: array
+      items:
+        $ref: "#/components/schemas/claimKey"
+
+    secondaryCollection:
+      description: |
+        This object represents one claim that is being sent to secondary collection.
+        - claimKey: identifies the claim (required)
+        - templateCode: optional target secondary collection template (overrides default if supplied)
+        - otherDefaultCostsAmount: optional additional other default costs applied during transfer
+      type: object
+      required:
+        - claimKey
+      properties:
+        claimKey:
+          $ref: "#/components/schemas/claimKey"
+        templateCode:
+            $ref: "#/components/schemas/templateCode"
+        otherDefaultCostsAmount:
+          description: Additional other default costs to apply when moving to secondary collection.
+          type: number
+
+    secondaryCollectionList:
+      description: |
+        List of items to move to secondary collection.
+      type: array
+      items:
+        $ref: "#/components/schemas/secondaryCollection"  
+
+    alterClaimDetails:
+      description: |
+        Full replacement object for batch alter operations.
+
+        Usage:
+          - Client fetches the current claim, updates one or more values (e.g. amount, finalDueDate, expirationDate), and submits the full object.
+          - All required fields MUST be present.
+          - Optional fields that are omitted are treated as intentionally cleared (removed/reset) if allowed by business rules. To avoid accidental clearing always send the full current state.
+
+        Notes:
+          - claimKey identifies the claim and cannot change.
+          - Fields not listed as required may still be mandatory under specific business rules (validation occurs server-side).
+          - If a field cannot be cleared but is omitted, the server may reject the request.
+
+      type: object
+      required:
+        - claimKey
+        - templateCode
+        - amount
+        - finalDueDate
+        - expirationDate
+      properties:
+        claimKey:
+          $ref: "#/components/schemas/claimKey"
+        expirationDate:
+          type: string
+          format: date
+        templateCode:
+          $ref: "#/components/schemas/templateCode"
+        amount:
+          type: number
+        reference:
+          $ref: "#/components/schemas/reference"
+        finalDueDate:
+          type: string
+          format: date
+        billNumber:
+          type: string
+          maxLength: 7
+        customerNumber:
+          type: string
+          maxLength: 16
+        paymentFee:
+          $ref: "#/components/schemas/paymentFee"
+        otherCostsAmount:
+          type: number
+        otherDefaultCostsAmount:
+          type: number
+        defaultCharge:
+          $ref: "#/components/schemas/defaultCharge"
+        defaultInterest:
+          $ref: "#/components/schemas/defaultInterest"
+        discount:
+          $ref: "#/components/schemas/discount"
+        isOutOfSequencePaymentAllowed:
+          type: boolean
+        isPartialPaymentAllowed:
+          type: boolean
+        currency:
+          type: string
+          pattern: '[A-Z]{3}'
+        additionalInformation:
+          type: string
+          maxLength: 200
+        claimStatus:
+          $ref: "#/components/schemas/claimStatus"
+        collectionState:
+          $ref: "#/components/schemas/collectionState"
+        printing:
+          $ref: "#/components/schemas/printing"
+
 
     mergeClaimDetails:
       description: |
@@ -1548,12 +1654,6 @@ components:
           $ref: "#/components/schemas/collectionState"
         printing:
           $ref: "#/components/schemas/printing"
-    
-    alterClaimBatchDetails:
-      allOf: 
-        -  $ref: "#/components/schemas/mergeClaimDetails"
-      required: 
-        -  claimKey
 
 
     createClaimDetailList:
@@ -1659,12 +1759,36 @@ components:
           $ref: "#/components/schemas/actionType"
         alterList:
           $ref: "#/components/schemas/alterClaimDetailsList"
+
+    batchCancelInitiation:
+      properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
+        cancelList:
+          $ref: "#/components/schemas/cancelList"
+
+    batchSecondaryCollectionInitiation:
+      properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
+        secondaryCollectionList:
+          $ref: "#/components/schemas/secondaryCollectionList"
+
+    batchReturnSecondaryCollectionInitiation:
+      properties:
+        actionType:
+          $ref: "#/components/schemas/actionType"
+        secondaryCollectionList:
+          $ref: "#/components/schemas/secondaryCollectionList"
     
     actionType:
       type: string
       enum:
         - "create"
         - "alter"
+        - "cancel"
+        - "secondaryCollection"
+        - "returnSecondaryCollection"
 
     referenceDate:
       description: |
@@ -2542,7 +2666,7 @@ components:
 
     batchInitiation:
       description: |
-        JSON request body for a list of create or alter actions inition request message
+        JSON request body for a list of create or alter actions initiation request message
       required: true
       content:
         application/json:
@@ -2552,9 +2676,16 @@ components:
               mapping:
                 create: "#/components/schemas/batchCreateInitiation"
                 alter: "#/components/schemas/batchAlterInitiation"
+                cancel: "#/components/schemas/batchCancelInitiation"
+                secondaryCollection: "#/components/schemas/batchSecondaryCollectionInitiation"
+                returnSecondaryCollection: "#/components/schemas/batchReturnSecondaryCollectionInitiation"                            
+
             oneOf: 
               - $ref: "#/components/schemas/batchCreateInitiation"
               - $ref: "#/components/schemas/batchAlterInitiation"
+              - $ref: "#/components/schemas/batchCancelInitiation"
+              - $ref: "#/components/schemas/batchSecondaryCollectionInitiation"
+              - $ref: "#/components/schemas/batchReturnSecondaryCollectionInitiation"
 
     templateCode:
       description: |
@@ -2630,8 +2761,8 @@ components:
           schema:
             $ref: "#/components/schemas/batchStatus"
           examples:
-            "Example":
-              $ref: "#/components/examples/patchBatch-200_Example"
+            Example:
+              $ref: "#/components/examples/alterBatch-200_Example"
 
     OK_201_ActionSingleResponse:
       description: Patch created for single item reponse
@@ -3510,23 +3641,24 @@ components:
           "claimType": "NormalClaim"
         }
 
-    patchBatch-200_Example:
-      description: Example of patch >
+    alterBatch-200_Example:
+      description: Example of alter batch result (actionType = alter)
       value:
         {
-          "batchId": "stringstringstringstringstringstring",
-          "success": 0,
-          "failed": 0,
+          "batchId": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+          "success": 1,
+          "failed": 1,
           "pending": 0,
-          "actionType": "create",
+          "actionType": "alter",
           "actions": {
             "successes": [
               {
                 "claimKey": {
                   "claimantId": "0208715009",
                   "account": "000166123456",
-                  "dueDate": "2022-01-31"
+                  "dueDate": "2025-11-30"
                 },
+                "claimId": "0208715009000166001234+20251130",
                 "directPaymentClaim": true
               }
             ],
@@ -3535,25 +3667,76 @@ components:
                 "claimKey": {
                   "claimantId": "0208715009",
                   "account": "000166123456",
-                  "dueDate": "2022-01-31"
+                  "dueDate": "2025-12-15"
                 },
-                "errorCode": "string",
-                "errorMessage": "string"
+                "claimId": "0208715009000166005678+20251215",
+                "resultCode": "CLAIM_NOT_FOUND",
+                "resultSubCode": "MISSING_OR_CANCELLED",
+                "resultMessage": "Claim not found or previously cancelled"
               }
             ]
           }
         }
 
-security:
-  #####################################################
-  # Global security options
-  #####################################################
-  - BearerAuthOAuth: []
+    secondaryCollectionBatch-201_RequestExample:
+      description: Request example for sending claims to secondary collection (actionType = secondaryCollection)
+      value:
+        {
+          "actionType": "secondaryCollection",
+          "secondaryCollectionList": [
+            {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000166123456",
+                "dueDate": "2025-11-30"
+              },
+              "templateCode": "SC1",
+              "otherDefaultCostsAmount": 1500
+            },
+            {
+              "claimKey": {
+                "claimantId": "0208715009",
+                "account": "000166123789",
+                "dueDate": "2025-12-15"
+              }
+              # templateCode omitted -> use default secondary collection template
+            }
+          ]
+        }
 
-tags:
-  #####################################################
-  # Predefined Tags to Group Methods
-  #####################################################
-
-  - name: Claim Service
-    description: Common Claim operations for icelandic banks
+    secondaryCollectionBatch-200_Example:
+      description: Batch status example for secondary collection initiation (actionType = secondaryCollection)
+      value:
+        {
+          "batchId": "5c7f4db2-8d8c-4ac7-9d3e-6b1b3b4f1c21",
+          "success": 1,
+          "failed": 1,
+          "pending": 0,
+          "actionType": "secondaryCollection",
+          "actions": {
+            "successes": [
+              {
+                "claimKey": {
+                  "claimantId": "0208715009",
+                  "account": "000166123456",
+                  "dueDate": "2025-11-30"
+                },
+                "claimId": "0208715009000166001234+20251130",
+                "directPaymentClaim": true
+              }
+            ],
+            "errors": [
+              {
+                "claimKey": {
+                  "claimantId": "0208715009",
+                  "account": "000166123789",
+                  "dueDate": "2025-12-15"
+                },
+                "claimId": "0208715009000166005678+20251215",
+                "resultCode": "CLAIM_NOT_FOUND",
+                "resultSubCode": "MISSING_OR_CANCELLED",
+                "resultMessage": "Claim not found or previously cancelled"
+              }
+            ]
+          }
+        }

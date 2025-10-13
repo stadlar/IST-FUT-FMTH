@@ -3346,7 +3346,8 @@ components:
             ]
           },
           "directPaymentClaim": true,
-          "lastChangeDate": "2022-01-31",        
+          "lastChangeDate": "2022-01-31T00:00:00Z",
+          "createdDate": "2022-12-31T08:05:15Z",
           "claimType": "NormalClaim"
         }
 
@@ -3633,8 +3634,8 @@ components:
               ]
             },
             "directPaymentClaim": true,
-            "lastChangeDate": "2022-01-31",
-            "createdDate": "2022-12-31 08:05:15",
+            "lastChangeDate": "2022-01-31T00:00:00Z",
+            "createdDate": "2022-12-31T08:05:15Z",
             "claimType": "NormalClaim"
           }
         ]
@@ -3657,8 +3658,8 @@ components:
           "billNumber": "string",
           "customerNumber": "string",
           "paymentFee": {
-            "paymentFee": 0,
-            "directDebitFee": 0
+            "printingFee": 0,
+            "paperlessFee": 0
           },
           "otherCostsAmount": 0,
           "otherDefaultCostsAmount": 0,
@@ -3676,9 +3677,10 @@ components:
             }
           },
           "defaultInterest": {
-            "rule": "NoDefaultInterest",
-            "percentage": 0,
-            "specialCode": ""
+            "referenceDate": "DueDate",
+            "baseAmountType": "Amount",
+            "baseTimeType": "Daily",
+            "percentage": 0
           },
           "discount": {
             "referenceDate": "FinalDueDate",
@@ -3696,9 +3698,8 @@ components:
           "isOutOfSequencePaymentAllowed": true,
           "isPartialPaymentAllowed": true,
           "currency": "string",
-          "referenceRate": "ExchangeRate",
           "additionalInformation": "string",
-          "printing": {           
+          "printing": {            
             "payorAddress": {
               "name": "string",
               "addressLine": "string",

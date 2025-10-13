@@ -96,7 +96,7 @@ paths:
     get:
       summary: Get a single claim template
       description: |
-        Returns a single claim templates by supplied template id
+        Returns a single claim template by the supplied templateId.
       operationId: getTemplate
       tags:
         - Claim Service
@@ -154,29 +154,27 @@ paths:
     get:
       summary: Get a list of claims as defined by the query parameters.
       description: |
-        Getting a list of claims can be done by multiple query parameters to get focused answer.        
+        A list of claims can be filtered by multiple query parameters to obtain a focused result.
         Parameters:
-        - dateFrom: Searching from a starting date
-        - dateTo: Searching to an end date
-        - dateSpanReferenceDate: When date range (from, to) is defined then the next step to tell what the range
-                                  applies to. Possible variables are:
-                                  - DueDate: The claim's due date
-                                  - FinalDueDate: The claim's final due date
-                                  - ExpirationDate: The claim cancellation date
-                                  - ClosingDate:  Date when the claim was paid, cancelled or transferred.
-                                  - CreationDate: When the claim was created
-                                  - LastChangeDate: Last claim change event date
+        - dateFrom: Search starting date
+        - dateTo: Search end date
+        - dateSpanReferenceDate: When a date range (from/to) is defined this indicates which date field the range applies to. Possible values are:
+          - DueDate: The claim's due date
+          - FinalDueDate: The claim's final due date
+          - ExpirationDate: The claim cancellation date
+          - ClosingDate: Date when the claim was paid, cancelled or transferred.
+          - CreationDate: When the claim was created
+          - LastChangeDate: Last claim change event date
         - claimantId: The claim claimant
         - payorId: The claim payor
-        - status: Claim has one-of ["Unpaid", "Paid", "Cancelled"] statuses
-        - collectionStatus: Claim states are:
+        - status: Claim status is one of ["Unpaid", "Paid", "Cancelled"]
+        - collectionStatus: Claim collection process state:
           - PrimaryCollection
           - WaitingForSecondary
           - SecondaryCollection
           - LegalCollection
         - templateCode: Bank claim template code
-        The query function returns a list of claims. The maximum return is set with the page number and 
-        number per page.
+        The function returns a paginated list of claims; use page and itemsPerPage for paging.
       operationId: getClaims
       tags:
         - Claim Service
@@ -351,19 +349,17 @@ paths:
     patch:
       summary: Patch a single claim
       description: |
-        The patch claim method modifies a previously created claim. The patch is
-        then submitted and amended according to new information.
-         
-        Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
-        from cancelled the recreation is triggered. Recreating a claim keeps existing history.
-        
-        To cancel a claim change status to Cancelled
-        
-        To move to different collection change collectionStatus
+        The patch claim method modifies a previously created claim.
+
+        A cancelled claim is recreated by changing its status from "Cancelled" back to "Unpaid". Recreating a claim keeps existing history.
+
+        To cancel a claim change status to "Cancelled".
+
+        To move a claim between collection phases change collectionStatus:
         - SecondaryCollection (for secondary)
-        - PrimaryCollection (for primary)        
-        
-        For further input parameters descriptions, see the mergeClaimDetails request object.
+        - PrimaryCollection (for primary)
+
+        For further input parameter descriptions, see the mergeClaimDetails request object.
 
       operationId: patchClaim
       tags:
@@ -778,7 +774,7 @@ components:
 
     claimId:
       description: |
-        ClaimID is a composite string key for claim made of kennitala, account and due date
+        ClaimId is a composite string key for a claim made of kennitala, account and due date
           - ClaimantId
           - Branch number
           - 66
@@ -790,8 +786,8 @@ components:
 
     account:
       description: |
-        Banknumber, ledger and number.
-        for claims ledger is 66 followed by claim number
+        Bank number, ledger and number.
+        For claims ledger is 66 followed by claim number
       type: string
       pattern: "[0-9]{12}"
       example: "000166123456"
@@ -830,11 +826,11 @@ components:
 
     dateSpanReferenceDate:
       description: |
-        Types of dates are as follows::
+        Types of dates are as follows:
           - DueDate: The claim's due date
           - FinalDueDate: The claim's final due date
           - ExpirationDate: The claim cancellation date
-          - ClosingDate:  Date when the claim was paid, canceled or transferred.
+          - ClosingDate:  Date when the claim was paid, cancelled or transferred.
           - CreationDate: When the claim was created
           - LastChangeDate: Last claim change event date
       type: string
@@ -1258,9 +1254,9 @@ components:
     defaultCharge:
       description: |
         Default charges configuration.
-        Set number of days from reference day and set if amount should be calculate by percent or be fixed Amount. 
-        In case of discount calculations the discount amount is calculated from totalAmount.
-        In case of defaultCharge charge amount is calculated from claimAmount.
+        Defines day offsets from the reference date and whether each charge is percentage-based or a fixed amount.
+        For discounts, the amount is calculated from totalAmount.
+        For defaultCharge, the charge amount is calculated from claimAmount.
       nullable: true
       properties:
         referenceDate:
@@ -1325,7 +1321,7 @@ components:
 
     claimListDetails:
       description: |
-        List of claim
+        List of claims
       type: array
       items:
         $ref: "#/components/schemas/claimDetails"
@@ -1339,9 +1335,7 @@ components:
 
     claimDetails:
       description: |
-        Detail information for a single Claim object can contains information about discount as constant or percent 
-        in the case of discount when payment is done early. A claim contains detail information about the bill. If 
-        payment has been done the "Amount" can not be changed among other attributes.
+        Detailed information for a single claim. May include discount information (fixed amount or percentage) for early payment. A claim includes detailed billing information. After any payment certain monetary fields (including amount) cannot be changed.
       type: object
       required:
         - claimKey
@@ -1417,12 +1411,12 @@ components:
           example: "2022-01-31"
         billNumber:
           description: |
-            7 character reference id set by claimant. This ID will be visible on payers Account statement
+            7-character reference id set by claimant. This ID will be visible on the payer's account statement
           type: string
           maxLength: 7
         customerNumber:
           description: |
-            16 character reference id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            16-character reference id set by claimant. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
@@ -1613,13 +1607,13 @@ components:
           example: "2022-01-31"
         billNumber:
           description: |
-            7 character reference id set by claimant. This ID will be visible on payer's Account statement
+            7-character reference id set by claimant. This ID will be visible on the payer's account statement
           type: string
           maxLength: 7
           nullable: true
         customerNumber:
           description: |
-            16 character reference id set by claimant. Payer's transaction number. Payer's transaction number. Unique key to the payer of the 
+            16-character reference id set by claimant. Payer's transaction number. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
@@ -1647,7 +1641,7 @@ components:
           description: Partial payment is allowed
           type: boolean       
         currency:
-          description: Claim currency (ISO 4217)
+          description: Claim currency (ISO 4217)
           type: string
           pattern: '[A-Z]{3}'
           nullable: true
@@ -1665,7 +1659,7 @@ components:
 
     createClaimDetailList:
       description: |
-        List of claim to be created
+        List of claims to be created
       type: array
       items:
         $ref: "#/components/schemas/createClaimDetails"
@@ -1675,10 +1669,10 @@ components:
         Create claim object
 
         Description:
-       
+
         * discount: Contains information about discount as constant or percent
         * defaultCharge: Contains information on the default fee, either in a fixed amount or in percentages. Note that 
-                         the amount must be within the rules that apply according to Regulation 37/2009.
+          the amount must be within the rules that apply according to Regulation 37/2009.
         * defaultInterest: Contains information on how penalty interest is calculated.
         * discount: Contains information about discount as constant or percent
         * isOutOfSequencePaymentAllowed: Out of sequence payment allowed
@@ -1713,12 +1707,12 @@ components:
           example: "2022-01-31"
         billNumber:
           description: |
-            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
+            7-character reference id set by claimant. This ID will be visible on the payer's account statement
           type: string
           maxLength: 7
         customerNumber:
           description: |
-            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            16-character reference id set by claimant. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
@@ -2090,12 +2084,12 @@ components:
           type: number
         billNumber:
           description: |
-            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
+            7-character reference id set by claimant. This ID will be visible on the payer's account statement
           type: string
           maxLength: 7
         customerNumber:
           description: |
-            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            16-character reference id set by claimant. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16

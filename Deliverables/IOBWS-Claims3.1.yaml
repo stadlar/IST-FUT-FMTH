@@ -31,14 +31,14 @@ paths:
   # Claim Templates Service
   #####################################################
 
-  /v1/claimtemplates:
+  /v1/templates:
 
     get:
       summary: Get a list of claim templates
       description: |
         Returns a list of claim templates according to the filters provided. Claim template describes many 
         attributes of the claim process and gives the consumer key information needed.
-      operationId: getClaimTemplateList
+      operationId: getTemplateList
       tags:
         - Claim Service
       security:
@@ -91,13 +91,13 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/claimtemplates/{claimTemplateId}:
+  /v1/templates/{templateId}:
 
     get:
       summary: Get a single claim template
       description: |
         Returns a single claim templates by supplied template id
-      operationId: getClaimTemplate
+      operationId: getTemplate
       tags:
         - Claim Service
       security:
@@ -116,7 +116,7 @@ paths:
         - BearerAuthOAuth: []
       parameters:
       #path
-        - $ref: "#/components/parameters/claimTemplateId"
+        - $ref: "#/components/parameters/templateId"
       #query # NO QUERY PARAMETER
       #header
           #mandatory header parameter
@@ -125,7 +125,7 @@ paths:
         #NO REQUEST BODY
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_ClaimTemplate"
+          $ref: "#/components/responses/OK_200_Template"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -205,7 +205,7 @@ paths:
         - $ref: "#/components/parameters/status"
         - $ref: "#/components/parameters/collectionStatus"
         - $ref: "#/components/parameters/templateCode"
-        - $ref: "#/components/parameters/claimTemplateId"
+        - $ref: "#/components/parameters/templateId"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
       #header
@@ -980,13 +980,13 @@ components:
             - "FixedAmount"
             - "Percentage"
 
-    claimTemplateListDetails:
+    templateListDetails:
       description: |
         Claim template details.
       type: object
       properties:
-        claimTemplateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+        templateId:
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         claimantId:
           $ref: "#/components/schemas/claimantId"
@@ -1008,7 +1008,7 @@ components:
           $ref: "#/components/schemas/claimantStatementReferenceType"
         depositAccount:
           $ref: "#/components/schemas/depositAccount"
-        secondaryCollectionClaimTemplateCode:
+        secondaryCollectionTemplateCode:
           description: |
             ID of a collection claim template to which claims are transferred.
           type: string
@@ -1017,13 +1017,13 @@ components:
         withdrawalAccount:
           $ref: "#/components/schemas/account"
 
-    claimTemplateDetails:
+    templateDetails:
       description: |
         Claim template details.
       type: object
       properties:
-        claimTemplateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+        templateId:
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         claimantId:
           $ref: "#/components/schemas/claimantId"
@@ -1045,7 +1045,7 @@ components:
           $ref: "#/components/schemas/claimantStatementReferenceType"
         depositAccount:
           $ref: "#/components/schemas/depositAccount"
-        secondaryCollectionClaimTemplateCode:
+        secondaryCollectionTemplateCode:
           description: |
             ID of a collection claim template to which claims are transferred.
           type: string
@@ -1330,12 +1330,12 @@ components:
       items:
         $ref: "#/components/schemas/claimDetails"
 
-    claimTemplateList:
+    templateList:
       description: |
         List of claim templates
       type: array
       items:
-        $ref: "#/components/schemas/claimTemplateListDetails"
+        $ref: "#/components/schemas/templateListDetails"
 
     claimDetails:
       description: |
@@ -1370,13 +1370,13 @@ components:
           example: "2022-01-31"
         templateCode:
           $ref: "#/components/schemas/templateCode"
-        claimTemplateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+        templateId:
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         secondaryCollectionTemplateCode:
           $ref: "#/components/schemas/templateCode"
-        secondaryCollectionClaimTemplateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+        secondaryCollectionTemplateId:
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         categoryCode:
           description: Creditors' text key, explanation of payment. Optional attribute on claim
@@ -2032,13 +2032,13 @@ components:
           format: date
         templateCode:
           $ref: "#/components/schemas/templateCode"
-        claimTemplateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+        templateId:
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         secondaryCollectionTemplateCode:
           $ref: "#/components/schemas/templateCode"
-        secondaryCollectionClaimTemplateId:
-          description: Unique Id for each claimTemplate. This is specific to each bank.
+        secondaryCollectionTemplateId:
+          description: Unique Id for each template. This is specific to each bank.
           type: string
         reference:
           $ref: "#/components/schemas/reference"
@@ -2633,8 +2633,8 @@ components:
       schema:
         $ref: "#/components/schemas/dueDate"
 
-    claimTemplateId:
-      name: claimTemplateId
+    templateId:
+      name: templateId
       in: path
       description: |
         Unique template id defined by the banks.
@@ -2986,12 +2986,12 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/claimTemplateList"
+            $ref: "#/components/schemas/templateList"
           examples:
             "Example":
-              $ref: "#/components/examples/getClaimTemplateList-200_Example"
+              $ref: "#/components/examples/getTemplateList-200_Example"
 
-    OK_200_ClaimTemplate:
+    OK_200_Template:
       description: |
         Claim template.
       headers:
@@ -3000,10 +3000,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/claimTemplateDetails"
+            $ref: "#/components/schemas/templateDetails"
           examples:
             "Example":
-              $ref: "#/components/examples/getClaimTemplate-200_Example"
+              $ref: "#/components/examples/getTemplate-200_Example"
 
     #####################################################
     # Negative Responses
@@ -3125,12 +3125,12 @@ components:
   # Predefined Examples
   #####################################################
 
-    getClaimTemplateList-200_Example:
+    getTemplateList-200_Example:
       description: Example of claim templates.
       value:
         [
           {
-            "claimTemplateId": "string",
+            "templateId": "string",
             "claimantId": "string",
             "bank": "0001",
             "templateCode": "001",
@@ -3146,16 +3146,16 @@ components:
               "id": "000166123456",
               "ownerId": "0208715009"
             },
-            "secondaryCollectionClaimTemplateCode": "MI1",
+            "secondaryCollectionTemplateCode": "MI1",
             "withdrawalAccount": "000166123456"
           }
         ]
 
-    getClaimTemplate-200_Example:
+    getTemplate-200_Example:
       description: Example of claim template
       value:
         {
-          "claimTemplateId": "string",
+          "templateId": "string",
             "claimantId": "string",
             "bank": "0001",
             "templateCode": "001",
@@ -3259,9 +3259,9 @@ components:
           "expirationDate": "2022-01-31",
           "closingDate": "2022-01-31",
           "templateCode": "001",
-          "claimTemplateId": "string",
+          "templateId": "string",
           "secondaryCollectionTemplateCode": "001",
-          "secondaryCollectionClaimTemplateId": "string",
+          "secondaryCollectionTemplateId": "string",
           "categoryCode": "string",
           "amount": 0,
           "defaultChargeAmountDue": 0,
@@ -3356,9 +3356,9 @@ components:
             "amount": 0,
             "finalDueDate": "2022-02-24",
             "templateCode": "001",
-            "claimTemplateId": "string",
+            "templateId": "string",
             "secondaryCollectionTemplateCode": "001",
-            "secondaryCollectionClaimTemplateId": "string",
+            "secondaryCollectionTemplateId": "string",
             "reference": "string",
             "categoryCode": "string",
             "transactionBank": "string",
@@ -3401,6 +3401,10 @@ components:
               "payorId": "0208715009",
               "expirationDate": "2022-01-31",
               "templateCode": "001",
+              "templateId": "string",
+              "secondaryCollectionTemplateCode": "001",
+              "secondaryCollectionTemplateId": "string",
+              "categoryCode": "string",
               "amount": 0,
               "reference": "string",
               "finalDueDate": "2022-01-31",
@@ -3491,9 +3495,9 @@ components:
               "amount": 0,
               "finalDueDate": "2022-02-24",
               "templateCode": "001",
-              "claimTemplateId": "string",
+              "templateId": "string",
               "secondaryCollectionTemplateCode": "001",
-              "secondaryCollectionClaimTemplateId": "string",
+              "secondaryCollectionTemplateId": "string",
               "reference": "string",
               "categoryCode": "string",
               "transactionBank": "string",
@@ -3542,9 +3546,9 @@ components:
             "expirationDate": "2022-01-31",
             "closingDate": "2022-01-31",
             "templateCode": "001",
-            "claimTemplateId": "string",
+            "templateId": "string",
             "secondaryCollectionTemplateCode": "001",
-            "secondaryCollectionClaimTemplateId": "string",
+            "secondaryCollectionTemplateId": "string",
             "categoryCode": "string",
             "amount": 0,
             "defaultChargeAmountDue": 0,

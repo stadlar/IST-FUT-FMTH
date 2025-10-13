@@ -11,7 +11,7 @@ info:
     criteria, and thus get a good overview of all their claims.
 
     There is no Collection Service as it has been merged with the claimant endpoints. There is a restriction on the 
-    collection company, it's not allowed to create claims. The claim service enables dept collectors to work 
+    collection company, it's not allowed to create claims. The claim service enables debt collectors to work 
     with the claims under their care. The service is mostly as structured as the service for claims, except 
     that it is not possible to create collection claims
 
@@ -238,8 +238,8 @@ paths:
     post:
       summary: Create a single claim
       description: |        
-        Creating one claim is performed with out delay and success or error returns with out having to ask for 
-        the status. If claim is created with out error then claimKey, claimId and directPaymentClaim is returned.
+        Creating one claim is performed without delay and success or error returns without having to ask for 
+        the status. If claim is created without error then claimKey, claimId and directPaymentClaim is returned.
       operationId: createClaim
       tags:
         - Claim Service
@@ -537,7 +537,7 @@ paths:
     get:
       summary: Get payments for multiple claims
       description: |
-        Returns all payments for a given claim.  Payment information is accessable near realtime.
+        Returns all payments for a given claim.  Payment information is accessible near real-time.
       operationId: getClaimsTransactions
       tags:
         - Claim Service
@@ -598,7 +598,7 @@ paths:
     post:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
-        Accepts on of five request bodies that indicate the action type:
+        Accepts one of five request bodies that indicate the action type:
 
         **batchCreateInitiation** - Initiates a batch with a list of claims to be created.
 
@@ -614,7 +614,7 @@ paths:
           Claim is modified by submitting the complete claim object with all intended values. Partial updates are not supported.
           Fields that must remain unchanged need to be included.
          
-          Reacreating a previously cancelled claim must be done by calling the create operation.   
+          Recreating a previously cancelled claim must be done by calling the create operation.   
                   
         
       operationId: postBatch
@@ -778,7 +778,7 @@ components:
 
     claimId:
       description: |
-        ClaimID is a composit string key for claim made of kennitala, account and due date
+        ClaimID is a composite string key for claim made of kennitala, account and due date
           - ClaimantId
           - Branch number
           - 66
@@ -1157,7 +1157,7 @@ components:
 
     claimKey:
       description: |
-        Claim key is a composit key of kennitala, account and due date.
+        Claim key is a composite key of kennitala, account and due date.
       type: object
       required:
         - claimantId
@@ -1258,8 +1258,8 @@ components:
     defaultCharge:
       description: |
         Default charges configuration.
-        Set number of days from refrence day and set if amount should be calculate by percent or be fixed Amount. 
-        In case of discount caluculations the discount amount is calculated from totalAmount.
+        Set number of days from reference day and set if amount should be calculate by percent or be fixed Amount. 
+        In case of discount calculations the discount amount is calculated from totalAmount.
         In case of defaultCharge charge amount is calculated from claimAmount.
       nullable: true
       properties:
@@ -1341,7 +1341,7 @@ components:
       description: |
         Detail information for a single Claim object can contains information about discount as constant or percent 
         in the case of discount when payment is done early. A claim contains detail information about the bill. If 
-        payment has been done the "Amount" can not be changed amoung other attribtues.
+        payment has been done the "Amount" can not be changed among other attributes.
       type: object
       required:
         - claimKey
@@ -1417,12 +1417,12 @@ components:
           example: "2022-01-31"
         billNumber:
           description: |
-            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
+            7 character reference id set by claimant. This ID will be visible on payers Account statement
           type: string
           maxLength: 7
         customerNumber:
           description: |
-            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            16 character reference id set by claimant. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
@@ -2832,7 +2832,7 @@ components:
               $ref: "#/components/examples/alterBatch-200_Example"
 
     OK_201_ActionSingleResponse:
-      description: Patch created for single item reponse
+      description: Patch created for single item response
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"

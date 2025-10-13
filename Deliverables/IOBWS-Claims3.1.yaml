@@ -202,7 +202,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/mergeClaim"  # JSON Merge Patch
       responses:
-        '201': { $ref: "#/components/responses/OK_201_ActionSingleResponse" }
+        '200': { $ref: "#/components/responses/OK_200_ActionSingleResponse" }
         '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
         '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
         '403': { $ref: "#/components/responses/FORBIDDEN_403" }
@@ -2467,7 +2467,17 @@ components:
               $ref: "#/components/examples/alterBatch-200_Example"
 
     OK_201_ActionSingleResponse:
-      description: Patch created for single item response
+      description: Claim created (single item response)
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/claimStatusSingleResponse"
+
+    OK_200_ActionSingleResponse:
+      description: Claim updated (single item response)
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
@@ -2871,8 +2881,8 @@ components:
                 "dayOfMonth": 28
               },
               "finalDueDateRule": {
-                "daysOffset": 14
-              },
+                  "daysOffset": 14
+                },
               "cancellationDateRule": {
                 "daysOffset": 45
               }

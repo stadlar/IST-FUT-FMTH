@@ -25,132 +25,63 @@ servers:
     description: Example production server
   - url: https://claims-sandbox.example.com
     description: Sandbox server for testing
+
+# Global security: all operations require bearer token
+security:
+  - BearerAuthOAuth: []
+
 paths:
-
-  #####################################################
-  # Claim Templates Service
-  #####################################################
-
   /v1/templates:
-
     get:
       summary: Get a list of claim templates
       description: |
         Returns a list of claim templates according to the filters provided. Claim template describes many 
         attributes of the claim process and gives the consumer key information needed.
       operationId: getTemplateList
-      tags:
-        - Claim Service
-      security:
-         #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path # NO PATH PARAMETER
-      #query
         - $ref: "#/components/parameters/claimantId"
         - $ref: "#/components/parameters/bank"
         - $ref: "#/components/parameters/templateCode"
         - $ref: "#/components/parameters/isActive"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimListTemplate"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_ClaimListTemplate" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/templates/{templateId}:
-
     get:
       summary: Get a single claim template
       description: |
         Returns a single claim template by the supplied templateId.
       operationId: getTemplate
-      tags:
-        - Claim Service
-      security:
-            #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/templateId"
-      #query # NO QUERY PARAMETER
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_Template"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  #####################################################
-  # Claims Service
-  #####################################################
+        '200': { $ref: "#/components/responses/OK_200_Template" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims:
-
     get:
       summary: Get a list of claims as defined by the query parameters.
       description: |
@@ -176,25 +107,8 @@ paths:
         - templateCode: Bank claim template code
         The function returns a paginated list of claims; use page and itemsPerPage for paging.
       operationId: getClaims
-      tags:
-        - Claim Service
-      security:
-            #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path # NO PATH PARAMETER
-      #query
         - $ref: "#/components/parameters/dateFrom"
         - $ref: "#/components/parameters/dateTo"
         - $ref: "#/components/parameters/dateSpanReferenceDate"
@@ -206,133 +120,64 @@ paths:
         - $ref: "#/components/parameters/templateId"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryClaimListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_QueryClaimListInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
     post:
       summary: Create a single claim
       description: |        
         Claim creation returns an immediate response: if successful, claimKey, claimId, and directPaymentClaim are included; otherwise, an error is returned.
       operationId: createClaim
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #####################################################
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #header
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/X-Idempotency-Key"
-
       requestBody:
         $ref: "#/components/requestBodies/createClaim"
-
       responses:
-        '201':
-          $ref: "#/components/responses/OK_201_ActionSingleResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '201': { $ref: "#/components/responses/OK_201_ActionSingleResponse" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims/{claimId}:
-
     get:
       summary: Get single claim
       description: |
         Fetch detail information for a single claim by claimID. Detailed information on fields in claimDetails.
 
       operationId: getClaim
-      tags:
-        - Claim Service
-      security:
-          #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryClaimInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_QueryClaimInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
     patch:
       summary: Patch a single claim
@@ -350,198 +195,81 @@ paths:
         For further input parameter descriptions, see the mergeClaimDetails request object.
 
       operationId: patchClaim
-      tags:
-        - Claim Service
-      security:
-        #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        #NO REQUEST BODY
-
       requestBody:
         $ref: "#/components/requestBodies/mergeClaim"  # JSON Merge Patch
-
       responses:
-        '201':
-          $ref: "#/components/responses/OK_201_ActionSingleResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '201': { $ref: "#/components/responses/OK_201_ActionSingleResponse" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims/{claimId}/transactions:
-
     get:
       summary: Get payments for a single claim
       description: |
         Returns all claim payments. When claim is paid by debtor the claim payment is visible in near real-time.
       operationId: getClaimTransactions
-      tags:
-        - Claim Service
-      security:
-       #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/claimId"
-      #query
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimTransactionListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_ClaimTransactionListInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims/{claimId}/history:
-
     get:
       summary: Get single claim history
       description: |
         Claim history contains every event for the claim from the beginning, i.e., all changes that
         have been made to the claim together with information about the claim itself.
       operationId: getClaimHistory
-      tags:
-        - Claim Service
-      security:
-       #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/claimId"
-      #query
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimHistoryListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_ClaimHistoryListInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims/transactions:
-
     get:
       summary: Get payments for multiple claims
       description: |
         Returns all payments for a given claim.  Payment information is accessible near real-time.
       operationId: getClaimsTransactions
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path # NO PATH PARAMETER
-      #query
         - $ref: "#/components/parameters/claimantId"
         - $ref: "#/components/parameters/dateFrom"
         - $ref: "#/components/parameters/dateTo"
@@ -549,36 +277,20 @@ paths:
         - $ref: "#/components/parameters/depositAccount"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimTransactionListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_ClaimTransactionListInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/batches:
-
     post:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
@@ -602,58 +314,25 @@ paths:
                   
         
       operationId: postBatch
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-        #path # NO PATH PARAMETER
-        #query
-        #header
-        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
         - $ref: "#/components/parameters/X-Idempotency-Key"
-        #REQUEST BODY
       requestBody:
         $ref: "#/components/requestBodies/batchInitiation"
-
       responses:
-        '201':
-          $ref: "#/components/responses/OK_20x_ActionResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '201': { $ref: "#/components/responses/OK_20x_ActionResponse" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/batches/{batchId}:
-
     get:
       summary: Get a status of previously created batch
       description: |
@@ -662,79 +341,30 @@ paths:
         - Failed: Number of failed claims
         - Pending: Number of waiting claims
       operationId: getBatchStatus
-      tags:
-        - Claim Service
-      security:
-        #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/batchId"
-      #query
-      #header
-        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_20x_ActionResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_20x_ActionResponse" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 components:
-#####################################################
-# Predefined Components
-#####################################################
   securitySchemes:
-    #####################################################
-  # Predefined Security Schemes:
-  #
-  # In this file only the basic security element to transport
-  # the bearer token of an OAuth2 process, which has to
-  # be included in the HTTP header is described.
-  #
-  # WARNING:
-  # If you want to use this file for a productive implementation,
-  # it is recommended to adjust the security schemes according to
-  # your system environments and security policies.
-  #####################################################
     BearerAuthOAuth:
-      description: Bearer Token.
+      description: |
+        Bearer Token (OAuth2 access token transported via Authorization header).
       type: http
       scheme: bearer
 
   schemas:
-  #####################################################
-  # Predefined Schemas
-  #####################################################
-
     batchId:
       description: |
         Batch identifier for a list of claims
@@ -767,7 +397,7 @@ components:
           - Branch number
           - 66
           - Claim no
-          - /+
+          - /+        
           - Date in the form of YYYYMMDD
       type: string
       example: "0101010101000166000001+20221231"
@@ -3577,7 +3207,8 @@ components:
             },
             "otherCostsAmount": 0,
             "otherDefaultCostsAmount": 0,
-            "defaultCharge": {
+            "defaultCharge":
+            {
               "referenceDate": "FinalDueDate",
               "first": {
                 "chargeType": "Percentage",
@@ -3590,13 +3221,15 @@ components:
                 "value": 0
               }
             },
-            "defaultInterest": {
+            "defaultInterest":
+            {
               "referenceDate": "DueDate",
               "baseAmountType": "Amount",
               "baseTimeType": "Daily",
               "percentage": 0
             },
-            "discount": {
+            "discount":
+            {
               "referenceDate": "FinalDueDate",
               "first": {
                 "chargeType": "Percentage",

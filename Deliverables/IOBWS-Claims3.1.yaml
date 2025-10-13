@@ -42,7 +42,7 @@ paths:
       tags:
         - Claim Service
       security:
-      #####################################################
+         #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
       # In this file only the basic security element to transport
       # the bearer token of an OAuth2 process, which has to
@@ -58,10 +58,10 @@ paths:
       parameters:
       #path # NO PATH PARAMETER
       #query
-        - $ref: "#/components/parameters/claimantIdQuery"
-        - $ref: "#/components/parameters/bankQuery"
-        - $ref: "#/components/parameters/templateCodeQuery"
-        - $ref: "#/components/parameters/isActiveQuery"
+        - $ref: "#/components/parameters/claimantId"
+        - $ref: "#/components/parameters/bank"
+        - $ref: "#/components/parameters/templateCode"
+        - $ref: "#/components/parameters/isActive"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
       #header
@@ -69,7 +69,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
         #NO REQUEST BODY
-
       responses:
         '200':
           $ref: "#/components/responses/OK_200_ClaimListTemplate"
@@ -102,7 +101,7 @@ paths:
       tags:
         - Claim Service
       security:
-      #####################################################
+            #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
       # In this file only the basic security element to transport
       # the bearer token of an OAuth2 process, which has to
@@ -124,7 +123,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
           #optional header parameters
         #NO REQUEST BODY
-
       responses:
         '200':
           $ref: "#/components/responses/OK_200_ClaimTemplate"
@@ -158,32 +156,32 @@ paths:
       description: |
         Getting a list of claims can be done by multiple query parameters to get focused answer.        
         Parameters:
-        - dateFromQuery: Searching from a starting date
-        - dateToQuery: Searching to a end date
-        - dateSpanReferenceDateQuery: When date range (from, to) is defined then the next step to tell what the range
-                                      applies to. Possible variables are:
-                                      - DueDate: The claim's due date
-                                      - FinalDueDate: The claim's final due date
-                                      - ExpirationDate: The claim cancellation date
-                                      - ClosingDate:  Date when the claim was paid, cancelled or transferred.
-                                      - CreationDate: When the claim was created
-                                      - LastChangeDate: Last claim change event date
-        - claimantIdQuery: The claim claimant
-        - payorIdQuery: The claim payor
-        - statusQuery: Claim has one-of ["Unpaid", "Paid", "Cancelled"] statuses
-        - stateQuery: Claim states are:
+        - dateFrom: Searching from a starting date
+        - dateTo: Searching to an end date
+        - dateSpanReferenceDate: When date range (from, to) is defined then the next step to tell what the range
+                                  applies to. Possible variables are:
+                                  - DueDate: The claim's due date
+                                  - FinalDueDate: The claim's final due date
+                                  - ExpirationDate: The claim cancellation date
+                                  - ClosingDate:  Date when the claim was paid, cancelled or transferred.
+                                  - CreationDate: When the claim was created
+                                  - LastChangeDate: Last claim change event date
+        - claimantId: The claim claimant
+        - payorId: The claim payor
+        - status: Claim has one-of ["Unpaid", "Paid", "Cancelled"] statuses
+        - collectionState: Claim states are:
           - PrimaryCollection
           - WaitingForSecondary
           - SecondaryCollection
           - LegalCollection
-        - templateCodeQuery: Bank claim template code
+        - templateCode: Bank claim template code
         The query function returns a list of claims. The maximum return is set with the page number and 
         number per page.
       operationId: getClaims
       tags:
         - Claim Service
       security:
-      #####################################################
+            #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
       # In this file only the basic security element to transport
       # the bearer token of an OAuth2 process, which has to
@@ -199,15 +197,15 @@ paths:
       parameters:
       #path # NO PATH PARAMETER
       #query
-        - $ref: "#/components/parameters/dateFromQuery"
-        - $ref: "#/components/parameters/dateToQuery"
-        - $ref: "#/components/parameters/dateSpanReferenceDateQuery"
-        - $ref: "#/components/parameters/claimantIdQuery"
-        - $ref: "#/components/parameters/payorIdQuery"
-        - $ref: "#/components/parameters/statusQuery"
-        - $ref: "#/components/parameters/stateQuery"
-        - $ref: "#/components/parameters/templateCodeQuery"
-        - $ref: "#/components/parameters/claimTemplateIdQuery"
+        - $ref: "#/components/parameters/dateFrom"
+        - $ref: "#/components/parameters/dateTo"
+        - $ref: "#/components/parameters/dateSpanReferenceDate"
+        - $ref: "#/components/parameters/claimantId"
+        - $ref: "#/components/parameters/payorId"
+        - $ref: "#/components/parameters/status"
+        - $ref: "#/components/parameters/collectionState"
+        - $ref: "#/components/parameters/templateCode"
+        - $ref: "#/components/parameters/claimTemplateId"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
       #header
@@ -246,7 +244,7 @@ paths:
       tags:
         - Claim Service
       security:
-      #####################################################
+            #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
       # In this file only the basic security element to transport
       # the bearer token of an OAuth2 process, which has to
@@ -305,7 +303,7 @@ paths:
       tags:
         - Claim Service
       security:
-      #####################################################
+          #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
       # In this file only the basic security element to transport
       # the bearer token of an OAuth2 process, which has to
@@ -371,7 +369,7 @@ paths:
       tags:
         - Claim Service
       security:
-      #####################################################
+        #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
       # In this file only the basic security element to transport
       # the bearer token of an OAuth2 process, which has to
@@ -429,7 +427,7 @@ paths:
       tags:
         - Claim Service
       security:
-      #####################################################
+       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
       # In this file only the basic security element to transport
       # the bearer token of an OAuth2 process, which has to
@@ -487,7 +485,7 @@ paths:
       tags:
         - Claim Service
       security:
-      #####################################################
+       #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
       # In this file only the basic security element to transport
       # the bearer token of an OAuth2 process, which has to
@@ -561,10 +559,10 @@ paths:
       #path # NO PATH PARAMETER
       #query
         - $ref: "#/components/parameters/claimantId"
-        - $ref: "#/components/parameters/dateFromQuery"
-        - $ref: "#/components/parameters/dateToQuery"
-        - $ref: "#/components/parameters/templateCodeQuery"
-        - $ref: "#/components/parameters/depositAccountQuery"
+        - $ref: "#/components/parameters/dateFrom"
+        - $ref: "#/components/parameters/dateTo"
+        - $ref: "#/components/parameters/templateCode"
+        - $ref: "#/components/parameters/depositAccount"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
       #header
@@ -683,7 +681,7 @@ paths:
       tags:
         - Claim Service
       security:
-      #####################################################
+        #####################################################
       # REMARKS ON SECURITY IN THIS OPENAPI FILE
       # In this file only the basic security element to transport
       # the bearer token of an OAuth2 process, which has to
@@ -697,10 +695,10 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-        #path
+      #path
         - $ref: "#/components/parameters/batchId"
-        #query
-        #header
+      #query
+      #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         #optional header parameters
@@ -726,15 +724,12 @@ paths:
           $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-
 components:
 #####################################################
 # Predefined Components
 #####################################################
-
   securitySchemes:
-  #####################################################
+    #####################################################
   # Predefined Security Schemes:
   #
   # In this file only the basic security element to transport
@@ -1753,7 +1748,7 @@ components:
           $ref: "#/components/schemas/actionType"
         createList:
           $ref: "#/components/schemas/createClaimDetailList"
-    
+
     batchAlterInitiation:
       properties:
         actionType:
@@ -2590,7 +2585,7 @@ components:
         type: string
         format: uuid
 
-    dateFromQuery:
+    dateFrom:
       name: dateFrom
       in: query
       required: true
@@ -2599,7 +2594,7 @@ components:
         format: date
         example: "2022-01-31"
 
-    dateToQuery:
+    dateTo:
       name: dateTo
       in: query
       required: true
@@ -2634,15 +2629,7 @@ components:
       required: true
       schema:
         type: string
-
-    claimTemplateIdQuery:
-      name: claimTemplateId
-      in: query
-      description: |
-        Unique template id defined by the banks.
-      required: false
-      schema:
-        type: string
+  
 
     statusId:
       name: statusId
@@ -2652,17 +2639,9 @@ components:
       required: true
       schema:
         $ref: "#/components/schemas/statusId"
+   
 
-    claimantIdQuery:
-      name: claimantId
-      in: query
-      description: |
-        ClaimantId is the Icelandic kennitala for the claimant
-      required: false
-      schema:
-        $ref: "#/components/schemas/kennitala"
-
-    bankQuery:
+    bank:
       name: bank
       in: query
       description: |
@@ -2670,7 +2649,7 @@ components:
       schema:
         $ref: "#/components/schemas/bank"
 
-    templateCodeQuery:
+    templateCode:
       name: templateCode
       in: query
       description: |
@@ -2678,7 +2657,7 @@ components:
       schema:
         $ref: "#/components/schemas/templateCode"
 
-    depositAccountQuery:
+    depositAccount:
       name: depositAccount
       in: query
       description: |
@@ -2686,7 +2665,7 @@ components:
       schema:
         $ref: "#/components/schemas/account"
 
-    payorIdQuery:
+    payorId:
       name: payorId
       in: query
       description: |
@@ -2694,7 +2673,7 @@ components:
       schema:
         $ref: "#/components/schemas/kennitala"
 
-    dateSpanReferenceDateQuery:
+    dateSpanReferenceDate:
       name: dateType
       in: query
       description: |
@@ -2702,7 +2681,7 @@ components:
       schema:
         $ref: "#/components/schemas/dateSpanReferenceDate"
 
-    statusQuery:
+    status:
       name: status
       in: query
       description: |
@@ -2710,7 +2689,7 @@ components:
       schema:
         $ref: "#/components/schemas/claimStatus"
 
-    stateQuery:
+    collectionState:
       name: collectionState
       in: query
       description: |
@@ -2718,7 +2697,7 @@ components:
       schema:
         $ref: "#/components/schemas/collectionState"
 
-    isActiveQuery:
+    isActive:
       name: isActive
       in: query
       description: |
@@ -2799,7 +2778,7 @@ components:
             $ref: "#/components/schemas/createClaimDetailList"
 
   headers:
-  #####################################################
+   #####################################################
   # Reusable Response Header Elements
   #####################################################
 
@@ -2821,7 +2800,7 @@ components:
 
   responses:
   #####################################################
-  # Reusable Responses
+   # Reusable Responses
   #####################################################
     #####################################################
     # Positive Responses
@@ -3100,7 +3079,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes in case of HTTP code 408
+                #No Response body because there are no valid message codes in case of HTTP code 408
 
     UNSUPPORTED_MEDIA_TYPE_415:
       description: Unsupported Media Type
@@ -3109,7 +3088,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes in case of HTTP code 415
+               #No Response body because there are no valid message codes in case of HTTP code 415
 
     INTERNAL_SERVER_ERROR_500:
       description: Internal Server Error
@@ -3118,7 +3097,7 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for signing baskets in case of HTTP code 500
+           #No Response body because there are no valid message codes for signing baskets in case of HTTP code 500
 
     SERVICE_UNAVAILABLE_503:
       description: Service Unavailable
@@ -3127,14 +3106,14 @@ components:
           $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
-      #No Response body because there are no valid message codes for signing baskets in case of HTTP code 503
+           #No Response body because there are no valid message codes for signing baskets in case of HTTP code 503
 
   examples:
   #####################################################
   # Predefined Examples
   #####################################################
 
-    getClaimTemplateList-200_Example:
+     getClaimTemplateList-200_Example:
       description: Example of claim templates.
       value:
         [

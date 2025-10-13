@@ -3176,7 +3176,7 @@ components:
               "id": "000166123456",
               "ownerId": "0208715009"
             },
-            "secondaryCollectionClaimTemplateCode": "MI1",
+            "secondaryCollectionTemplateCode": "MI1",
             "withdrawalAccount": "000166123456",
             "additionalDepositAccounts": [
               {
@@ -3646,7 +3646,7 @@ components:
         {
           "claimKey": {
             "claimantId": "0208715009",
-            "account": "000126123456",
+            "account": "000166123456",
             "dueDate": "2022-01-31"
           },
           "payorId": "0208715009",

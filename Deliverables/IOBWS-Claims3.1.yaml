@@ -1,4 +1,4 @@
-openapi: 3.0.1
+﻿openapi: 3.0.1
 info:
   title: IOBWS 3.0 Domestic Claims
   version: "3.1"
@@ -1140,6 +1140,7 @@ components:
     paymentFee:
       description: |
         Additional fee that adds to the claim amount.
+      nullable: true
       type: object
       required:
         - printingFee
@@ -1189,6 +1190,7 @@ components:
     discount:
       description: |
         Contains detail information about claim discount
+      nullable: true
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -1239,6 +1241,7 @@ components:
         Contains information if a collection claim is printed at a bank / savings bank to manage the
         printout of the collection claim. Changing a printout to a change entry after printing a note
         does not result in it being reprinted
+      nullable: true
       type: object
       properties:       
         payorAddress:
@@ -1258,6 +1261,7 @@ components:
         Set number of days from refrence day and set if amount should be calculate by percent or be fixed Amount. 
         In case of discount caluculations the discount amount is calculated from totalAmount.
         In case of defaultCharge charge amount is calculated from claimAmount.
+      nullable: true
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -1269,6 +1273,7 @@ components:
     defaultInterest:
       description: |
         Contains information on how penalty interest is calculated.
+      nullable: true
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -1589,7 +1594,8 @@ components:
       description: |
         Merge patch claim object
       type: object
-      properties:       
+      additionalProperties: false
+      properties:
         expirationDate:
           type: string
           format: date
@@ -1607,46 +1613,52 @@ components:
           example: "2022-01-31"
         billNumber:
           description: |
-            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
+            7 character reference id set by claimant. This ID will be visible on payer's Account statement
           type: string
           maxLength: 7
+          nullable: true
         customerNumber:
           description: |
-            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            16 character reference id set by claimant. Payer's transaction number. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
+          nullable: true
         paymentFee:
-          $ref: "#/components/schemas/paymentFee"
+          $ref: "#/components/schemas/paymentFee"          
         otherCostsAmount:
           description: Other costs, including determined fees paid by the payer of a collection claim.
           type: number
+          nullable: true
         otherDefaultCostsAmount:
           description: Determined fees, e.g. intermediate collection fee.
           type: number
+          nullable: true
         defaultCharge:
-          $ref: "#/components/schemas/defaultCharge"
+          $ref: "#/components/schemas/defaultCharge"          
         defaultInterest:
-          $ref: "#/components/schemas/defaultInterest"
+          $ref: "#/components/schemas/defaultInterest"          
         discount:
-          $ref: "#/components/schemas/discount"
+          $ref: "#/components/schemas/discount"          
         isOutOfSequencePaymentAllowed:
           description: Payment rule, is it allowed to pay the last payment if previous has not been paid
-          type: boolean
+          type: boolean       
         isPartialPaymentAllowed:
           description: Partial payment is allowed
-          type: boolean
+          type: boolean       
         currency:
+          description: Claim currency (ISO 4217)
           type: string
-          pattern: '[A-Z]{3}'        
+          pattern: '[A-Z]{3}'
+          nullable: true
         additionalInformation:
           description: Free text that will be displayed on the claim
           type: string
-          maxLength: 200
+          maxLength: 200      
         claimStatus:
-          $ref: "#/components/schemas/claimStatus"
+          $ref: "#/components/schemas/claimStatus"       
         collectionState:
-          $ref: "#/components/schemas/collectionState"
+          $ref: "#/components/schemas/collectionState"         
         printing:
           $ref: "#/components/schemas/printing"
 
@@ -2756,7 +2768,7 @@ components:
         JSON request body for a create claim request message
       required: true
       content:
-        application/json:
+        application/merge-patch+json:
           schema:
             $ref: "#/components/schemas/mergeClaimDetails"
 

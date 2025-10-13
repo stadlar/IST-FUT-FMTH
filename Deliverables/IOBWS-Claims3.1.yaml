@@ -169,7 +169,7 @@ paths:
         - claimantId: The claim claimant
         - payorId: The claim payor
         - status: Claim has one-of ["Unpaid", "Paid", "Cancelled"] statuses
-        - collectionState: Claim states are:
+        - collectionStatus: Claim states are:
           - PrimaryCollection
           - WaitingForSecondary
           - SecondaryCollection
@@ -203,7 +203,7 @@ paths:
         - $ref: "#/components/parameters/claimantId"
         - $ref: "#/components/parameters/payorId"
         - $ref: "#/components/parameters/status"
-        - $ref: "#/components/parameters/collectionState"
+        - $ref: "#/components/parameters/collectionStatus"
         - $ref: "#/components/parameters/templateCode"
         - $ref: "#/components/parameters/claimTemplateId"
         - $ref: "#/components/parameters/page"
@@ -359,7 +359,7 @@ paths:
         
         To cancel a claim change status to Cancelled
         
-        To move to different collection change collectionState
+        To move to different collection change collectionStatus
         - SecondaryCollection (for secondary)
         - PrimaryCollection (for primary)        
         
@@ -1314,7 +1314,7 @@ components:
         - "Paid"
         - "Cancelled"
 
-    collectionState:
+    collectionStatus:
       description: Claim billing process status
       type: string
       enum:
@@ -1357,8 +1357,8 @@ components:
           $ref: "#/components/schemas/kennitala"
         claimStatus:
           $ref: "#/components/schemas/claimStatus"
-        collectionState:
-          $ref: "#/components/schemas/collectionState"
+        collectionStatus:
+          $ref: "#/components/schemas/collectionStatus"
         expirationDate:
           type: string
           format: date
@@ -1584,8 +1584,8 @@ components:
           maxLength: 200
         claimStatus:
           $ref: "#/components/schemas/claimStatus"
-        collectionState:
-          $ref: "#/components/schemas/collectionState"
+        collectionStatus:
+          $ref: "#/components/schemas/collectionStatus"
         printing:
           $ref: "#/components/schemas/printing"
 
@@ -1656,9 +1656,9 @@ components:
           type: string
           maxLength: 200      
         claimStatus:
-          $ref: "#/components/schemas/claimStatus"       
-        collectionState:
-          $ref: "#/components/schemas/collectionState"         
+          $ref: "#/components/schemas/claimStatus"
+        collectionStatus:
+          $ref: "#/components/schemas/collectionStatus"
         printing:
           $ref: "#/components/schemas/printing"
 
@@ -1869,10 +1869,10 @@ components:
           description: Number of successful items processed
         failed:
           type: integer
-          description: Number of failed items processed
+          description: Number of failed items
         pending:
           type: integer
-          description: Number of items pending processing
+          description: Number of pending items
         actionType:
           $ref: "#/components/schemas/actionType"
         actions:
@@ -2701,13 +2701,13 @@ components:
       schema:
         $ref: "#/components/schemas/claimStatus"
 
-    collectionState:
-      name: collectionState
+    collectionStatus:
+      name: collectionStatus
       in: query
       description: |
-        The claim state to search for
+        The collection status to search for
       schema:
-        $ref: "#/components/schemas/collectionState"
+        $ref: "#/components/schemas/collectionStatus"
 
     isActive:
       name: isActive
@@ -3125,7 +3125,7 @@ components:
   # Predefined Examples
   #####################################################
 
-     getClaimTemplateList-200_Example:
+    getClaimTemplateList-200_Example:
       description: Example of claim templates.
       value:
         [
@@ -3255,7 +3255,7 @@ components:
           },
           "payorId": "0208715009",
           "claimStatus": "Unpaid",
-          "collectionState": "PrimaryCollection",
+          "collectionStatus": "PrimaryCollection",
           "expirationDate": "2022-01-31",
           "closingDate": "2022-01-31",
           "templateCode": "001",
@@ -3300,7 +3300,7 @@ components:
             "baseTimeType": "Daily",
             "percentage": 0
           },
-          "discount": {            
+          "discount": {
             "referenceDate": "FinalDueDate",
             "first": {
               "chargeType": "Percentage",
@@ -3382,7 +3382,8 @@ components:
               "currency": "string",
               "rate": 0
             },
-            "transactionBatchId": "stringstringstringstringstringstring"
+            "transactionBatchId": "string"
+
           }
         ]
 
@@ -3516,7 +3517,7 @@ components:
                 "currency": "string",
                 "rate": 0
               },
-              "transactionBatchId": "stringstringstringstringstringstring"
+              "transactionBatchId": "string"
             },
             "transactionDate": "2022-02-24T23:38:43.220Z",
             "transactionType": "Payment",
@@ -3537,7 +3538,7 @@ components:
             },
             "payorId": "0208715009",
             "claimStatus": "Unpaid",
-            "collectionState": "PrimaryCollection",
+            "collectionStatus": "PrimaryCollection",
             "expirationDate": "2022-01-31",
             "closingDate": "2022-01-31",
             "templateCode": "001",
@@ -3582,7 +3583,7 @@ components:
               "baseTimeType": "Daily",
               "percentage": 0
             },
-            "discount": {              
+            "discount": {
               "referenceDate": "FinalDueDate",
               "first": {
                 "chargeType": "Percentage",

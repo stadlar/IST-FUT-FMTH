@@ -67,7 +67,7 @@ paths:
       operationId: getTemplate
       tags: [Claim Service]
       parameters:
-        - $ref: "#/components/parameters/templateId"
+        - $ref: "#/components/parameters/templateIdPath"
         - $ref: "#/components/parameters/X-Request-ID"
       responses:
         '200': { $ref: "#/components/responses/OK_200_Template" }
@@ -2271,12 +2271,21 @@ components:
       schema:
         $ref: "#/components/schemas/dueDate"
 
-    templateId:
+    templateIdPath:
       name: templateId
       in: path
       description: |
         Unique template id defined by the banks.
       required: true
+      schema:
+        type: string
+
+    templateId:
+      name: templateId
+      in: query
+      description: |
+        Filter claims by templateId (exact match). Optional.
+      required: false
       schema:
         type: string
   

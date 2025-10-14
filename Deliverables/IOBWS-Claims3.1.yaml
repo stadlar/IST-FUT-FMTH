@@ -805,6 +805,7 @@ components:
       description: |
         Contains detail information about claim discount
       nullable: true
+      type: object
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -876,6 +877,7 @@ components:
         For discounts, the amount is calculated from totalAmount.
         For defaultCharge, the charge amount is calculated from claimAmount.
       nullable: true
+      type: object
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -888,6 +890,7 @@ components:
       description: |
         Contains information on how penalty interest is calculated.
       nullable: true
+      type: object
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"

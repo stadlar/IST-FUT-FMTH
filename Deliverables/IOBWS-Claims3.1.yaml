@@ -11,7 +11,7 @@ info:
     criteria, and thus get a good overview of all their claims.
 
     There is no Collection Service as it has been merged with the claimant endpoints. There is a restriction on the 
-    collection company, it's not allowed to create claims. The claim service enables dept collectors to work 
+    collection company, it's not allowed to create claims. The claim service enables debt collectors to work 
     with the claims under their care. The service is mostly as structured as the service for claims, except 
     that it is not possible to create collection claims
 
@@ -19,184 +19,99 @@ info:
     name: Stadlarad Islands
     url: https://www.stadlar.is
     email: stadlar@stadlar.is
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://creativecommons.org/licenses/by/4.0/
 
 servers:
   - url: https://claims.example.com
     description: Example production server
   - url: https://claims-sandbox.example.com
     description: Sandbox server for testing
+
+# Global security: all operations require bearer token
+security:
+  - BearerAuthOAuth: []
+
 paths:
-
-  #####################################################
-  # Claim Templates Service
-  #####################################################
-
   /v1/templates:
-
     get:
       summary: Get a list of claim templates
       description: |
         Returns a list of claim templates according to the filters provided. Claim template describes many 
         attributes of the claim process and gives the consumer key information needed.
       operationId: getTemplateList
-      tags:
-        - Claim Service
-      security:
-         #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path # NO PATH PARAMETER
-      #query
         - $ref: "#/components/parameters/claimantId"
         - $ref: "#/components/parameters/bank"
         - $ref: "#/components/parameters/templateCode"
         - $ref: "#/components/parameters/isActive"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimListTemplate"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_ClaimListTemplate" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/templates/{templateId}:
-
     get:
       summary: Get a single claim template
       description: |
-        Returns a single claim templates by supplied template id
+        Returns a single claim template by the supplied templateId.
       operationId: getTemplate
-      tags:
-        - Claim Service
-      security:
-            #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
-        - $ref: "#/components/parameters/templateId"
-      #query # NO QUERY PARAMETER
-      #header
-          #mandatory header parameter
+        - $ref: "#/components/parameters/templateIdPath"
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_Template"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
-  #####################################################
-  # Claims Service
-  #####################################################
+        '200': { $ref: "#/components/responses/OK_200_Template" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims:
-
     get:
       summary: Get a list of claims as defined by the query parameters.
       description: |
-        Getting a list of claims can be done by multiple query parameters to get focused answer.        
+        A list of claims can be filtered by multiple query parameters to obtain a focused result.
+        The function returns a paginated list of claims; use page and itemsPerPage for paging.
         Parameters:
-        - dateFrom: Searching from a starting date
-        - dateTo: Searching to an end date
-        - dateSpanReferenceDate: When date range (from, to) is defined then the next step to tell what the range
-                                  applies to. Possible variables are:
-                                  - DueDate: The claim's due date
-                                  - FinalDueDate: The claim's final due date
-                                  - ExpirationDate: The claim cancellation date
-                                  - ClosingDate:  Date when the claim was paid, cancelled or transferred.
-                                  - CreationDate: When the claim was created
-                                  - LastChangeDate: Last claim change event date
+        - dateFrom: Search starting date
+        - dateTo: Search end date
+        - dateSpanReferenceDate: When a date range (from/to) is defined this indicates which date field the range applies to. Possible values are:
+          - DueDate: The claim's due date
+          - FinalDueDate: The claim's final due date
+          - ExpirationDate: The claim cancellation date
+          - ClosingDate: Date when the claim was paid, cancelled or transferred.
+          - CreationDate: When the claim was created
+          - LastChangeDate: Last claim change event date
         - claimantId: The claim claimant
         - payorId: The claim payor
-        - status: Claim has one-of ["Unpaid", "Paid", "Cancelled"] statuses
-        - collectionStatus: Claim states are:
+        - status: Claim status is one of ["Unpaid", "Paid", "Cancelled"]
+        - collectionStatus: Claim collection process state:
           - PrimaryCollection
           - WaitingForSecondary
           - SecondaryCollection
           - LegalCollection
-        - templateCode: Bank claim template code
-        The query function returns a list of claims. The maximum return is set with the page number and 
-        number per page.
+        - templateCode: Bank claim template code        
       operationId: getClaims
-      tags:
-        - Claim Service
-      security:
-            #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path # NO PATH PARAMETER
-      #query
         - $ref: "#/components/parameters/dateFrom"
         - $ref: "#/components/parameters/dateTo"
         - $ref: "#/components/parameters/dateSpanReferenceDate"
@@ -208,356 +123,156 @@ paths:
         - $ref: "#/components/parameters/templateId"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryClaimListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_QueryClaimListInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
     post:
       summary: Create a single claim
       description: |        
-        Creating one claim is performed with out delay and success or error returns with out having to ask for 
-        the status. If claim is created with out error then claimKey, claimId and directPaymentClaim is returned.
+        Claim creation returns an immediate response: if successful, claimKey, claimId, and directPaymentClaim are included; otherwise, an error is returned.
       operationId: createClaim
-      tags:
-        - Claim Service
-      security:
-            #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
-
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        #NO REQUEST BODY
-
+        - $ref: "#/components/parameters/X-Idempotency-Key"
       requestBody:
         $ref: "#/components/requestBodies/createClaim"
-
       responses:
-        '201':
-          $ref: "#/components/responses/OK_201_ActionSingleResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '201': { $ref: "#/components/responses/OK_201_ActionSingleResponse" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims/{claimId}:
-
     get:
       summary: Get single claim
       description: |
         Fetch detail information for a single claim by claimID. Detailed information on fields in claimDetails.
 
       operationId: getClaim
-      tags:
-        - Claim Service
-      security:
-          #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryClaimInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_QueryClaimInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
     patch:
       summary: Patch a single claim
       description: |
-        The patch claim method modifies a previously created claim. The patch is
-        then submitted and amended according to new information.
-         
-        Claim is recreated by changing the claim status from "Cancelled" to "Unpaid". When the claim status is changed
-        from cancelled the recreation is triggered. Recreating a claim keeps existing history.
-        
-        To cancel a claim change status to Cancelled
-        
-        To move to different collection change collectionStatus
+        The patch claim method modifies a previously created claim.
+
+        A cancelled claim is recreated by changing its status from "Cancelled" back to "Unpaid". Recreating a claim keeps existing history.
+
+        To cancel a claim change status to "Cancelled".
+
+        To move a claim between collection phases change collectionStatus:
         - SecondaryCollection (for secondary)
-        - PrimaryCollection (for primary)        
-        
-        For further input parameters descriptions, see the mergeClaimDetails request object.
+        - PrimaryCollection (for primary)
+
+        For further input parameter descriptions, see the mergeClaimDetails request object.
 
       operationId: patchClaim
-      tags:
-        - Claim Service
-      security:
-        #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/claimId"
-      #query # NO QUERY PARAMETER
-      #header
-        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-        #NO REQUEST BODY
-
       requestBody:
         $ref: "#/components/requestBodies/mergeClaim"  # JSON Merge Patch
-
       responses:
-        '201':
-          $ref: "#/components/responses/OK_201_ActionSingleResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_ActionSingleResponse" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims/{claimId}/transactions:
-
     get:
       summary: Get payments for a single claim
       description: |
         Returns all claim payments. When claim is paid by debtor the claim payment is visible in near real-time.
       operationId: getClaimTransactions
-      tags:
-        - Claim Service
-      security:
-       #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/claimId"
-      #query
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimTransactionListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_ClaimTransactionListInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims/{claimId}/history:
-
     get:
       summary: Get single claim history
       description: |
         Claim history contains every event for the claim from the beginning, i.e., all changes that
         have been made to the claim together with information about the claim itself.
       operationId: getClaimHistory
-      tags:
-        - Claim Service
-      security:
-       #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/claimId"
-      #query
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimHistoryListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_ClaimHistoryListInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/claims/transactions:
-
     get:
       summary: Get payments for multiple claims
       description: |
-        Returns all payments for a given claim.  Payment information is accessable near realtime.
+        Returns all payments for a given claim.  Payment information is accessible near real-time.
       operationId: getClaimsTransactions
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path # NO PATH PARAMETER
-      #query
         - $ref: "#/components/parameters/claimantId"
         - $ref: "#/components/parameters/dateFrom"
         - $ref: "#/components/parameters/dateTo"
@@ -565,40 +280,24 @@ paths:
         - $ref: "#/components/parameters/depositAccount"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
-      #header
-          #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-          #optional header parameters
-        #NO REQUEST BODY
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_ClaimTransactionListInformation"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_200_ClaimTransactionListInformation" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/batches:
-
     post:
       summary: Creates a batch. Batch is a list of actions defined in the body
       description: |
-        Accepts on of five request bodies that indicate the action type:
+        Accepts one of five request bodies that indicate the action type:
 
         **batchCreateInitiation** - Initiates a batch with a list of claims to be created.
 
@@ -614,62 +313,29 @@ paths:
           Claim is modified by submitting the complete claim object with all intended values. Partial updates are not supported.
           Fields that must remain unchanged need to be included.
          
-          Reacreating a previously cancelled claim must be done by calling the create operation.   
+          Recreating a previously cancelled claim must be done by calling the create operation.   
                   
         
       operationId: postBatch
-      tags:
-        - Claim Service
-      security:
-      #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-        #path # NO PATH PARAMETER
-        #query
-        #header
-        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
         - $ref: "#/components/parameters/X-Idempotency-Key"
-        #REQUEST BODY
       requestBody:
         $ref: "#/components/requestBodies/batchInitiation"
-
       responses:
-        '201':
-          $ref: "#/components/responses/OK_20x_ActionResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '201': { $ref: "#/components/responses/OK_20x_ActionResponse" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 
   /v1/batches/{batchId}:
-
     get:
       summary: Get a status of previously created batch
       description: |
@@ -678,82 +344,33 @@ paths:
         - Failed: Number of failed claims
         - Pending: Number of waiting claims
       operationId: getBatchStatus
-      tags:
-        - Claim Service
-      security:
-        #####################################################
-      # REMARKS ON SECURITY IN THIS OPENAPI FILE
-      # In this file only the basic security element to transport
-      # the bearer token of an OAuth2 process, which has to
-      # be included in the HTTP header is described.
-      #
-      # WARNING:
-      # If you want to use this file for a productive implementation,
-      # it is recommended to adjust the security schemes according to
-      # your system environments and security policies.
-      #####################################################
-        - {}
-        - BearerAuthOAuth: []
+      tags: [Claim Service]
       parameters:
-      #path
         - $ref: "#/components/parameters/batchId"
-      #query
-      #header
-        #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
-        #optional header parameters
-
       responses:
-        '200':
-          $ref: "#/components/responses/OK_20x_ActionResponse"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+        '200': { $ref: "#/components/responses/OK_20x_ActionResponse" }
+        '400': { $ref: "#/components/responses/BAD_REQUEST_400" }
+        '401': { $ref: "#/components/responses/UNAUTHORIZED_401" }
+        '403': { $ref: "#/components/responses/FORBIDDEN_403" }
+        '404': { $ref: "#/components/responses/NOT_FOUND_404" }
+        '405': { $ref: "#/components/responses/METHOD_NOT_ALLOWED_405" }
+        '408': { $ref: "#/components/responses/REQUEST_TIMEOUT_408" }
+        '415': { $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415" }
+        '500': { $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500" }
+        '503': { $ref: "#/components/responses/SERVICE_UNAVAILABLE_503" }
 components:
-#####################################################
-# Predefined Components
-#####################################################
   securitySchemes:
-    #####################################################
-  # Predefined Security Schemes:
-  #
-  # In this file only the basic security element to transport
-  # the bearer token of an OAuth2 process, which has to
-  # be included in the HTTP header is described.
-  #
-  # WARNING:
-  # If you want to use this file for a productive implementation,
-  # it is recommended to adjust the security schemes according to
-  # your system environments and security policies.
-  #####################################################
     BearerAuthOAuth:
-      description: Bearer Token.
+      description: |
+        Bearer Token (OAuth2 access token transported via Authorization header).
       type: http
       scheme: bearer
 
   schemas:
-  #####################################################
-  # Predefined Schemas
-  #####################################################
-
     batchId:
       description: |
-        Batch id for a list of claim
+        Batch identifier for a list of claims
       type: string
       pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
       minLength: 36
@@ -769,29 +386,24 @@ components:
       description: Due date
       type: string
       format: date
-      example: "2022-01-31"
-
-    statusId:
-      description: Status of an request with multiple claims to update, delete or create
-      type: string
-      format: uuid
+      example: "2022-01-31"   
 
     claimId:
       description: |
-        ClaimID is a composit string key for claim made of kennitala, account and due date
+        ClaimId is a composite string key for a claim made of kennitala, account and due date
           - ClaimantId
           - Branch number
           - 66
           - Claim no
-          - /+
+          - /+        
           - Date in the form of YYYYMMDD
       type: string
       example: "0101010101000166000001+20221231"
 
     account:
       description: |
-        Banknumber, ledger and number.
-        for claims ledger is 66 followed by claim number
+        Bank number, ledger and number.
+        For claims ledger is 66 followed by claim number
       type: string
       pattern: "[0-9]{12}"
       example: "000166123456"
@@ -824,17 +436,24 @@ components:
       type: string
       maxLength: 16
 
+    categoryCode:   
+      description: |
+        Creditors' text key, explanation of payment. Optional attribute on claim
+      type: string
+      maxLength: 2
+      pattern: '[0-9]{2}'
+
     isActive:
       description: Describes is active state.
       type: boolean
 
     dateSpanReferenceDate:
       description: |
-        Types of dates are as follows::
+        Types of dates are as follows:
           - DueDate: The claim's due date
           - FinalDueDate: The claim's final due date
           - ExpirationDate: The claim cancellation date
-          - ClosingDate:  Date when the claim was paid, canceled or transferred.
+          - ClosingDate:  Date when the claim was paid, cancelled or transferred.
           - CreationDate: When the claim was created
           - LastChangeDate: Last claim change event date
       type: string
@@ -1157,7 +776,7 @@ components:
 
     claimKey:
       description: |
-        Claim key is a composit key of kennitala, account and due date.
+        Claim key is a composite key of kennitala, account and due date.
       type: object
       required:
         - claimantId
@@ -1191,6 +810,7 @@ components:
       description: |
         Contains detail information about claim discount
       nullable: true
+      type: object
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -1258,10 +878,11 @@ components:
     defaultCharge:
       description: |
         Default charges configuration.
-        Set number of days from refrence day and set if amount should be calculate by percent or be fixed Amount. 
-        In case of discount caluculations the discount amount is calculated from totalAmount.
-        In case of defaultCharge charge amount is calculated from claimAmount.
+        Defines day offsets from the reference date and whether each charge is percentage-based or a fixed amount.
+        For discounts, the amount is calculated from totalAmount.
+        For defaultCharge, the charge amount is calculated from claimAmount.
       nullable: true
+      type: object
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -1274,6 +895,7 @@ components:
       description: |
         Contains information on how penalty interest is calculated.
       nullable: true
+      type: object
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -1325,7 +947,7 @@ components:
 
     claimListDetails:
       description: |
-        List of claim
+        List of claims
       type: array
       items:
         $ref: "#/components/schemas/claimDetails"
@@ -1339,9 +961,7 @@ components:
 
     claimDetails:
       description: |
-        Detail information for a single Claim object can contains information about discount as constant or percent 
-        in the case of discount when payment is done early. A claim contains detail information about the bill. If 
-        payment has been done the "Amount" can not be changed amoung other attribtues.
+        Detailed information for a single claim. May include discount information (fixed amount or percentage) for early payment. A claim includes detailed billing information. After any payment certain monetary fields (including amount) cannot be changed.
       type: object
       required:
         - claimKey
@@ -1364,7 +984,7 @@ components:
           format: date
           example: "2022-01-31"
         closingDate:
-          description: Date when the claim was paid, canceled or transferred.
+          description: Date when the claim was paid, cancelled or transferred.
           type: string
           format: date
           example: "2022-01-31"
@@ -1378,9 +998,8 @@ components:
         secondaryCollectionTemplateId:
           description: Unique Id for each template. This is specific to each bank.
           type: string
-        categoryCode:
-          description: Creditors' text key, explanation of payment. Optional attribute on claim
-          type: string
+        categoryCode:        
+          $ref: "#/components/schemas/categoryCode"
         categoryDescription:
           description: |
             Description of the categoryCode
@@ -1388,27 +1007,35 @@ components:
         amount:
           description: Claim amount
           type: number
+          minimum: 0
         defaultChargeAmountDue:
           description: Amount of default charge to be paid
           type: number
+          minimum: 0
         defaultInterestAmountDue:
           description: Amount of accrued penalty interests to be paid
           type: number
+          minimum: 0
         discountAmountOffered:
           description: Discount that will be granted when a collection claim is paid based on status
           type: number
+          minimum: 0
         noticeChargeAmountDue:
           description: Amount of notification charge to be paid.
           type: number
+          minimum: 0
         otherCostsAmountDue:
           description: Current other costs to be paid
           type: number
+          minimum: 0
         otherDefaultCostsAmountDue:
           description: Current other default costs to be paid
           type: number
+          minimum: 0
         totalAmountDue:
           description: Total amount to be paid
           type: number
+          minimum: 0
         reference:
           $ref: "#/components/schemas/reference"
         finalDueDate:
@@ -1417,12 +1044,12 @@ components:
           example: "2022-01-31"
         billNumber:
           description: |
-            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
+            7-character reference id set by claimant. This ID will be visible on the payer's account statement
           type: string
           maxLength: 7
         customerNumber:
           description: |
-            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            16-character reference id set by claimant. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
@@ -1431,9 +1058,11 @@ components:
         otherCostsAmount:
           description: Other costs, including determined fees paid by the payer of a collection claim.
           type: number
+          minimum: 0
         otherDefaultCostsAmount:
           description: Determined fees, e.g. intermediate collection fee.
           type: number
+          minimum: 0
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
         defaultInterest:
@@ -1549,6 +1178,7 @@ components:
           $ref: "#/components/schemas/templateCode"
         amount:
           type: number
+          minimum: 0
         reference:
           $ref: "#/components/schemas/reference"
         finalDueDate:
@@ -1564,8 +1194,10 @@ components:
           $ref: "#/components/schemas/paymentFee"
         otherCostsAmount:
           type: number
+          minimum: 0
         otherDefaultCostsAmount:
           type: number
+          minimum: 0
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
         defaultInterest:
@@ -1605,6 +1237,7 @@ components:
         amount:
           description: Claim amount
           type: number
+          minimum: 0
         reference:
           $ref: "#/components/schemas/reference"
         finalDueDate:
@@ -1613,13 +1246,13 @@ components:
           example: "2022-01-31"
         billNumber:
           description: |
-            7 character reference id set by claimant. This ID will be visible on payer's Account statement
+            7-character reference id set by claimant. This ID will be visible on the payer's account statement
           type: string
           maxLength: 7
           nullable: true
         customerNumber:
           description: |
-            16 character reference id set by claimant. Payer's transaction number. Payer's transaction number. Unique key to the payer of the 
+            16-character reference id set by claimant. Payer's transaction number. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
@@ -1630,10 +1263,12 @@ components:
           description: Other costs, including determined fees paid by the payer of a collection claim.
           type: number
           nullable: true
+          minimum: 0
         otherDefaultCostsAmount:
           description: Determined fees, e.g. intermediate collection fee.
           type: number
           nullable: true
+          minimum: 0
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"          
         defaultInterest:
@@ -1647,14 +1282,14 @@ components:
           description: Partial payment is allowed
           type: boolean       
         currency:
-          description: Claim currency (ISO 4217)
+          description: Claim currency (ISO 4217)
           type: string
           pattern: '[A-Z]{3}'
           nullable: true
         additionalInformation:
           description: Free text that will be displayed on the claim
           type: string
-          maxLength: 200      
+          maxLength: 200
         claimStatus:
           $ref: "#/components/schemas/claimStatus"
         collectionStatus:
@@ -1665,7 +1300,7 @@ components:
 
     createClaimDetailList:
       description: |
-        List of claim to be created
+        List of claims to be created
       type: array
       items:
         $ref: "#/components/schemas/createClaimDetails"
@@ -1675,12 +1310,11 @@ components:
         Create claim object
 
         Description:
-       
+
         * discount: Contains information about discount as constant or percent
-        * defaultCharge: Contains information on the default fee, either in a fixed amount or in percentages. Note that 
-                         the amount must be within the rules that apply according to Regulation 37/2009.
+        * defaultCharge: Contains information on the default fee, either in a fixed amount or in percentages. Note that
+          the amount must be within the rules that apply according to Regulation 37/2009.
         * defaultInterest: Contains information on how penalty interest is calculated.
-        * discount: Contains information about discount as constant or percent
         * isOutOfSequencePaymentAllowed: Out of sequence payment allowed
         * isPartialPaymentAllowed: Partial payment is allowed
       type: object
@@ -1705,6 +1339,7 @@ components:
           $ref: "#/components/schemas/templateCode"
         amount:
           type: number
+          minimum: 0
         reference:
           $ref: "#/components/schemas/reference"
         finalDueDate:
@@ -1713,12 +1348,12 @@ components:
           example: "2022-01-31"
         billNumber:
           description: |
-            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
+            7-character reference id set by claimant. This ID will be visible on the payer's account statement
           type: string
           maxLength: 7
         customerNumber:
           description: |
-            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            16-character reference id set by claimant. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
@@ -1727,9 +1362,11 @@ components:
         otherCostsAmount:
           description: Other costs, including determined fees paid by the payer of a collection claim.
           type: number
+          minimum: 0
         otherDefaultCostsAmount:
           description: Determined fees, e.g. intermediate collection fee.
           type: number
+          minimum: 0
         # rules
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
@@ -1860,7 +1497,7 @@ components:
 
     batchStatus:
       description: | 
-        Status of a batch initiation
+        Status of a batch initiation. success + failed + pending should equal the total number of submitted items.
       properties:
         batchId:
           $ref: "#/components/schemas/batchId"
@@ -1872,7 +1509,7 @@ components:
           description: Number of failed items
         pending:
           type: integer
-          description: Number of pending items
+          description: Number of waiting claims
         actionType:
           $ref: "#/components/schemas/actionType"
         actions:
@@ -1960,10 +1597,16 @@ components:
           example: "2022-01-31"
         templateCode:
           $ref: "#/components/schemas/templateCode"
+        templateId:
+          description: Unique Id for each template. This is specific to each bank.
+          type: string
         amount:
           type: number
+          minimum: 0
         reference:
           $ref: "#/components/schemas/reference"
+        categoryCode:        
+          $ref: "#/components/schemas/categoryCode"
         finalDueDate:
           type: string
           format: date
@@ -1981,9 +1624,11 @@ components:
         otherCostsAmount:
           description: Other costs, including determined fees paid by the payer of a collection claim.
           type: number
+          minimum: 0
         otherDefaultCostsAmount:
           description: Determined fees, e.g. intermediate collection fee.
-          type: number     
+          type: number
+          minimum: 0     
         defaultCharge:
           $ref: "#/components/schemas/defaultCharge"
         defaultInterest:
@@ -2042,10 +1687,8 @@ components:
           type: string
         reference:
           $ref: "#/components/schemas/reference"
-        categoryCode:
-          type: string
-          maxLength: 2
-          pattern: '[0-9]{2}'
+        categoryCode:        
+          $ref: "#/components/schemas/categoryCode"
         categoryDescription:
           description: |
             Description of the categoryCode
@@ -2053,7 +1696,7 @@ components:
         transactionBank:
           description: The bank from which the transaction originates.
           type: string
-          format: '[0-9]{4}'
+          pattern: '^[0-9]{4}$'
         transactionTimestamp:
           description: Timestamp when payment is performed.
           type: string
@@ -2090,12 +1733,12 @@ components:
           type: number
         billNumber:
           description: |
-            7 chararacter refrence id set by claimant. This ID will be visible on payers Account statement
+            7-character reference id set by claimant. This ID will be visible on the payer's account statement
           type: string
           maxLength: 7
         customerNumber:
           description: |
-            16 chararacter refrence id set by claimant. Payer's transaction number. Unique key to the payer of the 
+            16-character reference id set by claimant. Payer's transaction number. Unique key to the payer of the 
             claim with the creditor. Necessary if a direct payment agreement is to be established
           type: string
           maxLength: 16
@@ -2114,9 +1757,11 @@ components:
         defaultInterestAmountPaid:
           description: Amount of accrued penalty interests paid.
           type: number
+          minimum: 0
         discountAmountGiven:
           description: Discount that was granted when the claim was paid.
           type: number
+          minimum: 0
         currency:
           type: string
           pattern: '[A-Z]{3}'
@@ -2622,18 +2267,9 @@ components:
         ClaimantId is the Icelandic kennitala for the claimant
       required: false
       schema:
-        $ref: "#/components/schemas/kennitala"
+        $ref: "#/components/schemas/kennitala" 
 
-    dueDate:
-      name: dueDate
-      in: path
-      description: |
-        Due date
-      required: true
-      schema:
-        $ref: "#/components/schemas/dueDate"
-
-    templateId:
+    templateIdPath:
       name: templateId
       in: path
       description: |
@@ -2641,17 +2277,15 @@ components:
       required: true
       schema:
         type: string
-  
 
-    statusId:
-      name: statusId
-      in: path
+    templateId:
+      name: templateId
+      in: query
       description: |
-        Status of an request with multiple claims to update, delete or create
-      required: true
+        Filter claims by templateId (exact match). Optional.
+      required: false
       schema:
-        $ref: "#/components/schemas/statusId"
-   
+        type: string       
 
     bank:
       name: bank
@@ -2745,7 +2379,7 @@ components:
                 alter: "#/components/schemas/batchAlterInitiation"
                 cancel: "#/components/schemas/batchCancelInitiation"
                 secondaryCollection: "#/components/schemas/batchSecondaryCollectionInitiation"
-                returnSecondaryCollection: "#/components/schemas/batchReturnSecondaryCollectionInitiation"                            
+                returnSecondaryCollection: "#/components/schemas/batchReturnSecondaryCollectionInitiation"
 
             oneOf: 
               - $ref: "#/components/schemas/batchCreateInitiation"
@@ -2753,15 +2387,9 @@ components:
               - $ref: "#/components/schemas/batchCancelInitiation"
               - $ref: "#/components/schemas/batchSecondaryCollectionInitiation"
               - $ref: "#/components/schemas/batchReturnSecondaryCollectionInitiation"
-
-    templateCode:
-      description: |
-        JSON request body for a claim request message
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/templateCode"
+          examples:
+            secondaryCollection:
+              $ref: "#/components/examples/secondaryCollectionBatch-201_RequestExample"
 
     mergeClaim:
       description: |
@@ -2780,15 +2408,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/createClaimDetails"
-
-    createClaimList:
-      description: |
-        JSON request body for a create claim request message
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/createClaimDetailList"
-
+          examples:
+            create:
+              $ref: "#/components/examples/createClaims-201_Example"
   headers:
    #####################################################
   # Reusable Response Header Elements
@@ -2830,9 +2452,21 @@ components:
           examples:
             Example:
               $ref: "#/components/examples/alterBatch-200_Example"
+            secondaryCollection:
+              $ref: "#/components/examples/secondaryCollectionBatch-200_Example"
 
     OK_201_ActionSingleResponse:
-      description: Patch created for single item reponse
+      description: Claim created (single item response)
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/claimStatusSingleResponse"
+
+    OK_200_ActionSingleResponse:
+      description: Claim updated (single item response)
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
@@ -3131,7 +2765,7 @@ components:
         [
           {
             "templateId": "string",
-            "claimantId": "string",
+            "claimantId": "0208715009",
             "bank": "0001",
             "templateCode": "001",
             "collectionType": "PrimaryCollection",
@@ -3156,7 +2790,7 @@ components:
       value:
         {
           "templateId": "string",
-            "claimantId": "string",
+            "claimantId": "0208715009",
             "bank": "0001",
             "templateCode": "001",
             "collectionType": "PrimaryCollection",
@@ -3171,7 +2805,7 @@ components:
               "id": "000166123456",
               "ownerId": "0208715009"
             },
-            "secondaryCollectionClaimTemplateCode": "MI1",
+            "secondaryCollectionTemplateCode": "MI1",
             "withdrawalAccount": "000166123456",
             "additionalDepositAccounts": [
               {
@@ -3236,8 +2870,8 @@ components:
                 "dayOfMonth": 28
               },
               "finalDueDateRule": {
-                "daysOffset": 14
-              },
+                  "daysOffset": 14
+                },
               "cancellationDateRule": {
                 "daysOffset": 45
               }
@@ -3262,7 +2896,7 @@ components:
           "templateId": "string",
           "secondaryCollectionTemplateCode": "001",
           "secondaryCollectionTemplateId": "string",
-          "categoryCode": "string",
+          "categoryCode": "15",
           "amount": 0,
           "defaultChargeAmountDue": 0,
           "defaultInterestAmountDue": 0,
@@ -3281,7 +2915,8 @@ components:
           },
           "otherCostsAmount": 0,
           "otherDefaultCostsAmount": 0,
-          "defaultCharge": {
+          "defaultCharge":
+          {
             "referenceDate": "FinalDueDate",
             "first": {
               "chargeType": "Percentage",
@@ -3294,13 +2929,15 @@ components:
               "value": 0
             }
           },
-          "defaultInterest": {
+          "defaultInterest":
+          {
             "referenceDate": "DueDate",
             "baseAmountType": "Amount",
             "baseTimeType": "Daily",
             "percentage": 0
           },
-          "discount": {
+          "discount":
+          {
             "referenceDate": "FinalDueDate",
             "first": {
               "chargeType": "Percentage",
@@ -3316,7 +2953,7 @@ components:
           "isOutOfSequencePaymentAllowed": true,
           "isPartialPaymentAllowed": true,
           "isPartiallyPaid": true,
-          "currency": "string",
+          "currency": "ISK",
           "currencyPaymentRate": "PaymentDateRate",
           "additionalInformation": "string",
           "printing": {            
@@ -3325,7 +2962,7 @@ components:
               "addressLine": "string",
               "postalCode": "string",
               "city": "string",
-              "country": "string"
+              "country": "IS"
             },
             "itemRows": [
               {
@@ -3338,7 +2975,8 @@ components:
             ]
           },
           "directPaymentClaim": true,
-          "lastChangeDate": "2022-01-31",        
+          "lastChangeDate": "2022-01-31T00:00:00Z",
+          "createdDate": "2022-12-31T08:05:15Z",
           "claimType": "NormalClaim"
         }
 
@@ -3360,8 +2998,8 @@ components:
             "secondaryCollectionTemplateCode": "001",
             "secondaryCollectionTemplateId": "string",
             "reference": "string",
-            "categoryCode": "string",
-            "transactionBank": "string",
+            "categoryCode": "15",
+            "transactionBank": "0001",
             "transactionTimestamp": "2022-02-24T23:42:20.348Z",
             "bookingDate": "2022-01-31",
             "valueDate": "2022-01-31",
@@ -3377,7 +3015,7 @@ components:
             "otherDefaultCostsAmountPaid": 0,
             "defaultInterestAmountPaid": 0,
             "discountAmountGiven": 0,
-            "currency": "string",
+            "currency": "ISK",
             "currencyExchange": {
               "currency": "string",
               "rate": 0
@@ -3401,10 +3039,8 @@ components:
               "payorId": "0208715009",
               "expirationDate": "2022-01-31",
               "templateCode": "001",
-              "templateId": "string",
-              "secondaryCollectionTemplateCode": "001",
-              "secondaryCollectionTemplateId": "string",
-              "categoryCode": "string",
+              "templateId": "string",           
+              "categoryCode": "15",
               "amount": 0,
               "reference": "string",
               "finalDueDate": "2022-01-31",
@@ -3450,14 +3086,14 @@ components:
               },
               "isOutOfSequencePaymentAllowed": true,
               "isPartialPaymentAllowed": true,
-              "currency": "string",
+              "currency": "ISK",
               "printing": {
                 "payorAddress": {
                   "name": "string",
                   "addressLine": "string",
                   "postalCode": "string",
                   "city": "string",
-                  "country": "string"
+                  "country": "IS"
                 },
                 "itemRows": [
                   { "text": "string", "amount": 0 }
@@ -3482,7 +3118,7 @@ components:
               "templateCode": "001",
               "amount": 0,
               "finalDueDate": "2022-02-15",
-              "currency": "string",
+              "currency": "ISK",
               "claimType": "NormalClaim"
             },
             "payment": {
@@ -3499,8 +3135,8 @@ components:
               "secondaryCollectionTemplateCode": "001",
               "secondaryCollectionTemplateId": "string",
               "reference": "string",
-              "categoryCode": "string",
-              "transactionBank": "string",
+              "categoryCode": "15",
+              "transactionBank": "0001",
               "transactionTimestamp": "2022-02-24T23:38:43.220Z",
               "bookingDate": "2022-01-31",
               "valueDate": "2022-01-31",
@@ -3516,7 +3152,7 @@ components:
               "otherDefaultCostsAmountPaid": 0,
               "defaultInterestAmountPaid": 0,
               "discountAmountGiven": 0,
-              "currency": "string",
+              "currency": "ISK",
               "currencyExchange": {
                 "currency": "string",
                 "rate": 0
@@ -3549,7 +3185,7 @@ components:
             "templateId": "string",
             "secondaryCollectionTemplateCode": "001",
             "secondaryCollectionTemplateId": "string",
-            "categoryCode": "string",
+            "categoryCode": "15",
             "amount": 0,
             "defaultChargeAmountDue": 0,
             "defaultInterestAmountDue": 0,
@@ -3568,7 +3204,8 @@ components:
             },
             "otherCostsAmount": 0,
             "otherDefaultCostsAmount": 0,
-            "defaultCharge": {
+            "defaultCharge":
+            {
               "referenceDate": "FinalDueDate",
               "first": {
                 "chargeType": "Percentage",
@@ -3581,13 +3218,15 @@ components:
                 "value": 0
               }
             },
-            "defaultInterest": {
+            "defaultInterest":
+            {
               "referenceDate": "DueDate",
               "baseAmountType": "Amount",
               "baseTimeType": "Daily",
               "percentage": 0
             },
-            "discount": {
+            "discount":
+            {
               "referenceDate": "FinalDueDate",
               "first": {
                 "chargeType": "Percentage",
@@ -3603,7 +3242,7 @@ components:
             "isOutOfSequencePaymentAllowed": true,
             "isPartialPaymentAllowed": true,
             "isPartiallyPaid": true,
-            "currency": "string",
+            "currency": "ISK",
             "currencyPaymentRate": "PaymentDateRate",
             "additionalInformation": "string",
             "printing": {            
@@ -3612,7 +3251,7 @@ components:
                 "addressLine": "string",
                 "postalCode": "string",
                 "city": "string",
-                "country": "string"
+                "country": "IS"
               },
               "itemRows": [
                 {
@@ -3625,8 +3264,8 @@ components:
               ]
             },
             "directPaymentClaim": true,
-            "lastChangeDate": "2022-01-31",
-            "createdDate": "2022-12-31 08:05:15",
+            "lastChangeDate": "2022-01-31T00:00:00Z",
+            "createdDate": "2022-12-31T08:05:15Z",
             "claimType": "NormalClaim"
           }
         ]
@@ -3637,7 +3276,7 @@ components:
         {
           "claimKey": {
             "claimantId": "0208715009",
-            "account": "000126123456",
+            "account": "000166123456",
             "dueDate": "2022-01-31"
           },
           "payorId": "0208715009",
@@ -3649,8 +3288,8 @@ components:
           "billNumber": "string",
           "customerNumber": "string",
           "paymentFee": {
-            "paymentFee": 0,
-            "directDebitFee": 0
+            "printingFee": 0,
+            "paperlessFee": 0
           },
           "otherCostsAmount": 0,
           "otherDefaultCostsAmount": 0,
@@ -3668,9 +3307,10 @@ components:
             }
           },
           "defaultInterest": {
-            "rule": "NoDefaultInterest",
-            "percentage": 0,
-            "specialCode": ""
+            "referenceDate": "DueDate",
+            "baseAmountType": "Amount",
+            "baseTimeType": "Daily",
+            "percentage": 0
           },
           "discount": {
             "referenceDate": "FinalDueDate",
@@ -3687,16 +3327,15 @@ components:
           },
           "isOutOfSequencePaymentAllowed": true,
           "isPartialPaymentAllowed": true,
-          "currency": "string",
-          "referenceRate": "ExchangeRate",
+          "currency": "ISK",
           "additionalInformation": "string",
-          "printing": {           
+          "printing": {            
             "payorAddress": {
               "name": "string",
               "addressLine": "string",
               "postalCode": "string",
               "city": "string",
-              "country": "string"
+              "country": "IS"
             },
             "itemRows": [
               {

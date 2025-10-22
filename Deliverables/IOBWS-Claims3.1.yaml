@@ -10,10 +10,12 @@ info:
     claims, send claims to an intermediate debt collector and obtain a list of claims according to the given search
     criteria, and thus get a good overview of all their claims.
 
-    There is no Collection Service as it has been merged with the claimant endpoints. There is a restriction on the 
-    collection company, it's not allowed to create claims. The claim service enables debt collectors to work 
-    with the claims under their care. The service is mostly as structured as the service for claims, except 
-    that it is not possible to create collection claims
+    There is no separate Collection Service endpoint, as it has been merged with the claimant endpoints.
+    A collection company is not allowed to create claims, nor can it access claim templates other than its own.
+    The claim service enables debt collectors to work with the claims under their care.
+    Claimants (such as companies) and secondary collection agencies use the same methods but have different scopes.
+    As a result, they have different access rights, ensuring that secondary collection agencies can view only those claims that have been forwarded to them.
+    The service is structured in the same way as the claimant service, except for the differences mentioned above.
 
   contact:
     name: Stadlarad Islands

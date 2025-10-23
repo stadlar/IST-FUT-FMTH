@@ -1,7 +1,7 @@
 ---
 title: "ÍST TS 314:2025"
 author: ICS 35.240, 3.060
-date: "Entry into force 21.03.2025"
+date: "Entry into force 20.11.2025"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 314]
 subtitle: ["Tækniforskrift - Rafræn skjöl", "Technical specification - Digital Documents"]

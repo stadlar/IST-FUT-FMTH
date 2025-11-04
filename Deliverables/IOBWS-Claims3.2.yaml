@@ -10,10 +10,12 @@ info:
     claims, send claims to an intermediate debt collector and obtain a list of claims according to the given search
     criteria, and thus get a good overview of all their claims.
 
-    There is no Collection Service as it has been merged with the claimant endpoints. There is a restriction on the 
-    collection company, it's not allowed to create claims. The claim service enables debt collectors to work 
-    with the claims under their care. The service is mostly as structured as the service for claims, except 
-    that it is not possible to create collection claims
+    There is no separate Collection Service endpoint, as it has been merged with the claimant endpoints.
+    A collection company is not allowed to create claims, nor can it access claim templates other than its own.
+    The claim service enables debt collectors to work with the claims under their care.
+    Claimants (such as companies) and secondary collection agencies use the same methods but have different scopes.
+    As a result, they have different access rights, ensuring that secondary collection agencies can view only those claims that have been forwarded to them.
+    The service is structured in the same way as the claimant service, except for the differences mentioned above.
 
   contact:
     name: Stadlarad Islands
@@ -104,8 +106,7 @@ paths:
         - payorId: The claim payor
         - status: Claim status is one of ["Unpaid", "Paid", "Cancelled"]
         - collectionStatus: Claim collection process state:
-          - PrimaryCollection
-          - WaitingForSecondary
+          - PrimaryCollection      
           - SecondaryCollection
           - LegalCollection
         - templateCode: Bank claim template code        
@@ -278,6 +279,7 @@ paths:
         - $ref: "#/components/parameters/dateTo"
         - $ref: "#/components/parameters/templateCode"
         - $ref: "#/components/parameters/depositAccount"
+        - $ref: "#/components/parameters/payorId"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/itemsPerPage"
         - $ref: "#/components/parameters/X-Request-ID"
@@ -347,6 +349,8 @@ paths:
       tags: [Claim Service]
       parameters:
         - $ref: "#/components/parameters/batchId"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/itemsPerPage"
         - $ref: "#/components/parameters/X-Request-ID"
       responses:
         '200': { $ref: "#/components/responses/OK_20x_ActionResponse" }
@@ -811,6 +815,8 @@ components:
         Contains detail information about claim discount
       nullable: true
       type: object
+      required:
+      - referenceDate
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -823,6 +829,12 @@ components:
       description: |
         Address or legal address of a legal entity
       type: object
+      required:
+      - name
+      - addressLine
+      - postalCode
+      - city
+      - country
       properties:
         name:
           type: string
@@ -883,6 +895,8 @@ components:
         For defaultCharge, the charge amount is calculated from claimAmount.
       nullable: true
       type: object
+      required:
+      - referenceDate
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -896,6 +910,8 @@ components:
         Contains information on how penalty interest is calculated.
       nullable: true
       type: object
+      required:
+      - referenceDate
       properties:
         referenceDate:
           $ref: "#/components/schemas/referenceDate"
@@ -940,8 +956,7 @@ components:
       description: Claim billing process status
       type: string
       enum:
-      - "PrimaryCollection"
-      - "WaitingForSecondary"
+      - "PrimaryCollection"      
       - "SecondaryCollection"
       - "LegalCollection"
 
@@ -1092,6 +1107,9 @@ components:
           $ref: "#/components/schemas/printing"
         directPaymentClaim:
           description: Is the claim registered as direct payment claim
+          type: boolean
+        print:
+          description: Indicates whether a claim should be printed
           type: boolean
         lastChangeDate:
           description: |
@@ -2974,6 +2992,7 @@ components:
               "string"
             ]
           },
+          "print": false,
           "directPaymentClaim": true,
           "lastChangeDate": "2022-01-31T00:00:00Z",
           "createdDate": "2022-12-31T08:05:15Z",

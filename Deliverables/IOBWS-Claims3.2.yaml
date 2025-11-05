@@ -797,6 +797,11 @@ components:
     dayAmountItem:
       description: |
         For whether to use fixed amount or calculate by percentage from claimAmount when calculating discount or charge.
+      type: object
+      required:
+        - chargeType
+        - day
+        - value
       properties:
         chargeType:
           type: string

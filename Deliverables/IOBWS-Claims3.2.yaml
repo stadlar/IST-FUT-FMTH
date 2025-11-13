@@ -102,6 +102,8 @@ paths:
           - ClosingDate: Date when the claim was paid, cancelled or transferred.
           - CreationDate: When the claim was created
           - LastChangeDate: Last claim change event date
+          - PaymentDate: Date when claim was paid
+          - TemplateTransferDate: When claim was moved to another template
         - claimantId: The claim claimant
         - payorId: The claim payor
         - status: Claim status is one of ["Unpaid", "Paid", "Cancelled"]
@@ -460,6 +462,8 @@ components:
           - ClosingDate:  Date when the claim was paid, cancelled or transferred.
           - CreationDate: When the claim was created
           - LastChangeDate: Last claim change event date
+          - PaymentDate: Date when claim was paid
+          - TemplateTransferDate: When claim was moved to another template
       type: string
       enum:
         - "DueDate"
@@ -468,6 +472,8 @@ components:
         - "ClosingDate"
         - "CreationDate"
         - "LastChangeDate"
+        - "PaymentDate"
+        - "TemplateTransferDate"
 
     claimStatusSingleResponse:
       description: |

@@ -1,7 +1,7 @@
 ---
-title: "ÍST TS 315:2025"
+title: "ÍST TS 315:2026"
 author: ICS 35.240, 3.060
-date: "Entry into force 20.11.2025"
+date: "Entry into force 10.02.2026"
 subject: "Icelandic Online Banking Webservices"
 keywords: [IOBWS, ÍST, TS, 315]
 subtitle: ["Tækniforskrift - Kröfur", "Technical specification - Claims"]

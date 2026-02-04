@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Claims 3.2] - 2025-11-20
+## [Claims 3.2] - 2026-02-10
 
 - Point release 3.2 of TS 316 after further updates by workgroup 7, based on lessons from Claims 3.1 implementation.
 - Implements the changes added to PR #198 after release of Claims version 3.1, with references to issues:

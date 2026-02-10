@@ -1,4 +1,3 @@
-styleguide:
-  rules:
-    no-invalid-media-type-examples:
-      severity: warn
+rules:
+  no-invalid-media-type-examples:
+    severity: warn

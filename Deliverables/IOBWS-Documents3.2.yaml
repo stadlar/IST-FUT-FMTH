@@ -1,11 +1,11 @@
 openapi: 3.0.1
 info:
-  title: IOBWS 3.1 Digital Documents
-  version: "3.1"
+  title: IOBWS 3.2 Digital Documents
+  version: "3.2"
   description: |
     # Summary
     
-    This document represents version 3.0 of the Icelandic Online Banking Services (IOBWS)
+    This document represents version 3.2 of the Icelandic Online Banking Services (IOBWS)
     and is released as a part of the technical specification ÍST TS 314, digital documents, 
     by the Icelandic Standards Council.
     Previous versions of IOBWS, released in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards.
@@ -20,9 +20,9 @@ info:
 
     The definition of UTF-8 strings in context of this API has to support at least the following characters
 
-    a b c d e f g h i j k l m n o p q r s t u v w x y z å ä ö æ ø á ð é í ó ú ý	þ	æ	ö
+    a b c d e f g h i j k l m n o p q r s t u v w x y z å ä ö æ ø á ð é í ó ú ý þ
     
-    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö
+    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý Þ
 
     0 1 2 3 4 5 6 7 8 9
      
@@ -83,7 +83,7 @@ paths:
         $ref: "#/components/requestBodies/documentsProcessInitiation"
 
       responses:
-        '200':
+        '201':
           $ref: "#/components/responses/OK_200_DocumentsProcessWithStatusDetails"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
@@ -109,9 +109,9 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
           
     get:
-      summary: Query uploaded documents processes
+      summary: Query uploaded document processes
       description: |
-        Find uploaded documents process by query parameters. Only the document sender can search for the document.
+        Find uploaded document process by query parameters. Only the document sender can search for the document.
         The document owner goes through the banks portal.
       operationId: searchForDocumentsProcess
       tags:
@@ -124,7 +124,8 @@ paths:
         - $ref: "#/components/parameters/documentStore"
         #query
         - $ref: "#/components/parameters/senderKennitalaQuery"
-        - $ref: "#/components/parameters/documentsProcessIdQuery"
+        - $ref: "#/components/parameters/documentProcessIdQuery"
+        - $ref: "#/components/parameters/documentIdQuery"
         - $ref: "#/components/parameters/documentTypeCode"
         - $ref: "#/components/parameters/status"
         - $ref: "#/components/parameters/dateFrom"
@@ -162,13 +163,13 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{document-store}/{sender-kennitala}/{documents-id}:
+  /v1/documents/{document-store}/{sender-kennitala}/{document-process-id}:
 
     put:
       summary: Update documents
       description: |
         Update documents if the document type allows it. User can choose to only send new or changed files
-      operationId: update
+      operationId: updateDocumentsProcess
       tags:
         - Document Service (DS)
 
@@ -191,7 +192,7 @@ paths:
       #path
         - $ref: "#/components/parameters/documentStore"
         - $ref: "#/components/parameters/senderKennitala"
-        - $ref: "#/components/parameters/documentsId"
+        - $ref: "#/components/parameters/documentProcessIdPath"
       #query # NO QUERY PARAMETER
       #header
         #mandatory header parameter
@@ -304,7 +305,7 @@ paths:
         $ref: "#/components/requestBodies/createCrossReferences"
 
       responses:
-        '200':
+        '201':
           $ref: "#/components/responses/OK_200_CreateCrossReferences"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
@@ -349,7 +350,6 @@ paths:
           #mandatory header parameter
           #optional header parameters
           - $ref: "#/components/parameters/USR-IP-Address_optional"
-          - $ref: "#/components/parameters/Idempotency-Key"
         #path # NO PATH PARAMETER
         #query
           #mandatory query parameter
@@ -359,6 +359,8 @@ paths:
           - $ref: "#/components/parameters/keyType"
           - $ref: "#/components/parameters/key"
           - $ref: "#/components/parameters/documentCategory"
+          - $ref: "#/components/parameters/documentDescription"
+          - $ref: "#/components/parameters/documentEffectiveDate"
           - $ref: "#/components/parameters/dateFrom"
           - $ref: "#/components/parameters/dateTo"
           - $ref: "#/components/parameters/pageOptional"
@@ -379,8 +381,6 @@ paths:
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
         '408':
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '409':
-          $ref: "#/components/responses/CONFLICT_409"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
         '429':
@@ -547,20 +547,29 @@ components:
       required: false
       example: 192.168.8.78
 
-    documentsId:
-      name: documents-id
+    documentProcessIdPath:
+      name: document-process-id
       in: path
       description: |
-        Document id in path
+        Document process id in path.
       required: true
       schema:
         $ref: "#/components/schemas/uuid"
         
-    documentsProcessIdQuery:
-      name: documentsProcessId
+    documentProcessIdQuery:
+      name: documentProcessId
       in: query
       description: |
-        Documents process id.
+        Document process id.
+      required: false
+      schema:
+        $ref: "#/components/schemas/uuid"
+
+    documentIdQuery:
+      name: documentId
+      in: query
+      description: |
+        Document id for filtering.
       required: false
       schema:
         $ref: "#/components/schemas/uuid"
@@ -568,11 +577,11 @@ components:
     documentStore:
       name: document-store
       description: |
-        The name of the store where the documents are located. 
+        The name of the store where the document is located. 
       in: path
       required: true
       schema:
-        type: string
+        $ref: "#/components/schemas/documentStore"
 
     page:
       name: page
@@ -581,7 +590,7 @@ components:
       required: true
       example: 3
       schema:
-        type: integer
+        $ref: "#/components/schemas/pagingPageNumber"
 
     itemsPerPage:
       name: itemsPerPage
@@ -590,16 +599,13 @@ components:
       required: true
       example: 10
       schema:
-        type: integer
+        $ref: "#/components/schemas/pagingItemsPerPage"
 
     dateFrom:
       name: dateFrom
       in: query
       description: |
-        Conditional: Starting date (inclusive the date dateFrom) of the expected list, mandated if no delta access is required
-        and if bookingStatus does not equal "information".
-
-        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
+        Starting date (inclusive) of the expected list.
       required: false
       example: "2024-11-29"
       schema:
@@ -610,11 +616,7 @@ components:
       name: dateTo
       in: query
       description: |
-        End date (inclusive the data dateTo) of the expected list, default is "now" if not given.
-
-        Might be ignored if a delta function is used.
-
-        The relevant date is usually the booking date of the instrument e.g. financial transaction or currency rate value date.
+        End date (inclusive) of the expected list, default is "now" if not given.
       required: false
       example: "2024-11-30"
       schema:
@@ -634,7 +636,7 @@ components:
       name: sender-kennitala
       in: path
       description: |
-        Kennitala of the documents sender.
+        Kennitala of the document sender.
       required: true
       schema:
         $ref: "#/components/schemas/kennitala"
@@ -647,7 +649,8 @@ components:
       required: false
       schema:
         type: string
-        minLength: 10
+        minLength: 1
+        maxLength: 10
 
     status:
       name: status
@@ -796,7 +799,7 @@ components:
       required: false
       example: 3
       schema:
-        type: integer
+        $ref: "#/components/schemas/pagingPageNumber"
 
     itemsPerPageOptional:
       name: itemsPerPage
@@ -805,12 +808,22 @@ components:
       required: false
       example: 10
       schema:
-        type: integer
+        $ref: "#/components/schemas/pagingItemsPerPage"
 
   schemas:
     #####################################################
     # Predefined Schemas
     #####################################################
+
+    pagingPageNumber:
+      description: Page number.
+      type: integer
+      minimum: 1
+
+    pagingItemsPerPage:
+      description: Number of items per page.
+      type: integer
+      minimum: 1
 
     #####################################################
     # _links
@@ -875,6 +888,7 @@ components:
         code:
           description: Unique code for the document type.
           type: string
+          minLength: 1
           maxLength: 10
         name:
           description: Short description for the document type
@@ -883,7 +897,7 @@ components:
         durableMedia:
           description: |
             Control flag describing if document type is durable media. If document type
-            is durable media then any documents process using this code can not be updated.
+            is durable media then any document process using this code can not be updated.
           type: boolean
         description:
           description: |
@@ -906,36 +920,112 @@ components:
     fileDetails:
       description: |
         Document details.
+      oneOf:
+        - $ref: "#/components/schemas/fileDetailsXML"
+        - $ref: "#/components/schemas/fileDetailsPDF"
+        - $ref: "#/components/schemas/fileDetailsLINK"
+      discriminator:
+        propertyName: fileType
+        mapping:
+          XML: "#/components/schemas/fileDetailsXML"
+          PDF: "#/components/schemas/fileDetailsPDF"
+          LINK: "#/components/schemas/fileDetailsLINK"
+
+    fileDescription:
+      description: |
+        The file description usually in this format: "<Company name as sender> - <Document type>"
+      type: string
+      maxLength: 140
+
+    fileDetailsCommon:
       type: object
       required:
         - id
         - receiverKennitala
-        - fileType
       properties:
         id:
           $ref: "#/components/schemas/uuid"
         description:
-          description: |
-            The file description usually in this format: "<Company name as sender> - <Document type>"
-          type: string
-          maxLength: 140
+          $ref: "#/components/schemas/fileDescription"
         receiverKennitala:
           $ref: "#/components/schemas/kennitala"
+
+    fileTypeXML:
+      type: string
+      enum:
+        - "XML"
+
+    fileTypePDF:
+      type: string
+      enum:
+        - "PDF"
+
+    fileTypeLINK:
+      type: string
+      enum:
+        - "LINK"
+
+    filePayloadXML:
+      type: object
+      required:
+        - fileType
+        - file
+      properties:
         fileType:
-          description: |
-            File type only xml, pdf, link is allowed. Xml and pdf are physical files and link is reference to file
-          type: string
-          enum:
-            - "XML"
-            - "PDF"
+          $ref: "#/components/schemas/fileTypeXML"
         file:
-          description: The file in the form of base64 encoded characters
+          description: XML document payload as a plain string.
+          type: string
+
+    filePayloadPDF:
+      type: object
+      required:
+        - fileType
+        - file
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypePDF"
+        file:
+          description: The PDF file in the form of base64 encoded characters.
           type: string
           format: byte
 
-    documentsProcessDetails:
+    filePayloadLINK:
+      type: object
+      required:
+        - fileType
+        - file
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypeLINK"
+        file:
+          description: Link or external reference to the file as a plain string.
+          type: string
+
+    fileDetailsXML:
       description: |
-        Documents process details.
+        XML file details where the payload is XML content as plain text.
+      allOf:
+        - $ref: "#/components/schemas/fileDetailsCommon"
+        - $ref: "#/components/schemas/filePayloadXML"
+
+    fileDetailsPDF:
+      description: |
+        PDF file details where the payload is base64-encoded bytes.
+      allOf:
+        - $ref: "#/components/schemas/fileDetailsCommon"
+        - $ref: "#/components/schemas/filePayloadPDF"
+
+    fileDetailsLINK:
+      description: |
+        LINK file details where the payload is a string reference to the file.
+      allOf:
+        - $ref: "#/components/schemas/fileDetailsCommon"
+        - $ref: "#/components/schemas/filePayloadLINK"
+
+    documentProcessDetails:
+      description: |
+        Document process details.
       type: object
       required:
         - id
@@ -947,7 +1037,7 @@ components:
         id:
           $ref: "#/components/schemas/uuid"
         name:
-          description: Short description for the documents process
+          description: Short description for the document process
           type: string
           maxLength: 70
         description:
@@ -961,6 +1051,8 @@ components:
           description: |
             Document type code retrieved from {sender-kennitala}/types
           type: string
+          minLength: 1
+          maxLength: 10
         files:
           type: array
           items:
@@ -985,47 +1077,80 @@ components:
     fileWithStatusDetails:
       description: |
         Document details.
+      oneOf:
+        - $ref: "#/components/schemas/fileWithStatusDetailsXML"
+        - $ref: "#/components/schemas/fileWithStatusDetailsPDF"
+        - $ref: "#/components/schemas/fileWithStatusDetailsLINK"
+      discriminator:
+        propertyName: fileType
+        mapping:
+          XML: "#/components/schemas/fileWithStatusDetailsXML"
+          PDF: "#/components/schemas/fileWithStatusDetailsPDF"
+          LINK: "#/components/schemas/fileWithStatusDetailsLINK"
+
+    fileWithStatusCommon:
+      allOf:
+        - $ref: "#/components/schemas/fileDetailsCommon"
+        - type: object
+          required:
+            - status
+          properties:
+            status:
+              $ref: "#/components/schemas/processStatus"
+            statusMessage:
+              description: Process status message
+              type: string
+              maxLength: 250
+
+    fileTypeTagXML:
       type: object
       required:
-        - id
-        - receiverKennitala
-        - status
+        - fileType
       properties:
-        id:
-          $ref: "#/components/schemas/uuid"
-        description:
-          description: |
-            The file description usually in this format: "<Company name as sender> - <Document type>"
-          type: string
-          maxLength: 140
-        receiverKennitala:
-          description: |
-            The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
-          type: string
-          maxLength: 10
         fileType:
-          description: |
-            File type only xml, pdf, link is allowed. Xml and pdf are physical files and link is reference to file
-          type: string
-          enum:
-            - "XML"
-            - "PDF"
-        status:
-          $ref: "#/components/schemas/processStatus"
-        statusMessage:
-          description: Process status message
-          type: string
-          maxLength: 250
+          $ref: "#/components/schemas/fileTypeXML"
 
-    documentsProcessWithStatusDetails:
+    fileTypeTagPDF:
+      type: object
+      required:
+        - fileType
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypePDF"
+
+    fileTypeTagLINK:
+      type: object
+      required:
+        - fileType
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypeLINK"
+
+    fileWithStatusDetailsXML:
+      allOf:
+        - $ref: "#/components/schemas/fileWithStatusCommon"
+        - $ref: "#/components/schemas/fileTypeTagXML"
+
+    fileWithStatusDetailsPDF:
+      allOf:
+        - $ref: "#/components/schemas/fileWithStatusCommon"
+        - $ref: "#/components/schemas/fileTypeTagPDF"
+
+    fileWithStatusDetailsLINK:
+      allOf:
+        - $ref: "#/components/schemas/fileWithStatusCommon"
+        - $ref: "#/components/schemas/fileTypeTagLINK"
+
+    documentProcessWithStatusDetails:
       description: |
-        Documents process details.
+        Document process details.
       type: object
       required:
         - id
         - name
         - senderKennitala
         - documentTypeCode
+        - status
         - files
       properties:
         id:
@@ -1046,6 +1171,8 @@ components:
           description: |
             Document type code retrieved from {sender-kennitala}/types
           type: string
+          minLength: 1
+          maxLength: 10
         status:
           $ref: "#/components/schemas/processStatus"
         files:
@@ -1053,29 +1180,28 @@ components:
           items:
             $ref: "#/components/schemas/fileWithStatusDetails"
 
-    documentsProcessWithStatusList:
+    documentProcessWithStatusList:
       description: |
         List of documents with details.
       type: object
       required:
-        - documentsProcesses
+        - documentProcesses
       properties:
-        documentsProcesses:
+        documentProcesses:
           type: array
           items:
-            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+            $ref: "#/components/schemas/documentProcessWithStatusDetails"
 
     uuid:
       description: Unique Identifier 
       type: string
-      pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
-      minLength: 36
-      maxLength: 36
+      format: uuid
 
     crossReferencesList:
       description: |
         List of cross-references.
       type: array
+      minItems: 1
       items:
         $ref: "#/components/schemas/crossReference"
 
@@ -1894,7 +2020,7 @@ components:
 
     Error405_IOBWS:
       description: |
-        IOBWS specific definition of reporting error information in case of a HTTP error code 401.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 405.
       type: object
       properties:
         messages:
@@ -1929,9 +2055,13 @@ components:
           $ref: "#/components/schemas/_linksAll"
       example:
         {
-          "category": "ERROR",
-          "code": "STATUS_INVALID",
-          "text": "additional text information of the Bank up to 500 characters"
+          "messages": [
+            {
+              "category": "ERROR",
+              "code": "STATUS_INVALID",
+              "text": "additional text information of the Bank up to 500 characters"
+            }
+          ]
         }
 
     Error429_IOBWS:
@@ -1947,9 +2077,13 @@ components:
           $ref: "#/components/schemas/_linksAll"
       example:
         {
-          "category": "ERROR",
-          "code": "ACCESS_EXCEEDED",
-          "text": "additional text information of the Bank up to 500 characters"
+          "messages": [
+            {
+              "category": "ERROR",
+              "code": "ACCESS_EXCEEDED",
+              "text": "additional text information of the Bank up to 500 characters"
+            }
+          ]
         }
 
   requestBodies:
@@ -1959,12 +2093,12 @@ components:
 
     documentsProcessInitiation:
       description: |
-        JSON request body for a documents process initiation or update request message
+        JSON request body for a document process initiation or update request message
       required: true
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentsProcessDetails"
+            $ref: "#/components/schemas/documentProcessDetails"
           examples: 
             example:
               $ref: "#/components/examples/documentsProcessInitiation_json_Example"
@@ -2011,8 +2145,34 @@ components:
         Location of the created resource.
       schema:
         type: string
-        format: url
+        format: uri
       required: false
+
+    X-Paging-CurrentPage:
+      description: |
+        Current page number
+      schema:
+        $ref: "#/components/schemas/pagingPageNumber"
+
+    X-Paging-TotalPages:
+      description: |
+        Total pages
+      schema:
+        type: integer
+        minimum: 0
+
+    X-Paging-TotalItems:
+      description: |
+        Total items
+      schema:
+        type: integer
+        minimum: 0
+
+    X-Paging-PerPage:
+      description: |
+        Items per page
+      schema:
+        $ref: "#/components/schemas/pagingItemsPerPage"
 
   responses:
     #####################################################
@@ -2024,30 +2184,40 @@ components:
     #####################################################
 
     OK_200_DocumentsProcessListWithStatusDetails:
-      description: Get documents process details
+      description: Get document process details
       headers:
+        X-Paging-CurrentPage:
+          $ref: "#/components/headers/X-Paging-CurrentPage"
+        X-Paging-TotalPages:
+          $ref: "#/components/headers/X-Paging-TotalPages"
+        X-Paging-TotalItems:
+          $ref: "#/components/headers/X-Paging-TotalItems"
+        X-Paging-PerPage:
+          $ref: "#/components/headers/X-Paging-PerPage"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentsProcessWithStatusList"
+            $ref: "#/components/schemas/documentProcessWithStatusList"
           examples: 
             example:
-              $ref: "#/components/examples/documentsProcessWithStatusList-200_json_Example"
+              $ref: "#/components/examples/documentProcessWithStatusList-200_json_Example"
 
     OK_200_DocumentsProcessWithStatusDetails:
-      description: Get documents process details
+      description: Get document process details
       headers:
+        Location:
+          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+            $ref: "#/components/schemas/documentProcessWithStatusDetails"
           examples: 
             example:
-              $ref: "#/components/examples/documentsProcessWithStatusDetails-200_json_Example"
+              $ref: "#/components/examples/documentProcessWithStatusDetails-200_json_Example"
 
     OK_200_UpdateDocumentsProcess:
       description: OK
@@ -2057,10 +2227,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+            $ref: "#/components/schemas/documentProcessWithStatusDetails"
           examples: 
             example:
-              $ref: "#/components/examples/documentsProcessWithStatusDetails-200_json_Example"
+              $ref: "#/components/examples/documentProcessWithStatusDetails-200_json_Example"
 
     OK_200_DocumentTypeDetails:
       description: OK
@@ -2079,6 +2249,8 @@ components:
       description: |
         Cross-references created successfully.
       headers:
+        Location:
+          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
 
@@ -2087,25 +2259,13 @@ components:
         List of cross-references matching query parameters.
       headers:
         X-Paging-CurrentPage:
-          description: |
-            Current page number
-          schema:
-            type: integer
+          $ref: "#/components/headers/X-Paging-CurrentPage"
         X-Paging-TotalPages:
-          description: |
-            Total pages
-          schema:
-            type: integer
+          $ref: "#/components/headers/X-Paging-TotalPages"
         X-Paging-TotalItems:
-          description: |
-            Total items
-          schema:
-            type: integer
+          $ref: "#/components/headers/X-Paging-TotalItems"
         X-Paging-PerPage:
-          description: |
-            Items per page
-          schema:
-            type: integer
+          $ref: "#/components/headers/X-Paging-PerPage"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
@@ -2357,17 +2517,17 @@ components:
               "file": "The file in the form of base64 encoded characters"
             },
             {
-              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "id": "3f0dce5a-6bbd-4f2d-ac4c-224894a38a4f",
               "description": "Company - Account statement",
               "receiverKennitala": "1111112249",
-              "fileType": "PDF",
-              "file": "The file in the form of base64 encoded characters"
+              "fileType": "LINK",
+              "file": "https://documents.example.com/file/3f0dce5a-6bbd-4f2d-ac4c-224894a38a4f"
             } 
           ]
         }
 
-    documentsProcessWithStatusDetails-200_json_Example:
-      description: Documents process result.
+    documentProcessWithStatusDetails-200_json_Example:
+      description: Document process result.
       value: 
         {
           "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
@@ -2386,21 +2546,21 @@ components:
               "statusMessage": "File is currently being processed"
             },
             {
-              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "id": "3f0dce5a-6bbd-4f2d-ac4c-224894a38a4f",
               "description": "",
               "receiverKennitala": "1111112249",
-              "fileType": "PDF",
+              "fileType": "LINK",
               "status": "received",
               "statusMessage": "File is currently being processed"
             }
           ]
         }
 
-    documentsProcessWithStatusList-200_json_Example:
+    documentProcessWithStatusList-200_json_Example:
       description: Documents query result.
       value: 
         {
-          "documentsProcesses": [
+          "documentProcesses": [
             {
               "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
               "name": "Account statements",
@@ -2418,10 +2578,10 @@ components:
                   "statusMessage": "File is currently being processed"
                 },
                 {
-                  "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+                  "id": "3f0dce5a-6bbd-4f2d-ac4c-224894a38a4f",
                   "description": "",
                   "receiverKennitala": "1111112249",
-                  "fileType": "PDF",
+                  "fileType": "LINK",
                   "status": "received",
                   "statusMessage": "File is currently being processed"
                 }
@@ -2436,22 +2596,22 @@ components:
         [
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
-              "documentStore": Ark,
-              "documentCategory": Bill,
+              "documentStore": "Ark",
+              "documentCategory": "Bill",
               "documentDescription": "Bill for services rendered.",
-              "documentEffectiveDate": "2024-04-01T00:00:00",
+              "documentEffectiveDate": "2024-04-01",
               "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
           },
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
-              "documentStore": RBS,
-              "documentCategory": CollectionLetter,
+              "documentStore": "RBS",
+              "documentCategory": "CollectionLetter",
               "documentDescription": "Collection letter.",
-              "documentEffectiveDate": "2024-05-01T00:00:00",
+              "documentEffectiveDate": "2024-05-01",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
           }
         ]
@@ -2462,22 +2622,22 @@ components:
         [
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
-              "documentStore": Ark,
-              "documentCategory": Bill,
+              "documentStore": "Ark",
+              "documentCategory": "Bill",
               "documentDescription": "Bill for services rendered.",
-              "documentEffectiveDate": "2024-04-01T00:00:00",
+              "documentEffectiveDate": "2024-04-01",
               "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
           },
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
-              "documentStore": RBS,
-              "documentCategory": CollectionLetter,
+              "documentStore": "RBS",
+              "documentCategory": "CollectionLetter",
               "documentDescription": "Collection letter.",
-              "documentEffectiveDate": "2024-05-01T00:00:00",
+              "documentEffectiveDate": "2024-05-01",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
           }
         ]
@@ -2488,22 +2648,22 @@ components:
         [
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
-              "documentStore": Ark,
-              "documentCategory": Bill,
+              "documentStore": "Ark",
+              "documentCategory": "Bill",
               "documentDescription": "Bill for services rendered.",
-              "documentEffectiveDate": "2024-04-01T00:00:00",
+              "documentEffectiveDate": "2024-04-01",
               "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
           },
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
-              "documentStore": RBS,
-              "documentCategory": CollectionLetter,
+              "documentStore": "RBS",
+              "documentCategory": "CollectionLetter",
               "documentDescription": "Collection letter.",
-              "documentEffectiveDate": "2024-05-01T00:00:00",
+              "documentEffectiveDate": "2024-05-01",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
           }
         ]

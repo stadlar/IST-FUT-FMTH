@@ -2,3 +2,5 @@
 *.tex
 .vscode/settings.json
 out/**/*
+.DS_Store
+

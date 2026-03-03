@@ -577,17 +577,17 @@ components:
     page:
       name: page
       in: query
-      description: Page number.
-      required: true
+      description: Page number. If not specified, the default is 1.
+      required: false
       example: 3
       schema:
-        type: integer
+        $ref: "#/components/schemas/pagingPageNumber"
 
     itemsPerPage:
       name: itemsPerPage
       in: query
-      description: Number of items per page.
-      required: true
+      description: Number of items per page. If not specified, the default is 10.
+      required: false
       example: 10
       schema:
         $ref: "#/components/schemas/pagingItemsPerPage"

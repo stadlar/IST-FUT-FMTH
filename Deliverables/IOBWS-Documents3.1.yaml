@@ -590,7 +590,7 @@ components:
       required: true
       example: 10
       schema:
-        type: integer
+        $ref: "#/components/schemas/pagingItemsPerPage"
 
     dateFrom:
       name: dateFrom
@@ -796,7 +796,7 @@ components:
       required: false
       example: 3
       schema:
-        type: integer
+        $ref: "#/components/schemas/pagingPageNumber"
 
     itemsPerPageOptional:
       name: itemsPerPage
@@ -805,12 +805,22 @@ components:
       required: false
       example: 10
       schema:
-        type: integer
+        $ref: "#/components/schemas/pagingItemsPerPage"
 
   schemas:
     #####################################################
     # Predefined Schemas
     #####################################################
+
+    pagingPageNumber:
+      description: Page number.
+      type: integer
+      minimum: 1
+
+    pagingItemsPerPage:
+      description: Number of items per page.
+      type: integer
+      minimum: 1
 
     #####################################################
     # _links
@@ -2014,6 +2024,32 @@ components:
         format: url
       required: false
 
+    X-Paging-CurrentPage:
+      description: |
+        Current page number
+      schema:
+        $ref: "#/components/schemas/pagingPageNumber"
+
+    X-Paging-TotalPages:
+      description: |
+        Total pages
+      schema:
+        type: integer
+        minimum: 0
+
+    X-Paging-TotalItems:
+      description: |
+        Total items
+      schema:
+        type: integer
+        minimum: 0
+
+    X-Paging-PerPage:
+      description: |
+        Items per page
+      schema:
+        $ref: "#/components/schemas/pagingItemsPerPage"
+
   responses:
     #####################################################
     # Reusable Responses
@@ -2026,6 +2062,14 @@ components:
     OK_200_DocumentsProcessListWithStatusDetails:
       description: Get documents process details
       headers:
+        X-Paging-CurrentPage:
+          $ref: "#/components/headers/X-Paging-CurrentPage"
+        X-Paging-TotalPages:
+          $ref: "#/components/headers/X-Paging-TotalPages"
+        X-Paging-TotalItems:
+          $ref: "#/components/headers/X-Paging-TotalItems"
+        X-Paging-PerPage:
+          $ref: "#/components/headers/X-Paging-PerPage"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
@@ -2087,25 +2131,13 @@ components:
         List of cross-references matching query parameters.
       headers:
         X-Paging-CurrentPage:
-          description: |
-            Current page number
-          schema:
-            type: integer
+          $ref: "#/components/headers/X-Paging-CurrentPage"
         X-Paging-TotalPages:
-          description: |
-            Total pages
-          schema:
-            type: integer
+          $ref: "#/components/headers/X-Paging-TotalPages"
         X-Paging-TotalItems:
-          description: |
-            Total items
-          schema:
-            type: integer
+          $ref: "#/components/headers/X-Paging-TotalItems"
         X-Paging-PerPage:
-          description: |
-            Items per page
-          schema:
-            type: integer
+          $ref: "#/components/headers/X-Paging-PerPage"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:

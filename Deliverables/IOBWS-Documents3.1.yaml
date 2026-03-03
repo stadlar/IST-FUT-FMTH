@@ -893,15 +893,10 @@ components:
 
     documentTypeList:
       description: |
-        List of document type with details.
-      type: object
-      required:
-        - documentTypes
-      properties:
-        documentTypes:
-          type: array
-          items:
-            $ref: "#/components/schemas/documentTypeDetails"
+        List of document types with details.
+      type: array
+      items:
+        $ref: "#/components/schemas/documentTypeDetails"
 
     fileDetails:
       description: |
@@ -1053,17 +1048,50 @@ components:
           items:
             $ref: "#/components/schemas/fileWithStatusDetails"
 
-    documentsProcessWithStatusList:
+    documentsProcessWithStatusSummary:
       description: |
-        List of documents with details.
+        Documents process summary details for list responses.
       type: object
       required:
-        - documentsProcesses
+        - id
+        - name
+        - senderKennitala
+        - documentTypeCode
+        - status
       properties:
-        documentsProcesses:
-          type: array
-          items:
-            $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+        id:
+          $ref: "#/components/schemas/uuid"
+        name:
+          description: Short description for the process
+          type: string
+          maxLength: 70
+        description:
+          description: |
+            The file description usually in this format: "<Company name as sender> - <Document type>"
+          type: string
+          maxLength: 140
+        senderKennitala:
+          $ref: "#/components/schemas/kennitala"
+        documentTypeCode:
+          description: |
+            Document type code retrieved from {sender-kennitala}/types
+          type: string
+        status:
+          $ref: "#/components/schemas/processStatus"
+
+    documentsProcessWithStatusList:
+      description: |
+        List of documents processes with summary details.
+      type: array
+      items:
+        $ref: "#/components/schemas/documentsProcessWithStatusSummary"
+
+    documentWithStatusList:
+      description: |
+        List of document items with details.
+      type: array
+      items:
+        $ref: "#/components/schemas/fileWithStatusDetails"
 
     uuid:
       description: Unique Identifier 
@@ -2322,22 +2350,20 @@ components:
     documentTypeListResponse-200_json_Example:
       description: List of document types.
       value:
-        {
-          "documentTypes": [
-            { 
-              "code": "STVO",
-              "name": "/typ/3254b7b2-302c-72",
-              "durableMedia": true,
-              "description": "Pay slip from Company"
-            },
-            { 
-              "code": "IDFR",
-              "name": "/typ/3254b7b2-302c-72",
-              "durableMedia": true,
-              "description": "Account statement from Company"
-            }
-          ]
-        }
+        [
+          { 
+            "code": "STVO",
+            "name": "/typ/3254b7b2-302c-72",
+            "durableMedia": true,
+            "description": "Pay slip from Company"
+          },
+          { 
+            "code": "IDFR",
+            "name": "/typ/3254b7b2-302c-72",
+            "durableMedia": true,
+            "description": "Account statement from Company"
+          }
+        ]
 
     documentsProcessInitiation_json_Example:
       description: Documents upload request.
@@ -2399,36 +2425,16 @@ components:
     documentsProcessWithStatusList-200_json_Example:
       description: Documents query result.
       value: 
-        {
-          "documentsProcesses": [
-            {
-              "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
-              "name": "Account statements",
-              "description": "Account statements for june 2022",
-              "senderKennitala": "1111111199",
-              "documentTypeCode": "IDFR",
-              "status": "received",
-              "files": [
-                {
-                  "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
-                  "description": "",
-                  "receiverKennitala": "1111112239",
-                  "fileType": "PDF",
-                  "status": "received",
-                  "statusMessage": "File is currently being processed"
-                },
-                {
-                  "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
-                  "description": "",
-                  "receiverKennitala": "1111112249",
-                  "fileType": "PDF",
-                  "status": "received",
-                  "statusMessage": "File is currently being processed"
-                }
-              ]
-            }
-          ]
-        }
+        [
+          {
+            "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
+            "name": "Account statements",
+            "description": "Account statements for june 2022",
+            "senderKennitala": "1111111199",
+            "documentTypeCode": "IDFR",
+            "status": "received"
+          }
+        ]
 
     createCrossReferences_json_Example:
       description: Cross-references creation request.

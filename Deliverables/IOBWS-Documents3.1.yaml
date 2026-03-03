@@ -266,6 +266,99 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
+  /v1/documents:
+
+    get:
+      summary: Query documents
+      description: |
+        Query documents. Returns document/file status entries matching filters.
+      operationId: searchForDocuments
+      tags:
+        - Document Service (DS)
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        #query
+        - $ref: "#/components/parameters/documentStoreQueryParameter"
+        - $ref: "#/components/parameters/ownerKennitalaQuery"
+        - $ref: "#/components/parameters/documentTypeCode"
+        - $ref: "#/components/parameters/dateFrom"
+        - $ref: "#/components/parameters/dateTo"
+        - $ref: "#/components/parameters/pageOptional"
+        - $ref: "#/components/parameters/itemsPerPageOptional"
+        #header
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_DocumentListWithStatusDetails"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/documents/{document-id}:
+
+    get:
+      summary: Get document by ID
+      description: |
+        Retrieve a single document/file status entry by document ID.
+      operationId: getDocument
+      tags:
+        - Document Service (DS)
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        #path
+        - $ref: "#/components/parameters/documentIdPathParameter"
+        #query
+        - $ref: "#/components/parameters/documentStoreQueryParameter"
+        - $ref: "#/components/parameters/ownerKennitalaRequiredQuery"
+        #header
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_DocumentWithStatusDetails"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
   /v1/documents/{sender-kennitala}/types:
 
     get:
@@ -663,6 +756,24 @@ components:
       in: path
       description: |
         Kennitala of the documents sender.
+      required: true
+      schema:
+        $ref: "#/components/schemas/kennitala"
+
+    ownerKennitalaQuery:
+      name: ownerKennitala
+      in: query
+      description: |
+        Kennitala of the document owner for filtering.
+      required: false
+      schema:
+        $ref: "#/components/schemas/kennitala"
+
+    ownerKennitalaRequiredQuery:
+      name: ownerKennitala
+      in: query
+      description: |
+        Kennitala of the document owner.
       required: true
       schema:
         $ref: "#/components/schemas/kennitala"
@@ -1098,6 +1209,13 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/documentsProcessWithStatusDetails"
+
+    documentWithStatusList:
+      description: |
+        List of document/file entries with status details.
+      type: array
+      items:
+        $ref: "#/components/schemas/fileWithStatusDetails"
 
     uuid:
       description: Unique Identifier 
@@ -2109,7 +2227,47 @@ components:
             $ref: "#/components/schemas/documentsProcessWithStatusDetails"
           examples: 
             example:
-              $ref: "#/components/examples/documentsProcessWithStatusDetails-200_json_Example"
+            $ref: "#/components/examples/documentsProcessWithStatusDetails-200_json_Example"
+
+    OK_200_DocumentWithStatusDetails:
+      description: Get document details
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/fileWithStatusDetails"
+
+    OK_200_DocumentListWithStatusDetails:
+      description: Get document list details
+      headers:
+        X-Paging-CurrentPage:
+          description: |
+            Current page number
+          schema:
+            type: integer
+        X-Paging-TotalPages:
+          description: |
+            Total pages
+          schema:
+            type: integer
+        X-Paging-TotalItems:
+          description: |
+            Total items
+          schema:
+            type: integer
+        X-Paging-PerPage:
+          description: |
+            Items per page
+          schema:
+            type: integer
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/documentWithStatusList"
 
     OK_200_DocumentTypeDetails:
       description: OK

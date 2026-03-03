@@ -329,67 +329,6 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-    get:
-      summary: Query cross-references
-      description: |
-        Query cross-references. This method returns an array of cross-references matching the search criteria. 
-
-        Although the search criteria are optional, the key of at least one of the cross-reference relata and its respective data storage or key type must be provided. 
-        That is, either or both the ID of the document (_documentId_) and its data storage (_documentStore_) or the key (_key_) and the type (_keyType_) of the object related to the document in question must be provided. 
-      operationId: queryCrossReferences
-      tags:
-        - Cross-Reference Service (CRS)
-      security:
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-        #header
-          #common header parameter
-          - $ref: "#/components/parameters/X-Request-ID"
-          #mandatory header parameter
-          #optional header parameters
-          - $ref: "#/components/parameters/USR-IP-Address_optional"
-          - $ref: "#/components/parameters/Idempotency-Key"
-        #path # NO PATH PARAMETER
-        #query
-          #mandatory query parameter
-          #optional query parameters
-          - $ref: "#/components/parameters/documentStoreQueryParameter"
-          - $ref: "#/components/parameters/documentId"
-          - $ref: "#/components/parameters/keyType"
-          - $ref: "#/components/parameters/key"
-          - $ref: "#/components/parameters/documentCategory"
-          - $ref: "#/components/parameters/dateFrom"
-          - $ref: "#/components/parameters/dateTo"
-          - $ref: "#/components/parameters/pageOptional"
-          - $ref: "#/components/parameters/itemsPerPageOptional"
-
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_QueryCrossReferences"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '405':
-          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
-        '408':
-          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '409':
-          $ref: "#/components/responses/CONFLICT_409"
-        '415':
-          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
-        '429':
-          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-          
     put:
       summary: Updates cross-references
       description:  Updates an array of new cross-references between documents and some other objects (such as claims, credit transfers and payment requests).
@@ -439,12 +378,97 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/crossreferences/{document-id}/{key-type}/{key}:
+  /v1/crossreferences/{key-type}/{key}:
+
+    get:
+      summary: Get cross-references by key
+      description: |
+        Returns all cross-references identified by key type and key.
+      operationId: getCrossReferencesByKeyTypeAndKey
+      tags:
+        - Cross-Reference Service (CRS)
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/keyTypePathParameter"
+        - $ref: "#/components/parameters/keyPathParameter"
+        - $ref: "#/components/parameters/documentStoreQueryParameter"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CrossReferenceDetails"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/documents/{document-id}/crossreferences:
+
+    get:
+      summary: Get cross-references for a document
+      description: |
+        Returns cross-references for a single document.
+      operationId: getCrossReferencesForDocument
+      tags:
+        - Cross-Reference Service (CRS)
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/documentIdPathParameter"
+        - $ref: "#/components/parameters/documentStoreQueryParameter"
+        - $ref: "#/components/parameters/pageOptional"
+        - $ref: "#/components/parameters/itemsPerPageOptional"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_QueryCrossReferences"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/documents/{document-id}/crossreferences/{key-type}/{key}:
 
     delete:
       summary: Delete a cross-reference
       description: Delete a cross-reference. 
-      operationId: deleteCrossReference
+      operationId: deleteCrossReferenceForDocument
       tags:
         - Cross-Reference Service (CRS)
       security:
@@ -460,9 +484,9 @@ paths:
           - $ref: "#/components/parameters/Idempotency-Key"
         #path
           #mandatory path parameters
-          - $ref: "#/components/parameters/documentIdPathParameter"
           - $ref: "#/components/parameters/keyTypePathParameter"
           - $ref: "#/components/parameters/keyPathParameter"
+          - $ref: "#/components/parameters/documentIdPathParameter"
           #optional path parameter NO QUERY PARAMETER
         #query
           - $ref: "#/components/parameters/documentStoreQueryParameter"
@@ -2117,6 +2141,20 @@ components:
             "Example":
               $ref: "#/components/examples/getCrossReferences-200_json_Example"
 
+    OK_200_CrossReferenceDetails:
+      description: |
+        Cross-references matching path parameters.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/crossReferencesList"
+          examples:
+            "Example":
+              $ref: "#/components/examples/getCrossReferences-200_json_Example"
+
     OK_200_UpdateCrossReferences:
       description: |
         Cross-references updated successfully.
@@ -2449,7 +2487,7 @@ components:
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
               "keyType": Claim,
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
-              "documentStore": RBS,
+              "documentStore": Ark,
               "documentCategory": CollectionLetter,
               "documentDescription": "Collection letter.",
               "documentEffectiveDate": "2024-05-01T00:00:00",
@@ -2475,13 +2513,27 @@ components:
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
               "keyType": Claim,
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
-              "documentStore": RBS,
+              "documentStore": Ark,
               "documentCategory": CollectionLetter,
               "documentDescription": "Collection letter.",
               "documentEffectiveDate": "2024-05-01T00:00:00",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
           }
         ]
+
+    getCrossReference-200_json_Example:
+      description: Cross-reference query result.
+      value:
+        {
+            "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
+            "keyType": Claim,
+            "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
+            "documentStore": Ark,
+            "documentCategory": Bill,
+            "documentDescription": "Bill for services rendered.",
+            "documentEffectiveDate": "2024-04-01T00:00:00",
+            "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
+        }
 
     updateCrossReferences_json_Example:
       description: Cross-references update request.
@@ -2501,7 +2553,7 @@ components:
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
               "keyType": Claim,
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
-              "documentStore": RBS,
+              "documentStore": Ark,
               "documentCategory": CollectionLetter,
               "documentDescription": "Collection letter.",
               "documentEffectiveDate": "2024-05-01T00:00:00",

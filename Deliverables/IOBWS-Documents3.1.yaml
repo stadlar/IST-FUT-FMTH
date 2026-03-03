@@ -56,7 +56,7 @@ paths:
   # Document Service
   #####################################################
 
-  /v1/documents/{document-store}:
+  /v1/documents:
 
     post:
       summary: Upload and store new documents
@@ -69,8 +69,8 @@ paths:
         - BearerAuthOAuth: []
       parameters:
       #path
-        - $ref: "#/components/parameters/documentStore"
       #query
+        - $ref: "#/components/parameters/documentStoreQueryParameter"
       #header
         #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -121,8 +121,8 @@ paths:
         - BearerAuthOAuth: []
       parameters:
         #path
-        - $ref: "#/components/parameters/documentStore"
         #query
+        - $ref: "#/components/parameters/documentStoreQueryParameter"
         - $ref: "#/components/parameters/senderKennitalaQuery"
         - $ref: "#/components/parameters/documentsProcessIdQuery"
         - $ref: "#/components/parameters/documentTypeCode"
@@ -162,7 +162,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{document-store}/{sender-kennitala}/{documents-id}:
+  /v1/documents/{sender-kennitala}/{documents-id}:
 
     put:
       summary: Update documents
@@ -189,10 +189,10 @@ paths:
 
       parameters:
       #path
-        - $ref: "#/components/parameters/documentStore"
         - $ref: "#/components/parameters/senderKennitala"
         - $ref: "#/components/parameters/documentsId"
-      #query # NO QUERY PARAMETER
+      #query
+        - $ref: "#/components/parameters/documentStoreQueryParameter"
       #header
         #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -229,7 +229,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{document-store}/{sender-kennitala}/types:
+  /v1/documents/{sender-kennitala}/types:
 
     get:
       summary: Get list of all document types
@@ -243,9 +243,9 @@ paths:
         - BearerAuthOAuth: []
       parameters:
         #path
-        - $ref: "#/components/parameters/documentStore"
         - $ref: "#/components/parameters/senderKennitala"
         #query
+        - $ref: "#/components/parameters/documentStoreQueryParameter"
         #header
           #mandatory header parameter
         - $ref: "#/components/parameters/X-Request-ID"
@@ -439,7 +439,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/crossreferences/{document-store}/{document-id}/{key-type}/{key}:
+  /v1/crossreferences/{document-id}/{key-type}/{key}:
 
     delete:
       summary: Delete a cross-reference
@@ -460,12 +460,12 @@ paths:
           - $ref: "#/components/parameters/Idempotency-Key"
         #path
           #mandatory path parameters
-          - $ref: "#/components/parameters/documentStorePathParameter"
           - $ref: "#/components/parameters/documentIdPathParameter"
           - $ref: "#/components/parameters/keyTypePathParameter"
           - $ref: "#/components/parameters/keyPathParameter"
           #optional path parameter NO QUERY PARAMETER
         #query
+          - $ref: "#/components/parameters/documentStoreQueryParameter"
           - $ref: "#/components/parameters/externalEventId"
 
       responses:
@@ -743,7 +743,8 @@ components:
       name: documentStore
       in: query
       description: |
-        Document data storage system. The value is one of the following:
+        Document data storage system. The value is one of the following.
+        If omitted, default value is `Ark`.
       required: false
       example: Ark
       schema:

@@ -124,7 +124,7 @@ paths:
         #query
         - $ref: "#/components/parameters/documentStoreQueryParameter"
         - $ref: "#/components/parameters/senderKennitalaQuery"
-        - $ref: "#/components/parameters/documentsProcessIdQuery"
+        - $ref: "#/components/parameters/documentProcessIdQuery"
         - $ref: "#/components/parameters/documentTypeCode"
         - $ref: "#/components/parameters/status"
         - $ref: "#/components/parameters/dateFrom"
@@ -162,7 +162,7 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{sender-kennitala}/{documents-id}:
+  /v1/documents/{sender-kennitala}/{document-process-id}:
 
     put:
       summary: Update documents
@@ -190,7 +190,7 @@ paths:
       parameters:
       #path
         - $ref: "#/components/parameters/senderKennitala"
-        - $ref: "#/components/parameters/documentsId"
+        - $ref: "#/components/parameters/documentProcessId"
       #query
         - $ref: "#/components/parameters/documentStoreQueryParameter"
       #header
@@ -547,20 +547,20 @@ components:
       required: false
       example: 192.168.8.78
 
-    documentsId:
-      name: documents-id
+    documentProcessId:
+      name: document-process-id
       in: path
       description: |
-        Document id in path
+        Document process id in path
       required: true
       schema:
         $ref: "#/components/schemas/uuid"
         
-    documentsProcessIdQuery:
-      name: documentsProcessId
+    documentProcessIdQuery:
+      name: documentProcessId
       in: query
       description: |
-        Documents process id.
+        Document process id.
       required: false
       schema:
         $ref: "#/components/schemas/uuid"

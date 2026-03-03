@@ -56,12 +56,12 @@ paths:
   # Document Service
   #####################################################
 
-  /v1/documents:
+  /v1/document-processes:
 
     post:
-      summary: Upload and store new documents
+      summary: Create document process
       description: Upload and store new documents
-      operationId: uploadDocument
+      operationId: createDocumentProcess
       tags:
         - Document Service (DS)
       security:
@@ -109,11 +109,11 @@ paths:
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
           
     get:
-      summary: Query uploaded documents processes
+      summary: Query document processes
       description: |
         Find uploaded documents process by query parameters. Only the document sender can search for the document.
         The document owner goes through the banks portal.
-      operationId: searchForDocumentsProcess
+      operationId: searchForDocumentProcesses
       tags:
         - Document Service (DS)
       security:
@@ -124,7 +124,6 @@ paths:
         #query
         - $ref: "#/components/parameters/documentStoreQueryParameter"
         - $ref: "#/components/parameters/senderKennitalaQuery"
-        - $ref: "#/components/parameters/documentsProcessIdQuery"
         - $ref: "#/components/parameters/documentTypeCode"
         - $ref: "#/components/parameters/status"
         - $ref: "#/components/parameters/dateFrom"
@@ -162,13 +161,56 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/documents/{sender-kennitala}/{documents-id}:
+  /v1/document-processes/{document-process-id}:
+
+    get:
+      summary: Get document process by ID
+      description: |
+        Retrieve a single document process by its ID.
+      operationId: getDocumentProcess
+      tags:
+        - Document Service (DS)
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+      #path
+        - $ref: "#/components/parameters/documentProcessId"
+      #query
+        - $ref: "#/components/parameters/documentStoreQueryParameter"
+      #header
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_DocumentsProcessWithStatusDetails"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '405':
+          $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
+        '408':
+          $ref: "#/components/responses/REQUEST_TIMEOUT_408"
+        '415':
+          $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
     put:
       summary: Update documents
       description: |
         Update documents if the document type allows it. User can choose to only send new or changed files
-      operationId: update
+      operationId: updateDocumentProcess
       tags:
         - Document Service (DS)
 
@@ -189,8 +231,7 @@ paths:
 
       parameters:
       #path
-        - $ref: "#/components/parameters/senderKennitala"
-        - $ref: "#/components/parameters/documentsId"
+        - $ref: "#/components/parameters/documentProcessId"
       #query
         - $ref: "#/components/parameters/documentStoreQueryParameter"
       #header
@@ -547,24 +588,15 @@ components:
       required: false
       example: 192.168.8.78
 
-    documentsId:
-      name: documents-id
+    documentProcessId:
+      name: document-process-id
       in: path
       description: |
-        Document id in path
+        Document process id in path
       required: true
       schema:
         $ref: "#/components/schemas/uuid"
         
-    documentsProcessIdQuery:
-      name: documentsProcessId
-      in: query
-      description: |
-        Documents process id.
-      required: false
-      schema:
-        $ref: "#/components/schemas/uuid"
-
     documentStore:
       name: document-store
       description: |

@@ -1023,6 +1023,7 @@ components:
         - id
         - receiverKennitala
         - status
+        - isCrossReferenced
       properties:
         id:
           $ref: "#/components/schemas/uuid"
@@ -1049,6 +1050,10 @@ components:
           description: Process status message
           type: string
           maxLength: 250
+        isCrossReferenced:
+          description: |
+            Indicates whether the document is cross-referenced to another object.
+          type: boolean
 
     documentsProcessWithStatusDetails:
       description: |
@@ -2416,7 +2421,8 @@ components:
               "receiverKennitala": "1111112239",
               "fileType": "PDF",
               "status": "received",
-              "statusMessage": "File is currently being processed"
+              "statusMessage": "File is currently being processed",
+              "isCrossReferenced": true
             },
             {
               "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
@@ -2424,7 +2430,8 @@ components:
               "receiverKennitala": "1111112249",
               "fileType": "PDF",
               "status": "received",
-              "statusMessage": "File is currently being processed"
+              "statusMessage": "File is currently being processed",
+              "isCrossReferenced": false
             }
           ]
         }
@@ -2448,7 +2455,8 @@ components:
                   "receiverKennitala": "1111112239",
                   "fileType": "PDF",
                   "status": "received",
-                  "statusMessage": "File is currently being processed"
+                  "statusMessage": "File is currently being processed",
+                  "isCrossReferenced": true
                 },
                 {
                   "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
@@ -2456,7 +2464,8 @@ components:
                   "receiverKennitala": "1111112249",
                   "fileType": "PDF",
                   "status": "received",
-                  "statusMessage": "File is currently being processed"
+                  "statusMessage": "File is currently being processed",
+                  "isCrossReferenced": false
                 }
               ]
             }

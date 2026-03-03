@@ -989,6 +989,7 @@ components:
       required:
         - id
         - receiverKennitala
+        - fileType
         - status
       properties:
         id:
@@ -1026,6 +1027,7 @@ components:
         - name
         - senderKennitala
         - documentTypeCode
+        - status
         - files
       properties:
         id:
@@ -1894,7 +1896,7 @@ components:
 
     Error405_IOBWS:
       description: |
-        IOBWS specific definition of reporting error information in case of a HTTP error code 401.
+        IOBWS specific definition of reporting error information in case of a HTTP error code 405.
       type: object
       properties:
         messages:
@@ -1929,9 +1931,13 @@ components:
           $ref: "#/components/schemas/_linksAll"
       example:
         {
-          "category": "ERROR",
-          "code": "STATUS_INVALID",
-          "text": "additional text information of the Bank up to 500 characters"
+          "messages": [
+            {
+              "category": "ERROR",
+              "code": "STATUS_INVALID",
+              "text": "additional text information of the Bank up to 500 characters"
+            }
+          ]
         }
 
     Error429_IOBWS:
@@ -1947,9 +1953,13 @@ components:
           $ref: "#/components/schemas/_linksAll"
       example:
         {
-          "category": "ERROR",
-          "code": "ACCESS_EXCEEDED",
-          "text": "additional text information of the Bank up to 500 characters"
+          "messages": [
+            {
+              "category": "ERROR",
+              "code": "ACCESS_EXCEEDED",
+              "text": "additional text information of the Bank up to 500 characters"
+            }
+          ]
         }
 
   requestBodies:
@@ -2357,7 +2367,7 @@ components:
               "file": "The file in the form of base64 encoded characters"
             },
             {
-              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7722",
               "description": "Company - Account statement",
               "receiverKennitala": "1111112249",
               "fileType": "PDF",
@@ -2386,7 +2396,7 @@ components:
               "statusMessage": "File is currently being processed"
             },
             {
-              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7722",
               "description": "",
               "receiverKennitala": "1111112249",
               "fileType": "PDF",
@@ -2418,7 +2428,7 @@ components:
                   "statusMessage": "File is currently being processed"
                 },
                 {
-                  "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+                  "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7722",
                   "description": "",
                   "receiverKennitala": "1111112249",
                   "fileType": "PDF",
@@ -2436,22 +2446,22 @@ components:
         [
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
-              "documentStore": Ark,
-              "documentCategory": Bill,
+              "documentStore": "Ark",
+              "documentCategory": "Bill",
               "documentDescription": "Bill for services rendered.",
-              "documentEffectiveDate": "2024-04-01T00:00:00",
+              "documentEffectiveDate": "2024-04-01",
               "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
           },
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
-              "documentStore": RBS,
-              "documentCategory": CollectionLetter,
+              "documentStore": "Ark",
+              "documentCategory": "CollectionLetter",
               "documentDescription": "Collection letter.",
-              "documentEffectiveDate": "2024-05-01T00:00:00",
+              "documentEffectiveDate": "2024-05-01",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
           }
         ]
@@ -2462,22 +2472,22 @@ components:
         [
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
-              "documentStore": Ark,
-              "documentCategory": Bill,
+              "documentStore": "Ark",
+              "documentCategory": "Bill",
               "documentDescription": "Bill for services rendered.",
-              "documentEffectiveDate": "2024-04-01T00:00:00",
+              "documentEffectiveDate": "2024-04-01",
               "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
           },
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
-              "documentStore": RBS,
-              "documentCategory": CollectionLetter,
+              "documentStore": "Ark",
+              "documentCategory": "CollectionLetter",
               "documentDescription": "Collection letter.",
-              "documentEffectiveDate": "2024-05-01T00:00:00",
+              "documentEffectiveDate": "2024-05-01",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
           }
         ]
@@ -2488,22 +2498,22 @@ components:
         [
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "00ec5225-8a64-48a2-b6bf-f4ef558b27df",
-              "documentStore": Ark,
-              "documentCategory": Bill,
+              "documentStore": "Ark",
+              "documentCategory": "Bill",
               "documentDescription": "Bill for services rendered.",
-              "documentEffectiveDate": "2024-04-01T00:00:00",
+              "documentEffectiveDate": "2024-04-01",
               "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
           },
           {
               "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
-              "keyType": Claim,
+              "keyType": "Claim",
               "documentId": "42fbcce1-35a9-4ec3-8b40-c9a73fc3b8fe",
-              "documentStore": RBS,
-              "documentCategory": CollectionLetter,
+              "documentStore": "Ark",
+              "documentCategory": "CollectionLetter",
               "documentDescription": "Collection letter.",
-              "documentEffectiveDate": "2024-05-01T00:00:00",
+              "documentEffectiveDate": "2024-05-01",
               "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
           }
         ]

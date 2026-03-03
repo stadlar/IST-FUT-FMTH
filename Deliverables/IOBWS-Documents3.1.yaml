@@ -906,32 +906,108 @@ components:
     fileDetails:
       description: |
         Document details.
+      oneOf:
+        - $ref: "#/components/schemas/fileDetailsXML"
+        - $ref: "#/components/schemas/fileDetailsPDF"
+        - $ref: "#/components/schemas/fileDetailsLINK"
+      discriminator:
+        propertyName: fileType
+        mapping:
+          XML: "#/components/schemas/fileDetailsXML"
+          PDF: "#/components/schemas/fileDetailsPDF"
+          LINK: "#/components/schemas/fileDetailsLINK"
+
+    fileDescription:
+      description: |
+        The file description usually in this format: "<Company name as sender> - <Document type>"
+      type: string
+      maxLength: 140
+
+    fileDetailsCommon:
       type: object
       required:
         - id
         - receiverKennitala
-        - fileType
       properties:
         id:
           $ref: "#/components/schemas/uuid"
         description:
-          description: |
-            The file description usually in this format: "<Company name as sender> - <Document type>"
-          type: string
-          maxLength: 140
+          $ref: "#/components/schemas/fileDescription"
         receiverKennitala:
           $ref: "#/components/schemas/kennitala"
+
+    fileTypeXML:
+      type: string
+      enum:
+        - "XML"
+
+    fileTypePDF:
+      type: string
+      enum:
+        - "PDF"
+
+    fileTypeLINK:
+      type: string
+      enum:
+        - "LINK"
+
+    filePayloadXML:
+      type: object
+      required:
+        - fileType
+        - file
+      properties:
         fileType:
-          description: |
-            File type only xml, pdf, link is allowed. Xml and pdf are physical files and link is reference to file
-          type: string
-          enum:
-            - "XML"
-            - "PDF"
+          $ref: "#/components/schemas/fileTypeXML"
         file:
-          description: The file in the form of base64 encoded characters
+          description: XML document payload as a plain string.
+          type: string
+
+    filePayloadPDF:
+      type: object
+      required:
+        - fileType
+        - file
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypePDF"
+        file:
+          description: The PDF file in the form of base64 encoded characters.
           type: string
           format: byte
+
+    filePayloadLINK:
+      type: object
+      required:
+        - fileType
+        - file
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypeLINK"
+        file:
+          description: Link or external reference to the file as a plain string.
+          type: string
+
+    fileDetailsXML:
+      description: |
+        XML file details where the payload is XML content as plain text.
+      allOf:
+        - $ref: "#/components/schemas/fileDetailsCommon"
+        - $ref: "#/components/schemas/filePayloadXML"
+
+    fileDetailsPDF:
+      description: |
+        PDF file details where the payload is base64-encoded bytes.
+      allOf:
+        - $ref: "#/components/schemas/fileDetailsCommon"
+        - $ref: "#/components/schemas/filePayloadPDF"
+
+    fileDetailsLINK:
+      description: |
+        LINK file details where the payload is a string reference to the file.
+      allOf:
+        - $ref: "#/components/schemas/fileDetailsCommon"
+        - $ref: "#/components/schemas/filePayloadLINK"
 
     documentsProcessDetails:
       description: |
@@ -985,37 +1061,69 @@ components:
     fileWithStatusDetails:
       description: |
         Document details.
+      oneOf:
+        - $ref: "#/components/schemas/fileWithStatusDetailsXML"
+        - $ref: "#/components/schemas/fileWithStatusDetailsPDF"
+        - $ref: "#/components/schemas/fileWithStatusDetailsLINK"
+      discriminator:
+        propertyName: fileType
+        mapping:
+          XML: "#/components/schemas/fileWithStatusDetailsXML"
+          PDF: "#/components/schemas/fileWithStatusDetailsPDF"
+          LINK: "#/components/schemas/fileWithStatusDetailsLINK"
+
+    fileWithStatusCommon:
+      allOf:
+        - $ref: "#/components/schemas/fileDetailsCommon"
+        - type: object
+          required:
+            - status
+          properties:
+            status:
+              $ref: "#/components/schemas/processStatus"
+            statusMessage:
+              description: Process status message
+              type: string
+              maxLength: 250
+
+    fileTypeTagXML:
       type: object
       required:
-        - id
-        - receiverKennitala
-        - status
+        - fileType
       properties:
-        id:
-          $ref: "#/components/schemas/uuid"
-        description:
-          description: |
-            The file description usually in this format: "<Company name as sender> - <Document type>"
-          type: string
-          maxLength: 140
-        receiverKennitala:
-          description: |
-            The ID Number of the receiver of the document. https://en.wikipedia.org/wiki/Icelandic_identification_number
-          type: string
-          maxLength: 10
         fileType:
-          description: |
-            File type only xml, pdf, link is allowed. Xml and pdf are physical files and link is reference to file
-          type: string
-          enum:
-            - "XML"
-            - "PDF"
-        status:
-          $ref: "#/components/schemas/processStatus"
-        statusMessage:
-          description: Process status message
-          type: string
-          maxLength: 250
+          $ref: "#/components/schemas/fileTypeXML"
+
+    fileTypeTagPDF:
+      type: object
+      required:
+        - fileType
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypePDF"
+
+    fileTypeTagLINK:
+      type: object
+      required:
+        - fileType
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypeLINK"
+
+    fileWithStatusDetailsXML:
+      allOf:
+        - $ref: "#/components/schemas/fileWithStatusCommon"
+        - $ref: "#/components/schemas/fileTypeTagXML"
+
+    fileWithStatusDetailsPDF:
+      allOf:
+        - $ref: "#/components/schemas/fileWithStatusCommon"
+        - $ref: "#/components/schemas/fileTypeTagPDF"
+
+    fileWithStatusDetailsLINK:
+      allOf:
+        - $ref: "#/components/schemas/fileWithStatusCommon"
+        - $ref: "#/components/schemas/fileTypeTagLINK"
 
     documentsProcessWithStatusDetails:
       description: |
@@ -2360,8 +2468,8 @@ components:
               "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
               "description": "Company - Account statement",
               "receiverKennitala": "1111112249",
-              "fileType": "PDF",
-              "file": "The file in the form of base64 encoded characters"
+              "fileType": "LINK",
+              "file": "https://documents.example.com/documents/99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
             } 
           ]
         }
@@ -2389,7 +2497,7 @@ components:
               "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
               "description": "",
               "receiverKennitala": "1111112249",
-              "fileType": "PDF",
+              "fileType": "LINK",
               "status": "received",
               "statusMessage": "File is currently being processed"
             }
@@ -2421,7 +2529,7 @@ components:
                   "id": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
                   "description": "",
                   "receiverKennitala": "1111112249",
-                  "fileType": "PDF",
+                  "fileType": "LINK",
                   "status": "received",
                   "statusMessage": "File is currently being processed"
                 }

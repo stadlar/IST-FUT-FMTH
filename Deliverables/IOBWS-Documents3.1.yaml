@@ -304,16 +304,14 @@ paths:
         $ref: "#/components/requestBodies/createCrossReferences"
 
       responses:
-        '200':
-          $ref: "#/components/responses/OK_200_CreateCrossReferences"
+        '201':
+          $ref: "#/components/responses/CREATED_201_CreateCrossReferences"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
           $ref: "#/components/responses/UNAUTHORIZED_401"
         '403':
           $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
         '405':
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
         '408':
@@ -379,8 +377,6 @@ paths:
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
         '408':
           $ref: "#/components/responses/REQUEST_TIMEOUT_408"
-        '409':
-          $ref: "#/components/responses/CONFLICT_409"
         '415':
           $ref: "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415"
         '429':
@@ -422,8 +418,6 @@ paths:
           $ref: "#/components/responses/UNAUTHORIZED_401"
         '403':
           $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
         '405':
           $ref: "#/components/responses/METHOD_NOT_ALLOWED_405"
         '408':
@@ -2079,6 +2073,15 @@ components:
       description: |
         Cross-references created successfully.
       headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+    CREATED_201_CreateCrossReferences:
+      description: |
+        Cross-references created successfully.
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
 

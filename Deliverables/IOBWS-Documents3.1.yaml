@@ -123,41 +123,6 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-  /v1/owners/{owner-id}/document-types:
-
-    get:
-      summary: Get document types by owner
-      description: |
-        Returns the document types available for a specific document owner, regardless of sender.
-      operationId: getDocumentTypesForOwner
-      tags:
-        - Document Types
-      security:
-        - {}
-        - BearerAuthOAuth: []
-      parameters:
-        - $ref: "#/components/parameters/ownerId"
-        - $ref: "#/components/parameters/Storage-System"
-        - $ref: "#/components/parameters/X-Request-ID"
-        - $ref: "#/components/parameters/USR-IP-Address_optional"
-      responses:
-        '200':
-          $ref: "#/components/responses/OK_200_DocumentTypeDetails"
-        '400':
-          $ref: "#/components/responses/BAD_REQUEST_400"
-        '401':
-          $ref: "#/components/responses/UNAUTHORIZED_401"
-        '403':
-          $ref: "#/components/responses/FORBIDDEN_403"
-        '404':
-          $ref: "#/components/responses/NOT_FOUND_404"
-        '429':
-          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
-        '500':
-          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
-        '503':
-          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
-
   #####################################################
   # Documents
   #####################################################
@@ -836,15 +801,6 @@ components:
       schema:
         $ref: "#/components/schemas/kennitala"
 
-    ownerId:
-      name: owner-id
-      in: path
-      description: |
-        Identifier (kennitala) of the document owner.
-      required: true
-      schema:
-        $ref: "#/components/schemas/kennitala"
-
     ownerIdQuery:
       name: ownerId
       in: query
@@ -1194,19 +1150,19 @@ components:
               type: string
               minLength: 1
               maxLength: 10
-        - $ref: "#/components/schemas/fileDetails"
+        - $ref: "#/components/schemas/documentDetails"
 
-    fileDetails:
+    documentDetails:
       description: |
         Document details.
       oneOf:
-        - $ref: "#/components/schemas/fileDetailsXML"
-        - $ref: "#/components/schemas/fileDetailsPDF"
+        - $ref: "#/components/schemas/documentDetailsXML"
+        - $ref: "#/components/schemas/documentDetailsPDF"
       discriminator:
         propertyName: fileType
         mapping:
-          XML: "#/components/schemas/fileDetailsXML"
-          PDF: "#/components/schemas/fileDetailsPDF"
+          XML: "#/components/schemas/documentDetailsXML"
+          PDF: "#/components/schemas/documentDetailsPDF"
 
     fileDescription:
       description: |
@@ -1214,7 +1170,7 @@ components:
       type: string
       maxLength: 140
 
-    fileDetailsCommon:
+    documentDetailsCommon:
       type: object
       required:
         - externalId
@@ -1275,18 +1231,18 @@ components:
           format: byte
           maxLength: 4194304
 
-    fileDetailsXML:
+    documentDetailsXML:
       description: |
         XML file details where the payload is XML content as plain text.
       allOf:
-        - $ref: "#/components/schemas/fileDetailsCommon"
+        - $ref: "#/components/schemas/documentDetailsCommon"
         - $ref: "#/components/schemas/filePayloadXML"
 
-    fileDetailsPDF:
+    documentDetailsPDF:
       description: |
         PDF file details where the payload is base64-encoded bytes.
       allOf:
-        - $ref: "#/components/schemas/fileDetailsCommon"
+        - $ref: "#/components/schemas/documentDetailsCommon"
         - $ref: "#/components/schemas/filePayloadPDF"
 
     batchDetails:
@@ -1321,7 +1277,7 @@ components:
               type: string
               minLength: 1
               maxLength: 10
-        - $ref: "#/components/schemas/fileDetails"
+        - $ref: "#/components/schemas/documentDetails"
 
     batchCreated:
       description: |
@@ -1348,21 +1304,21 @@ components:
         - "Completed"
         - "CompletedWithErrors"
 
-    fileWithStatusDetails:
+    documentWithStatusDetails:
       description: |
         Document details.
       oneOf:
-        - $ref: "#/components/schemas/fileWithStatusDetailsXML"
-        - $ref: "#/components/schemas/fileWithStatusDetailsPDF"
+        - $ref: "#/components/schemas/documentWithStatusDetailsXML"
+        - $ref: "#/components/schemas/documentWithStatusDetailsPDF"
       discriminator:
         propertyName: fileType
         mapping:
-          XML: "#/components/schemas/fileWithStatusDetailsXML"
-          PDF: "#/components/schemas/fileWithStatusDetailsPDF"
+          XML: "#/components/schemas/documentWithStatusDetailsXML"
+          PDF: "#/components/schemas/documentWithStatusDetailsPDF"
 
-    fileWithStatusCommon:
+    documentWithStatusCommon:
       allOf:
-        - $ref: "#/components/schemas/fileDetailsCommon"
+        - $ref: "#/components/schemas/documentDetailsCommon"
         - type: object
           required:
             - id
@@ -1413,41 +1369,15 @@ components:
         fileType:
           $ref: "#/components/schemas/fileTypePDF"
 
-    fileWithStatusDetailsXML:
+    documentWithStatusDetailsXML:
       allOf:
-        - $ref: "#/components/schemas/fileWithStatusCommon"
+        - $ref: "#/components/schemas/documentWithStatusCommon"
         - $ref: "#/components/schemas/fileTypeTagXML"
 
-    fileWithStatusDetailsPDF:
+    documentWithStatusDetailsPDF:
       allOf:
-        - $ref: "#/components/schemas/fileWithStatusCommon"
+        - $ref: "#/components/schemas/documentWithStatusCommon"
         - $ref: "#/components/schemas/fileTypeTagPDF"
-
-    documentDetail:
-      description: |
-        Full document details including file content. Returned by the single document retrieval endpoint.
-      oneOf:
-        - $ref: "#/components/schemas/documentDetailXML"
-        - $ref: "#/components/schemas/documentDetailPDF"
-      discriminator:
-        propertyName: fileType
-        mapping:
-          XML: "#/components/schemas/documentDetailXML"
-          PDF: "#/components/schemas/documentDetailPDF"
-
-    documentDetailXML:
-      description: |
-        Full document details with XML file content.
-      allOf:
-        - $ref: "#/components/schemas/fileWithStatusCommon"
-        - $ref: "#/components/schemas/filePayloadXML"
-
-    documentDetailPDF:
-      description: |
-        Full document details with PDF file content.
-      allOf:
-        - $ref: "#/components/schemas/fileWithStatusCommon"
-        - $ref: "#/components/schemas/filePayloadPDF"
 
     batchWithStatusDetails:
       description: |
@@ -1537,7 +1467,7 @@ components:
         List of document items with details.
       type: array
       items:
-        $ref: "#/components/schemas/fileWithStatusDetails"
+        $ref: "#/components/schemas/documentWithStatusDetails"
 
     documentCreated:
       description: |
@@ -2392,7 +2322,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentDetail"
+            $ref: "#/components/schemas/documentWithStatusDetails"
 
     OK_200_DocumentListWithStatusDetails:
       description: Get document list details

@@ -423,7 +423,9 @@ paths:
         '503':
           $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
 
-    delete:
+  /v1/crossreferences/bulk-delete:
+
+    post:
       summary: Delete cross-references
       description: |
         Deletes an array of cross-references. Each item identifies a cross-reference

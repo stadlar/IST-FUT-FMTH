@@ -693,7 +693,8 @@ components:
         Storage system. If omitted, defaults to "Ark".
       required: false
       schema:
-        $ref: "#/components/schemas/storageCode"
+        allOf:
+          - $ref: "#/components/schemas/storageCode"
         default: "Ark"
 
     USR-IP-Address_optional:
@@ -1046,7 +1047,8 @@ components:
         categoryCode:
           description: |
             Document category code.
-          $ref: "#/components/schemas/documentCategory"
+          allOf:
+            - $ref: "#/components/schemas/documentCategory"
         categoryDescription:
           description: |
             Human-readable description of the document category.
@@ -1143,7 +1145,8 @@ components:
             senderId:
               description: |
                 Identifier (kennitala) of the document sender.
-              $ref: "#/components/schemas/kennitala"
+              allOf:
+                - $ref: "#/components/schemas/kennitala"
             documentTypeCode:
               description: |
                 Document type code as returned by GET /v1/senders/{sender-id}/document-types
@@ -1256,7 +1259,8 @@ components:
         senderId:
           description: |
             Identifier (kennitala) of the document sender. Applies to all documents in the batch.
-          $ref: "#/components/schemas/kennitala"
+          allOf:
+            - $ref: "#/components/schemas/kennitala"
         documents:
           type: array
           minItems: 1
@@ -1307,16 +1311,6 @@ components:
     documentWithStatusDetails:
       description: |
         Document details.
-      oneOf:
-        - $ref: "#/components/schemas/documentWithStatusDetailsXML"
-        - $ref: "#/components/schemas/documentWithStatusDetailsPDF"
-      discriminator:
-        propertyName: fileType
-        mapping:
-          XML: "#/components/schemas/documentWithStatusDetailsXML"
-          PDF: "#/components/schemas/documentWithStatusDetailsPDF"
-
-    documentWithStatusCommon:
       allOf:
         - $ref: "#/components/schemas/documentDetailsCommon"
         - type: object
@@ -1327,16 +1321,19 @@ components:
             - status
             - isCrossReferenced
             - effectiveDate
+            - fileType
           properties:
             id:
               description: |
                 Unique document identifier. For Ark storage this is a composite key in the format
                 `{ownerId}:{senderId}:{externalId}:{YYYYMMDD}`. For RBS storage this is a UUID.
-              $ref: "#/components/schemas/documentId"
+              allOf:
+                - $ref: "#/components/schemas/documentId"
             senderId:
               description: |
                 Identifier (kennitala) of the document sender.
-              $ref: "#/components/schemas/kennitala"
+              allOf:
+                - $ref: "#/components/schemas/kennitala"
             senderName:
               description: |
                 Name of the document sender.
@@ -1352,32 +1349,13 @@ components:
               description: |
                 Indicates whether the document is cross-referenced to another object.
               type: boolean
-
-    fileTypeTagXML:
-      type: object
-      required:
-        - fileType
-      properties:
-        fileType:
-          $ref: "#/components/schemas/fileTypeXML"
-
-    fileTypeTagPDF:
-      type: object
-      required:
-        - fileType
-      properties:
-        fileType:
-          $ref: "#/components/schemas/fileTypePDF"
-
-    documentWithStatusDetailsXML:
-      allOf:
-        - $ref: "#/components/schemas/documentWithStatusCommon"
-        - $ref: "#/components/schemas/fileTypeTagXML"
-
-    documentWithStatusDetailsPDF:
-      allOf:
-        - $ref: "#/components/schemas/documentWithStatusCommon"
-        - $ref: "#/components/schemas/fileTypeTagPDF"
+            fileType:
+              description: |
+                The file type of the document.
+              type: string
+              enum:
+                - "XML"
+                - "PDF"
 
     batchWithStatusDetails:
       description: |
@@ -1719,13 +1697,6 @@ components:
     # Standard messages
     #####################################################
 
-
-    MessageCode400:
-      description: Message codes for HTTP error code 400 (BAD_REQUEST).
-      type: string
-      enum:
-        - "FORMAT_ERROR"
-        - "VALIDATION_ERROR"
 
     MessageCode401:
       description: Message codes for HTTP error code 401 (UNAUTHORIZED).

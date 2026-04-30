@@ -727,7 +727,7 @@ components:
         Batch id in path.
       required: true
       schema:
-        $ref: "#/components/schemas/uuid"
+        type: string
         
     batchIdQuery:
       name: batchId
@@ -736,7 +736,7 @@ components:
         Batch id.
       required: false
       schema:
-        $ref: "#/components/schemas/uuid"
+        type: string
 
     documentIdQuery:
       name: documentId

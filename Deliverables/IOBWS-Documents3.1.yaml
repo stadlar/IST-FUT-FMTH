@@ -1750,12 +1750,12 @@ components:
         - "SERVICE_UNAVAILABLE"
 
     #####################################################
-    # RFC7807 Error Schemas
+    # Error Schemas
     #####################################################
 
     Error400:
       description: |
-        Error information according to [RFC7807] for HTTP error code 400.
+        Error information for HTTP error code 400.
         Uses oneOf to distinguish between format errors and validation errors.
       oneOf:
         - $ref: "#/components/schemas/FormatError"
@@ -1870,7 +1870,7 @@ components:
 
     Error401:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
+        Standardised definition of reporting error information
         in case of a HTTP error code 401.
       type: object
       required:
@@ -1902,7 +1902,7 @@ components:
 
     Error403:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
+        Standardised definition of reporting error information
         in case of a HTTP error code 403.
       type: object
       required:
@@ -1934,7 +1934,7 @@ components:
 
     Error404:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
+        Standardised definition of reporting error information
         in case of a HTTP error code 404.
       type: object
       required:
@@ -1966,7 +1966,7 @@ components:
 
     Error429:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
+        Standardised definition of reporting error information
         in case of a HTTP error code 429.
       type: object
       required:
@@ -1998,7 +1998,7 @@ components:
 
     Error500:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
+        Standardised definition of reporting error information
         in case of a HTTP error code 500.
       type: object
       required:
@@ -2030,7 +2030,7 @@ components:
 
     Error503:
       description: |
-        Standardised definition of reporting error information according to [RFC7807]
+        Standardised definition of reporting error information
         in case of a HTTP error code 503.
       type: object
       required:

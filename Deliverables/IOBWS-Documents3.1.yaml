@@ -1023,30 +1023,22 @@ components:
 
     documentTypeDetails:
       description: |
-        Document type details.
+        Document type details as returned by the service.
       type: object
       required:
         - code
-        - name
-        - durableMedia
+        - description
+        - fileName
+        - email
       properties:
         code:
           description: Unique code for the document type.
           type: string
           minLength: 1
           maxLength: 10
-        name:
-          description: Short description for the document type
-          type: string
-          maxLength: 70
-        durableMedia:
-          description: |
-            Control flag describing if document type is durable media. If document type
-            is durable media then any batch using this code can not be updated.
-          type: boolean
         description:
           description: |
-            Long description for the document
+            Description of the document type.
           type: string
           maxLength: 140
         fileType:
@@ -1056,23 +1048,54 @@ components:
           enum:
             - "XML"
             - "PDF"
-        categoryCode:
+        fileName:
           description: |
-            Document category code.
-          allOf:
-            - $ref: "#/components/schemas/documentCategory"
-        categoryDescription:
-          description: |
-            Human-readable description of the document category.
+            File name for FTP delivery of data for this document type.
           type: string
           maxLength: 140
+        email:
+          description: |
+            Email address of the submitting party for this document type.
+          type: string
+          format: email
+        category:
+          description: |
+            Category information for this document type.
+          type: object
+          required:
+            - code
+            - description
+          properties:
+            code:
+              $ref: "#/components/schemas/documentCategory"
+            description:
+              description: Category description.
+              type: string
+              maxLength: 140
+            subCode:
+              description: Sub-category code. Generally not in use.
+              type: string
+            name:
+              description: Category name.
+              type: string
+              maxLength: 140
 
     documentTypeList:
       description: |
-        List of document type with details.
-      type: array
-      items:
-        $ref: "#/components/schemas/documentTypeDetails"
+        Document types for a sender.
+      type: object
+      required:
+        - senderName
+        - documentTypes
+      properties:
+        senderName:
+          description: Name of the sender.
+          type: string
+          maxLength: 140
+        documentTypes:
+          type: array
+          items:
+            $ref: "#/components/schemas/documentTypeDetails"
 
     documentTypeCreation:
       description: |
@@ -2646,28 +2669,34 @@ components:
     #####################################################
     
     documentTypeListResponse-200_json_Example:
-      description: List of document types.
+      description: List of document types for a sender.
       value:
-        [
-          { 
-            "code": "HMTDL",
-            "name": "Launaseðlar",
-            "durableMedia": true,
-            "description": "Launaseðlar - Hólmfríður ÞÍ Traustadóttir",
-            "fileType": "XML",
-            "categoryCode": "Payslip",
-            "categoryDescription": "Payslips"
-          },
-          { 
-            "code": "HMTDR",
-            "name": "Reikningar",
-            "durableMedia": true,
-            "description": "Reikningar - Hólmfríður ÞÍ Traustadóttir",
-            "fileType": "PDF",
-            "categoryCode": "Bill",
-            "categoryDescription": "Bills"
-          }
-        ]
+        {
+          "senderName": "Hólmfríður ÞÍ Traustadóttir",
+          "documentTypes": [
+            { 
+              "code": "HMTDL",
+              "description": "Launaseðlar - Hólmfríður ÞÍ Traustadóttir",
+              "fileType": "XML",
+              "fileName": "HMTDL_launasedlar.xml",
+              "category": {
+                "code": "Payslip",
+                "description": "Launaseðlar"
+              }
+            },
+            { 
+              "code": "HMTDR",
+              "description": "Reikningar - Hólmfríður ÞÍ Traustadóttir",
+              "fileType": "PDF",
+              "fileName": "HMTDR_reikningar.pdf",
+              "email": "billing@example.com",
+              "category": {
+                "code": "Bill",
+                "description": "Reikningar"
+              }
+            }
+          ]
+        }
 
     documentCreated-201_json_Example:
       description: Document created response.
@@ -2683,12 +2712,13 @@ components:
           "created": [
             {
               "code": "HMTDT",
-              "name": "Tilkynningar",
-              "durableMedia": false,
               "description": "Tilkynningar - Hólmfríður ÞÍ Traustadóttir",
               "fileType": "XML",
-              "categoryCode": "Notification",
-              "categoryDescription": "Tilkynningar"
+              "fileName": "HMTDT_tilkynningar.xml",
+              "category": {
+                "code": "Notification",
+                "description": "Tilkynningar"
+              }
             }
           ],
           "failed": [

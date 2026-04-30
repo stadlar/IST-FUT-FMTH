@@ -186,6 +186,7 @@ paths:
         - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/senderIdOptionalQuery"
         - $ref: "#/components/parameters/ownerIdQuery"
+        - $ref: "#/components/parameters/externalIdQuery"
         - $ref: "#/components/parameters/documentTypeCode"
         - $ref: "#/components/parameters/batchStatusQuery"
         - $ref: "#/components/parameters/dateFrom"
@@ -842,6 +843,15 @@ components:
         type: string
         minLength: 1
         maxLength: 10
+
+    externalIdQuery:
+      name: externalId
+      in: query
+      description: |
+        External identifier used to link the document with the sender's own systems.
+      required: false
+      schema:
+        type: string
 
     batchStatusQuery:
       name: status

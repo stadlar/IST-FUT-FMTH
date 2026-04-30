@@ -1207,8 +1207,6 @@ components:
             Free text reference set by the sender.
           type: string
           maxLength: 200
-        description:
-          $ref: "#/components/schemas/fileDescription"
 
     fileTypeXML:
       type: string
@@ -1361,6 +1359,8 @@ components:
               description: |
                 Indicates whether the document is cross-referenced to another object.
               type: boolean
+            description:
+              $ref: "#/components/schemas/fileDescription"
             fileType:
               description: |
                 The file type of the document.

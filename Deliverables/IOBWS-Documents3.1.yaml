@@ -1267,6 +1267,10 @@ components:
         file:
           description: XML document payload as a plain string.
           type: string
+        styleSheetName:
+          description: |
+            Name of the XSLT style sheet to apply when rendering the XML document.
+          type: string
 
     filePayloadPDF:
       type: object

@@ -1091,6 +1091,11 @@ components:
             - "PDF"
         categoryCode:
           $ref: "#/components/schemas/documentCategory"
+        submittingId:
+          description: |
+            Identifier (kennitala) of the submitting party authorised to send documents on behalf of the sender.
+          allOf:
+            - $ref: "#/components/schemas/kennitala"
         email:
           description: |
             Email address associated with this document type.

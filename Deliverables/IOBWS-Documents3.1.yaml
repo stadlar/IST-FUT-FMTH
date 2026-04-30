@@ -30,6 +30,12 @@ info:
     
     Space
 
+    ## Caveat on batch operations
+
+    The batch endpoints (`/v1/batches`) are included in this specification as a design target.
+    The underlying implementation is not yet available and the batch contract will be subject
+    to review in Q3 2026.
+
   license:
     name: Creative Commons Attribution 4.0 International Public License
     url: https://creativecommons.org/licenses/by/4.0/
@@ -166,6 +172,10 @@ paths:
       summary: Search documents
       description: |
         Returns a filtered list of documents. Use `GET /v1/documents/{document-id}` for retrieval of a single document by identifier.
+
+        **Implementation note:** The underlying SOAP operation (`GetDocuments`) does not currently
+        support filtering by `senderId` alone — `ownerId` is always required. Filtering solely
+        by sender is under analysis and may be exposed through a new endpoint in a future revision.
       operationId: searchDocuments
       tags:
         - Documents

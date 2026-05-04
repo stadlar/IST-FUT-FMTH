@@ -1124,24 +1124,32 @@ components:
             - "PDF"
         categoryCode:
           $ref: "#/components/schemas/documentCategory"
-        submittingId:
-          description: |
-            Identifier (kennitala) of the submitting party authorised to send documents on behalf of the sender.
-          allOf:
-            - $ref: "#/components/schemas/kennitala"
         email:
           description: |
             Email address associated with this document type.
           type: string
           format: email
 
-    documentTypeCreationList:
+    documentTypeCreationRequest:
       description: |
-        List of document types to create.
-      type: array
-      minItems: 1
-      items:
-        $ref: "#/components/schemas/documentTypeCreation"
+        Request body for creating document types for a sender.
+      type: object
+      required:
+        - documentTypes
+      properties:
+        submittingId:
+          description: |
+            Identifier (kennitala) of the submitting party authorised to send documents on behalf of the sender.
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/kennitala"
+        documentTypes:
+          description: |
+            List of document types to create.
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/documentTypeCreation"
 
     documentTypeCreationFailure:
       description: |
@@ -2187,7 +2195,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentTypeCreationList"
+            $ref: "#/components/schemas/documentTypeCreationRequest"
           examples:
             example:
               $ref: "#/components/examples/createDocumentTypes_json_Example"
@@ -2747,17 +2755,20 @@ components:
     createDocumentTypes_json_Example:
       description: Document types creation request.
       value:
-        [
-          {
-            "fileType": "PDF",
-            "categoryCode": "Bill"
-          },
-          {
-            "fileType": "XML",
-            "categoryCode": "Notification",
-            "email": "notifications@example.com"
-          }
-        ]
+        {
+          "submittingId": "1909791489",
+          "documentTypes": [
+            {
+              "fileType": "PDF",
+              "categoryCode": "Bill"
+            },
+            {
+              "fileType": "XML",
+              "categoryCode": "Notification",
+              "email": "notifications@example.com"
+            }
+          ]
+        }
 
     documentInitiation_pdf_Example:
       description: Single PDF document creation request.

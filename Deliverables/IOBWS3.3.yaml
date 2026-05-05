@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: IOBWS 3.0 Payments and accounts
-  version: "3.2"
+  version: "3.3"
   description: |
     # Summary
     This document forms the basis for version 3.2 of the Icelandic Online Banking Services (IOBWS), released as a
@@ -6921,6 +6921,17 @@ components:
             $ref: "#/components/schemas/paymentInitiationBulkElementDomestic_json"
         chargesAccount:
           $ref: "#/components/schemas/accountReference"
+        endToEndIdentification: # batchBookingPreferred
+          type: string
+          maxLength: 35
+        debtorId: # N.A. for all, but can be used by ASPSP if needed # batchBookingPreferred
+          $ref: "#/components/schemas/debtorId"
+        icelandicPurposeCode: # batchBookingPreferred
+          $ref: "#/components/schemas/icelandicPurposeCode"
+        remittanceInformationUnstructured: # batchBookingPreferred
+          $ref: "#/components/schemas/remittanceInformationUnstructured"
+        remittanceInformationStructuredArray: # batchBookingPreferred
+          $ref: "#/components/schemas/remittanceInformationStructuredArray"
 
     paymentInitiationBulkElementDomestic_json:
       description: |

@@ -781,7 +781,7 @@ components:
       name: dateTo
       in: query
       description: |
-        End date (inclusive) of the expected list, default is "now" if not given.
+        End date (inclusive) of the expected list.
       required: false
       example: "2024-11-30"
       schema:

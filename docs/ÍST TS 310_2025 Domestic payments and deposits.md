@@ -461,6 +461,38 @@ The domestic bulk types allow for specifying separate debtor accounts on child p
 
   **chargesAccount**          Account       N/A             Not applicable to domestic bulks.
                               Reference                     
+
+  **endToEndIdentification**  Max35Text     Optional        Only applicable when
+                                                            batchBookingPreferred is true.
+                                                            Short reference for the single
+                                                            combined booking entry on the
+                                                            debtorAccount. Same length
+                                                            limitations apply as for
+                                                            single payments.
+
+  **debtorId**                Max35Text     N/A             Not applicable for domestic
+                                                            bulks, but may be used by an
+                                                            ASPSP if needed when
+                                                            batchBookingPreferred is true.
+
+  **icelandicPurposeCode**    Max2Text      Optional        Only applicable when
+                                                            batchBookingPreferred is true.
+                                                            Category code (ic. *textalykill*)
+                                                            for the single combined booking
+                                                            entry on the debtorAccount.
+
+  **remittanceInformation**   Max140Text    Optional        Only applicable when
+  **Unstructured**                                          batchBookingPreferred is true.
+                                                            Description of the single
+                                                            combined booking entry on the
+                                                            debtorAccount.
+
+  **remittanceInformation**   Array         Optional        Only applicable when
+  **StructuredArray**                                       batchBookingPreferred is true.
+                                                            Structured reference (type
+                                                            'TILV_U') for the single
+                                                            combined booking entry, as for
+                                                            single payments.
   ----------------------------------------------------------------------------------------------
   :Description of domestic bulk payment main body. {#tbl:bulk_domestic}
 

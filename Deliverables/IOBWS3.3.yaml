@@ -13785,7 +13785,7 @@ components:
             }
           }
         ]
-      }
+        }
 
 
     cardAccountDetailsExample:
@@ -13820,7 +13820,7 @@ components:
               }
             }
           }
-      }
+        }
 
 
     startScaProcessResponseExample1:

@@ -79,10 +79,10 @@ Another goal achieved by adopting the NextGenPSD2 Framework is the transition fr
 
 The document addresses specifics related to authentication and authorization, as well as idempotency. Also defined are the processes for maintaining the overall framework of IOBWS version 3 documents as well as the associated git repository. Under scope are the following technical specification documents:
 
-* ÍST TS 310:2025 Domestic payments and deposits
+* ÍST TS 310:2026 Domestic payments and deposits
 * ÍST TS 311:2022 Debit and credit cards details and statements
 * ÍST TS 312:2022 Currency
-* ÍST TS 313:2023 Foreign Payments
+* ÍST TS 313:2026 Foreign Payments
 * ÍST TS 314:2025 Documents
 * ÍST TS 315:2025 Claims
 

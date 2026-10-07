@@ -35,10 +35,10 @@ The documentation for the currently published standards is to be found in the De
 
 Official version of the technical standards and workshop agreements is available from Staðlaráð Íslands as follows:
 
-* [Technical specification – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-310-2025)
+* [Technical specification – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-310-2026)
 * [Technical specification - Debit and credit cards details and statements](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-311-2022)
 * [Technical specification - Currency exchange rates](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-312-2022)
-* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2023)
+* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2026)
 * [Technical specification - Documents](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-314-2025)
 * [Technical specification - Claims](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-315-2026)
 * [Workshop Agreement - IOBWS version 3 Technical Guidelines](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-316-2025)

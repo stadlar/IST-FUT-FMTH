@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file. The project
 - IOBWS3.2.yaml renamed to IOBWS3.3.yaml to match minor version.
 - Fixed indentation in card account examples that stopped strict YAML parsers, including the Redocly linter, from reading the file.
 - Documents TS 310, linter ignore file and README.md updated to reference IOBWS3.3.yaml.
+- TS 310 and TS 313 issued as [ÍST TS 310:2026](Deliverables/%C3%8DST%20TS%20310_2026%20Domestic%20payments%20and%20deposits.pdf) (replaces TS 310:2025) and [ÍST TS 313:2026](Deliverables/%C3%8DST%20TS%20313_2026%20Foreign%20payments.pdf) (replaces TS 313:2023). Sources and PDF documents renamed, keeping the file history of the earlier editions.
+- PDF template now adds the Staðlaráð Íslands statement to the cover and the standard back cover as the last page.
+- README.md and the scope list in TS 316 updated to reference the 2026 editions. The TS 316 PDF has not been regenerated.
 
 ## [Claims 3.2] - 2026-02-10
 

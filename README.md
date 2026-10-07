@@ -77,14 +77,14 @@ submitting a pull request. An easy way to accomplish this is using the open-sour
 Redocly e.g. under Docker as an alternative to installing the NPM tool:
 
 ```bash
-docker run --rm -v $PWD:/spec redocly/openapi-cli lint 'Deliverables/IOBWS3.2.yaml'
+docker run --rm -v $PWD:/spec redocly/openapi-cli lint 'Deliverables/IOBWS3.3.yaml'
 ```
 
 Many of the warnings generated for the IOBWS3.x.yaml are due to issues with the original Berlin Group NextGen definition. To mitigate this an ignore file has been added in the root of the project to communicate to the linter which warnings can be overlooked. Please try to address all the additional issues created by your additions or changes before pushing a new update.
 Also helpful when submitting changes is reviewing the API in a UI editor to determine if the presentation is transparent for the target consumers One of the most approachable editors, that also offers methods for code generation, is the OSS SwaggerAPI editor, again able to run in Docker:
 
 ```bash
-docker run --rm -d -p 8044:8080 --name="openapigui" -e SWAGGER_FILE=/tmp/Deliverables/IOBWS3.0.yaml -v $PWD:/tmp swaggerapi/swagger-editor
+docker run --rm -d -p 8044:8080 --name="openapigui" -e SWAGGER_FILE=/tmp/Deliverables/IOBWS3.3.yaml -v $PWD:/tmp swaggerapi/swagger-editor
 ```
 
 The text of the technical specifications is mostly maintained as Markdown documents in the docs folder and can be updated along with changes to OpenAPI specifications, as long as some basic Markdown formatting is maintained to support conversion to PDF using Pandoc and LaTeX. 

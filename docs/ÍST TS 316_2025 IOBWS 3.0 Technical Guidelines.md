@@ -84,7 +84,7 @@ The document addresses specifics related to authentication and authorization, as
 * ÍST TS 312:2022 Currency
 * ÍST TS 313:2026 Foreign Payments
 * ÍST TS 314:2025 Documents
-* ÍST TS 315:2025 Claims
+* ÍST TS 315:2026 Claims
 
 The successors to these documents should also be considered in scope, as long as a newer version of ÍST {{spec_id}} has not taken effect.
 

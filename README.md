@@ -97,12 +97,12 @@ The YAML artifacts are distributed under the Creative Commons Attribution 4.0 In
 | Previous Specification                                         | New Specification |
 |----------------------------------------------------------------|--------------------------------|
 | TS 160:2013 Gengi                                              | TS 312:2022 Currency (replaces TS 312:2021)         |    
-| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | TS 310:2025 Domestic payments and deposits  (replaces TS 310:2023, 310:2022 and WA 310:2020)                |  
+| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | TS 310:2026 Domestic payments and deposits  (replaces TS 310:2025, 310:2023, 310:2022 and WA 310:2020)                |  
 | ---                                                            | TS 311:2022 Debit and credit cards details and statements (replaces TS 311:2021, new in IOBWS v3.0)                  |  
 | TS 162:2013 Innheimtukröfur<br>TS 163:2013 Milliinnheimta      | TS 315:2026 Claims  (replaces TS 315:2022)                    |  
 | TS 165:2013 Rafræn skjöl                                       | TS 314:2025 Documents (replaces TS 314:2022)                    |  
 | TS 166:2013 Tæknilegar upplýsingar og villuboð                 | TS 316:2025 Technical Requirements       |  
-| ---                                                            | TS 313:2023 Foreign Payments  (replaces TS 313:2022 and TS 313:2021)          |  
+| ---                                                            | TS 313:2026 Foreign Payments  (replaces TS 313:2023, TS 313:2022 and TS 313:2021)          |  
 
 
 <!-- CONTACT -->

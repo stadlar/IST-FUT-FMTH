@@ -1,9 +1,9 @@
 spec_id: "TS-310"
-fulldoc_name: "ÍST TS 310_2025 Domestic payments and deposits.md"
+fulldoc_name: "ÍST TS 310_2026 Domestic payments and deposits.md"
 context_short: "domestic payments and deposits"
-finaldraft_date: "2025-03-06"
-approve_date: "2025-03-19"
-publication_date: "2025-03-21"
+finaldraft_date: "2026-05-05"
+approve_date: "2026-10-07"
+publication_date: "2026-10-14"
 yaml_definition: "IOBWS3.3.yaml"
 ts_version: "3.3"
 funding_paragraph: |

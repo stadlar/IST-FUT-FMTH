@@ -68,7 +68,7 @@ The Technical Committee's participants have made every effort to ensure the reli
 <!-- IntroductionStart -->
 This Technical Specification (TS) presents version {{ts_version}} of the Icelandic Online Banking Services (IOBWS) for {{context_short}}.
 
-Version {{ts_version}} represents a minor update to the previously released v3.0 of ÍST {{spec_id}}. The reason for the update are inconsistencies in properties within the YAML that represent the same remittanceInformationStructuredArray.
+Version {{ts_version}} represents a minor update to the previously released v3.0 of ÍST {{spec_id}}. It adds support for batch booking of domestic bulk payments to the shared OpenAPI definition {{yaml_definition}}: when the debtor prefers a single combined booking entry, the bulk payment initiation can carry the remittance information and purpose code for that entry on the debtor account. Earlier minor updates corrected inconsistencies between YAML properties that represent the same remittanceInformationStructuredArray.
 
 Previous versions of IOBWS, released in 2007 and 2013 respectively, used the OASIS SOAP standards which were current at the time to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises, and service providers to integrate their accounting, payment, and information systems with the bank's services, allowing them to act on behalf of the customers and with full access to their data.
 <!-- IntroductionEnd -->

@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. The project
 
 ## [Payments & Deposits 3.3.0] - Unreleased
 
-- Minor version release of TS 310, identifies as version 3.3
+- Minor version release of TS 310 and TS 313, both identify as version 3.3 (TS 313 previously still identified as 3.1).
 - PR #259, batch booking support for domestic bulk payments: when *batchBookingPreferred* is true, the bulk top element can carry *endToEndIdentification*, *icelandicPurposeCode*, *remittanceInformationUnstructured* and *remittanceInformationStructuredArray* for the single combined booking entry, and optionally *debtorId*.
 - Reviewed at TN-FMÞ-VH7-39 and VH7-42, accepted by TN-FMÞ-VH7 on 2026-10-07.
 - IOBWS3.2.yaml renamed to IOBWS3.3.yaml to match minor version.

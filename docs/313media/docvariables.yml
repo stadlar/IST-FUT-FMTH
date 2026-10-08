@@ -5,7 +5,7 @@ finaldraft_date: "2026-05-05"
 approve_date: "2026-10-07"
 publication_date: "2026-10-14"
 yaml_definition: "IOBWS3.3.yaml"
-ts_version: "3.1"
+ts_version: "3.3"
 funding_paragraph: |
   The work on the ÍST TS-313 was primarily funded by Arion Banki, Íslandsbanki and 
   Landsbankinn, with participation by Alskil hf, Eignaumsjón hf, 

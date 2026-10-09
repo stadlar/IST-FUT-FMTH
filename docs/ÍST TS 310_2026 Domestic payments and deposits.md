@@ -1,7 +1,7 @@
 ---
-title: "ÍST TS 310:2025"
+title: "ÍST TS 310:2026"
 author: ICS 35.240
-date: "Entry into force 06-03-2025"
+date: "Entry into force 14-10-2026"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 310]
 subtitle: ["Tækniforskrift - Innlendar greiðslur og innlán", "Technical Specification - Domestic payments and deposits"]
@@ -10,6 +10,7 @@ titlepage: true,
 # titlepage-rule-color: "360049"
 titlepage-rule-height: 0
 titlepage-background: "lib/istfrontpage.pdf"
+backcover: "lib/istbackpage.pdf"
 toc: true
 toc-title: Table of contents
 # toc-own-page: true
@@ -67,7 +68,7 @@ The Technical Committee's participants have made every effort to ensure the reli
 <!-- IntroductionStart -->
 This Technical Specification (TS) presents version {{ts_version}} of the Icelandic Online Banking Services (IOBWS) for {{context_short}}.
 
-Version {{ts_version}} represents a minor update to the previously released v3.0 of ÍST {{spec_id}}. The reason for the update are inconsistencies in properties within the YAML that represent the same remittanceInformationStructuredArray.
+Version {{ts_version}} represents a minor update to the previously released v3.0 of ÍST {{spec_id}}. It adds support for batch booking of domestic bulk payments to the shared OpenAPI definition {{yaml_definition}}: when the debtor prefers a single combined booking entry, the bulk payment initiation can carry the remittance information and purpose code for that entry on the debtor account. Earlier minor updates corrected inconsistencies between YAML properties that represent the same remittanceInformationStructuredArray.
 
 Previous versions of IOBWS, released in 2007 and 2013 respectively, used the OASIS SOAP standards which were current at the time to define common web service interfaces for the Icelandic commercial and savings banks. This enabled software vendors, enterprises, and service providers to integrate their accounting, payment, and information systems with the bank's services, allowing them to act on behalf of the customers and with full access to their data.
 <!-- IntroductionEnd -->
@@ -461,6 +462,38 @@ The domestic bulk types allow for specifying separate debtor accounts on child p
 
   **chargesAccount**          Account       N/A             Not applicable to domestic bulks.
                               Reference                     
+
+  **endToEndIdentification**  Max35Text     Optional        Only applicable when
+                                                            batchBookingPreferred is true.
+                                                            Short reference for the single
+                                                            combined booking entry on the
+                                                            debtorAccount. Same length
+                                                            limitations apply as for
+                                                            single payments.
+
+  **debtorId**                Max35Text     N/A             Not applicable for domestic
+                                                            bulks, but may be used by an
+                                                            ASPSP if needed when
+                                                            batchBookingPreferred is true.
+
+  **icelandicPurposeCode**    Max2Text      Optional        Only applicable when
+                                                            batchBookingPreferred is true.
+                                                            Category code (ic. *textalykill*)
+                                                            for the single combined booking
+                                                            entry on the debtorAccount.
+
+  **remittanceInformation**   Max140Text    Optional        Only applicable when
+  **Unstructured**                                          batchBookingPreferred is true.
+                                                            Description of the single
+                                                            combined booking entry on the
+                                                            debtorAccount.
+
+  **remittanceInformation**   Array         Optional        Only applicable when
+  **StructuredArray**                                       batchBookingPreferred is true.
+                                                            Structured reference (type
+                                                            'TILV_U') for the single
+                                                            combined booking entry, as for
+                                                            single payments.
   ----------------------------------------------------------------------------------------------
   :Description of domestic bulk payment main body. {#tbl:bulk_domestic}
 
@@ -474,7 +507,7 @@ The [listing in @lst:bulk_response] shows an example of such a response.
 
 <!-- paymentInitiationDomesticBody_bulk-payments_with_status_json -->
 ```{.json caption="Example of bulk status response with errors on sub-elements." #lst:bulk_response}
-!include`startLine=15057, endLine=15122, dedent=7` "Deliverables/IOBWS3.2.yaml"
+!include`startLine=15069, endLine=15134, dedent=7` "Deliverables/IOBWS3.3.yaml"
 ```
 
 # Accounts Service
@@ -485,7 +518,7 @@ When querying information about domestic accounts, there is an option to request
 
 <!-- balancesDomesticExample6_RegularAccount -->
 ```{.json caption="Example of information about an account with credit limit" #lst:accexample6}
-!include`startLine=14704, endLine=14720, dedent=7` "Deliverables/IOBWS3.2.yaml"
+!include`startLine=14715, endLine=14731, dedent=7` "Deliverables/IOBWS3.3.yaml"
 ```
 
 The definition of the transaction details returned as a list includes elements that are applicable to the broad range of use cases covered by the NextGenPSD2. [Table @tbl:transaction_domestic] has descriptions for the elements that are applicable to the domestic context which might need further explanation.
@@ -584,7 +617,7 @@ An example of how this would look for a domestic account is provided in [listing
 
 <!-- transactionsExampleDomestic4_RegularAccount_json -->
 ``` {.json caption="Example result of a transaction detail query." #lst:transexample}
-!include`startLine=14745, endLine=14778, dedent=7` "Deliverables/IOBWS3.2.yaml"
+!include`startLine=14756, endLine=14789, dedent=7` "Deliverables/IOBWS3.3.yaml"
 ```
 
 # Confirmation of Funds

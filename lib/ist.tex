@@ -879,6 +879,12 @@ $endif$
 $endif$
 $endif$
 \usepackage{wrapfig}
+$if(backcover)$
+% Count the pages actually shipped out, so the back cover can be placed on an even (verso) page
+\usepackage{atbegshi}
+\newcounter{shippedpages}
+\AtBeginShipout{\stepcounter{shippedpages}}
+$endif$
 
 %%
 %% end added
@@ -905,6 +911,10 @@ $endif$
 $if(titlepage-background)$
 \tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{$titlepage-background$}};
 $endif$
+$if(titlepage-background)$
+% Standard statement from Staðlaráð Íslands in the bottom right box of the cover
+\tikz[remember picture,overlay] \node[inner sep=0pt, anchor=north west, align=left, text=black, font=\sffamily\fontsize{7.5pt}{10.3pt}\selectfont] at ([xshift=14cm,yshift=63pt]current page.south west){Staðfest af Staðlaráði Íslands\\© Staðlaráð Íslands\\Eftirprentun háð leyfi útgefanda};
+$endif$
 \newcommand{\colorRule}[3][black]{\textcolor[HTML]{#1}{\rule{#2}{#3}}}
 \begin{flushleft}
 \noindent
@@ -918,8 +928,8 @@ $if(titlepage-background)$
 % The titlepage with a background image has other text spacing and text size
 {
   \setstretch{2}
-  \vfill
-  \vskip -55em
+  % Fixed offset from the top, so the number of subtitle lines does not move the title block
+  \vspace*{-53.64pt}
   \noindent {\Huge \textbf{\textsf{$title$}}}
   \vskip 0.5em
   \noindent {\Large \textsf{$date$} \vskip 0.6em \textsf{$for(author)$$author$$sep$, $endfor$}}
@@ -1066,4 +1076,19 @@ $for(include-after)$
 $include-after$
 
 $endfor$
+$if(backcover)$
+%%
+%% begin back cover
+%%
+\clearpage
+\ifodd\value{shippedpages}\else
+\thispagestyle{empty}\null\clearpage
+\fi
+\thispagestyle{empty}
+\tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{$backcover$}};
+\null
+%%
+%% end back cover
+%%
+$endif$
 \end{document}

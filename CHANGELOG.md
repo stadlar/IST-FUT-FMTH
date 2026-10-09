@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Payments & Deposits 3.3.0] - Unreleased
+
+- Minor version release of TS 310 and TS 313, both identify as version 3.3 (TS 313 previously still identified as 3.1).
+- PR #259, batch booking support for domestic bulk payments: when *batchBookingPreferred* is true, the bulk top element can carry *endToEndIdentification*, *icelandicPurposeCode*, *remittanceInformationUnstructured* and *remittanceInformationStructuredArray* for the single combined booking entry, and optionally *debtorId*.
+- Reviewed at TN-FMÞ-VH7-39 and VH7-42, accepted by TN-FMÞ-VH7 on 2026-10-07.
+- IOBWS3.2.yaml renamed to IOBWS3.3.yaml to match minor version.
+- Fixed indentation in card account examples that stopped strict YAML parsers, including the Redocly linter, from reading the file.
+- Documents TS 310, linter ignore file and README.md updated to reference IOBWS3.3.yaml.
+- TS 310 and TS 313 issued as [ÍST TS 310:2026](Deliverables/%C3%8DST%20TS%20310_2026%20Domestic%20payments%20and%20deposits.pdf) (replaces TS 310:2025) and [ÍST TS 313:2026](Deliverables/%C3%8DST%20TS%20313_2026%20Foreign%20payments.pdf) (replaces TS 313:2023). Sources and PDF documents renamed, keeping the file history of the earlier editions.
+- PDF template now adds the Staðlaráð Íslands statement to the cover and the standard back cover as the last page.
+- README.md and the scope list in TS 316 updated to reference the 2026 editions. The TS 316 PDF has not been regenerated.
+
 ## [Claims 3.2] - 2026-02-10
 
 - Point release 3.2 of TS 316 after further updates by workgroup 7, based on lessons from Claims 3.1 implementation.

@@ -4,7 +4,7 @@ info:
   version: "3.3"
   description: |
     # Summary
-    This document forms the basis for version 3.2 of the Icelandic Online Banking Services (IOBWS), released as a
+    This document forms the basis for version 3.3 of the Icelandic Online Banking Services (IOBWS), released as a
     technical specification (TS) no. 310 by the Icelandic Standards Council. Previous versions of IOBWS, released
     in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards to establish common banking
     interfaces for the Icelandic market. They specified strict security requirements involving a combination of 
@@ -13785,7 +13785,7 @@ components:
             }
           }
         ]
-      }
+        }
 
 
     cardAccountDetailsExample:
@@ -13820,7 +13820,7 @@ components:
               }
             }
           }
-      }
+        }
 
 
     startScaProcessResponseExample1:

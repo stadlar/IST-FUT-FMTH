@@ -35,10 +35,10 @@ The documentation for the currently published standards is to be found in the De
 
 Official version of the technical standards and workshop agreements is available from Staðlaráð Íslands as follows:
 
-* [Technical specification – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-310-2025)
+* [Technical specification – Domestic payments and deposits](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-310-2026)
 * [Technical specification - Debit and credit cards details and statements](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-311-2022)
 * [Technical specification - Currency exchange rates](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-312-2022)
-* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2023)
+* [Technical specification - Foreign payments](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-313-2026)
 * [Technical specification - Documents](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-314-2025)
 * [Technical specification - Claims](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-315-2026)
 * [Workshop Agreement - IOBWS version 3 Technical Guidelines](https://stadlar.is/stadlabudin/vara/?ProductName=IST-TS-316-2025)
@@ -77,14 +77,14 @@ submitting a pull request. An easy way to accomplish this is using the open-sour
 Redocly e.g. under Docker as an alternative to installing the NPM tool:
 
 ```bash
-docker run --rm -v $PWD:/spec redocly/openapi-cli lint 'Deliverables/IOBWS3.2.yaml'
+docker run --rm -v $PWD:/spec redocly/openapi-cli lint 'Deliverables/IOBWS3.3.yaml'
 ```
 
 Many of the warnings generated for the IOBWS3.x.yaml are due to issues with the original Berlin Group NextGen definition. To mitigate this an ignore file has been added in the root of the project to communicate to the linter which warnings can be overlooked. Please try to address all the additional issues created by your additions or changes before pushing a new update.
 Also helpful when submitting changes is reviewing the API in a UI editor to determine if the presentation is transparent for the target consumers One of the most approachable editors, that also offers methods for code generation, is the OSS SwaggerAPI editor, again able to run in Docker:
 
 ```bash
-docker run --rm -d -p 8044:8080 --name="openapigui" -e SWAGGER_FILE=/tmp/Deliverables/IOBWS3.0.yaml -v $PWD:/tmp swaggerapi/swagger-editor
+docker run --rm -d -p 8044:8080 --name="openapigui" -e SWAGGER_FILE=/tmp/Deliverables/IOBWS3.3.yaml -v $PWD:/tmp swaggerapi/swagger-editor
 ```
 
 The text of the technical specifications is mostly maintained as Markdown documents in the docs folder and can be updated along with changes to OpenAPI specifications, as long as some basic Markdown formatting is maintained to support conversion to PDF using Pandoc and LaTeX. 
@@ -97,12 +97,12 @@ The YAML artifacts are distributed under the Creative Commons Attribution 4.0 In
 | Previous Specification                                         | New Specification |
 |----------------------------------------------------------------|--------------------------------|
 | TS 160:2013 Gengi                                              | TS 312:2022 Currency (replaces TS 312:2021)         |    
-| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | TS 310:2025 Domestic payments and deposits  (replaces TS 310:2023, 310:2022 and WA 310:2020)                |  
+| TS 161:2013 Greiðslur<br>TS 164:2013 Yfirlit bankareikninga    | TS 310:2026 Domestic payments and deposits  (replaces TS 310:2025, 310:2023, 310:2022 and WA 310:2020)                |  
 | ---                                                            | TS 311:2022 Debit and credit cards details and statements (replaces TS 311:2021, new in IOBWS v3.0)                  |  
 | TS 162:2013 Innheimtukröfur<br>TS 163:2013 Milliinnheimta      | TS 315:2026 Claims  (replaces TS 315:2022)                    |  
 | TS 165:2013 Rafræn skjöl                                       | TS 314:2025 Documents (replaces TS 314:2022)                    |  
 | TS 166:2013 Tæknilegar upplýsingar og villuboð                 | TS 316:2025 Technical Requirements       |  
-| ---                                                            | TS 313:2023 Foreign Payments  (replaces TS 313:2022 and TS 313:2021)          |  
+| ---                                                            | TS 313:2026 Foreign Payments  (replaces TS 313:2023, TS 313:2022 and TS 313:2021)          |  
 
 
 <!-- CONTACT -->

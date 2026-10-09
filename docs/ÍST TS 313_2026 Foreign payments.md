@@ -1,7 +1,7 @@
 ---
-title: "ÍST TS 313:2023"
+title: "ÍST TS 313:2026"
 author: ICS 35.240
-date: "Entry into force 06-01-2023"
+date: "Entry into force 14-10-2026"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 313]
 subtitle: ["Tækniforskrift - Erlendar greiðslur  ", "Technical Specification - Foreign payments"]
@@ -10,6 +10,7 @@ titlepage: true,
 # titlepage-rule-color: "360049"
 titlepage-rule-height: 0
 titlepage-background: "lib/istfrontpage.pdf"
+backcover: "lib/istbackpage.pdf"
 toc: true
 toc-title: Table of contents
 # toc-own-page: true
@@ -43,31 +44,31 @@ titlefont: Arial.ttf
 \newpage
 
 # Foreword {.unnumbered}
-!include`snippetStart="<!-- ForewordStart -->", snippetEnd="<!-- ForewordEnd -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"
+!include`snippetStart="<!-- ForewordStart -->", snippetEnd="<!-- ForewordEnd -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"
 
 # Introduction {.unnumbered}
 
-!include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"
+!include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"
 
 Most of the banks offered comparable web services for foreign payments and associated transactions. Until the work on the IOBWS version 3.0 started, a common specification had not been in scope for the IOBWS work. As the underlying cross-border payment mechanisms are quite similar, the TN-FMÞ decided to include payment functionality and the associated account and transaction information retrieval in the form of this shared specification.
 
 The participants in the TN-FMÞ reviewed existing and emerging specifications in the global and European financial industries to look for ways to merge the various domestic schemas with a more widely adopted framework.
 
-!include`snippetStart="<!-- Start1 -->", snippetEnd="<!-- End1 -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"
+!include`snippetStart="<!-- Start1 -->", snippetEnd="<!-- End1 -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"
 
 # Scope 
 
 
-!include`snippetStart="<!-- ScopeDocContextStart -->", snippetEnd="<!-- ScopeDocContextEnd -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"
+!include`snippetStart="<!-- ScopeDocContextStart -->", snippetEnd="<!-- ScopeDocContextEnd -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"
 
-!include`snippetStart="<!-- ScopePaymentsDocsContextStart -->", snippetEnd="<!-- ScopePaymentsDocsContextEnd -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"
+!include`snippetStart="<!-- ScopePaymentsDocsContextStart -->", snippetEnd="<!-- ScopePaymentsDocsContextEnd -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"
 
 
-!include`snippetStart="<!-- ScopeEndNoteStart -->", snippetEnd="<!-- ScopeEndNoteEnd -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"
+!include`snippetStart="<!-- ScopeEndNoteStart -->", snippetEnd="<!-- ScopeEndNoteEnd -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"
 
 # Normative references, definitions, and symbols 
 
-!include`snippetStart="<!-- TerminalogyStart -->", snippetEnd="<!-- TerminalogyEnd -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"
+!include`snippetStart="<!-- TerminalogyStart -->", snippetEnd="<!-- TerminalogyEnd -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"
 
 \newpage
 
@@ -75,7 +76,7 @@ The participants in the TN-FMÞ reviewed existing and emerging specifications in
 
 ## Service Overview
 
-!include`snippetStart="<!-- PaymentSvcOverviewStart -->", snippetEnd="<!-- PaymentSvcOverviewEnd -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"
+!include`snippetStart="<!-- PaymentSvcOverviewStart -->", snippetEnd="<!-- PaymentSvcOverviewEnd -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"
 
 ## Payment Initiation Service
 
@@ -234,7 +235,7 @@ No debtor or charge accounts should be specified on child bulk payment elements;
 
 ## Payment Bulk Errors
 
-!include`snippetStart="<!-- ErrorHandlingStart -->", snippetEnd="<!-- ErrorHandlingEnd -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"  
+!include`snippetStart="<!-- ErrorHandlingStart -->", snippetEnd="<!-- ErrorHandlingEnd -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"  
 
 ÍST 310 should be referenced for further information on how errors are displayed.
 
@@ -246,7 +247,7 @@ Transaction information retrieval bears a strong resemblance to the previous ver
 
 ![IOBWS authorization flow with confirmation](lib/media/authtflow1.eps){.calloutright #fig:auth_flow1 width="60%"}
 
-!include`snippetStart="<!-- PaymentsProcessingBegin -->", snippetEnd="<!-- PaymentsProcessingEnd -->"` "docs/ÍST TS 310_2023 Domestic payments and deposits.md"
+!include`snippetStart="<!-- PaymentsProcessingBegin -->", snippetEnd="<!-- PaymentsProcessingEnd -->"` "docs/ÍST TS 310_2026 Domestic payments and deposits.md"
 ``` {.json caption="Example of a response containing a link to the confirmation resource."}    
   { 
     "transactionStatus": "RCVD",

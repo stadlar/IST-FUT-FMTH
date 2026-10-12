@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file. The project
 - *paymentInitiationDomesticWithStatusResponse* can now echo the foreign-only request elements *creditorAgentName*, *creditorAgentAddress*, *serviceLevel* and *centralBankPurposeCode*, which are defined on *paymentInitiationDomestic_json* and in the TS 313 data element table but were missing from the single payment response.
 - *paymentInitiationBulkElementDomestic_json* can now carry a foreign payee: *creditorName*, *creditorAddress*, *creditorAgent*, *creditorAgentName*, *creditorAgentAddress*, *chargeBearer* and *serviceLevel* added, mirroring the single payment request as TS 313 states for bulk entries. The bulk response element *bulkPaymentInitiationElementDomesticWithStatus* inherits them through *allOf*.
 - TS 313 data element table: *endToEndIdentification* changed from N/A to Optional for both foreign payment products. TS 310 lists it as Optional for the shared domestic schema, and the single payment response and the bulk element both return it.
+- *address* schema now enforces the ISO 20022 PostalAddress lengths: *buildingNumber* maxLength 16, *townName* maxLength 35, *postCode* maxLength 16, alongside the existing *streetName* maxLength 70. Fixed the misspelt *buildingNumber* key in the schema example.
 
 ## [Payments & Deposits 3.3.0]
 

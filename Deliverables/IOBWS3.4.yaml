@@ -5157,16 +5157,19 @@ components:
           maxLength: 70
         buildingNumber:
           type: string
+          maxLength: 16
         townName:
           type: string
+          maxLength: 35
         postCode:
           type: string
+          maxLength: 16
         country:
           $ref: "#/components/schemas/countryCode"
-      example: 
+      example:
         {
           streetName: "rue blue",
-          buildingnNumber: "89",
+          buildingNumber: "89",
           townName: "Paris",
           postCode: "75000",
           country: "FR"

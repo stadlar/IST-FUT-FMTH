@@ -388,9 +388,9 @@ It´s recommended to use the same idempotent key again when the client system do
 An example of a header submitted with the idempotent key element:
 
 ``` {.http caption="Example of a http header with the *Idempotent-Key* data element."}
-    curl -X POST "/v1/payments/sepa-credit-transfers" -H "accept: text/plain"  -H "Idempotent-Key:uuid" -H "xRequestID: <random-UUID>" -H "pSUIPAddress: <IP-Address>" -H "Authorization: Bearer <Access-Token>" -H "Content-Type: application/json-patch+json" -d "<payment-payload>"
+    curl -X POST "/v1/payments/foreign-payment-sepa" -H "accept: text/plain"  -H "Idempotent-Key:uuid" -H "xRequestID: <random-UUID>" -H "pSUIPAddress: <IP-Address>" -H "Authorization: Bearer <Access-Token>" -H "Content-Type: application/json-patch+json" -d "<payment-payload>"
 
-    POST /v1/payments/sepa-credit-transfers
+    POST /v1/payments/foreign-payment-sepa
     Host:
     Content-Type: application/json-patch+json
     Authorization: Bearer oauth2_token

@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Payments & Deposits 3.3.0] - Unreleased
+## [Payments & Deposits 3.4.0] - Unreleased
+
+- Minor version release of TS 310 and TS 313, both identify as version 3.4.
+- IOBWS3.3.yaml renamed to IOBWS3.4.yaml to match minor version. Documents TS 310 and TS 313, linter ignore file and README.md updated to reference IOBWS3.4.yaml.
+- Foreign payment product names aligned across the contract: the *payment-product* path enum and description, the POST operation summary, the *paymentInitiation* request body description, the *paymentInitiationBulkElementDomestic_json* description and the link examples now use *foreign-payment-sepa* and *foreign-payment-cross-border*, matching *paymentInitiationDomestic_json* and request examples 7 and 8. The names *sepa-credit-transfers* and *cross-border-credit-transfers* are retired as IOBWS payment products. TS 313 payment processing flow examples updated accordingly.
+- *paymentInitiationDomesticWithStatusResponse* can now echo the foreign-only request elements *creditorAgentName*, *creditorAgentAddress*, *serviceLevel* and *centralBankPurposeCode*, which are defined on *paymentInitiationDomestic_json* and in the TS 313 data element table but were missing from the single payment response.
+- *paymentInitiationBulkElementDomestic_json* can now carry a foreign payee: *creditorName*, *creditorAddress*, *creditorAgent*, *creditorAgentName*, *creditorAgentAddress*, *chargeBearer* and *serviceLevel* added, mirroring the single payment request as TS 313 states for bulk entries. The bulk response element *bulkPaymentInitiationElementDomesticWithStatus* inherits them through *allOf*.
+- TS 313 data element table: *endToEndIdentification* changed from N/A to Optional for both foreign payment products. TS 310 lists it as Optional for the shared domestic schema, and the single payment response and the bulk element both return it.
+- *address* schema now enforces the ISO 20022 PostalAddress lengths: *buildingNumber* maxLength 16, *townName* maxLength 35, *postCode* maxLength 16, alongside the existing *streetName* maxLength 70. Fixed the misspelt *buildingNumber* key in the schema example.
+- TS 316 idempotent key example updated to post to *foreign-payment-sepa* instead of the retired *sepa-credit-transfers* path. The TS 316 PDF has not been regenerated.
+
+## [Payments & Deposits 3.3.0]
 
 - Minor version release of TS 310 and TS 313, both identify as version 3.3 (TS 313 previously still identified as 3.1).
 - PR #259, batch booking support for domestic bulk payments: when *batchBookingPreferred* is true, the bulk top element can carry *endToEndIdentification*, *icelandicPurposeCode*, *remittanceInformationUnstructured* and *remittanceInformationStructuredArray* for the single combined booking entry, and optionally *debtorId*.

@@ -1,10 +1,10 @@
 openapi: 3.0.1
 info:
   title: IOBWS 3.0 Payments and accounts
-  version: "3.3"
+  version: "3.4"
   description: |
     # Summary
-    This document forms the basis for version 3.3 of the Icelandic Online Banking Services (IOBWS), released as a
+    This document forms the basis for version 3.4 of the Icelandic Online Banking Services (IOBWS), released as a
     technical specification (TS) no. 310 by the Icelandic Standards Council. Previous versions of IOBWS, released
     in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards to establish common banking
     interfaces for the Icelandic market. They specified strict security requirements involving a combination of 
@@ -120,8 +120,8 @@ paths:
         There are the following **payment products**:
         
           - Payment products with payment information in *JSON* format:
-            - ***sepa-credit-transfers***
-            - ***cross-border-credit-transfers***
+            - ***foreign-payment-sepa***
+            - ***foreign-payment-cross-border***
             - ***credit-transfers***
             - ***claim-payments***
             - ***card-deposits***
@@ -4312,7 +4312,7 @@ components:
     hrefEntry:
       description: Link to a resource.
       type: string
-      example: "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
+      example: "/v1/payments/foreign-payment-sepa/1234-wertiq-983"
 
 
 
@@ -5157,16 +5157,19 @@ components:
           maxLength: 70
         buildingNumber:
           type: string
+          maxLength: 16
         townName:
           type: string
+          maxLength: 35
         postCode:
           type: string
+          maxLength: 16
         country:
           $ref: "#/components/schemas/countryCode"
-      example: 
+      example:
         {
           streetName: "rue blue",
-          buildingnNumber: "89",
+          buildingNumber: "89",
           townName: "Paris",
           postCode: "75000",
           country: "FR"
@@ -6954,8 +6957,8 @@ components:
           * credit-transfers
           * claim-payments
           * card-deposits
-          * sepa-credit-transfers
-          * cross-border-credit-transfers
+          * foreign-payment-sepa
+          * foreign-payment-cross-border
         
         For the convenience of the implementer additional which are already predefinded in the Implementation Guidelines 
         are included (but commented in source code), such that an ASPSP may add them easily.
@@ -6991,8 +6994,18 @@ components:
         creditorId:
           type: string
           maxLength: 35
-        creditorAccount: 
+        creditorAccount:
           $ref: "#/components/schemas/accountReference"
+        creditorName:
+          $ref: "#/components/schemas/creditorName"
+        creditorAddress:
+          $ref: "#/components/schemas/address"
+        creditorAgent:
+          $ref: "#/components/schemas/bicfiOrIdentification"
+        creditorAgentName:
+          $ref: "#/components/schemas/creditorAgentName"
+        creditorAgentAddress:
+          $ref: "#/components/schemas/address"
         ultimateCreditor: # N.A. for all, but can be used by ASPSP if needed
           $ref: "#/components/schemas/ultimateCreditor"
         ultimateCreditorId:
@@ -7007,6 +7020,10 @@ components:
           $ref: "#/components/schemas/remittanceInformationStructuredArray"
         partialPayment:
           $ref: "#/components/schemas/partialPayment"
+        chargeBearer:
+          $ref: "#/components/schemas/chargeBearer"
+        serviceLevel:
+          type: string
 
     iobwsAuthorisationConfirmation:
       description: |
@@ -7790,6 +7807,10 @@ components:
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
           $ref: "#/components/schemas/bicfiOrIdentification"
+        creditorAgentName:
+          $ref: "#/components/schemas/creditorAgentName"
+        creditorAgentAddress:
+          $ref: "#/components/schemas/address"
         creditorName:
           $ref: "#/components/schemas/creditorName"
         creditorAddress:
@@ -7802,9 +7823,11 @@ components:
           $ref: "#/components/schemas/ultimateCreditor"
         chargeBearer: #In some payment product N.A. in some Optional in some conditional
           $ref: "#/components/schemas/chargeBearer"
+        serviceLevel:
+          type: string
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
-        remittanceInformationStructuredArray: 
+        remittanceInformationStructuredArray:
           $ref: "#/components/schemas/remittanceInformationStructuredArray"
         requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
           type: string
@@ -7813,12 +7836,14 @@ components:
           $ref: "#/components/schemas/transactionStatus"
         transactionFeesDetails:
           $ref: "#/components/schemas/transactionFeesList"
+        centralBankPurposeCode:
+          $ref: "#/components/schemas/centralBankPurposeCode"
         icelandicPurposeCode:
           $ref: "#/components/schemas/icelandicPurposeCode"
         chargesAccount:
           $ref: "#/components/schemas/accountReference"
 
-    periodicPaymentInitiationDomesticWithStatusResponse: 
+    periodicPaymentInitiationDomesticWithStatusResponse:
       description: |
         Generic JSON response body consistion of the corresponding periodic payment initation JSON body together with an optional transaction status field.
       type: object
@@ -8079,7 +8104,7 @@ components:
       example: 
         {
         "scaRedirect": {"href": "https://www.testbank.com/asdfasdfasdf"},
-        "self": {"href": "/v1/payments/sepa-credit-transfers/1234-wertiq-983"}
+        "self": {"href": "/v1/payments/foreign-payment-sepa/1234-wertiq-983"}
         }
 
 
@@ -11322,8 +11347,8 @@ components:
           - credit-transfers
           - claim-payments
           - card-deposits
-          - sepa-credit-transfers
-          - cross-border-credit-transfers
+          - foreign-payment-sepa
+          - foreign-payment-cross-border
         
         **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, 
         the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. 
@@ -11340,8 +11365,8 @@ components:
           - "credit-transfers"
           - "claim-payments"
           - "card-deposits"
-          - "sepa-credit-transfers"
-          - "cross-border-credit-transfers"
+          - "foreign-payment-sepa"
+          - "foreign-payment-cross-border"
 
     paymentId:
       name: paymentId
@@ -11946,8 +11971,8 @@ components:
           * "credit-transfers with JSON-Body"
           * "claim-payments with JSON-Body"
           * "card-deposits with JSON-Body"
-          * "sepa-credit-transfers" with JSON-Body
-          * "cross-border-credit-transfers" with JSON-Body
+          * "foreign-payment-sepa with JSON-Body"
+          * "foreign-payment-cross-border with JSON-Body"
 
         There are the following payment-services supported:
           * "payments"
@@ -14058,7 +14083,7 @@ components:
           "_links": 
             {
             "scaRedirect": {"href": "https://www.testbank.com/asdfasdfasdf"},
-            "self": {"href": "/v1/payments/sepa-credit-transfers/1234-wertiq-983"},
+            "self": {"href": "/v1/payments/foreign-payment-sepa/1234-wertiq-983"},
             "status": {"href": "/v1/payments/1234-wertiq-983/status"},
             "scaStatus": {"href": "/v1/payments/1234-wertiq-983/authorisations/123auth456"}
             }
@@ -14207,7 +14232,7 @@ components:
         { 
           "scaStatus": "finalised",
           "_links":{
-            "status":  {"href":"/v1/payments/sepa-credit-transfers/qwer3456tzui7890/status"}
+            "status":  {"href":"/v1/payments/foreign-payment-sepa/qwer3456tzui7890/status"}
           }
         }
 

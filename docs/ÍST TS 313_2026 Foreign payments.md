@@ -254,7 +254,7 @@ Transaction information retrieval bears a strong resemblance to the previous ver
     "paymentId": "1234-b2b-983",
     "_links": 
       {
-        "self": {"href": "/v1/payments/cross-border-credit-transfers/1234-b2b-983"},
+        "self": {"href": "/v1/payments/foreign-payment-cross-border/1234-b2b-983"},
         "status": {"href": "/v1/payments/1234-b2b-983/status"},
         "scaStatus":": {"href": "/v1/payments/1234-b2b-983/authorisations/123auth456"},  
         "confirmStraightThroughProcessingAuthorisation": {"href": "/v1/payments/1234-b2b-983/authorisations/123auth456"}
@@ -276,7 +276,7 @@ The response to the confirmation is shown below:
   { 
     "scaStatus": "finalised",
     "_links":{
-      "status":  {"href":"/v1/payments/cross-border-credit-transfers/1234-b2b-983/status"}
+      "status":  {"href":"/v1/payments/foreign-payment-cross-border/1234-b2b-983/status"}
     }
   }
 ```

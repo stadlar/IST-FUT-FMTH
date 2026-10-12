@@ -6991,8 +6991,18 @@ components:
         creditorId:
           type: string
           maxLength: 35
-        creditorAccount: 
+        creditorAccount:
           $ref: "#/components/schemas/accountReference"
+        creditorName:
+          $ref: "#/components/schemas/creditorName"
+        creditorAddress:
+          $ref: "#/components/schemas/address"
+        creditorAgent:
+          $ref: "#/components/schemas/bicfiOrIdentification"
+        creditorAgentName:
+          $ref: "#/components/schemas/creditorAgentName"
+        creditorAgentAddress:
+          $ref: "#/components/schemas/address"
         ultimateCreditor: # N.A. for all, but can be used by ASPSP if needed
           $ref: "#/components/schemas/ultimateCreditor"
         ultimateCreditorId:
@@ -7007,6 +7017,10 @@ components:
           $ref: "#/components/schemas/remittanceInformationStructuredArray"
         partialPayment:
           $ref: "#/components/schemas/partialPayment"
+        chargeBearer:
+          $ref: "#/components/schemas/chargeBearer"
+        serviceLevel:
+          type: string
 
     iobwsAuthorisationConfirmation:
       description: |

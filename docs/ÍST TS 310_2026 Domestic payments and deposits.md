@@ -507,7 +507,7 @@ The [listing in @lst:bulk_response] shows an example of such a response.
 
 <!-- paymentInitiationDomesticBody_bulk-payments_with_status_json -->
 ```{.json caption="Example of bulk status response with errors on sub-elements." #lst:bulk_response}
-!include`startLine=15077, endLine=15142, dedent=7` "Deliverables/IOBWS3.4.yaml"
+!include`startLine=15091, endLine=15156, dedent=7` "Deliverables/IOBWS3.4.yaml"
 ```
 
 # Accounts Service
@@ -518,7 +518,7 @@ When querying information about domestic accounts, there is an option to request
 
 <!-- balancesDomesticExample6_RegularAccount -->
 ```{.json caption="Example of information about an account with credit limit" #lst:accexample6}
-!include`startLine=14723, endLine=14739, dedent=7` "Deliverables/IOBWS3.4.yaml"
+!include`startLine=14737, endLine=14753, dedent=7` "Deliverables/IOBWS3.4.yaml"
 ```
 
 The definition of the transaction details returned as a list includes elements that are applicable to the broad range of use cases covered by the NextGenPSD2. [Table @tbl:transaction_domestic] has descriptions for the elements that are applicable to the domestic context which might need further explanation.
@@ -617,7 +617,7 @@ An example of how this would look for a domestic account is provided in [listing
 
 <!-- transactionsExampleDomestic4_RegularAccount_json -->
 ``` {.json caption="Example result of a transaction detail query." #lst:transexample}
-!include`startLine=14764, endLine=14797, dedent=7` "Deliverables/IOBWS3.4.yaml"
+!include`startLine=14778, endLine=14811, dedent=7` "Deliverables/IOBWS3.4.yaml"
 ```
 
 # Confirmation of Funds

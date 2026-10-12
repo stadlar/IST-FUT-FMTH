@@ -110,7 +110,7 @@ The elements listed in [Table @tbl:tbl_data_domestic] are used in the domestic p
                                           Credit          Credit 
                                           Transfers**     Transfers**      
   --------------------------------------- --------------- -----------------
-  **endToEndIdentification**              N/A             N/A
+  **endToEndIdentification**              Optional        Optional
 
   **instructionIdentification**           Optional        Optional
 

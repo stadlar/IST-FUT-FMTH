@@ -7790,6 +7790,10 @@ components:
           $ref: "#/components/schemas/accountReference"
         creditorAgent:
           $ref: "#/components/schemas/bicfiOrIdentification"
+        creditorAgentName:
+          $ref: "#/components/schemas/creditorAgentName"
+        creditorAgentAddress:
+          $ref: "#/components/schemas/address"
         creditorName:
           $ref: "#/components/schemas/creditorName"
         creditorAddress:
@@ -7802,9 +7806,11 @@ components:
           $ref: "#/components/schemas/ultimateCreditor"
         chargeBearer: #In some payment product N.A. in some Optional in some conditional
           $ref: "#/components/schemas/chargeBearer"
+        serviceLevel:
+          type: string
         remittanceInformationUnstructured:
           $ref: "#/components/schemas/remittanceInformationUnstructured"
-        remittanceInformationStructuredArray: 
+        remittanceInformationStructuredArray:
           $ref: "#/components/schemas/remittanceInformationStructuredArray"
         requestedExecutionDate: # N.A. for all, but can be used by ASPSP if needed
           type: string
@@ -7813,12 +7819,14 @@ components:
           $ref: "#/components/schemas/transactionStatus"
         transactionFeesDetails:
           $ref: "#/components/schemas/transactionFeesList"
+        centralBankPurposeCode:
+          $ref: "#/components/schemas/centralBankPurposeCode"
         icelandicPurposeCode:
           $ref: "#/components/schemas/icelandicPurposeCode"
         chargesAccount:
           $ref: "#/components/schemas/accountReference"
 
-    periodicPaymentInitiationDomesticWithStatusResponse: 
+    periodicPaymentInitiationDomesticWithStatusResponse:
       description: |
         Generic JSON response body consistion of the corresponding periodic payment initation JSON body together with an optional transaction status field.
       type: object

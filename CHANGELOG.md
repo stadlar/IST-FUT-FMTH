@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. The project
 - Minor version release of TS 310 and TS 313, both identify as version 3.4.
 - IOBWS3.3.yaml renamed to IOBWS3.4.yaml to match minor version. Documents TS 310 and TS 313, linter ignore file and README.md updated to reference IOBWS3.4.yaml.
 - Foreign payment product names aligned across the contract: the *payment-product* path enum and description, the POST operation summary, the *paymentInitiation* request body description, the *paymentInitiationBulkElementDomestic_json* description and the link examples now use *foreign-payment-sepa* and *foreign-payment-cross-border*, matching *paymentInitiationDomestic_json* and request examples 7 and 8. The names *sepa-credit-transfers* and *cross-border-credit-transfers* are retired as IOBWS payment products. TS 313 payment processing flow examples updated accordingly.
+- *paymentInitiationDomesticWithStatusResponse* can now echo the foreign-only request elements *creditorAgentName*, *creditorAgentAddress*, *serviceLevel* and *centralBankPurposeCode*, which are defined on *paymentInitiationDomestic_json* and in the TS 313 data element table but were missing from the single payment response.
 
 ## [Payments & Deposits 3.3.0]
 

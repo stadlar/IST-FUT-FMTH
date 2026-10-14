@@ -2,11 +2,11 @@
 
 All notable changes to this project will be documented in this file. The project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Payments & Deposits 3.3.0] - Unreleased
+## [Payments & Deposits 3.3.0] - 2026-10-26
 
 - Minor version release of TS 310 and TS 313, both identify as version 3.3 (TS 313 previously still identified as 3.1).
 - PR #259, batch booking support for domestic bulk payments: when *batchBookingPreferred* is true, the bulk top element can carry *endToEndIdentification*, *icelandicPurposeCode*, *remittanceInformationUnstructured* and *remittanceInformationStructuredArray* for the single combined booking entry, and optionally *debtorId*.
-- Reviewed at TN-FMÞ-VH7-39 and VH7-42, accepted by TN-FMÞ-VH7 on 2026-10-07.
+- Reviewed at TN-FMÞ-VH7-39 and VH7-42, accepted by TN-FMÞ-VH7 on 2026-10-07 and approved by FUT on 2026-10-15.
 - IOBWS3.2.yaml renamed to IOBWS3.3.yaml to match minor version.
 - Fixed indentation in card account examples that stopped strict YAML parsers, including the Redocly linter, from reading the file.
 - Documents TS 310, linter ignore file and README.md updated to reference IOBWS3.3.yaml.

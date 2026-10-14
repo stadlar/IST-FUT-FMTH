@@ -67,7 +67,7 @@ paths:
     get:
       summary: Get list of all document types
       description: |
-        Returns the document types available for a specific sender.
+        Returns the document types available for a specific sender. The order of the list is not defined.
       operationId: getDocumentTypesForSender
       tags:
         - Document Types
@@ -474,7 +474,7 @@ paths:
     get:
       summary: Get cross-references by key
       description: |
-        Returns all cross-references identified by key type and key.
+        Returns all cross-references identified by key type and key. The order of the list is not defined.
       operationId: getCrossReferencesByKeyTypeAndKey
       tags:
         - Cross-References
@@ -509,7 +509,7 @@ paths:
     get:
       summary: Get cross-references for a document
       description: |
-        Returns cross-references for a single document.
+        Returns cross-references for a single document. The order of the list is not defined.
       operationId: getCrossReferencesForDocument
       tags:
         - Cross-References
@@ -887,7 +887,9 @@ components:
       name: ordering
       in: query
       description: |
-        Sort order for the results. Default is descending.
+        Sort direction of the results. Document lists are ordered by `effectiveDate`.
+        Default is DESC, newest first. The relative order of items that share the same
+        `effectiveDate` is not defined.
       required: false
       example: DESC
       schema:

@@ -2376,8 +2376,6 @@ components:
       description: Bad Request
 
       headers:
-        Location:
-          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
 
@@ -2458,8 +2456,6 @@ components:
       description: Unauthorized
 
       headers:
-        Location:
-          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
 
@@ -2476,8 +2472,6 @@ components:
       description: Forbidden
 
       headers:
-        Location:
-          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
 
@@ -2494,8 +2488,6 @@ components:
       description: Not found
 
       headers:
-        Location:
-          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
 
@@ -2512,8 +2504,6 @@ components:
       description: Too Many Requests
 
       headers:
-        Location:
-          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
 
@@ -2528,8 +2518,6 @@ components:
     INTERNAL_SERVER_ERROR_500:
       description: Internal Server Error
       headers:
-        Location:
-          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:
@@ -2543,8 +2531,6 @@ components:
     SERVICE_UNAVAILABLE_503:
       description: Service Unavailable
       headers:
-        Location:
-          $ref: "#/components/headers/Location"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:

@@ -100,6 +100,11 @@ paths:
       summary: Create document types for a sender
       description: |
         Registers one or more document types for a specific sender. If the sender does not exist, the implementation should create the sender automatically.
+
+        A document type is unique per sender by the combination of `fileType`, `categoryCode` and `email`.
+        Entries in the same request that repeat a combination are rejected with 400. An entry whose
+        combination already exists for the sender is reported in `failed` and does not prevent the other
+        entries from being created.
       operationId: createDocumentTypesForSender
       tags:
         - Document Types
@@ -1056,6 +1061,11 @@ components:
             - "PDF"
         categoryCode:
           $ref: "#/components/schemas/documentCategory"
+        email:
+          description: |
+            Email address of the rejected entry, when one was supplied.
+          type: string
+          format: email
         failureReason:
           description: Description of why the creation failed.
           type: string

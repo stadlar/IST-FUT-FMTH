@@ -856,7 +856,7 @@ components:
         $ref: "#/components/schemas/documentId"
       
     externalEventId:
-      name: ExternalEventId
+      name: externalEventId
       in: query
       description: |
         An ID of an event in an external system which yielded the most recent change of the cross-reference. The format of the external event ID is determined by external system which brought the event about.

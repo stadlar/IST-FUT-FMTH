@@ -146,7 +146,6 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Idempotency-Key"
@@ -183,7 +182,6 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/senderIdOptionalQuery"
         - $ref: "#/components/parameters/ownerIdQuery"
         - $ref: "#/components/parameters/externalIdQuery"
@@ -217,7 +215,7 @@ paths:
     get:
       summary: Get a single document
       description: |
-        Returns a single document by identifier. If not specified, the implementation may assume the default storage code (e.g. Ark).
+        Returns a single document by identifier.
       operationId: getDocumentById
       tags:
         - Documents
@@ -226,7 +224,6 @@ paths:
         - BearerAuthOAuth: []
       parameters:
         - $ref: "#/components/parameters/documentIdPathParameter"
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/ownerIdRequiredQuery"
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
@@ -302,7 +299,6 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Idempotency-Key"
@@ -412,7 +408,6 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Idempotency-Key"
@@ -449,7 +444,6 @@ paths:
         - {}
         - BearerAuthOAuth: []
       parameters:
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Idempotency-Key"
@@ -488,7 +482,6 @@ paths:
         - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/keyTypePathParameter"
         - $ref: "#/components/parameters/keyPathParameter"
-        - $ref: "#/components/parameters/Storage-System"
       responses:
         '200':
           $ref: "#/components/responses/OK_200_CrossReferencesByKey"
@@ -512,7 +505,7 @@ paths:
     get:
       summary: Get cross-references for a document
       description: |
-        Returns cross-references for a single document. The storage code may be supplied if needed; otherwise the implementation may assume the default store.
+        Returns cross-references for a single document.
       operationId: getCrossReferencesForDocument
       tags:
         - Cross-References
@@ -523,7 +516,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/documentIdPathParameter"
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/pageOptional"
         - $ref: "#/components/parameters/itemsPerPageOptional"
       responses:
@@ -560,7 +552,6 @@ paths:
         - $ref: "#/components/parameters/documentIdPathParameter"
         - $ref: "#/components/parameters/keyTypePathParameter"
         - $ref: "#/components/parameters/keyPathParameter"
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
       responses:
@@ -596,7 +587,6 @@ paths:
         - $ref: "#/components/parameters/documentIdPathParameter"
         - $ref: "#/components/parameters/keyTypePathParameter"
         - $ref: "#/components/parameters/keyPathParameter"
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/Idempotency-Key"
@@ -623,7 +613,7 @@ paths:
     delete:
       summary: Delete a cross-reference for a document
       description: |
-        Deletes a cross-reference identified by document, key type and key. The storage code may be supplied if needed; otherwise the implementation may assume the default store.
+        Deletes a cross-reference identified by document, key type and key.
       operationId: deleteCrossReferenceForDocument
       tags:
         - Cross-References
@@ -637,7 +627,6 @@ paths:
         - $ref: "#/components/parameters/documentIdPathParameter"
         - $ref: "#/components/parameters/keyTypePathParameter"
         - $ref: "#/components/parameters/keyPathParameter"
-        - $ref: "#/components/parameters/Storage-System"
         - $ref: "#/components/parameters/externalEventId"
       responses:
         '200':
@@ -698,17 +687,6 @@ components:
       schema:
         type: string
         format: uuid
-
-    Storage-System:
-      name: Storage-System
-      in: header
-      description: |
-        Storage system. If omitted, defaults to "Ark".
-      required: false
-      schema:
-        allOf:
-          - $ref: "#/components/schemas/storageCode"
-        default: "Ark"
 
     USR-IP-Address_optional:
       name: USR-IP-Address
@@ -1385,8 +1363,8 @@ components:
           properties:
             id:
               description: |
-                Unique document identifier. For Ark storage this is a composite key in the format
-                `{ownerId}:{senderId}:{externalId}:{YYYYMMDD}`. For RBS storage this is a UUID.
+                Unique document identifier assigned by the implementation. Clients should treat the
+                identifier as an opaque string and not rely on its internal format.
               allOf:
                 - $ref: "#/components/schemas/documentId"
             senderId:
@@ -1702,14 +1680,6 @@ components:
         The ID of document related to the object in question. The ID is a unique identifier for the document in its source system.
       type: string
       example: "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324"
-
-    storageCode:
-      description: |
-        Storage system code.
-      type: string
-      enum: 
-        - "Ark"
-        - "RBS"
 
     documentCategory:
       description: |
@@ -2212,12 +2182,6 @@ components:
       schema:
         type: string
         format: uuid
-
-    Storage-System:
-      description: |
-        The storage system used for this response.
-      schema:
-        $ref: "#/components/schemas/storageCode"
 
     Location:
       description: |

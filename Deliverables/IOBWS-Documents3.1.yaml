@@ -516,8 +516,6 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
         - $ref: "#/components/parameters/documentIdPathParameter"
-        - $ref: "#/components/parameters/pageOptional"
-        - $ref: "#/components/parameters/itemsPerPageOptional"
       responses:
         '200':
           $ref: "#/components/responses/OK_200_QueryCrossReferences"
@@ -2307,14 +2305,6 @@ components:
         List of cross-references matching query parameters.
         Returns an empty list when the document has no cross-references.
       headers:
-        X-Paging-CurrentPage:
-          $ref: "#/components/headers/X-Paging-CurrentPage"
-        X-Paging-TotalPages:
-          $ref: "#/components/headers/X-Paging-TotalPages"
-        X-Paging-TotalItems:
-          $ref: "#/components/headers/X-Paging-TotalItems"
-        X-Paging-PerPage:
-          $ref: "#/components/headers/X-Paging-PerPage"
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"
       content:

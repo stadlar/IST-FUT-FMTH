@@ -2637,7 +2637,6 @@ components:
           "externalId": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
           "ownerId": "1909791489",
           "reference": "Invoice 2026-001",
-          "description": "Greiðsluseðlar - Hólmfríður ÞÍ Traustadóttir",
           "fileType": "PDF",
           "file": ""
         }
@@ -2651,7 +2650,6 @@ components:
           "externalId": "3f0dce5a-6bbd-4f2d-ac4c-224894a38a4f",
           "ownerId": "1909791489",
           "reference": "Statement March 2026",
-          "description": "Tilkynningar - Hólmfríður ÞÍ Traustadóttir",
           "fileType": "XML",
           "file": ""
         }
@@ -2666,7 +2664,6 @@ components:
               "documentTypeCode": "HMTDR",
               "externalId": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
               "ownerId": "1909791489",
-              "description": "Reikningar - Hólmfríður ÞÍ Traustadóttir",
               "fileType": "PDF",
               "file": ""
             },
@@ -2674,7 +2671,6 @@ components:
               "documentTypeCode": "HMTDT",
               "externalId": "3f0dce5a-6bbd-4f2d-ac4c-224894a38a4f",
               "ownerId": "1909791489",
-              "description": "Tilkynningar - Hólmfríður ÞÍ Traustadóttir",
               "fileType": "XML",
               "file": ""
             }

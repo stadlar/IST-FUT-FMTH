@@ -186,7 +186,6 @@ paths:
         - $ref: "#/components/parameters/ownerIdQuery"
         - $ref: "#/components/parameters/externalIdQuery"
         - $ref: "#/components/parameters/documentTypeCode"
-        - $ref: "#/components/parameters/batchStatusQuery"
         - $ref: "#/components/parameters/dateFrom"
         - $ref: "#/components/parameters/dateTo"
         - $ref: "#/components/parameters/page"
@@ -196,7 +195,7 @@ paths:
         - $ref: "#/components/parameters/USR-IP-Address_optional"
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_DocumentListWithStatusDetails"
+          $ref: "#/components/responses/OK_200_DocumentInfoList"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -229,7 +228,7 @@ paths:
         - $ref: "#/components/parameters/USR-IP-Address_optional"
       responses:
         '200':
-          $ref: "#/components/responses/OK_200_DocumentWithStatusDetails"
+          $ref: "#/components/responses/OK_200_DocumentInfo"
         '400':
           $ref: "#/components/responses/BAD_REQUEST_400"
         '401':
@@ -1256,7 +1255,7 @@ components:
         - "Completed"
         - "CompletedWithErrors"
 
-    documentWithStatusDetails:
+    documentInfo:
       description: |
         Document details.
       allOf:
@@ -1266,7 +1265,6 @@ components:
             - id
             - senderId
             - senderName
-            - status
             - isCrossReferenced
             - effectiveDate
             - fileType
@@ -1287,12 +1285,6 @@ components:
                 Name of the document sender.
               type: string
               maxLength: 140
-            status:
-              $ref: "#/components/schemas/batchStatus"
-            statusMessage:
-              description: Batch status message
-              type: string
-              maxLength: 250
             isCrossReferenced:
               description: |
                 Indicates whether the document is cross-referenced to another object.
@@ -1390,12 +1382,12 @@ components:
       items:
         $ref: "#/components/schemas/batchWithStatusDetails"
 
-    documentWithStatusList:
+    documentInfoList:
       description: |
         List of document items with details.
       type: array
       items:
-        $ref: "#/components/schemas/documentWithStatusDetails"
+        $ref: "#/components/schemas/documentInfo"
 
     documentCreated:
       description: |
@@ -2228,7 +2220,7 @@ components:
             example:
               $ref: "#/components/examples/documentCreated-201_json_Example"
 
-    OK_200_DocumentWithStatusDetails:
+    OK_200_DocumentInfo:
       description: Get document details
       headers:
         X-Request-ID:
@@ -2236,9 +2228,9 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentWithStatusDetails"
+            $ref: "#/components/schemas/documentInfo"
 
-    OK_200_DocumentListWithStatusDetails:
+    OK_200_DocumentInfoList:
       description: Get document list details
       headers:
         X-Paging-CurrentPage:
@@ -2254,7 +2246,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/documentWithStatusList"
+            $ref: "#/components/schemas/documentInfoList"
 
     OK_200_DocumentTypeDetails:
       description: OK

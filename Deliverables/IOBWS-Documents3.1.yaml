@@ -1421,7 +1421,14 @@ components:
 
     crossReferencesList:
       description: |
-        List of cross-references.
+        List of cross-references. Empty when no cross-references match.
+      type: array
+      items:
+        $ref: "#/components/schemas/crossReference"
+
+    crossReferenceCreationRequest:
+      description: |
+        List of cross-references to create. Must contain at least one item.
       type: array
       minItems: 1
       items:
@@ -2041,7 +2048,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/crossReferencesList"
+            $ref: "#/components/schemas/crossReferenceCreationRequest"
           examples: 
             example:
               $ref: "#/components/examples/createCrossReferences_json_Example"
@@ -2298,6 +2305,7 @@ components:
     OK_200_QueryCrossReferences:
       description: |
         List of cross-references matching query parameters.
+        Returns an empty list when the document has no cross-references.
       headers:
         X-Paging-CurrentPage:
           $ref: "#/components/headers/X-Paging-CurrentPage"
@@ -2320,6 +2328,7 @@ components:
     OK_200_CrossReferencesByKey:
       description: |
         Cross-references matching key type and key.
+        Returns an empty list when no cross-references exist for the key.
       headers:
         X-Request-ID:
           $ref: "#/components/headers/X-Request-ID"

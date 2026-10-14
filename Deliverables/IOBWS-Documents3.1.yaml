@@ -708,24 +708,6 @@ components:
       schema:
         type: string
         
-    batchIdQuery:
-      name: batchId
-      in: query
-      description: |
-        Batch id.
-      required: false
-      schema:
-        type: string
-
-    documentIdQuery:
-      name: documentId
-      in: query
-      description: |
-        Document id for filtering.
-      required: false
-      schema:
-        $ref: "#/components/schemas/uuid"
-
     page:
       name: page
       in: query
@@ -765,15 +747,6 @@ components:
       schema:
         type: string
         format: date
-
-    senderIdQuery:
-      name: senderId
-      in: query
-      description: |
-        Identifier (kennitala) of the document sender for filtering.
-      required: true
-      schema:
-        $ref: "#/components/schemas/kennitala"
 
     senderIdOptionalQuery:
       name: senderId
@@ -879,67 +852,6 @@ components:
       example: "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324"
       schema:
         $ref: "#/components/schemas/documentId"
-      
-    key:
-      name: key
-      in: query
-      description: |
-        The key of the object related to the document in question. The key is a unique identifier for the object. The format of the key is determined by the type of the key. 
-        For instance, the key could be a claim key if the object is a claim. 
-      required: false
-      example: "cc15b0b1-eea5-4c65-adc9-b61a83fae528"
-      schema:
-        $ref: "#/components/schemas/key"
-      
-    keyType:
-      name: keyType
-      in: query
-      description: |
-        Type of object related to the document in question. The value is one of the following:
-      required: false
-      example: Claim
-      schema:
-        $ref: "#/components/schemas/keyType"
-
-    documentId:
-      name: documentId
-      in: query
-      description: |
-        The ID of document related to the object in question. The ID is a unique identifier for the document in its source system.
-      required: false
-      example: "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324"
-      schema:
-        $ref: "#/components/schemas/documentId"
-      
-    documentCategory:
-      name: documentCategory
-      in: query
-      description: |
-        Document category. The value is one of the following:
-      required: false
-      example: CollectionLetter
-      schema:
-        $ref: "#/components/schemas/documentCategory"
-
-    documentDescription:
-      name: documentDescription
-      in: query
-      description: |
-        A description of the document.
-      required: false
-      example: "Bill for services rendered."
-      schema:
-        $ref: "#/components/schemas/documentDescription"
-
-    documentEffectiveDate:
-      name: documentEffectiveDate
-      in: query
-      description: |
-        The effective date of the document in question. This is the date when the document is considered to be effective.
-      required: false
-      example: "2024-11-29"
-      schema:
-        $ref: "#/components/schemas/documentEffectiveDate"
       
     externalEventId:
       name: ExternalEventId
@@ -2366,15 +2278,6 @@ components:
           examples:
             example:
               $ref: "#/components/examples/createDocumentTypes-201_json_Example"
-
-    OK_200_CreateCrossReferences:
-      description: |
-        Cross-references created successfully.
-      headers:
-        Location:
-          $ref: "#/components/headers/Location"
-        X-Request-ID:
-          $ref: "#/components/headers/X-Request-ID"
 
     CREATED_201_CreateCrossReferences:
       description: |

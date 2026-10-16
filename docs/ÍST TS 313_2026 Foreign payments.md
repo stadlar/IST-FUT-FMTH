@@ -120,9 +120,9 @@ The elements listed in [Table @tbl:tbl_data_domestic] are used in the domestic p
 
   **chargesAccount**                      Optional        Optional
 
-  **ultimateDebtor**                      N/A             N/A
+  **ultimateDebtor**                      Optional        Optional
 
-  **ultimateDebtorId**                    N/A             N/A
+  **ultimateDebtorId**                    Optional        Optional
 
   **instructedAmount**                    Mandatory       Mandatory
 
@@ -140,9 +140,9 @@ The elements listed in [Table @tbl:tbl_data_domestic] are used in the domestic p
 
   **creditorAddress**                     Mandatory       Mandatory
 
-  **ultimateCreditor**                    N/A             N/A
+  **ultimateCreditor**                    Optional        Optional
 
-  **ultimateCreditorId**                  N/A             N/A
+  **ultimateCreditorId**                  Optional        Optional
 
   **icelandicPurposeCode**                N/A             N/A
 

@@ -32,7 +32,7 @@ ex "ÍST TS 313_2026 Foreign payments"
 ex "ÍST TS 310_2026 Domestic payments and deposits"
 # ex "ÍST TS 311_2022 Debit and credit cards details and statements"
 # ex "ÍST TS 312_2022 Currency Exchange Rates"
-# ex "ÍST TS 314_2022 Digital Documents"
+ex "ÍST TS 314_2026 Digital Documents"
 # ex "ÍST TS 315_2026 Claims"
 echo 'done'
 # docker run --rm -v "$(pwd):/pandoc" -u $(id -u):$(id -g) artifactory.arionbanki.is/docker.io-remote/dalibo/pandocker 'docs/ÍST TS 313_2021 Foreign payments.md' -o 'docs/ÍST TS 313_2021 Foreign payments.pdf' --from markdown --template 'lib/ist.tex' --listings --filter pandoc-include --filter pandoc-codeblock-include --filter pandoc-crossref --filter pandoc-mustache --top-level-division=chapter

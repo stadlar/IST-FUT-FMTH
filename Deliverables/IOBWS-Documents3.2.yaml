@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: IOBWS 3.1 Digital Documents
+  title: IOBWS 3.2 Digital Documents
   version: "3.2"
   description: |
     # Summary

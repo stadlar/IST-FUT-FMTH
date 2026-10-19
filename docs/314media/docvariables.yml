@@ -7,7 +7,7 @@ finaldraft_date: "2025-03-05"
 approve_date: "2025-03-06"
 publication_date: "2025-03-21"
 approvalmethod: "by the TN-FMÞ meeting" # approved ["by correspondence" or "by the TN-FMÞ meeting convened"] on the {{approve_date}}
-yaml_definition: "IOBWS-Documents3.1.yaml"
+yaml_definition: "IOBWS-Documents3.2.yaml"
 previous_spec: "TS-160"
 funding_paragraph: |
   The work on the ÍST TS was primarily funded by Arion Banki, Íslandsbanki and Landsbankinn. It is the result of the workgroup TN-FMÞ-VH-2, chaired by Kristinn Stefánsson of Arion Bank hf.. The work is based on earlier iterations of TS-314 authored by TN-FMÞ-VH-2 on Technical Requirements, and TN-FMÞ-VH-1 on Business Requirements. 

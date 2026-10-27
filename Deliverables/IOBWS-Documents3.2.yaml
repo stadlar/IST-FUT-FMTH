@@ -228,7 +228,6 @@ paths:
         - BearerAuthOAuth: []
       parameters:
         - $ref: "#/components/parameters/documentIdPathParameter"
-        - $ref: "#/components/parameters/ownerIdRequiredQuery"
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/USR-IP-Address_optional"
       responses:
@@ -774,15 +773,6 @@ components:
       description: |
         Identifier (kennitala) of the document owner for filtering.
       required: false
-      schema:
-        $ref: "#/components/schemas/kennitala"
-
-    ownerIdRequiredQuery:
-      name: ownerId
-      in: query
-      description: |
-        Identifier (kennitala) of the document owner.
-      required: true
       schema:
         $ref: "#/components/schemas/kennitala"
 

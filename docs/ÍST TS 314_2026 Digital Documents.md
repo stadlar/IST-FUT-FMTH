@@ -1,7 +1,7 @@
 ---
 title: "ÍST TS 314:2026"
 author: ICS 35.240, 3.060
-date: "Entry into force TBD"
+date: "Entry into force 02-12-2026"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 314]
 subtitle: ["Tækniforskrift - Rafræn skjöl", "Technical specification - Digital Documents"]

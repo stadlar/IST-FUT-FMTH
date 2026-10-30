@@ -1,15 +1,16 @@
 ---
-title: "ÍST TS 314:2025"
+title: "ÍST TS 314:2026"
 author: ICS 35.240, 3.060
-date: "Entry into force 20.11.2025"
+date: "Entry into force TBD"
 subject: "Icelandic Online Banking Webservices "
 keywords: [IOBWS, ÍST, TS, 314]
 subtitle: ["Tækniforskrift - Rafræn skjöl", "Technical specification - Digital Documents"]
 lang: "en"
-titlepage: true,
+titlepage: true
 # titlepage-rule-color: "360049"
 titlepage-rule-height: 0
 titlepage-background: "lib/istfrontpage.pdf"
+backcover: "lib/istbackpage.pdf"
 toc: true
 toc-title: Table of contents
 # toc-own-page: true
@@ -50,7 +51,7 @@ titlefont: Arial.ttf
 
 !include`snippetStart="<!-- IntroductionStart -->", snippetEnd="<!-- IntroductionEnd -->"` "docs/commonMedia/preliminary.md"
 
-The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification, defining services that encapsulated the system previously known as *Birtingur* and now as *ARK-kerfið*. This system has since the year 2000 enabled enterprises in Iceland to upload information for display based on templates in all of the domestic banks' online user interfaces. The TN-FMÞ did not substantially alter the functionality available in the previous service but made some possibilities more explicit such as altering or adding a version to a batch of digital documents, and opening up the possibility of more other document storage locations besides *ARK*. See [subsection @sec:svc_overview] for further details.
+The ÍST {{spec_id}} is the successor to the {{previous_spec}} specification, defining services that encapsulate the system previously known as *Birtingur* and now as *ARK-kerfið*. This system has since the year 2000 enabled enterprises in Iceland to upload information for display based on templates in all of the domestic banks' online user interfaces. This edition, IOBWS version 3.2, redesigns the contract to align with the underlying RB Documents API and with the REST patterns established in ÍST TS 315 Claims. Documents are created and retrieved individually, batches are modelled as a separate resource, cross-references are addressable resources, and error responses follow the common IOBWS error model. See [subsection @sec:svc_overview] for further details.
 
 The ÍST {{spec_id}} specification should be viewed as standalone though part of the IOBWS version 3 framework and adapting the same REST patterns established in the OpenAPI contracts that are part of version 3. It should be emphasized that ÍST {{spec_id}} is not part of NextGenPSD2 framework nor is it in any way related to the PSD2 regulation. The patterns shared by the IOBWS version 3 specifications may however result in some of the elements and types in ÍST {{spec_id}} having similarities to parts of the NextGenPSD2 framework. Attribution applies to these as required by the CC BY 4.0 license of the NextGenPSD2 OpenApi specification.
 
@@ -91,6 +92,12 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 - **ARK-kerfið** is the system owned and operated by Reiknistofa bankanna (RB), for storing and displaying data based on specified templates or whole documents. Previously the system was owned by Greiðsluveitan ehf and known domestically under the name Birtingur.
 - **Birtingur**: see *ARK-kerfi*.
 - **Checkfree**: see *ARK-kerfi*.
+- **Document** is a PDF or XML file submitted by a sender for display to an owner. It is identified by an identifier assigned by the implementation, which clients must treat as an opaque string.
+- **Document type** is a registration, per sender, of the category, file type and contact email that documents are created under.
+- **Sender** is the enterprise, identified by kennitala, that submits documents.
+- **Owner** is the customer, identified by kennitala, to whom a document is displayed.
+- **Batch** is a set of documents submitted in one request and processed asynchronously.
+- **Cross-reference** links a document to another object, such as a claim, credit transfer or payment request, identified by a key type and a key.
 - **Durable medium** (ic. *varanlegur miðill*) refers in the context of ÍST {{spec_id}} to the storage of a document digitally, as a record that cannot be altered and is stored long-term. Current systems guarantee this for at least 7 years. The definition refers to usage in Icelandic law, where the record is permanent after the display to the user and is enforced in the contractual relationship between those institutions with permissions to interface with the ARK-system and RB.
 - **Kennitala** (often abbreviated as **KT**) is the unique national identification number issued by the Registers Iceland (ic. Þjóðskrá Íslands) and used by governmental bodies and enterprises to identify individuals, and through a comparable schema under the Iceland Revenue and Customs (ic. ríkisskattstjóri), legal entities in Iceland. It is used to identify the sender and receiver of digital documents.
 - **NextGenPSD2 Access to Accounts Framework** (**NextGenPSD2 Framework** or just **NextGenPSD2**) is the framework established by *the Berlin Group* to define a common PSD2 compliance interface [@NextGenPSD2]. Since then, parts of the framework have extended beyond compliance and into other Open Banking aspects.
@@ -107,57 +114,53 @@ OpenAPI v3.0.1. The OpenAPI Specification (OAS) by the OpenAPI Initiative, a Lin
 <!-- SvcOverview|Start -->
 The functionality offered by the service endpoints is described in the [table @tbl:tbl_offered_services].
 
----------------------------------------------------------------------------------------------------------------
-\_                                        \_
------------------------------------------ ---------------------------------------------------------------------
-Document Service                          The Document Service offers methods to initiate and
-                                          update a document, retrieve the status of a document and the types
-                                          of documents supported by the system.
+| **Service**      | **Description**                                                                                                   |
+|------------------|-------------------------------------------------------------------------------------------------------------------|
+| Document Types   | Register and list the document types a sender may create documents under.                                         |
+| Documents        | Create a single document, search documents and retrieve a single document.                                        |
+| Batches          | Submit documents in bulk, search batches and retrieve batch status and items.                                     |
+| Cross-References | Create, read, update and delete cross-references between documents and other objects such as claims and payments. |
 
-Cross-Reference Service                   The Cross-Reference Service offers means to create, read, update and 
-                                          delete cross-references between documents and other objects such as 
-                                          claims, credit transfers and payment requests.
----------------------------------------------------------------------------------------------------------------
 :Service on offer. {#tbl:tbl_offered_services}
 
 The subsequent section describes the functionality offered by the service.
 <!-- SvcOverview|End -->
 
-### Document Service 
+### Document Service
 
-The Document services focus on supporting the uploading of documents in batches, retrieving information about the status of previous uploads, and optionally updating one or more documents uploaded previously if the system allows it. Though storage in the *ARK-system* can be considered a durable medium, documents or the data that defines them sometime need amending after the initial upload e.g. when a mistake is discovered in the data. This can be allowed based on the document type in question.  
+Documents are created one at a time or in batches and are retrieved by identifier or by search. Storage in the *ARK-system* is a durable medium and this edition offers no operation to alter a document after creation.
 
-The [table @tbl:tbl_svcsupport2] describes the resources found in the NextGenPSD2 based {{yaml_definition}}.
+The batch endpoints are included as a design target. The underlying implementation is not yet available and the batch contract may change in a later edition.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Endpoints/Resources**                                                        **Description**
------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------
-documents\/{document-store-location}                                           Create a new document batch by store, or get information on previously 
-                                                                               created document batches by query parameters. Under ÍST {{spec_id}} all banks will support
-                                                                               one common document store location 'arksystem', referring to the *ARK-kerfi*.
-                                                    
-documents\/{document-store-location}\/{sender-kennitala}\/{documents-id}       Gets information on a single document batch by ID. Alter  updates a batch by ID, if so allowed. 
-                                                                               The possibility to update a document depends on if the type allows changes. There the
-                                                                               definition of durable medium
+### API Endpoints
 
-{document-store-location}/types                                                Get available document types based on store.
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-:Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_svcsupport2}  
+#### Document Types
 
-### Cross-Reference Service
+- **GET** `/v1/senders/{sender-id}/document-types` – Retrieve the document types registered for a sender.
+- **POST** `/v1/senders/{sender-id}/document-types` – Register document types for a sender.
 
-The [table @tbl:tbl_crossreferences] describes the resources found in the NextGenPSD2 based {{yaml_definition}}.
+#### Documents
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Endpoints/Resources**                                                        **Description**
------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------
-crossreferences                                                                Create, update or get an array of new cross-references between documents and some other objects
-                                                                               (such as claims, credit transfers and payment requests) corresponding to provided query and body parameters. 
-                                                    
-crossreferences\/{document-store}\/{document-id}\/{key-type}\/{key}            Delete a cross-reference between a document and some other object (such as claims, credit transfers
-                                                                               and payment requests) corresponding to provided path parameters.
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-:Service support in ÍST {{spec_id}} and {{yaml_definition}}. {#tbl:tbl_crossreferences}  
+- **POST** `/v1/documents` – Create a single document.
+- **GET** `/v1/documents` – Search documents by owner, sender, type and date.
+- **GET** `/v1/documents/{document-id}` – Retrieve a single document.
+
+#### Batches
+
+- **GET** `/v1/batches` – Search batches.
+- **POST** `/v1/batches` – Create a batch of documents.
+- **GET** `/v1/batches/{batch-id}` – Retrieve the status of a batch.
+- **GET** `/v1/batches/{batch-id}/items` – Retrieve the documents in a batch.
+
+#### Cross-References
+
+- **POST** `/v1/crossreferences` – Create cross-references.
+- **POST** `/v1/crossreferences/bulk-delete` – Delete cross-references in bulk.
+- **GET** `/v1/crossreferences/{key-type}/{key}` – Retrieve the cross-references for a key.
+- **GET** `/v1/documents/{document-id}/crossreferences` – Retrieve the cross-references for a document.
+- **GET** `/v1/documents/{document-id}/crossreferences/{key-type}/{key}` – Retrieve a single cross-reference.
+- **PATCH** `/v1/documents/{document-id}/crossreferences/{key-type}/{key}` – Update a single cross-reference.
+- **DELETE** `/v1/documents/{document-id}/crossreferences/{key-type}/{key}` – Delete a single cross-reference.
 
 # Bibliography {.unnumbered}
 \ 

@@ -1,0 +1,2906 @@
+openapi: 3.0.1
+info:
+  title: IOBWS 3.2 Digital Documents
+  version: "3.2"
+  description: |
+    # Summary
+    
+    This document represents version 3.2 of the Icelandic Online Banking Services (IOBWS)
+    and is released as a part of the technical specification ÍST TS 314, digital documents, 
+    by the Icelandic Standards Council.
+    Previous versions of IOBWS, released in 2007 and 2013 respectively, each used the then most recent OASIS SOAP standards.
+    TS 314 is the immediate successor to TS 165:2013 but offers a more up to date and interoperable set of
+    Application Programming Interfaces (APIs).
+
+    In places the contract uses elements based on the Berlin Group NextGenPSD2 XS2A Framework, mainly
+    versions 1.3.5 and 1.3.8 of that specification. Attribution applies as required by 
+    the CC BY 4.0 license NextGenPSD2 is released under.
+
+    ## Remark on character set support
+
+    The definition of UTF-8 strings in context of this API has to support at least the following characters
+
+    a b c d e f g h i j k l m n o p q r s t u v w x y z å ä ö æ ø á ð é í ó ú ý	þ	æ	ö
+    
+    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Å Ä Ö Æ Ø Á Ð É Í Ó Ú Ý	Þ	Æ	Ö
+
+    0 1 2 3 4 5 6 7 8 9
+     
+    / - ? : ( ) . , ' + @
+    
+    Space
+
+    ## Caveat on batch operations
+
+    The batch endpoints (`/v1/batches`) are included in this specification as a design target.
+    The underlying implementation is not yet available and the batch contract could be subject
+    to change.
+
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://creativecommons.org/licenses/by/4.0/
+  contact:
+    name: Stadlarad Islands
+    url: https://www.stadlar.is
+    email: openbanking@stadlar.is
+
+externalDocs:
+  description: |
+    Documentation for ÍS TS-314 (Technical Specifications, Technical Guidelines)
+  url: https://github.com/stadlar/IST-FUT-FMTH/tree/master/Deliverables
+
+servers:
+  - url: https://documents.example.com
+    description: Example production server
+  - url: https://documents-sandbox.example.com
+    description: Example sandbox server for testing
+
+
+paths:
+
+  #####################################################
+  # Document Types
+  #####################################################
+
+  /v1/senders/{sender-id}/document-types:
+
+    get:
+      summary: Get list of all document types
+      description: |
+        Returns the document types available for a specific sender. The order of the list is not defined.
+      operationId: getDocumentTypesForSender
+      tags:
+        - Document Types
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/senderId"
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_DocumentTypeDetails"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+    post:
+      summary: Create document types for a sender
+      description: |
+        Registers one or more document types for a specific sender. If the sender does not exist, the implementation should create the sender automatically.
+
+        A document type is unique per sender by the combination of `fileType`, `categoryCode` and `email`.
+        Entries in the same request that repeat a combination are rejected with 400. An entry whose
+        combination already exists for the sender is reported in `failed` and does not prevent the other
+        entries from being created.
+      operationId: createDocumentTypesForSender
+      tags:
+        - Document Types
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/senderId"
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/Idempotency-Key"
+      requestBody:
+        $ref: "#/components/requestBodies/createDocumentTypes"
+      responses:
+        '201':
+          $ref: "#/components/responses/CREATED_201_DocumentTypes"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  #####################################################
+  # Documents
+  #####################################################
+
+  /v1/documents:
+
+    post:
+      summary: Create a single document
+      description: |
+        Creates a single document and returns the created document identifier.
+      operationId: createDocument
+      tags:
+        - Documents
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/Idempotency-Key"
+      requestBody:
+        $ref: "#/components/requestBodies/documentInitiation"
+      responses:
+        '201':
+          $ref: "#/components/responses/CREATED_201_Document"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+    get:
+      summary: Search documents
+      description: |
+        Returns a filtered list of documents. Use `GET /v1/documents/{document-id}` for retrieval of a single document by identifier.
+
+        **Implementation note:** The underlying SOAP operation (`GetDocuments`) does not currently
+        support filtering by `senderId` alone — `ownerId` is always required. Filtering solely
+        by sender is under analysis and may be exposed through a new endpoint in a future revision.
+      operationId: searchDocuments
+      tags:
+        - Documents
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/senderIdOptionalQuery"
+        - $ref: "#/components/parameters/ownerIdQuery"
+        - $ref: "#/components/parameters/externalIdQuery"
+        - $ref: "#/components/parameters/documentTypeCode"
+        - $ref: "#/components/parameters/dateFrom"
+        - $ref: "#/components/parameters/dateTo"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/itemsPerPage"
+        - $ref: "#/components/parameters/ordering"
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_DocumentInfoList"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/documents/{document-id}:
+
+    get:
+      summary: Get a single document
+      description: |
+        Returns a single document by identifier.
+      operationId: getDocumentById
+      tags:
+        - Documents
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/documentIdPathParameter"
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_DocumentInfo"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  #####################################################
+  # Batches
+  #####################################################
+
+  /v1/batches:
+
+    get:
+      summary: Search batches
+      description: |
+        Returns a filtered, paginated list of batches.
+      operationId: searchBatches
+      tags:
+        - Batches
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/senderIdOptionalQuery"
+        - $ref: "#/components/parameters/documentTypeCode"
+        - $ref: "#/components/parameters/batchStatusQuery"
+        - $ref: "#/components/parameters/dateFrom"
+        - $ref: "#/components/parameters/dateTo"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/itemsPerPage"
+        - $ref: "#/components/parameters/ordering"
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_BatchList"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+    post:
+      summary: Create a batch
+      description: |
+        Creates a new batch and uploads one or more documents.
+      operationId: createBatch
+      tags:
+        - Batches
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/Idempotency-Key"
+      requestBody:
+        $ref: "#/components/requestBodies/batchInitiation"
+      responses:
+        '201':
+          $ref: "#/components/responses/CREATED_201_BatchWithStatusDetails"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/batches/{batch-id}:
+
+    get:
+      summary: Get a single batch
+      description: |
+        Returns a single batch by batch identifier.
+      operationId: getBatchById
+      tags:
+        - Batches
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/batchIdPath"
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_BatchWithStatusDetails"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/batches/{batch-id}/items:
+
+    get:
+      summary: Get items in a batch
+      description: |
+        Returns a paginated list of document identifiers within a batch.
+      operationId: getBatchItems
+      tags:
+        - Batches
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/batchIdPath"
+        - $ref: "#/components/parameters/pageOptional"
+        - $ref: "#/components/parameters/itemsPerPageOptional"
+        - $ref: "#/components/parameters/ordering"
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_BatchItems"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+
+  #####################################################
+  # Cross-References
+  #####################################################
+
+  /v1/crossreferences:
+
+    post:
+      summary: Create new cross-references
+      description: Create an array of new cross-references between documents and some other objects (such as claims, credit transfers and payment requests).
+      operationId: createCrossReferences
+      tags:
+        - Cross-References
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/Idempotency-Key"
+      requestBody:
+        $ref: "#/components/requestBodies/createCrossReferences"
+      responses:
+        '201':
+          $ref: "#/components/responses/CREATED_201_CreateCrossReferences"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/crossreferences/bulk-delete:
+
+    post:
+      summary: Delete cross-references
+      description: |
+        Deletes an array of cross-references. Each item identifies a cross-reference
+        by its document ID, key type and key. A single optional externalEventId applies
+        to all items in the batch.
+      operationId: deleteCrossReferences
+      tags:
+        - Cross-References
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/Idempotency-Key"
+      requestBody:
+        $ref: "#/components/requestBodies/deleteCrossReferences"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_DeleteCrossReferences"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/crossreferences/{key-type}/{key}:
+
+    get:
+      summary: Get cross-references by key
+      description: |
+        Returns all cross-references identified by key type and key. The order of the list is not defined.
+      operationId: getCrossReferencesByKeyTypeAndKey
+      tags:
+        - Cross-References
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/keyTypePathParameter"
+        - $ref: "#/components/parameters/keyPathParameter"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CrossReferencesByKey"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/documents/{document-id}/crossreferences:
+
+    get:
+      summary: Get cross-references for a document
+      description: |
+        Returns cross-references for a single document. The order of the list is not defined.
+      operationId: getCrossReferencesForDocument
+      tags:
+        - Cross-References
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/documentIdPathParameter"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_QueryCrossReferences"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+  /v1/documents/{document-id}/crossreferences/{key-type}/{key}:
+
+    get:
+      summary: Get a single cross-reference for a document
+      description: |
+        Returns a single cross-reference identified by document, key type and key.
+      operationId: getCrossReferenceForDocument
+      tags:
+        - Cross-References
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/documentIdPathParameter"
+        - $ref: "#/components/parameters/keyTypePathParameter"
+        - $ref: "#/components/parameters/keyPathParameter"
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CrossReference"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+    patch:
+      summary: Update a cross-reference for a document
+      description: |
+        Updates a single cross-reference identified by document, key type and key.
+        Only the supplied fields are modified; omitted fields remain unchanged.
+      operationId: updateCrossReferenceForDocument
+      tags:
+        - Cross-References
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/documentIdPathParameter"
+        - $ref: "#/components/parameters/keyTypePathParameter"
+        - $ref: "#/components/parameters/keyPathParameter"
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/Idempotency-Key"
+      requestBody:
+        $ref: "#/components/requestBodies/updateCrossReference"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_CrossReference"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+    delete:
+      summary: Delete a cross-reference for a document
+      description: |
+        Deletes a cross-reference identified by document, key type and key.
+      operationId: deleteCrossReferenceForDocument
+      tags:
+        - Cross-References
+      security:
+        - {}
+        - BearerAuthOAuth: []
+      parameters:
+        - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/USR-IP-Address_optional"
+        - $ref: "#/components/parameters/Idempotency-Key"
+        - $ref: "#/components/parameters/documentIdPathParameter"
+        - $ref: "#/components/parameters/keyTypePathParameter"
+        - $ref: "#/components/parameters/keyPathParameter"
+        - $ref: "#/components/parameters/externalEventId"
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200_DeleteCrossReference"
+        '400':
+          $ref: "#/components/responses/BAD_REQUEST_400"
+        '401':
+          $ref: "#/components/responses/UNAUTHORIZED_401"
+        '403':
+          $ref: "#/components/responses/FORBIDDEN_403"
+        '404':
+          $ref: "#/components/responses/NOT_FOUND_404"
+        '429':
+          $ref: "#/components/responses/TOO_MANY_REQUESTS_429"
+        '500':
+          $ref: "#/components/responses/INTERNAL_SERVER_ERROR_500"
+        '503':
+          $ref: "#/components/responses/SERVICE_UNAVAILABLE_503"
+
+components:
+#####################################################
+# Predefined Components
+#####################################################
+
+  securitySchemes:
+  #####################################################
+  # Predefined Security Schemes:
+  #
+  # In this file only the basic security element to transport
+  # the bearer token of an OAuth2 process, which has to
+  # be included in the HTTP header is described.
+  #
+  # WARNING:
+  # If you want to use this file for a productive implementation,
+  # it is recommended to adjust the security schemes according to
+  # your system environments and security policies.
+  #####################################################
+    BearerAuthOAuth:
+      description: |
+        Bearer Token.
+
+        Is contained only, if an OAuth2 based authentication was performed in a pre-step or
+        an OAuth2 based SCA was performed in a preceding IOBWS service in the same session.
+      type: http
+      scheme: bearer
+
+  parameters:
+  #####################################################
+  # Predefined Parameters
+  #####################################################
+
+    X-Request-ID:
+      name: X-Request-ID
+      in: header
+      description: ID of the request, unique to the call, as determined by the initiating party.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+
+    USR-IP-Address_optional:
+      name: USR-IP-Address
+      in: header
+      description: |
+        The forwarded IP Address header field consists of the corresponding http request IP Address field between User and intermediary service.
+      schema:
+        type: string
+        format: ipv4
+      required: false
+      example: 192.168.8.78
+
+    batchIdPath:
+      name: batch-id
+      in: path
+      description: |
+        Batch id in path.
+      required: true
+      schema:
+        type: string
+        
+    page:
+      name: page
+      in: query
+      description: Page number. If not specified, the default is 1.
+      required: false
+      example: 3
+      schema:
+        $ref: "#/components/schemas/pagingPageNumber"
+
+    itemsPerPage:
+      name: itemsPerPage
+      in: query
+      description: Number of items per page. If not specified, the default is 10.
+      required: false
+      example: 10
+      schema:
+        $ref: "#/components/schemas/pagingItemsPerPage"
+
+    dateFrom:
+      name: dateFrom
+      in: query
+      description: |
+        Starting date (inclusive) of the expected list.
+      required: false
+      example: "2024-11-29"
+      schema:
+        type: string
+        format: date
+
+    dateTo:
+      name: dateTo
+      in: query
+      description: |
+        End date (inclusive) of the expected list.
+      required: false
+      example: "2024-11-30"
+      schema:
+        type: string
+        format: date
+
+    senderIdOptionalQuery:
+      name: senderId
+      in: query
+      description: |
+        Identifier (kennitala) of the document sender for filtering.
+      required: false
+      schema:
+        $ref: "#/components/schemas/kennitala"
+
+    senderId:
+      name: sender-id
+      in: path
+      description: |
+        Identifier (kennitala) of the document sender.
+      required: true
+      schema:
+        $ref: "#/components/schemas/kennitala"
+
+    ownerIdQuery:
+      name: ownerId
+      in: query
+      description: |
+        Identifier (kennitala) of the document owner for filtering.
+      required: false
+      schema:
+        $ref: "#/components/schemas/kennitala"
+
+    documentTypeCode:
+      name: documentTypeCode
+      in: query
+      description: |
+        Document Type Code
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 10
+
+    externalIdQuery:
+      name: externalId
+      in: query
+      description: |
+        External identifier used to link the document with the sender's own systems.
+      required: false
+      schema:
+        type: string
+
+    batchStatusQuery:
+      name: status
+      in: query
+      description: |
+        Filter by batch status.
+      required: false
+      schema:
+        $ref: "#/components/schemas/batchStatus"
+      
+    Idempotency-Key:
+      name: Idempotency-Key
+      in: header
+      description: Idempotent value for the operation being performed.
+      required: false
+      example: "doc-init-001"
+      schema:
+        type: string
+
+    keyPathParameter:
+      name: key
+      in: path
+      description: |
+        The key of the object related to the document in question. The key is a unique identifier for the object. The format of the key is determined by the type of the key. 
+        For instance, the key could be a claim key if the object is a claim. 
+      required: true
+      example: "cc15b0b1-eea5-4c65-adc9-b61a83fae528"
+      schema:
+        $ref: "#/components/schemas/key"
+
+    keyTypePathParameter:
+      name: key-type
+      in: path
+      description: |
+        Type of object related to the document in question. The value is one of the following:
+      required: true
+      example: Claim
+      schema:
+        $ref: "#/components/schemas/keyType"
+
+    documentIdPathParameter:
+      name: document-id
+      in: path
+      description: |
+        The ID of document related to the object in question. The ID is a unique identifier for the document in its source system.
+      required: true
+      example: "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324"
+      schema:
+        $ref: "#/components/schemas/documentId"
+      
+    externalEventId:
+      name: externalEventId
+      in: query
+      description: |
+        An ID of an event in an external system which yielded the most recent change of the cross-reference. The format of the external event ID is determined by external system which brought the event about.
+      required: false
+      example: "edd45ff6-265e-4cda-8d58-bdefea00acd2"
+      schema:
+        $ref: "#/components/schemas/externalEventId"
+
+    pageOptional:
+      name: page
+      in: query
+      description: Page number. If not specified, the default is 1.
+      required: false
+      example: 3
+      schema:
+        $ref: "#/components/schemas/pagingPageNumber"
+
+    itemsPerPageOptional:
+      name: itemsPerPage
+      in: query
+      description: Number of items per page. If not specified, the default is 10.
+      required: false
+      example: 10
+      schema:
+        $ref: "#/components/schemas/pagingItemsPerPage"
+
+    ordering:
+      name: ordering
+      in: query
+      description: |
+        Sort direction of the results. Document lists are ordered by `effectiveDate`.
+        Default is DESC, newest first. The relative order of items that share the same
+        `effectiveDate` is not defined.
+      required: false
+      example: DESC
+      schema:
+        type: string
+        enum:
+          - "ASC"
+          - "DESC"
+        default: "DESC"
+
+  schemas:
+    #####################################################
+    # Predefined Schemas
+    #####################################################
+
+    pagingPageNumber:
+      description: Page number.
+      type: integer
+      minimum: 1
+
+    pagingItemsPerPage:
+      description: Number of items per page.
+      type: integer
+      minimum: 1
+
+    #####################################################
+    kennitala:
+      description: |
+        An Icelandic national ID, either issued for individuals by the Registers Iceland (Þjóðskrá) or the 
+        Register of Enterprises maintained by the office of Iceland Revenue and Customs (Skatturinn). As
+        suggestions to change this ID from the current pattern exist, future updates might be needed.
+        https://en.wikipedia.org/wiki/Icelandic_identification_number
+      type: string
+      pattern: '[0-9]{10}'
+      example: "1909791489"
+
+    documentTypeDetails:
+      description: |
+        Document type details as returned by the service.
+      type: object
+      required:
+        - code
+        - description
+        - fileName
+        - email
+      properties:
+        code:
+          description: Unique code for the document type.
+          type: string
+          minLength: 1
+          maxLength: 10
+        description:
+          description: |
+            Description of the document type.
+          type: string
+          maxLength: 140
+        fileType:
+          description: |
+            Accepted file type for this document type.
+          type: string
+          enum:
+            - "XML"
+            - "PDF"
+        fileName:
+          description: |
+            File name for FTP delivery of data for this document type.
+          type: string
+          maxLength: 140
+        email:
+          description: |
+            Email address of the submitting party for this document type.
+          type: string
+          format: email
+        category:
+          description: |
+            Category information for this document type.
+          type: object
+          required:
+            - code
+            - description
+          properties:
+            code:
+              $ref: "#/components/schemas/documentCategory"
+            description:
+              description: Category description.
+              type: string
+              maxLength: 140
+            subCode:
+              description: Sub-category code. Generally not in use.
+              type: string
+            name:
+              description: Category name.
+              type: string
+              maxLength: 140
+
+    documentTypeList:
+      description: |
+        Document types for a sender.
+      type: object
+      required:
+        - senderName
+        - documentTypes
+      properties:
+        senderName:
+          description: Name of the sender.
+          type: string
+          maxLength: 140
+        documentTypes:
+          type: array
+          items:
+            $ref: "#/components/schemas/documentTypeDetails"
+
+    documentTypeCreation:
+      description: |
+        Document type creation request item.
+      type: object
+      required:
+        - fileType
+        - categoryCode
+      properties:
+        fileType:
+          description: |
+            Accepted file type for this document type.
+          type: string
+          enum:
+            - "XML"
+            - "PDF"
+        categoryCode:
+          $ref: "#/components/schemas/documentCategory"
+        email:
+          description: |
+            Email address associated with this document type.
+          type: string
+          format: email
+
+    documentTypeCreationRequest:
+      description: |
+        Request body for creating document types for a sender.
+      type: object
+      required:
+        - documentTypes
+      properties:
+        submittingId:
+          description: |
+            Identifier (kennitala) of the submitting party authorised to send documents on behalf of the sender.
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/kennitala"
+        documentTypes:
+          description: |
+            List of document types to create.
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/documentTypeCreation"
+
+    documentTypeCreationFailure:
+      description: |
+        A document type that failed to be created, with the reason for failure.
+      type: object
+      required:
+        - fileType
+        - categoryCode
+        - failureReason
+      properties:
+        fileType:
+          description: |
+            Accepted file type for this document type.
+          type: string
+          enum:
+            - "XML"
+            - "PDF"
+        categoryCode:
+          $ref: "#/components/schemas/documentCategory"
+        email:
+          description: |
+            Email address of the rejected entry, when one was supplied.
+          type: string
+          format: email
+        failureReason:
+          description: Description of why the creation failed.
+          type: string
+          example: "Document type already exists for this sender."
+
+    documentTypeCreationResult:
+      description: |
+        Result of a batch document type creation request.
+      type: object
+      required:
+        - created
+        - failed
+      properties:
+        created:
+          type: array
+          items:
+            $ref: "#/components/schemas/documentTypeDetails"
+        failed:
+          type: array
+          items:
+            $ref: "#/components/schemas/documentTypeCreationFailure"
+
+    documentInitiationDetails:
+      description: |
+        Single document creation payload with document type and file content.
+      allOf:
+        - type: object
+          required:
+            - senderId
+            - documentTypeCode
+          properties:
+            senderId:
+              description: |
+                Identifier (kennitala) of the document sender.
+              allOf:
+                - $ref: "#/components/schemas/kennitala"
+            documentTypeCode:
+              description: |
+                Document type code as returned by GET /v1/senders/{sender-id}/document-types
+              type: string
+              minLength: 1
+              maxLength: 10
+        - $ref: "#/components/schemas/documentDetails"
+
+    documentDetails:
+      description: |
+        Document details.
+      oneOf:
+        - $ref: "#/components/schemas/documentDetailsXML"
+        - $ref: "#/components/schemas/documentDetailsPDF"
+      discriminator:
+        propertyName: fileType
+        mapping:
+          XML: "#/components/schemas/documentDetailsXML"
+          PDF: "#/components/schemas/documentDetailsPDF"
+
+    fileDescription:
+      description: |
+        The file description usually in this format: "\<Company name as sender\> - \<Document type\>"
+      type: string
+      maxLength: 140
+
+    documentDetailsCommon:
+      type: object
+      required:
+        - externalId
+        - ownerId
+      properties:
+        externalId:
+          description: |
+            External identifier used to link the document with the sender's own systems.
+          type: string
+        ownerId:
+          $ref: "#/components/schemas/kennitala"
+        effectiveDate:
+          description: |
+            The effective date of the document. If omitted, the implementation should default to today's date.
+          type: string
+          format: date
+        reference:
+          description: |
+            Free text reference set by the sender.
+          type: string
+          maxLength: 200
+
+    fileTypeXML:
+      type: string
+      enum:
+        - "XML"
+
+    fileTypePDF:
+      type: string
+      enum:
+        - "PDF"
+
+    filePayloadXML:
+      type: object
+      required:
+        - fileType
+        - file
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypeXML"
+        file:
+          description: XML document payload as a plain string.
+          type: string
+        styleSheetName:
+          description: |
+            Name of the XSLT style sheet to apply when rendering the XML document.
+          type: string
+
+    filePayloadPDF:
+      type: object
+      required:
+        - fileType
+        - file
+      properties:
+        fileType:
+          $ref: "#/components/schemas/fileTypePDF"
+        file:
+          description: The PDF file in the form of base64 encoded characters.
+          type: string
+          format: byte
+          maxLength: 4194304
+
+    documentDetailsXML:
+      description: |
+        XML file details where the payload is XML content as plain text.
+      allOf:
+        - $ref: "#/components/schemas/documentDetailsCommon"
+        - $ref: "#/components/schemas/filePayloadXML"
+
+    documentDetailsPDF:
+      description: |
+        PDF file details where the payload is base64-encoded bytes.
+      allOf:
+        - $ref: "#/components/schemas/documentDetailsCommon"
+        - $ref: "#/components/schemas/filePayloadPDF"
+
+    batchDetails:
+      description: |
+        Batch creation payload. The senderId applies to all documents in the batch.
+      type: object
+      required:
+        - senderId
+        - documents
+      properties:
+        senderId:
+          description: |
+            Identifier (kennitala) of the document sender. Applies to all documents in the batch.
+          allOf:
+            - $ref: "#/components/schemas/kennitala"
+        documents:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/batchDocumentItem"
+
+    batchDocumentItem:
+      description: |
+        A single document within a batch creation request.
+      allOf:
+        - type: object
+          required:
+            - documentTypeCode
+          properties:
+            documentTypeCode:
+              description: |
+                Document type code as returned by GET /v1/senders/{sender-id}/document-types
+              type: string
+              minLength: 1
+              maxLength: 10
+        - $ref: "#/components/schemas/documentDetails"
+
+    batchCreated:
+      description: |
+        Response from a batch creation request.
+      type: object
+      required:
+        - batchId
+      properties:
+        batchId:
+          description: Identifier of the created batch. Use this to track batch status and retrieve items.
+          type: string
+
+    batchStatus:
+      description: |
+        Batch status. The value is one of the following:
+        - "OnHold":               The batch is pending and has not started processing
+        - "InProgress":           The batch is being processed
+        - "Completed":            The batch has been processed
+        - "CompletedWithErrors":  The batch has been processed with errors
+      type: string
+      enum:
+        - "OnHold"
+        - "InProgress"
+        - "Completed"
+        - "CompletedWithErrors"
+
+    documentInfo:
+      description: |
+        Document details.
+      allOf:
+        - $ref: "#/components/schemas/documentDetailsCommon"
+        - type: object
+          required:
+            - id
+            - senderId
+            - senderName
+            - isCrossReferenced
+            - effectiveDate
+            - fileType
+          properties:
+            id:
+              description: |
+                Unique document identifier assigned by the implementation. Clients should treat the
+                identifier as an opaque string and not rely on its internal format.
+              allOf:
+                - $ref: "#/components/schemas/documentId"
+            senderId:
+              description: |
+                Identifier (kennitala) of the document sender.
+              allOf:
+                - $ref: "#/components/schemas/kennitala"
+            senderName:
+              description: |
+                Name of the document sender.
+              type: string
+              maxLength: 140
+            isCrossReferenced:
+              description: |
+                Indicates whether the document is cross-referenced to another object.
+              type: boolean
+            description:
+              $ref: "#/components/schemas/fileDescription"
+            fileType:
+              description: |
+                The file type of the document.
+              type: string
+              enum:
+                - "XML"
+                - "PDF"
+
+    batchWithStatusDetails:
+      description: |
+        Batch status details for a single batch.
+      type: object
+      required:
+        - id
+        - senderId
+        - documentTypeCode
+        - status
+        - createdDate
+        - itemCount
+      properties:
+        id:
+          # Unique ID of the batch, as determined by the initiating party.
+          $ref: "#/components/schemas/uuid"
+        name:
+          description: Short description for the batch
+          type: string
+          maxLength: 70
+        description:
+          description: |
+            The file description usually in this format: "<Company name as sender> - <Document type>"
+          type: string
+          maxLength: 140
+        senderId:
+          $ref: "#/components/schemas/kennitala"
+        documentTypeCode:
+          description: |
+            Document type code as returned by GET /v1/senders/{sender-id}/document-types
+          type: string
+          minLength: 1
+          maxLength: 10
+        status:
+          $ref: "#/components/schemas/batchStatus"
+        createdBy:
+          description: Username of the batch creator.
+          type: string
+        createdDate:
+          description: Timestamp when the batch was created.
+          type: string
+          format: date-time
+        itemCount:
+          description: Total number of items in the batch.
+          type: integer
+          minimum: 0
+        itemSuccessCount:
+          description: Number of items that were successfully processed. Only returned when the batch has completed.
+          type: integer
+          minimum: 0
+        itemErrorCount:
+          description: Number of items that failed processing. Only returned when the batch has completed.
+          type: integer
+          minimum: 0
+
+    batchItem:
+      type: object
+      required:
+        - documentId
+        - status
+      properties:
+        documentId:
+          $ref: "#/components/schemas/documentId"
+        status:
+          $ref: "#/components/schemas/batchStatus"
+        statusMessage:
+          description: Status message
+          type: string
+          maxLength: 250
+
+    batchItemList:
+      description: |
+        List of batch items.
+      type: array
+      items:
+        $ref: "#/components/schemas/batchItem"
+
+    batchList:
+      description: |
+        List of batches.
+      type: array
+      items:
+        $ref: "#/components/schemas/batchWithStatusDetails"
+
+    documentInfoList:
+      description: |
+        List of document items with details.
+      type: array
+      items:
+        $ref: "#/components/schemas/documentInfo"
+
+    documentCreated:
+      description: |
+        Response returned when a single document is created.
+      type: object
+      required:
+        - documentId
+      properties:
+        documentId:
+          description: |
+            The unique identifier assigned to the created document.
+            Composite key of ownerId, senderId, externalId and effectiveDate joined by colon.
+            Format: `{ownerId}:{senderId}:{externalId}:{effectiveDate}`
+          type: string
+          example: "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324"
+
+    uuid:
+      description: Unique Identifier 
+      type: string
+      format: uuid
+
+    crossReferencesList:
+      description: |
+        List of cross-references. Empty when no cross-references match.
+      type: array
+      items:
+        $ref: "#/components/schemas/crossReference"
+
+    crossReferenceCreationRequest:
+      description: |
+        List of cross-references to create. Must contain at least one item.
+      type: array
+      minItems: 1
+      items:
+        $ref: "#/components/schemas/crossReference"
+
+    crossReferenceFailure:
+      description: |
+        A cross-reference that failed to be processed, with the reason for failure.
+      type: object
+      required:
+        - keyType
+        - key
+        - document
+        - failureReason
+      properties:
+        key:
+          $ref: "#/components/schemas/key"
+        keyType:
+          $ref: "#/components/schemas/keyType"
+        document:
+          description: |
+            Document details identifying the failed cross-reference.
+          type: object
+          nullable: false
+          required:
+            - id
+          properties:
+            id:
+              $ref: "#/components/schemas/documentId"
+        failureReason:
+          description: Description of why the operation failed.
+          type: string
+          example: "Cross-reference already exists."
+
+    crossReferenceCreationResult:
+      description: |
+        Result of a batch cross-reference creation. Contains both successfully
+        created items and items that failed.
+      type: object
+      required:
+        - created
+        - failed
+      properties:
+        created:
+          type: array
+          items:
+            $ref: "#/components/schemas/crossReference"
+        failed:
+          type: array
+          items:
+            $ref: "#/components/schemas/crossReferenceFailure"
+
+    crossReferenceDeletionResult:
+      description: |
+        Result of a batch cross-reference deletion. Contains both successfully
+        deleted items and items that failed.
+      type: object
+      required:
+        - deleted
+        - failed
+      properties:
+        deleted:
+          type: array
+          items:
+            $ref: "#/components/schemas/crossReferenceIdentifier"
+        failed:
+          type: array
+          items:
+            $ref: "#/components/schemas/crossReferenceFailure"
+
+    crossReferenceUpdate:
+      description: |
+        Fields that may be updated on an existing cross-reference.
+        All properties are optional; only supplied fields are changed.
+      type: object
+      properties:
+        category:
+          $ref: "#/components/schemas/documentCategory"
+        description:
+          $ref: "#/components/schemas/documentDescription"
+        effectiveDate:
+          $ref: "#/components/schemas/documentEffectiveDate"
+        externalEventId:
+          $ref: "#/components/schemas/externalEventId"
+
+    crossReferenceIdentifier:
+      description: |
+        Identifies a single cross-reference by its document ID, key type and key.
+      type: object
+      required:
+        - documentId
+        - keyType
+        - key
+      properties:
+        documentId:
+          $ref: "#/components/schemas/documentId"
+        keyType:
+          $ref: "#/components/schemas/keyType"
+        key:
+          $ref: "#/components/schemas/key"
+
+    crossReferenceDeletionRequest:
+      description: |
+        Request to delete one or more cross-references. A single optional
+        externalEventId applies to all items in the batch.
+      type: object
+      required:
+        - crossReferences
+      properties:
+        externalEventId:
+          $ref: "#/components/schemas/externalEventId"
+        crossReferences:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/crossReferenceIdentifier"
+
+    crossReference:
+      description: |
+        Detail information for a single cross-reference.
+      type: object
+      required:
+        - key
+        - keyType
+        - document
+      properties:
+        key:
+          $ref: "#/components/schemas/key"
+        keyType:
+          $ref: "#/components/schemas/keyType"
+        document:
+          description: |
+            Document details associated with this cross-reference.
+          type: object
+          nullable: false
+          required:
+            - id
+          properties:
+            id:
+              $ref: "#/components/schemas/documentId"
+            category:
+              $ref: "#/components/schemas/documentCategory"
+            description:
+              $ref: "#/components/schemas/documentDescription"
+            effectiveDate:
+              $ref: "#/components/schemas/documentEffectiveDate"
+        externalEventId:
+          $ref: "#/components/schemas/externalEventId"
+
+    key:
+      description: |
+        The key of the object related to the document in question. The key is a unique identifier for the object. The format of the key is determined by the type of the key. 
+        For instance, the key could be a claim key if the object is a claim. 
+      type: string
+      example: "cc15b0b1-eea5-4c65-adc9-b61a83fae528"
+
+    keyType:
+      description: |
+        Type of object related to the document in question. The value is one of the following:
+      type: string
+      enum: #TODO - add more types
+        - "Claim"
+        - "CreditTransfer"
+        - "PaymentRequest"
+
+    documentId:
+      description: |
+        The ID of document related to the object in question. The ID is a unique identifier for the document in its source system.
+      type: string
+      example: "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324"
+
+    documentCategory:
+      description: |
+        Document category. The value is one of the following:
+      type: string
+      enum: 
+        - "AccountStatement"
+        - "PaymentForm"
+        - "Bill"
+        - "CreditCard"
+        - "Payslip"
+        - "Password"
+        - "InterestNote"
+        - "SalarySlip"
+        - "TransactionStatement"
+        - "PaymentNotification"
+        - "Report"
+        - "Receipt"
+        - "Notification"
+        - "TimeSheet"
+        - "CollectionLetter"
+        - "WarningLetter"
+        - "Reminder"
+        - "Other"
+
+    documentDescription:
+      description: |
+        A description of the document.
+      type: string
+      example: "Bill for services rendered."
+
+    documentEffectiveDate:
+      description: |
+        The effective date of the document in question. This is the date when the document is considered to be effective.
+      type: string
+      format: date
+      example: "2024-11-29"
+      
+    externalEventId:
+      description: |
+        An ID of an event in an external system which yielded the most recent change of the cross-reference. The format of the external event ID is determined by external system which brought the event about.
+      type: string
+      example: "edd45ff6-265e-4cda-8d58-bdefea00acd2"
+
+
+    #####################################################
+    # Standard messages
+    #####################################################
+
+
+    MessageCode401:
+      description: Message codes for HTTP error code 401 (UNAUTHORIZED).
+      type: string
+      enum:
+        - "CERTIFICATE_INVALID"
+        - "ROLE_INVALID"
+        - "CERTIFICATE_EXPIRED"
+        - "CERTIFICATE_BLOCKED"
+        - "CERTIFICATE_REVOKE"
+        - "CERTIFICATE_MISSING"
+        - "SIGNATURE_INVALID"
+        - "SIGNATURE_MISSING"
+        - "TOKEN_UNKNOWN"
+        - "TOKEN_INVALID"
+        - "TOKEN_EXPIRED"
+
+    MessageCode403:
+      description: Message codes for HTTP error code 403 (FORBIDDEN).
+      type: string
+      enum:
+        - "SERVICE_BLOCKED"
+        - "RESOURCE_UNKNOWN"
+        - "RESOURCE_EXPIRED"
+
+    MessageCode404:
+      description: Message codes for HTTP error code 404 (NOT FOUND).
+      type: string
+      enum:
+        - "RESOURCE_UNKNOWN"
+
+    MessageCode429:
+      description: Message codes for HTTP error code 429 (TOO MANY REQUESTS).
+      type: string
+      enum:
+        - "ACCESS_EXCEEDED"
+
+    MessageCode500:
+      description: Message codes for HTTP error code 500 (INTERNAL SERVER ERROR).
+      type: string
+      enum:
+        - "INTERNAL_ERROR"
+        - "DOWNSTREAM_ERROR"
+
+    MessageCode503:
+      description: Message codes for HTTP error code 503 (SERVICE UNAVAILABLE).
+      type: string
+      enum:
+        - "SERVICE_UNAVAILABLE"
+
+    #####################################################
+    # Error Schemas
+    #####################################################
+
+    Error400:
+      description: |
+        Error information for HTTP error code 400.
+        Uses oneOf to distinguish between format errors and validation errors.
+      oneOf:
+        - $ref: "#/components/schemas/FormatError"
+        - $ref: "#/components/schemas/ValidationError"
+      discriminator:
+        propertyName: code
+        mapping:
+          FORMAT_ERROR: "#/components/schemas/FormatError"
+          VALIDATION_ERROR: "#/components/schemas/ValidationError"
+
+    FormatError:
+      description: |
+        The request body is malformed (e.g. invalid JSON syntax, wrong encoding).
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+          type: string
+          maxLength: 500
+        code:
+          type: string
+          enum:
+            - "FORMAT_ERROR"
+        meta:
+          description: |
+            Free-form object for additional metadata about the error.
+          type: object
+
+    ValidationError:
+      description: |
+        The request is well-formed but fails schema or business validation.
+      type: object
+      required:
+        - type
+        - code
+        - errors
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+          type: string
+          maxLength: 70
+        code:
+          type: string
+          enum:
+            - "VALIDATION_ERROR"
+        errors:
+          description: |
+            List of all validation errors found in the request.
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - source
+              - path
+              - detail
+            properties:
+              source:
+                description: |
+                  The part of the request that contains the invalid input.
+                type: string
+                enum:
+                  - "query"
+                  - "body"
+                  - "path"
+                  - "header"
+              path:
+                description: |
+                  Path to the field that caused the error (e.g. "documents[0].senderId").
+                type: string
+                maxLength: 200
+              detail:
+                description: |
+                  Human readable description of the validation error.
+                type: string
+                maxLength: 500
+              value:
+                description: |
+                  The rejected value. Optional, and should be omitted for sensitive fields.
+                type: string
+                maxLength: 200
+              meta:
+                description: |
+                  Free-form object for additional metadata about the error.
+                type: object
+        meta:
+          description: |
+            Free-form object for additional metadata about the error.
+          type: object
+
+    Error401:
+      description: |
+        Standardised definition of reporting error information
+        in case of a HTTP error code 401.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode401"
+        meta:
+          description: |
+            Free-form object for additional metadata about the error.
+          type: object
+
+    Error403:
+      description: |
+        Standardised definition of reporting error information
+        in case of a HTTP error code 403.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode403"
+        meta:
+          description: |
+            Free-form object for additional metadata about the error.
+          type: object
+
+    Error404:
+      description: |
+        Standardised definition of reporting error information
+        in case of a HTTP error code 404.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode404"
+        meta:
+          description: |
+            Free-form object for additional metadata about the error.
+          type: object
+
+    Error429:
+      description: |
+        Standardised definition of reporting error information
+        in case of a HTTP error code 429.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode429"
+        meta:
+          description: |
+            Free-form object for additional metadata about the error.
+          type: object
+
+    Error500:
+      description: |
+        Standardised definition of reporting error information
+        in case of a HTTP error code 500.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode500"
+        meta:
+          description: |
+            Free-form object for additional metadata about the error.
+          type: object
+
+    Error503:
+      description: |
+        Standardised definition of reporting error information
+        in case of a HTTP error code 503.
+      type: object
+      required:
+        - type
+        - code
+      properties:
+        type:
+          description: |
+            A URI reference [RFC3986] that identifies the problem type.
+          type: string
+          format: uri
+          maxLength: 70
+        title:
+          description: |
+            Short human readable description of error type.
+          type: string
+          maxLength: 70
+        detail:
+          description: |
+            Detailed human readable text specific to this instance of the error.
+          type: string
+          maxLength: 500
+        code:
+          $ref: "#/components/schemas/MessageCode503"
+        meta:
+          description: |
+            Free-form object for additional metadata about the error.
+          type: object
+
+
+  requestBodies:
+    #####################################################
+    # Reusable Request Bodies
+    #####################################################
+
+    batchInitiation:
+      description: |
+        JSON request body for a batch initiation or update request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/batchDetails"
+          examples: 
+            example:
+              $ref: "#/components/examples/batchInitiation_json_Example"
+
+    documentInitiation:
+      description: |
+        JSON request body for creating a single document
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/documentInitiationDetails"
+          examples:
+            pdf:
+              $ref: "#/components/examples/documentInitiation_pdf_Example"
+            xml:
+              $ref: "#/components/examples/documentInitiation_xml_Example"
+
+    createCrossReferences:
+      description: |
+        JSON request body for a cross-references creation request message
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/crossReferenceCreationRequest"
+          examples: 
+            example:
+              $ref: "#/components/examples/createCrossReferences_json_Example"
+
+    updateCrossReference:
+      description: |
+        JSON request body for updating a single cross-reference.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/crossReferenceUpdate"
+          examples:
+            example:
+              $ref: "#/components/examples/updateCrossReference_json_Example"
+
+    deleteCrossReferences:
+      description: |
+        JSON request body for deleting cross-references.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/crossReferenceDeletionRequest"
+          examples:
+            example:
+              $ref: "#/components/examples/deleteCrossReferences_json_Example"
+
+    createDocumentTypes:
+      description: |
+        JSON request body for creating document types for a sender
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/documentTypeCreationRequest"
+          examples:
+            example:
+              $ref: "#/components/examples/createDocumentTypes_json_Example"
+
+  headers:
+    #####################################################
+    # Reusable Response Header Elements
+    #####################################################
+
+    X-Request-ID:
+      description: ID of the request, unique to the call, as determined by the initiating party.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+
+    Location:
+      description: |
+        Location of the created resource.
+      schema:
+        type: string
+        format: uri
+      required: false
+
+    X-Paging-CurrentPage:
+      description: |
+        Current page number
+      schema:
+        $ref: "#/components/schemas/pagingPageNumber"
+
+    X-Paging-TotalPages:
+      description: |
+        Total pages
+      schema:
+        type: integer
+        minimum: 0
+
+    X-Paging-TotalItems:
+      description: |
+        Total items
+      schema:
+        type: integer
+        minimum: 0
+
+    X-Paging-PerPage:
+      description: |
+        Items per page
+      schema:
+        $ref: "#/components/schemas/pagingItemsPerPage"
+
+  responses:
+    #####################################################
+    # Reusable Responses
+    #####################################################
+
+    #####################################################
+    # Positive Responses
+    #####################################################
+
+    OK_200_BatchWithStatusDetails:
+      description: Get batch details
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/batchWithStatusDetails"
+          examples: 
+            example:
+              $ref: "#/components/examples/batchWithStatusDetails-200_json_Example"
+
+    OK_200_BatchItems:
+      description: Paginated list of batch items
+      headers:
+        X-Paging-CurrentPage:
+          $ref: "#/components/headers/X-Paging-CurrentPage"
+        X-Paging-TotalPages:
+          $ref: "#/components/headers/X-Paging-TotalPages"
+        X-Paging-TotalItems:
+          $ref: "#/components/headers/X-Paging-TotalItems"
+        X-Paging-PerPage:
+          $ref: "#/components/headers/X-Paging-PerPage"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/batchItemList"
+          examples:
+            example:
+              $ref: "#/components/examples/batchItems-200_json_Example"
+
+    OK_200_BatchList:
+      description: Paginated list of batches
+      headers:
+        X-Paging-CurrentPage:
+          $ref: "#/components/headers/X-Paging-CurrentPage"
+        X-Paging-TotalPages:
+          $ref: "#/components/headers/X-Paging-TotalPages"
+        X-Paging-TotalItems:
+          $ref: "#/components/headers/X-Paging-TotalItems"
+        X-Paging-PerPage:
+          $ref: "#/components/headers/X-Paging-PerPage"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/batchList"
+          examples:
+            example:
+              $ref: "#/components/examples/batchList-200_json_Example"
+
+    CREATED_201_BatchWithStatusDetails:
+      description: Batch created
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/batchCreated"
+          examples:
+            example:
+              $ref: "#/components/examples/batchCreated-201_json_Example"
+
+    CREATED_201_Document:
+      description: Document created
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/documentCreated"
+          examples:
+            example:
+              $ref: "#/components/examples/documentCreated-201_json_Example"
+
+    OK_200_DocumentInfo:
+      description: Get document details
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/documentInfo"
+
+    OK_200_DocumentInfoList:
+      description: Get document list details
+      headers:
+        X-Paging-CurrentPage:
+          $ref: "#/components/headers/X-Paging-CurrentPage"
+        X-Paging-TotalPages:
+          $ref: "#/components/headers/X-Paging-TotalPages"
+        X-Paging-TotalItems:
+          $ref: "#/components/headers/X-Paging-TotalItems"
+        X-Paging-PerPage:
+          $ref: "#/components/headers/X-Paging-PerPage"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/documentInfoList"
+
+    OK_200_DocumentTypeDetails:
+      description: OK
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/documentTypeList"
+          examples: 
+            example:
+              $ref: "#/components/examples/documentTypeListResponse-200_json_Example"
+
+    CREATED_201_DocumentTypes:
+      description: Result of a batch document type creation request.
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/documentTypeCreationResult"
+          examples:
+            example:
+              $ref: "#/components/examples/createDocumentTypes-201_json_Example"
+
+    CREATED_201_CreateCrossReferences:
+      description: |
+        Result of a batch cross-reference creation request.
+      headers:
+        Location:
+          $ref: "#/components/headers/Location"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/crossReferenceCreationResult"
+          examples:
+            example:
+              $ref: "#/components/examples/createCrossReferences-201_json_Example"
+
+    OK_200_QueryCrossReferences:
+      description: |
+        List of cross-references matching query parameters.
+        Returns an empty list when the document has no cross-references.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/crossReferencesList"
+          examples:
+            "Example":
+              $ref: "#/components/examples/getCrossReferences-200_json_Example"
+
+    OK_200_CrossReferencesByKey:
+      description: |
+        Cross-references matching key type and key.
+        Returns an empty list when no cross-references exist for the key.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/crossReferencesList"
+          examples:
+            "Example":
+              $ref: "#/components/examples/getCrossReferences-200_json_Example"
+
+    OK_200_CrossReference:
+      description: Single cross-reference details
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/crossReference"
+          examples:
+            example:
+              $ref: "#/components/examples/getCrossReference-200_json_Example"
+
+    OK_200_DeleteCrossReferences:
+      description: |
+        Result of a batch cross-reference deletion request.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/crossReferenceDeletionResult"
+          examples:
+            example:
+              $ref: "#/components/examples/deleteCrossReferences-200_json_Example"
+
+    OK_200_DeleteCrossReference:
+      description: |
+        Cross-reference deleted successfully.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+    #####################################################
+    # Negative Responses
+    #####################################################
+
+    BAD_REQUEST_400:
+      description: Bad Request
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error400"
+          examples:
+            formatError:
+              summary: Format Error
+              value:
+                type: "https://<domain>/problems/format-error"
+                code: "FORMAT_ERROR"
+                title: "Malformed request body"
+                detail: "Expected valid JSON but found syntax error at position 42"
+            validationErrorSingle:
+              summary: Validation Error (single)
+              value:
+                type: "https://<domain>/problems/validation-error"
+                code: "VALIDATION_ERROR"
+                title: "Validation failed"
+                errors:
+                  - source: "body"
+                    path: "senderId"
+                    detail: "senderId is required"
+            validationErrorMultiple:
+              summary: Validation Error (multiple)
+              value:
+                type: "https://<domain>/problems/validation-error"
+                code: "VALIDATION_ERROR"
+                title: "Validation failed"
+                errors:
+                  - source: "body"
+                    path: "documents[0].documentTypeCode"
+                    detail: "must be a valid code"
+                    value: "INVALID"
+                  - source: "body"
+                    path: "documents[1].file"
+                    detail: "file is required"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error400"
+          examples:
+            formatError:
+              summary: Format Error
+              value:
+                type: "https://<domain>/problems/format-error"
+                code: "FORMAT_ERROR"
+                title: "Malformed request body"
+                detail: "Expected valid JSON but found syntax error at position 42"
+            validationErrorSingle:
+              summary: Validation Error (single)
+              value:
+                type: "https://<domain>/problems/validation-error"
+                code: "VALIDATION_ERROR"
+                title: "Validation failed"
+                errors:
+                  - source: "body"
+                    path: "senderId"
+                    detail: "senderId is required"
+            validationErrorMultiple:
+              summary: Validation Error (multiple)
+              value:
+                type: "https://<domain>/problems/validation-error"
+                code: "VALIDATION_ERROR"
+                title: "Validation failed"
+                errors:
+                  - source: "body"
+                    path: "documents[0].documentTypeCode"
+                    detail: "must be a valid code"
+                    value: "INVALID"
+                  - source: "body"
+                    path: "documents[1].file"
+                    detail: "file is required"
+
+    UNAUTHORIZED_401:
+      description: Unauthorized
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error401"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error401"
+
+    FORBIDDEN_403:
+      description: Forbidden
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error403"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error403"
+
+    NOT_FOUND_404:
+      description: Not found
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error404"
+
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error404"
+
+    TOO_MANY_REQUESTS_429:
+      description: Too Many Requests
+
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error429"
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error429"
+
+    INTERNAL_SERVER_ERROR_500:
+      description: Internal Server Error
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error500"
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error500"
+
+    SERVICE_UNAVAILABLE_503:
+      description: Service Unavailable
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error503"
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error503"
+
+  examples:
+    #####################################################
+    # Predefined Examples
+    #####################################################
+    
+    documentTypeListResponse-200_json_Example:
+      description: List of document types for a sender.
+      value:
+        {
+          "senderName": "Hólmfríður ÞÍ Traustadóttir",
+          "documentTypes": [
+            { 
+              "code": "HMTDL",
+              "description": "Launaseðlar - Hólmfríður ÞÍ Traustadóttir",
+              "fileType": "XML",
+              "fileName": "HMTDL_launasedlar.xml",
+              "category": {
+                "code": "Payslip",
+                "description": "Launaseðlar"
+              }
+            },
+            { 
+              "code": "HMTDR",
+              "description": "Reikningar - Hólmfríður ÞÍ Traustadóttir",
+              "fileType": "PDF",
+              "fileName": "HMTDR_reikningar.pdf",
+              "email": "billing@example.com",
+              "category": {
+                "code": "Bill",
+                "description": "Reikningar"
+              }
+            }
+          ]
+        }
+
+    documentCreated-201_json_Example:
+      description: Document created response.
+      value:
+        {
+          "documentId": "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324"
+        }
+
+    createDocumentTypes-201_json_Example:
+      description: Document type creation result.
+      value:
+        {
+          "created": [
+            {
+              "code": "HMTDT",
+              "description": "Tilkynningar - Hólmfríður ÞÍ Traustadóttir",
+              "fileType": "XML",
+              "fileName": "HMTDT_tilkynningar.xml",
+              "category": {
+                "code": "Notification",
+                "description": "Tilkynningar"
+              }
+            }
+          ],
+          "failed": [
+            {
+              "fileType": "PDF",
+              "categoryCode": "Bill",
+              "failureReason": "Document type already exists for this sender."
+            }
+          ]
+        }
+
+    createDocumentTypes_json_Example:
+      description: Document types creation request.
+      value:
+        {
+          "submittingId": "1909791489",
+          "documentTypes": [
+            {
+              "fileType": "PDF",
+              "categoryCode": "Bill"
+            },
+            {
+              "fileType": "XML",
+              "categoryCode": "Notification",
+              "email": "notifications@example.com"
+            }
+          ]
+        }
+
+    documentInitiation_pdf_Example:
+      description: Single PDF document creation request.
+      value:
+        {
+          "senderId": "1909791489",
+          "documentTypeCode": "HMTDG",
+          "externalId": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+          "ownerId": "1909791489",
+          "reference": "Invoice 2026-001",
+          "fileType": "PDF",
+          "file": ""
+        }
+
+    documentInitiation_xml_Example:
+      description: Single XML document creation request.
+      value:
+        {
+          "senderId": "1909791489",
+          "documentTypeCode": "HMTDT",
+          "externalId": "3f0dce5a-6bbd-4f2d-ac4c-224894a38a4f",
+          "ownerId": "1909791489",
+          "reference": "Statement March 2026",
+          "fileType": "XML",
+          "file": ""
+        }
+
+    batchInitiation_json_Example:
+      description: Batch document upload request.
+      value: 
+        {
+          "senderId": "1909791489",
+          "documents": [
+            {
+              "documentTypeCode": "HMTDR",
+              "externalId": "99391c7e-ad88-49ec-a2ad-99ddcb1f7721",
+              "ownerId": "1909791489",
+              "fileType": "PDF",
+              "file": ""
+            },
+            {
+              "documentTypeCode": "HMTDT",
+              "externalId": "3f0dce5a-6bbd-4f2d-ac4c-224894a38a4f",
+              "ownerId": "1909791489",
+              "fileType": "XML",
+              "file": ""
+            }
+          ]
+        }
+
+    batchCreated-201_json_Example:
+      description: Batch creation response.
+      value:
+        {
+          "batchId": "3a378271-0a43-aa66-f273-377ae9ce135c"
+        }
+
+    batchWithStatusDetails-200_json_Example:
+      description: Batch status result.
+      value: 
+        {
+          "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
+          "name": "Reikningar",
+          "description": "Reikningar - Hólmfríður ÞÍ Traustadóttir",
+          "senderId": "1909791489",
+          "documentTypeCode": "HMTDR",
+          "status": "Completed",
+          "createdBy": "user@bank.is",
+          "createdDate": "2022-06-01T10:00:00Z",
+          "itemCount": 1,
+          "itemSuccessCount": 1,
+          "itemErrorCount": 0
+        }
+
+    batchItems-200_json_Example:
+      description: Batch items result.
+      value:
+        [
+          {
+            "documentId": "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324",
+            "status": "Completed",
+            "statusMessage": "Document processed successfully"
+          },
+          {
+            "documentId": "1909791489:1909791489:a1b2c3d4-e5f6-7890-abcd-ef1234567890:20260324",
+            "status": "CompletedWithErrors",
+            "statusMessage": "Document type HMTDR is not valid for sender"
+          }
+        ]
+
+    batchList-200_json_Example:
+      description: List of batches.
+      value:
+        [
+          {
+            "id": "3a378271-0a43-aa66-f273-377ae9ce135c",
+            "name": "Reikningar",
+            "description": "Reikningar - Hólmfríður ÞÍ Traustadóttir",
+            "senderId": "1909791489",
+            "documentTypeCode": "HMTDR",
+            "status": "Completed",
+            "createdBy": "user@bank.is",
+            "createdDate": "2022-06-01T10:00:00Z",
+            "itemCount": 150,
+            "itemSuccessCount": 148,
+            "itemErrorCount": 2
+          },
+          {
+            "id": "b7e1d290-5c8a-4f12-9a3b-6d4e8f2c1a0b",
+            "name": "Launaseðlar",
+            "description": "Launaseðlar - Hólmfríður ÞÍ Traustadóttir",
+            "senderId": "1909791489",
+            "documentTypeCode": "HMTDL",
+            "status": "InProgress",
+            "createdBy": "user@bank.is",
+            "createdDate": "2022-06-02T14:30:00Z",
+            "itemCount": 75,
+            "itemSuccessCount": 50,
+            "itemErrorCount": 0
+          }
+        ]
+
+    updateCrossReference_json_Example:
+      description: Cross-reference update request.
+      value:
+        {
+          "category": "CollectionLetter",
+          "description": "Updated collection letter description.",
+          "effectiveDate": "2024-06-01",
+          "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
+        }
+
+    deleteCrossReferences_json_Example:
+      description: Cross-references deletion request.
+      value:
+        {
+          "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2",
+          "crossReferences": [
+            {
+              "documentId": "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324",
+              "keyType": "Claim",
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528"
+            },
+            {
+              "documentId": "1909791489:1909791489:b7e2d4f1-6c3a-4a8e-9f12-8d5e7a3c1b09:20260315",
+              "keyType": "Claim",
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528"
+            }
+          ]
+        }
+
+    deleteCrossReferences-200_json_Example:
+      description: Cross-references deletion result.
+      value:
+        {
+          "deleted": [
+            {
+              "documentId": "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324",
+              "keyType": "Claim",
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528"
+            }
+          ],
+          "failed": [
+            {
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
+              "keyType": "Claim",
+              "document": {
+                "id": "1909791489:1909791489:b7e2d4f1-6c3a-4a8e-9f12-8d5e7a3c1b09:20260315"
+              },
+              "failureReason": "Cross-reference not found."
+            }
+          ]
+        }
+
+    createCrossReferences-201_json_Example:
+      description: Cross-references creation result.
+      value:
+        {
+          "created": [
+            {
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
+              "keyType": "Claim",
+              "document": {
+                "id": "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324",
+                "category": "Bill",
+                "description": "Bill for services rendered.",
+                "effectiveDate": "2024-04-01"
+              },
+              "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
+            }
+          ],
+          "failed": [
+            {
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
+              "keyType": "Claim",
+              "document": {
+                "id": "1909791489:1909791489:b7e2d4f1-6c3a-4a8e-9f12-8d5e7a3c1b09:20260315"
+              },
+              "failureReason": "Cross-reference already exists."
+            }
+          ]
+        }
+
+    createCrossReferences_json_Example:
+      description: Cross-references creation request.
+      value: 
+        [
+          {
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
+              "keyType": "Claim",
+              "document": {
+                "id": "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324",
+                "category": "Bill",
+                "description": "Bill for services rendered.",
+                "effectiveDate": "2024-04-01"
+              },
+              "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
+          },
+          {
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
+              "keyType": "Claim",
+              "document": {
+                "id": "1909791489:1909791489:b7e2d4f1-6c3a-4a8e-9f12-8d5e7a3c1b09:20260315",
+                "category": "CollectionLetter",
+                "description": "Collection letter.",
+                "effectiveDate": "2024-05-01"
+              },
+              "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
+          }
+        ]
+
+    getCrossReferences-200_json_Example:
+      description: Cross-references query result.
+      value: 
+        [
+          {
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
+              "keyType": "Claim",
+              "document": {
+                "id": "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324",
+                "category": "Bill",
+                "description": "Bill for services rendered.",
+                "effectiveDate": "2024-04-01"
+              },
+              "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
+          },
+          {
+              "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
+              "keyType": "Claim",
+              "document": {
+                "id": "1909791489:1909791489:b7e2d4f1-6c3a-4a8e-9f12-8d5e7a3c1b09:20260315",
+                "category": "CollectionLetter",
+                "description": "Collection letter.",
+                "effectiveDate": "2024-05-01"
+              },
+              "externalEventId": "e7c58d4e-8cd8-462f-b440-3124f4b6e0bd"
+          }
+        ]
+
+    getCrossReference-200_json_Example:
+      description: Single cross-reference query result.
+      value: 
+        {
+          "key": "cc15b0b1-eea5-4c65-adc9-b61a83fae528",
+          "keyType": "Claim",
+          "document": {
+            "id": "1909791489:1909791489:99391c7e-ad88-49ec-a2ad-99ddcb1f7721:20260324",
+            "category": "Bill",
+            "description": "Bill for services rendered.",
+            "effectiveDate": "2024-04-01"
+          },
+          "externalEventId": "edd45ff6-265e-4cda-8d58-bdefea00acd2"
+        }
+
+security:
+  #####################################################
+  # Global security options
+  #####################################################
+  - {}
+
+tags:
+  #####################################################
+  # Predefined Tags to Group Methods
+  #####################################################
+
+  - name: Document Types
+  - name: Documents
+  - name: Batches
+  - name: Cross-References

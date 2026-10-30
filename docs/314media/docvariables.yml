@@ -3,13 +3,13 @@ fulldoc_name: "ÍST TS 314_2026 Digital Documents.md"
 context_icelandic: "Rafræn skjöl"
 context_english: "Documents"
 context_short: "electronic documents"
-finaldraft_date: "TBD"
-approve_date: "TBD"
-publication_date: "TBD"
+finaldraft_date: "2026-10-27"
+approve_date: "2026-11-12"
+publication_date: "2026-12-02"
 approvalmethod: "by the TN-FMÞ meeting" # approved ["by correspondence" or "by the TN-FMÞ meeting convened"] on the {{approve_date}}
 yaml_definition: "IOBWS-Documents3.2.yaml"
 previous_spec: "TS 165:2013"
 funding_paragraph: |
   The work on the ÍST TS was primarily funded by Arion Banki, Íslandsbanki and Landsbankinn. It is the result of the workgroup TN-FMÞ-VH-2, chaired by Kristinn Stefánsson of Arion Bank hf.. The work is based on earlier iterations of TS-314 authored by TN-FMÞ-VH-2 on Technical Requirements, and TN-FMÞ-VH-1 on Business Requirements. 
-  TS-314 v3.2 was approved within TN-FMÞ on TBD with approval from FUT on TBD.
+  TS-314 v3.2 was approved within TN-FMÞ on 2026-10-27 with approval from FUT on 2026-11-12.
   TS-314 v3.x represents the next version of the Icelandic Online Banking Services, replacing TS 165:2013 *Rafræn skjöl*.
